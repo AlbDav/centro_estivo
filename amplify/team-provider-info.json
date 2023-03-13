@@ -1,0 +1,15 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-centroestivo-dev-185635-authRole",
+      "UnauthRoleArn": "arn:aws:iam::203714483722:role/amplify-centroestivo-dev-185635-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::203714483722:role/amplify-centroestivo-dev-185635-authRole",
+      "Region": "eu-west-3",
+      "DeploymentBucketName": "amplify-centroestivo-dev-185635-deployment",
+      "UnauthRoleName": "amplify-centroestivo-dev-185635-unauthRole",
+      "StackName": "amplify-centroestivo-dev-185635",
+      "StackId": "arn:aws:cloudformation:eu-west-3:203714483722:stack/amplify-centroestivo-dev-185635/6664b790-c1c8-11ed-9f50-0eed0c8361bc",
+      "AmplifyAppId": "d1o5h2vlklcqfh"
+    }
+  }
+}
