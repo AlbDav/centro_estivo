@@ -2,6 +2,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
+import Button from '@mui/material/Button'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -58,6 +59,8 @@ export default function Home() {
             />
           </div>
         </div>
+
+		<Button variant="contained">Hello world</Button>
 
         <div className={styles.grid}>
           <a
