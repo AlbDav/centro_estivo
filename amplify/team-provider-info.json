@@ -17,6 +17,9 @@
           "appId": "d1o5h2vlklcqfh",
           "type": "cicd"
         }
+      },
+      "api": {
+        "centroestivo": {}
       }
     }
   },
