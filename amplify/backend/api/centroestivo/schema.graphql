@@ -6,12 +6,13 @@ type Group @model {
   id: ID!
   name: String!
   color: String!
+  teams: [Team] @manyToMany(relationName: "TeamGroups")
 }
 
 type Team @model {
   id: ID!
   name: String!
-  groups: [Group!]! @hasMany
+  groups: [Group] @manyToMany(relationName: "TeamGroups")
   leaderGroup: Group @hasOne
 }
 

@@ -8,9 +8,18 @@ export const getGroup = /* GraphQL */ `
       id
       name
       color
+      teams {
+        items {
+          id
+          groupId
+          teamId
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
-      teamGroupsId
     }
   }
 `;
@@ -25,9 +34,11 @@ export const listGroups = /* GraphQL */ `
         id
         name
         color
+        teams {
+          nextToken
+        }
         createdAt
         updatedAt
-        teamGroupsId
       }
       nextToken
     }
@@ -41,11 +52,10 @@ export const getTeam = /* GraphQL */ `
       groups {
         items {
           id
-          name
-          color
+          groupId
+          teamId
           createdAt
           updatedAt
-          teamGroupsId
         }
         nextToken
       }
@@ -53,9 +63,11 @@ export const getTeam = /* GraphQL */ `
         id
         name
         color
+        teams {
+          nextToken
+        }
         createdAt
         updatedAt
-        teamGroupsId
       }
       createdAt
       updatedAt
@@ -82,7 +94,6 @@ export const listTeams = /* GraphQL */ `
           color
           createdAt
           updatedAt
-          teamGroupsId
         }
         createdAt
         updatedAt
@@ -136,9 +147,11 @@ export const getScoreEntry = /* GraphQL */ `
         id
         name
         color
+        teams {
+          nextToken
+        }
         createdAt
         updatedAt
-        teamGroupsId
       }
       date
       createdAt
@@ -170,13 +183,162 @@ export const listScoreEntries = /* GraphQL */ `
           color
           createdAt
           updatedAt
-          teamGroupsId
         }
         date
         createdAt
         updatedAt
         scoreEntryRuleId
         scoreEntryGroupId
+      }
+      nextToken
+    }
+  }
+`;
+export const getTeamGroups = /* GraphQL */ `
+  query GetTeamGroups($id: ID!) {
+    getTeamGroups(id: $id) {
+      id
+      groupId
+      teamId
+      group {
+        id
+        name
+        color
+        teams {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      team {
+        id
+        name
+        groups {
+          nextToken
+        }
+        leaderGroup {
+          id
+          name
+          color
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+        teamLeaderGroupId
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listTeamGroups = /* GraphQL */ `
+  query ListTeamGroups(
+    $filter: ModelTeamGroupsFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listTeamGroups(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        groupId
+        teamId
+        group {
+          id
+          name
+          color
+          createdAt
+          updatedAt
+        }
+        team {
+          id
+          name
+          createdAt
+          updatedAt
+          teamLeaderGroupId
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const teamGroupsByGroupId = /* GraphQL */ `
+  query TeamGroupsByGroupId(
+    $groupId: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelTeamGroupsFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    teamGroupsByGroupId(
+      groupId: $groupId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        groupId
+        teamId
+        group {
+          id
+          name
+          color
+          createdAt
+          updatedAt
+        }
+        team {
+          id
+          name
+          createdAt
+          updatedAt
+          teamLeaderGroupId
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const teamGroupsByTeamId = /* GraphQL */ `
+  query TeamGroupsByTeamId(
+    $teamId: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelTeamGroupsFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    teamGroupsByTeamId(
+      teamId: $teamId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        groupId
+        teamId
+        group {
+          id
+          name
+          color
+          createdAt
+          updatedAt
+        }
+        team {
+          id
+          name
+          createdAt
+          updatedAt
+          teamLeaderGroupId
+        }
+        createdAt
+        updatedAt
       }
       nextToken
     }

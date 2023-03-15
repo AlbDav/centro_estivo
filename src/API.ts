@@ -6,7 +6,6 @@ export type CreateGroupInput = {
   id?: string | null,
   name: string,
   color: string,
-  teamGroupsId: string,
 };
 
 export type ModelGroupConditionInput = {
@@ -15,7 +14,6 @@ export type ModelGroupConditionInput = {
   and?: Array< ModelGroupConditionInput | null > | null,
   or?: Array< ModelGroupConditionInput | null > | null,
   not?: ModelGroupConditionInput | null,
-  teamGroupsId?: ModelIDInput | null,
 };
 
 export type ModelStringInput = {
@@ -58,37 +56,48 @@ export type ModelSizeInput = {
   between?: Array< number | null > | null,
 };
 
-export type ModelIDInput = {
-  ne?: string | null,
-  eq?: string | null,
-  le?: string | null,
-  lt?: string | null,
-  ge?: string | null,
-  gt?: string | null,
-  contains?: string | null,
-  notContains?: string | null,
-  between?: Array< string | null > | null,
-  beginsWith?: string | null,
-  attributeExists?: boolean | null,
-  attributeType?: ModelAttributeTypes | null,
-  size?: ModelSizeInput | null,
-};
-
 export type Group = {
   __typename: "Group",
   id: string,
   name: string,
   color: string,
+  teams?: ModelTeamGroupsConnection | null,
   createdAt: string,
   updatedAt: string,
-  teamGroupsId: string,
+};
+
+export type ModelTeamGroupsConnection = {
+  __typename: "ModelTeamGroupsConnection",
+  items:  Array<TeamGroups | null >,
+  nextToken?: string | null,
+};
+
+export type TeamGroups = {
+  __typename: "TeamGroups",
+  id: string,
+  groupId: string,
+  teamId: string,
+  group: Group,
+  team: Team,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type Team = {
+  __typename: "Team",
+  id: string,
+  name: string,
+  groups?: ModelTeamGroupsConnection | null,
+  leaderGroup?: Group | null,
+  createdAt: string,
+  updatedAt: string,
+  teamLeaderGroupId?: string | null,
 };
 
 export type UpdateGroupInput = {
   id: string,
   name?: string | null,
   color?: string | null,
-  teamGroupsId?: string | null,
 };
 
 export type DeleteGroupInput = {
@@ -109,21 +118,20 @@ export type ModelTeamConditionInput = {
   teamLeaderGroupId?: ModelIDInput | null,
 };
 
-export type Team = {
-  __typename: "Team",
-  id: string,
-  name: string,
-  groups?: ModelGroupConnection | null,
-  leaderGroup?: Group | null,
-  createdAt: string,
-  updatedAt: string,
-  teamLeaderGroupId?: string | null,
-};
-
-export type ModelGroupConnection = {
-  __typename: "ModelGroupConnection",
-  items:  Array<Group | null >,
-  nextToken?: string | null,
+export type ModelIDInput = {
+  ne?: string | null,
+  eq?: string | null,
+  le?: string | null,
+  lt?: string | null,
+  ge?: string | null,
+  gt?: string | null,
+  contains?: string | null,
+  notContains?: string | null,
+  between?: Array< string | null > | null,
+  beginsWith?: string | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
+  size?: ModelSizeInput | null,
 };
 
 export type UpdateTeamInput = {
@@ -220,6 +228,30 @@ export type DeleteScoreEntryInput = {
   id: string,
 };
 
+export type CreateTeamGroupsInput = {
+  id?: string | null,
+  groupId: string,
+  teamId: string,
+};
+
+export type ModelTeamGroupsConditionInput = {
+  groupId?: ModelIDInput | null,
+  teamId?: ModelIDInput | null,
+  and?: Array< ModelTeamGroupsConditionInput | null > | null,
+  or?: Array< ModelTeamGroupsConditionInput | null > | null,
+  not?: ModelTeamGroupsConditionInput | null,
+};
+
+export type UpdateTeamGroupsInput = {
+  id: string,
+  groupId?: string | null,
+  teamId?: string | null,
+};
+
+export type DeleteTeamGroupsInput = {
+  id: string,
+};
+
 export type ModelGroupFilterInput = {
   id?: ModelIDInput | null,
   name?: ModelStringInput | null,
@@ -227,7 +259,12 @@ export type ModelGroupFilterInput = {
   and?: Array< ModelGroupFilterInput | null > | null,
   or?: Array< ModelGroupFilterInput | null > | null,
   not?: ModelGroupFilterInput | null,
-  teamGroupsId?: ModelIDInput | null,
+};
+
+export type ModelGroupConnection = {
+  __typename: "ModelGroupConnection",
+  items:  Array<Group | null >,
+  nextToken?: string | null,
 };
 
 export type ModelTeamFilterInput = {
@@ -275,6 +312,21 @@ export type ModelScoreEntryConnection = {
   items:  Array<ScoreEntry | null >,
   nextToken?: string | null,
 };
+
+export type ModelTeamGroupsFilterInput = {
+  id?: ModelIDInput | null,
+  groupId?: ModelIDInput | null,
+  teamId?: ModelIDInput | null,
+  and?: Array< ModelTeamGroupsFilterInput | null > | null,
+  or?: Array< ModelTeamGroupsFilterInput | null > | null,
+  not?: ModelTeamGroupsFilterInput | null,
+};
+
+export enum ModelSortDirection {
+  ASC = "ASC",
+  DESC = "DESC",
+}
+
 
 export type ModelSubscriptionGroupFilterInput = {
   id?: ModelSubscriptionIDInput | null,
@@ -348,6 +400,14 @@ export type ModelSubscriptionScoreEntryFilterInput = {
   or?: Array< ModelSubscriptionScoreEntryFilterInput | null > | null,
 };
 
+export type ModelSubscriptionTeamGroupsFilterInput = {
+  id?: ModelSubscriptionIDInput | null,
+  groupId?: ModelSubscriptionIDInput | null,
+  teamId?: ModelSubscriptionIDInput | null,
+  and?: Array< ModelSubscriptionTeamGroupsFilterInput | null > | null,
+  or?: Array< ModelSubscriptionTeamGroupsFilterInput | null > | null,
+};
+
 export type CreateGroupMutationVariables = {
   input: CreateGroupInput,
   condition?: ModelGroupConditionInput | null,
@@ -359,9 +419,20 @@ export type CreateGroupMutation = {
     id: string,
     name: string,
     color: string,
+    teams?:  {
+      __typename: "ModelTeamGroupsConnection",
+      items:  Array< {
+        __typename: "TeamGroups",
+        id: string,
+        groupId: string,
+        teamId: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
-    teamGroupsId: string,
   } | null,
 };
 
@@ -376,9 +447,20 @@ export type UpdateGroupMutation = {
     id: string,
     name: string,
     color: string,
+    teams?:  {
+      __typename: "ModelTeamGroupsConnection",
+      items:  Array< {
+        __typename: "TeamGroups",
+        id: string,
+        groupId: string,
+        teamId: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
-    teamGroupsId: string,
   } | null,
 };
 
@@ -393,9 +475,20 @@ export type DeleteGroupMutation = {
     id: string,
     name: string,
     color: string,
+    teams?:  {
+      __typename: "ModelTeamGroupsConnection",
+      items:  Array< {
+        __typename: "TeamGroups",
+        id: string,
+        groupId: string,
+        teamId: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
-    teamGroupsId: string,
   } | null,
 };
 
@@ -410,15 +503,14 @@ export type CreateTeamMutation = {
     id: string,
     name: string,
     groups?:  {
-      __typename: "ModelGroupConnection",
+      __typename: "ModelTeamGroupsConnection",
       items:  Array< {
-        __typename: "Group",
+        __typename: "TeamGroups",
         id: string,
-        name: string,
-        color: string,
+        groupId: string,
+        teamId: string,
         createdAt: string,
         updatedAt: string,
-        teamGroupsId: string,
       } | null >,
       nextToken?: string | null,
     } | null,
@@ -427,9 +519,12 @@ export type CreateTeamMutation = {
       id: string,
       name: string,
       color: string,
+      teams?:  {
+        __typename: "ModelTeamGroupsConnection",
+        nextToken?: string | null,
+      } | null,
       createdAt: string,
       updatedAt: string,
-      teamGroupsId: string,
     } | null,
     createdAt: string,
     updatedAt: string,
@@ -448,15 +543,14 @@ export type UpdateTeamMutation = {
     id: string,
     name: string,
     groups?:  {
-      __typename: "ModelGroupConnection",
+      __typename: "ModelTeamGroupsConnection",
       items:  Array< {
-        __typename: "Group",
+        __typename: "TeamGroups",
         id: string,
-        name: string,
-        color: string,
+        groupId: string,
+        teamId: string,
         createdAt: string,
         updatedAt: string,
-        teamGroupsId: string,
       } | null >,
       nextToken?: string | null,
     } | null,
@@ -465,9 +559,12 @@ export type UpdateTeamMutation = {
       id: string,
       name: string,
       color: string,
+      teams?:  {
+        __typename: "ModelTeamGroupsConnection",
+        nextToken?: string | null,
+      } | null,
       createdAt: string,
       updatedAt: string,
-      teamGroupsId: string,
     } | null,
     createdAt: string,
     updatedAt: string,
@@ -486,15 +583,14 @@ export type DeleteTeamMutation = {
     id: string,
     name: string,
     groups?:  {
-      __typename: "ModelGroupConnection",
+      __typename: "ModelTeamGroupsConnection",
       items:  Array< {
-        __typename: "Group",
+        __typename: "TeamGroups",
         id: string,
-        name: string,
-        color: string,
+        groupId: string,
+        teamId: string,
         createdAt: string,
         updatedAt: string,
-        teamGroupsId: string,
       } | null >,
       nextToken?: string | null,
     } | null,
@@ -503,9 +599,12 @@ export type DeleteTeamMutation = {
       id: string,
       name: string,
       color: string,
+      teams?:  {
+        __typename: "ModelTeamGroupsConnection",
+        nextToken?: string | null,
+      } | null,
       createdAt: string,
       updatedAt: string,
-      teamGroupsId: string,
     } | null,
     createdAt: string,
     updatedAt: string,
@@ -583,9 +682,12 @@ export type CreateScoreEntryMutation = {
       id: string,
       name: string,
       color: string,
+      teams?:  {
+        __typename: "ModelTeamGroupsConnection",
+        nextToken?: string | null,
+      } | null,
       createdAt: string,
       updatedAt: string,
-      teamGroupsId: string,
     },
     date: string,
     createdAt: string,
@@ -617,9 +719,12 @@ export type UpdateScoreEntryMutation = {
       id: string,
       name: string,
       color: string,
+      teams?:  {
+        __typename: "ModelTeamGroupsConnection",
+        nextToken?: string | null,
+      } | null,
       createdAt: string,
       updatedAt: string,
-      teamGroupsId: string,
     },
     date: string,
     createdAt: string,
@@ -651,15 +756,162 @@ export type DeleteScoreEntryMutation = {
       id: string,
       name: string,
       color: string,
+      teams?:  {
+        __typename: "ModelTeamGroupsConnection",
+        nextToken?: string | null,
+      } | null,
       createdAt: string,
       updatedAt: string,
-      teamGroupsId: string,
     },
     date: string,
     createdAt: string,
     updatedAt: string,
     scoreEntryRuleId: string,
     scoreEntryGroupId: string,
+  } | null,
+};
+
+export type CreateTeamGroupsMutationVariables = {
+  input: CreateTeamGroupsInput,
+  condition?: ModelTeamGroupsConditionInput | null,
+};
+
+export type CreateTeamGroupsMutation = {
+  createTeamGroups?:  {
+    __typename: "TeamGroups",
+    id: string,
+    groupId: string,
+    teamId: string,
+    group:  {
+      __typename: "Group",
+      id: string,
+      name: string,
+      color: string,
+      teams?:  {
+        __typename: "ModelTeamGroupsConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    team:  {
+      __typename: "Team",
+      id: string,
+      name: string,
+      groups?:  {
+        __typename: "ModelTeamGroupsConnection",
+        nextToken?: string | null,
+      } | null,
+      leaderGroup?:  {
+        __typename: "Group",
+        id: string,
+        name: string,
+        color: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+      teamLeaderGroupId?: string | null,
+    },
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateTeamGroupsMutationVariables = {
+  input: UpdateTeamGroupsInput,
+  condition?: ModelTeamGroupsConditionInput | null,
+};
+
+export type UpdateTeamGroupsMutation = {
+  updateTeamGroups?:  {
+    __typename: "TeamGroups",
+    id: string,
+    groupId: string,
+    teamId: string,
+    group:  {
+      __typename: "Group",
+      id: string,
+      name: string,
+      color: string,
+      teams?:  {
+        __typename: "ModelTeamGroupsConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    team:  {
+      __typename: "Team",
+      id: string,
+      name: string,
+      groups?:  {
+        __typename: "ModelTeamGroupsConnection",
+        nextToken?: string | null,
+      } | null,
+      leaderGroup?:  {
+        __typename: "Group",
+        id: string,
+        name: string,
+        color: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+      teamLeaderGroupId?: string | null,
+    },
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteTeamGroupsMutationVariables = {
+  input: DeleteTeamGroupsInput,
+  condition?: ModelTeamGroupsConditionInput | null,
+};
+
+export type DeleteTeamGroupsMutation = {
+  deleteTeamGroups?:  {
+    __typename: "TeamGroups",
+    id: string,
+    groupId: string,
+    teamId: string,
+    group:  {
+      __typename: "Group",
+      id: string,
+      name: string,
+      color: string,
+      teams?:  {
+        __typename: "ModelTeamGroupsConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    team:  {
+      __typename: "Team",
+      id: string,
+      name: string,
+      groups?:  {
+        __typename: "ModelTeamGroupsConnection",
+        nextToken?: string | null,
+      } | null,
+      leaderGroup?:  {
+        __typename: "Group",
+        id: string,
+        name: string,
+        color: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+      teamLeaderGroupId?: string | null,
+    },
+    createdAt: string,
+    updatedAt: string,
   } | null,
 };
 
@@ -673,9 +925,20 @@ export type GetGroupQuery = {
     id: string,
     name: string,
     color: string,
+    teams?:  {
+      __typename: "ModelTeamGroupsConnection",
+      items:  Array< {
+        __typename: "TeamGroups",
+        id: string,
+        groupId: string,
+        teamId: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
-    teamGroupsId: string,
   } | null,
 };
 
@@ -693,9 +956,12 @@ export type ListGroupsQuery = {
       id: string,
       name: string,
       color: string,
+      teams?:  {
+        __typename: "ModelTeamGroupsConnection",
+        nextToken?: string | null,
+      } | null,
       createdAt: string,
       updatedAt: string,
-      teamGroupsId: string,
     } | null >,
     nextToken?: string | null,
   } | null,
@@ -711,15 +977,14 @@ export type GetTeamQuery = {
     id: string,
     name: string,
     groups?:  {
-      __typename: "ModelGroupConnection",
+      __typename: "ModelTeamGroupsConnection",
       items:  Array< {
-        __typename: "Group",
+        __typename: "TeamGroups",
         id: string,
-        name: string,
-        color: string,
+        groupId: string,
+        teamId: string,
         createdAt: string,
         updatedAt: string,
-        teamGroupsId: string,
       } | null >,
       nextToken?: string | null,
     } | null,
@@ -728,9 +993,12 @@ export type GetTeamQuery = {
       id: string,
       name: string,
       color: string,
+      teams?:  {
+        __typename: "ModelTeamGroupsConnection",
+        nextToken?: string | null,
+      } | null,
       createdAt: string,
       updatedAt: string,
-      teamGroupsId: string,
     } | null,
     createdAt: string,
     updatedAt: string,
@@ -752,7 +1020,7 @@ export type ListTeamsQuery = {
       id: string,
       name: string,
       groups?:  {
-        __typename: "ModelGroupConnection",
+        __typename: "ModelTeamGroupsConnection",
         nextToken?: string | null,
       } | null,
       leaderGroup?:  {
@@ -762,7 +1030,6 @@ export type ListTeamsQuery = {
         color: string,
         createdAt: string,
         updatedAt: string,
-        teamGroupsId: string,
       } | null,
       createdAt: string,
       updatedAt: string,
@@ -829,9 +1096,12 @@ export type GetScoreEntryQuery = {
       id: string,
       name: string,
       color: string,
+      teams?:  {
+        __typename: "ModelTeamGroupsConnection",
+        nextToken?: string | null,
+      } | null,
       createdAt: string,
       updatedAt: string,
-      teamGroupsId: string,
     },
     date: string,
     createdAt: string,
@@ -868,13 +1138,174 @@ export type ListScoreEntriesQuery = {
         color: string,
         createdAt: string,
         updatedAt: string,
-        teamGroupsId: string,
       },
       date: string,
       createdAt: string,
       updatedAt: string,
       scoreEntryRuleId: string,
       scoreEntryGroupId: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type GetTeamGroupsQueryVariables = {
+  id: string,
+};
+
+export type GetTeamGroupsQuery = {
+  getTeamGroups?:  {
+    __typename: "TeamGroups",
+    id: string,
+    groupId: string,
+    teamId: string,
+    group:  {
+      __typename: "Group",
+      id: string,
+      name: string,
+      color: string,
+      teams?:  {
+        __typename: "ModelTeamGroupsConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    team:  {
+      __typename: "Team",
+      id: string,
+      name: string,
+      groups?:  {
+        __typename: "ModelTeamGroupsConnection",
+        nextToken?: string | null,
+      } | null,
+      leaderGroup?:  {
+        __typename: "Group",
+        id: string,
+        name: string,
+        color: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+      teamLeaderGroupId?: string | null,
+    },
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type ListTeamGroupsQueryVariables = {
+  filter?: ModelTeamGroupsFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListTeamGroupsQuery = {
+  listTeamGroups?:  {
+    __typename: "ModelTeamGroupsConnection",
+    items:  Array< {
+      __typename: "TeamGroups",
+      id: string,
+      groupId: string,
+      teamId: string,
+      group:  {
+        __typename: "Group",
+        id: string,
+        name: string,
+        color: string,
+        createdAt: string,
+        updatedAt: string,
+      },
+      team:  {
+        __typename: "Team",
+        id: string,
+        name: string,
+        createdAt: string,
+        updatedAt: string,
+        teamLeaderGroupId?: string | null,
+      },
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type TeamGroupsByGroupIdQueryVariables = {
+  groupId: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelTeamGroupsFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type TeamGroupsByGroupIdQuery = {
+  teamGroupsByGroupId?:  {
+    __typename: "ModelTeamGroupsConnection",
+    items:  Array< {
+      __typename: "TeamGroups",
+      id: string,
+      groupId: string,
+      teamId: string,
+      group:  {
+        __typename: "Group",
+        id: string,
+        name: string,
+        color: string,
+        createdAt: string,
+        updatedAt: string,
+      },
+      team:  {
+        __typename: "Team",
+        id: string,
+        name: string,
+        createdAt: string,
+        updatedAt: string,
+        teamLeaderGroupId?: string | null,
+      },
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type TeamGroupsByTeamIdQueryVariables = {
+  teamId: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelTeamGroupsFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type TeamGroupsByTeamIdQuery = {
+  teamGroupsByTeamId?:  {
+    __typename: "ModelTeamGroupsConnection",
+    items:  Array< {
+      __typename: "TeamGroups",
+      id: string,
+      groupId: string,
+      teamId: string,
+      group:  {
+        __typename: "Group",
+        id: string,
+        name: string,
+        color: string,
+        createdAt: string,
+        updatedAt: string,
+      },
+      team:  {
+        __typename: "Team",
+        id: string,
+        name: string,
+        createdAt: string,
+        updatedAt: string,
+        teamLeaderGroupId?: string | null,
+      },
+      createdAt: string,
+      updatedAt: string,
     } | null >,
     nextToken?: string | null,
   } | null,
@@ -890,9 +1321,20 @@ export type OnCreateGroupSubscription = {
     id: string,
     name: string,
     color: string,
+    teams?:  {
+      __typename: "ModelTeamGroupsConnection",
+      items:  Array< {
+        __typename: "TeamGroups",
+        id: string,
+        groupId: string,
+        teamId: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
-    teamGroupsId: string,
   } | null,
 };
 
@@ -906,9 +1348,20 @@ export type OnUpdateGroupSubscription = {
     id: string,
     name: string,
     color: string,
+    teams?:  {
+      __typename: "ModelTeamGroupsConnection",
+      items:  Array< {
+        __typename: "TeamGroups",
+        id: string,
+        groupId: string,
+        teamId: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
-    teamGroupsId: string,
   } | null,
 };
 
@@ -922,9 +1375,20 @@ export type OnDeleteGroupSubscription = {
     id: string,
     name: string,
     color: string,
+    teams?:  {
+      __typename: "ModelTeamGroupsConnection",
+      items:  Array< {
+        __typename: "TeamGroups",
+        id: string,
+        groupId: string,
+        teamId: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
-    teamGroupsId: string,
   } | null,
 };
 
@@ -938,15 +1402,14 @@ export type OnCreateTeamSubscription = {
     id: string,
     name: string,
     groups?:  {
-      __typename: "ModelGroupConnection",
+      __typename: "ModelTeamGroupsConnection",
       items:  Array< {
-        __typename: "Group",
+        __typename: "TeamGroups",
         id: string,
-        name: string,
-        color: string,
+        groupId: string,
+        teamId: string,
         createdAt: string,
         updatedAt: string,
-        teamGroupsId: string,
       } | null >,
       nextToken?: string | null,
     } | null,
@@ -955,9 +1418,12 @@ export type OnCreateTeamSubscription = {
       id: string,
       name: string,
       color: string,
+      teams?:  {
+        __typename: "ModelTeamGroupsConnection",
+        nextToken?: string | null,
+      } | null,
       createdAt: string,
       updatedAt: string,
-      teamGroupsId: string,
     } | null,
     createdAt: string,
     updatedAt: string,
@@ -975,15 +1441,14 @@ export type OnUpdateTeamSubscription = {
     id: string,
     name: string,
     groups?:  {
-      __typename: "ModelGroupConnection",
+      __typename: "ModelTeamGroupsConnection",
       items:  Array< {
-        __typename: "Group",
+        __typename: "TeamGroups",
         id: string,
-        name: string,
-        color: string,
+        groupId: string,
+        teamId: string,
         createdAt: string,
         updatedAt: string,
-        teamGroupsId: string,
       } | null >,
       nextToken?: string | null,
     } | null,
@@ -992,9 +1457,12 @@ export type OnUpdateTeamSubscription = {
       id: string,
       name: string,
       color: string,
+      teams?:  {
+        __typename: "ModelTeamGroupsConnection",
+        nextToken?: string | null,
+      } | null,
       createdAt: string,
       updatedAt: string,
-      teamGroupsId: string,
     } | null,
     createdAt: string,
     updatedAt: string,
@@ -1012,15 +1480,14 @@ export type OnDeleteTeamSubscription = {
     id: string,
     name: string,
     groups?:  {
-      __typename: "ModelGroupConnection",
+      __typename: "ModelTeamGroupsConnection",
       items:  Array< {
-        __typename: "Group",
+        __typename: "TeamGroups",
         id: string,
-        name: string,
-        color: string,
+        groupId: string,
+        teamId: string,
         createdAt: string,
         updatedAt: string,
-        teamGroupsId: string,
       } | null >,
       nextToken?: string | null,
     } | null,
@@ -1029,9 +1496,12 @@ export type OnDeleteTeamSubscription = {
       id: string,
       name: string,
       color: string,
+      teams?:  {
+        __typename: "ModelTeamGroupsConnection",
+        nextToken?: string | null,
+      } | null,
       createdAt: string,
       updatedAt: string,
-      teamGroupsId: string,
     } | null,
     createdAt: string,
     updatedAt: string,
@@ -1105,9 +1575,12 @@ export type OnCreateScoreEntrySubscription = {
       id: string,
       name: string,
       color: string,
+      teams?:  {
+        __typename: "ModelTeamGroupsConnection",
+        nextToken?: string | null,
+      } | null,
       createdAt: string,
       updatedAt: string,
-      teamGroupsId: string,
     },
     date: string,
     createdAt: string,
@@ -1138,9 +1611,12 @@ export type OnUpdateScoreEntrySubscription = {
       id: string,
       name: string,
       color: string,
+      teams?:  {
+        __typename: "ModelTeamGroupsConnection",
+        nextToken?: string | null,
+      } | null,
       createdAt: string,
       updatedAt: string,
-      teamGroupsId: string,
     },
     date: string,
     createdAt: string,
@@ -1171,14 +1647,158 @@ export type OnDeleteScoreEntrySubscription = {
       id: string,
       name: string,
       color: string,
+      teams?:  {
+        __typename: "ModelTeamGroupsConnection",
+        nextToken?: string | null,
+      } | null,
       createdAt: string,
       updatedAt: string,
-      teamGroupsId: string,
     },
     date: string,
     createdAt: string,
     updatedAt: string,
     scoreEntryRuleId: string,
     scoreEntryGroupId: string,
+  } | null,
+};
+
+export type OnCreateTeamGroupsSubscriptionVariables = {
+  filter?: ModelSubscriptionTeamGroupsFilterInput | null,
+};
+
+export type OnCreateTeamGroupsSubscription = {
+  onCreateTeamGroups?:  {
+    __typename: "TeamGroups",
+    id: string,
+    groupId: string,
+    teamId: string,
+    group:  {
+      __typename: "Group",
+      id: string,
+      name: string,
+      color: string,
+      teams?:  {
+        __typename: "ModelTeamGroupsConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    team:  {
+      __typename: "Team",
+      id: string,
+      name: string,
+      groups?:  {
+        __typename: "ModelTeamGroupsConnection",
+        nextToken?: string | null,
+      } | null,
+      leaderGroup?:  {
+        __typename: "Group",
+        id: string,
+        name: string,
+        color: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+      teamLeaderGroupId?: string | null,
+    },
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateTeamGroupsSubscriptionVariables = {
+  filter?: ModelSubscriptionTeamGroupsFilterInput | null,
+};
+
+export type OnUpdateTeamGroupsSubscription = {
+  onUpdateTeamGroups?:  {
+    __typename: "TeamGroups",
+    id: string,
+    groupId: string,
+    teamId: string,
+    group:  {
+      __typename: "Group",
+      id: string,
+      name: string,
+      color: string,
+      teams?:  {
+        __typename: "ModelTeamGroupsConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    team:  {
+      __typename: "Team",
+      id: string,
+      name: string,
+      groups?:  {
+        __typename: "ModelTeamGroupsConnection",
+        nextToken?: string | null,
+      } | null,
+      leaderGroup?:  {
+        __typename: "Group",
+        id: string,
+        name: string,
+        color: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+      teamLeaderGroupId?: string | null,
+    },
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeleteTeamGroupsSubscriptionVariables = {
+  filter?: ModelSubscriptionTeamGroupsFilterInput | null,
+};
+
+export type OnDeleteTeamGroupsSubscription = {
+  onDeleteTeamGroups?:  {
+    __typename: "TeamGroups",
+    id: string,
+    groupId: string,
+    teamId: string,
+    group:  {
+      __typename: "Group",
+      id: string,
+      name: string,
+      color: string,
+      teams?:  {
+        __typename: "ModelTeamGroupsConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    team:  {
+      __typename: "Team",
+      id: string,
+      name: string,
+      groups?:  {
+        __typename: "ModelTeamGroupsConnection",
+        nextToken?: string | null,
+      } | null,
+      leaderGroup?:  {
+        __typename: "Group",
+        id: string,
+        name: string,
+        color: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+      teamLeaderGroupId?: string | null,
+    },
+    createdAt: string,
+    updatedAt: string,
   } | null,
 };

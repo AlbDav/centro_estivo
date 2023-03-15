@@ -11,9 +11,18 @@ export const createGroup = /* GraphQL */ `
       id
       name
       color
+      teams {
+        items {
+          id
+          groupId
+          teamId
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
-      teamGroupsId
     }
   }
 `;
@@ -26,9 +35,18 @@ export const updateGroup = /* GraphQL */ `
       id
       name
       color
+      teams {
+        items {
+          id
+          groupId
+          teamId
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
-      teamGroupsId
     }
   }
 `;
@@ -41,9 +59,18 @@ export const deleteGroup = /* GraphQL */ `
       id
       name
       color
+      teams {
+        items {
+          id
+          groupId
+          teamId
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
       createdAt
       updatedAt
-      teamGroupsId
     }
   }
 `;
@@ -58,11 +85,10 @@ export const createTeam = /* GraphQL */ `
       groups {
         items {
           id
-          name
-          color
+          groupId
+          teamId
           createdAt
           updatedAt
-          teamGroupsId
         }
         nextToken
       }
@@ -70,9 +96,11 @@ export const createTeam = /* GraphQL */ `
         id
         name
         color
+        teams {
+          nextToken
+        }
         createdAt
         updatedAt
-        teamGroupsId
       }
       createdAt
       updatedAt
@@ -91,11 +119,10 @@ export const updateTeam = /* GraphQL */ `
       groups {
         items {
           id
-          name
-          color
+          groupId
+          teamId
           createdAt
           updatedAt
-          teamGroupsId
         }
         nextToken
       }
@@ -103,9 +130,11 @@ export const updateTeam = /* GraphQL */ `
         id
         name
         color
+        teams {
+          nextToken
+        }
         createdAt
         updatedAt
-        teamGroupsId
       }
       createdAt
       updatedAt
@@ -124,11 +153,10 @@ export const deleteTeam = /* GraphQL */ `
       groups {
         items {
           id
-          name
-          color
+          groupId
+          teamId
           createdAt
           updatedAt
-          teamGroupsId
         }
         nextToken
       }
@@ -136,9 +164,11 @@ export const deleteTeam = /* GraphQL */ `
         id
         name
         color
+        teams {
+          nextToken
+        }
         createdAt
         updatedAt
-        teamGroupsId
       }
       createdAt
       updatedAt
@@ -206,9 +236,11 @@ export const createScoreEntry = /* GraphQL */ `
         id
         name
         color
+        teams {
+          nextToken
+        }
         createdAt
         updatedAt
-        teamGroupsId
       }
       date
       createdAt
@@ -236,9 +268,11 @@ export const updateScoreEntry = /* GraphQL */ `
         id
         name
         color
+        teams {
+          nextToken
+        }
         createdAt
         updatedAt
-        teamGroupsId
       }
       date
       createdAt
@@ -266,15 +300,140 @@ export const deleteScoreEntry = /* GraphQL */ `
         id
         name
         color
+        teams {
+          nextToken
+        }
         createdAt
         updatedAt
-        teamGroupsId
       }
       date
       createdAt
       updatedAt
       scoreEntryRuleId
       scoreEntryGroupId
+    }
+  }
+`;
+export const createTeamGroups = /* GraphQL */ `
+  mutation CreateTeamGroups(
+    $input: CreateTeamGroupsInput!
+    $condition: ModelTeamGroupsConditionInput
+  ) {
+    createTeamGroups(input: $input, condition: $condition) {
+      id
+      groupId
+      teamId
+      group {
+        id
+        name
+        color
+        teams {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      team {
+        id
+        name
+        groups {
+          nextToken
+        }
+        leaderGroup {
+          id
+          name
+          color
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+        teamLeaderGroupId
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateTeamGroups = /* GraphQL */ `
+  mutation UpdateTeamGroups(
+    $input: UpdateTeamGroupsInput!
+    $condition: ModelTeamGroupsConditionInput
+  ) {
+    updateTeamGroups(input: $input, condition: $condition) {
+      id
+      groupId
+      teamId
+      group {
+        id
+        name
+        color
+        teams {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      team {
+        id
+        name
+        groups {
+          nextToken
+        }
+        leaderGroup {
+          id
+          name
+          color
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+        teamLeaderGroupId
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteTeamGroups = /* GraphQL */ `
+  mutation DeleteTeamGroups(
+    $input: DeleteTeamGroupsInput!
+    $condition: ModelTeamGroupsConditionInput
+  ) {
+    deleteTeamGroups(input: $input, condition: $condition) {
+      id
+      groupId
+      teamId
+      group {
+        id
+        name
+        color
+        teams {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      team {
+        id
+        name
+        groups {
+          nextToken
+        }
+        leaderGroup {
+          id
+          name
+          color
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+        teamLeaderGroupId
+      }
+      createdAt
+      updatedAt
     }
   }
 `;
