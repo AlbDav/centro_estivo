@@ -18,19 +18,9 @@
     }
   },
   "auth": {
-    "centroestivo7d1e9a7c": {
+    "centroestivoauth": {
       "customAuth": false,
-      "dependsOn": [
-        {
-          "attributes": [
-            "Arn",
-            "Name"
-          ],
-          "category": "function",
-          "resourceName": "centroestivo7d1e9a7cPostConfirmation",
-          "triggerProvider": "Cognito"
-        }
-      ],
+      "dependsOn": [],
       "frontendAuthConfig": {
         "mfaConfiguration": "OFF",
         "mfaTypes": [
@@ -40,13 +30,11 @@
           "passwordPolicyCharacters": [],
           "passwordPolicyMinLength": 8
         },
-        "signupAttributes": [
-          "EMAIL"
-        ],
+        "signupAttributes": [],
         "socialProviders": [],
         "usernameAttributes": [],
         "verificationMechanisms": [
-          "EMAIL"
+          "PHONE_NUMBER"
         ]
       },
       "providerPlugin": "awscloudformation",
@@ -62,7 +50,7 @@
             "IdentityPoolId"
           ],
           "category": "auth",
-          "resourceName": "centroestivo7d1e9a7c"
+          "resourceName": "centroestivoauth"
         }
       ],
       "providerPlugin": "awscloudformation",

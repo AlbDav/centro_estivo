@@ -22,16 +22,16 @@
       "api": {
         "centroestivo": {}
       },
-      "auth": {
-        "centroestivo7d1e9a7c": {},
-        "userPoolGroups": {}
-      },
       "function": {
         "centroestivo7d1e9a7cPostConfirmation": {
           "GROUP": "Users",
           "deploymentBucketName": "amplify-centroestivo-dev-185635-deployment",
           "s3Key": "amplify-builds/centroestivo7d1e9a7cPostConfirmation-6c78575a417252344846-build.zip"
         }
+      },
+      "auth": {
+        "centroestivoauth": {},
+        "userPoolGroups": {}
       }
     }
   },
