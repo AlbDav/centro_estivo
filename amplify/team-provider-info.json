@@ -9,7 +9,8 @@
       "UnauthRoleName": "amplify-centroestivo-dev-185635-unauthRole",
       "StackName": "amplify-centroestivo-dev-185635",
       "StackId": "arn:aws:cloudformation:eu-west-3:203714483722:stack/amplify-centroestivo-dev-185635/6664b790-c1c8-11ed-9f50-0eed0c8361bc",
-      "AmplifyAppId": "d1o5h2vlklcqfh"
+      "AmplifyAppId": "d1o5h2vlklcqfh",
+      "AuthTriggerTemplateURL": "https://s3.amazonaws.com/amplify-centroestivo-dev-185635-deployment/amplify-cfn-templates/auth/auth-trigger-cloudformation-template.json"
     },
     "categories": {
       "hosting": {
@@ -20,6 +21,17 @@
       },
       "api": {
         "centroestivo": {}
+      },
+      "auth": {
+        "centroestivo7d1e9a7c": {},
+        "userPoolGroups": {}
+      },
+      "function": {
+        "centroestivo7d1e9a7cPostConfirmation": {
+          "GROUP": "Users",
+          "deploymentBucketName": "amplify-centroestivo-dev-185635-deployment",
+          "s3Key": "amplify-builds/centroestivo7d1e9a7cPostConfirmation-6c78575a417252344846-build.zip"
+        }
       }
     }
   },
