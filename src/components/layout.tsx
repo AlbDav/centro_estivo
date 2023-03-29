@@ -1,7 +1,7 @@
 // components/Layout.js
 import React, { useState } from 'react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { CssBaseline, AppBar, Toolbar, Typography, IconButton, Drawer, List, ListItem, ListItemText } from '@mui/material';
+import { CssBaseline, AppBar, Toolbar, Typography, IconButton, Drawer, List, ListItemText, ListItemButton, Box } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import Link from 'next/link';
 
@@ -15,6 +15,15 @@ const theme = createTheme({
     },
     background: {
       default: '#F1F2F3',
+    },
+  },
+  components: {
+    MuiCssBaseline: {
+      styleOverrides: {
+        body: {
+          backgroundColor: '#F1F2F3',
+        },
+      },
     },
   },
 });
@@ -48,14 +57,16 @@ const Layout = ({ children }: any) => {
         <List>
           {drawerItems.map((item, index) => (
             <Link key={index} href={item.href} passHref>
-              <ListItem button component="a">
+              <ListItemButton component="a">
                 <ListItemText primary={item.title} />
-              </ListItem>
+              </ListItemButton>
             </Link>
           ))}
         </List>
       </Drawer>
-      <main>{children}</main>
+      <Box component="main" paddingTop="64px">
+        {children}
+      </Box>
     </ThemeProvider>
   );
 };
