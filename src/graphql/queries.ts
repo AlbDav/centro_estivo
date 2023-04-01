@@ -107,8 +107,10 @@ export const getRule = /* GraphQL */ `
   query GetRule($id: ID!) {
     getRule(id: $id) {
       id
-      descriptio
+      title
+      description
       points
+      pointDescription
       createdAt
       updatedAt
     }
@@ -123,8 +125,10 @@ export const listRules = /* GraphQL */ `
     listRules(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        descriptio
+        title
+        description
         points
+        pointDescription
         createdAt
         updatedAt
       }
@@ -138,8 +142,10 @@ export const getScoreEntry = /* GraphQL */ `
       id
       rule {
         id
-        descriptio
+        title
+        description
         points
+        pointDescription
         createdAt
         updatedAt
       }
@@ -172,8 +178,10 @@ export const listScoreEntries = /* GraphQL */ `
         id
         rule {
           id
-          descriptio
+          title
+          description
           points
+          pointDescription
           createdAt
           updatedAt
         }

@@ -183,8 +183,10 @@ export const createRule = /* GraphQL */ `
   ) {
     createRule(input: $input, condition: $condition) {
       id
-      descriptio
+      title
+      description
       points
+      pointDescription
       createdAt
       updatedAt
     }
@@ -197,8 +199,10 @@ export const updateRule = /* GraphQL */ `
   ) {
     updateRule(input: $input, condition: $condition) {
       id
-      descriptio
+      title
+      description
       points
+      pointDescription
       createdAt
       updatedAt
     }
@@ -211,8 +215,10 @@ export const deleteRule = /* GraphQL */ `
   ) {
     deleteRule(input: $input, condition: $condition) {
       id
-      descriptio
+      title
+      description
       points
+      pointDescription
       createdAt
       updatedAt
     }
@@ -227,8 +233,10 @@ export const createScoreEntry = /* GraphQL */ `
       id
       rule {
         id
-        descriptio
+        title
+        description
         points
+        pointDescription
         createdAt
         updatedAt
       }
@@ -259,8 +267,10 @@ export const updateScoreEntry = /* GraphQL */ `
       id
       rule {
         id
-        descriptio
+        title
+        description
         points
+        pointDescription
         createdAt
         updatedAt
       }
@@ -291,8 +301,10 @@ export const deleteScoreEntry = /* GraphQL */ `
       id
       rule {
         id
-        descriptio
+        title
+        description
         points
+        pointDescription
         createdAt
         updatedAt
       }

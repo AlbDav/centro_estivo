@@ -162,8 +162,10 @@ export const onCreateRule = /* GraphQL */ `
   subscription OnCreateRule($filter: ModelSubscriptionRuleFilterInput) {
     onCreateRule(filter: $filter) {
       id
-      descriptio
+      title
+      description
       points
+      pointDescription
       createdAt
       updatedAt
     }
@@ -173,8 +175,10 @@ export const onUpdateRule = /* GraphQL */ `
   subscription OnUpdateRule($filter: ModelSubscriptionRuleFilterInput) {
     onUpdateRule(filter: $filter) {
       id
-      descriptio
+      title
+      description
       points
+      pointDescription
       createdAt
       updatedAt
     }
@@ -184,8 +188,10 @@ export const onDeleteRule = /* GraphQL */ `
   subscription OnDeleteRule($filter: ModelSubscriptionRuleFilterInput) {
     onDeleteRule(filter: $filter) {
       id
-      descriptio
+      title
+      description
       points
+      pointDescription
       createdAt
       updatedAt
     }
@@ -199,8 +205,10 @@ export const onCreateScoreEntry = /* GraphQL */ `
       id
       rule {
         id
-        descriptio
+        title
+        description
         points
+        pointDescription
         createdAt
         updatedAt
       }
@@ -230,8 +238,10 @@ export const onUpdateScoreEntry = /* GraphQL */ `
       id
       rule {
         id
-        descriptio
+        title
+        description
         points
+        pointDescription
         createdAt
         updatedAt
       }
@@ -261,8 +271,10 @@ export const onDeleteScoreEntry = /* GraphQL */ `
       id
       rule {
         id
-        descriptio
+        title
+        description
         points
+        pointDescription
         createdAt
         updatedAt
       }

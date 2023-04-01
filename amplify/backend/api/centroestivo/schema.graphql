@@ -18,8 +18,10 @@ type Team @model {
 
 type Rule @model {
   id: ID!
-  descriptio: String!
+  title: String!
+  description: String!
   points: Int!
+  pointDescription: String!
 }
 
 type ScoreEntry @model {

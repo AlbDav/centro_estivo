@@ -146,13 +146,17 @@ export type DeleteTeamInput = {
 
 export type CreateRuleInput = {
   id?: string | null,
-  descriptio: string,
+  title: string,
+  description: string,
   points: number,
+  pointDescription: string,
 };
 
 export type ModelRuleConditionInput = {
-  descriptio?: ModelStringInput | null,
+  title?: ModelStringInput | null,
+  description?: ModelStringInput | null,
   points?: ModelIntInput | null,
+  pointDescription?: ModelStringInput | null,
   and?: Array< ModelRuleConditionInput | null > | null,
   or?: Array< ModelRuleConditionInput | null > | null,
   not?: ModelRuleConditionInput | null,
@@ -173,16 +177,20 @@ export type ModelIntInput = {
 export type Rule = {
   __typename: "Rule",
   id: string,
-  descriptio: string,
+  title: string,
+  description: string,
   points: number,
+  pointDescription: string,
   createdAt: string,
   updatedAt: string,
 };
 
 export type UpdateRuleInput = {
   id: string,
-  descriptio?: string | null,
+  title?: string | null,
+  description?: string | null,
   points?: number | null,
+  pointDescription?: string | null,
 };
 
 export type DeleteRuleInput = {
@@ -284,8 +292,10 @@ export type ModelTeamConnection = {
 
 export type ModelRuleFilterInput = {
   id?: ModelIDInput | null,
-  descriptio?: ModelStringInput | null,
+  title?: ModelStringInput | null,
+  description?: ModelStringInput | null,
   points?: ModelIntInput | null,
+  pointDescription?: ModelStringInput | null,
   and?: Array< ModelRuleFilterInput | null > | null,
   or?: Array< ModelRuleFilterInput | null > | null,
   not?: ModelRuleFilterInput | null,
@@ -375,8 +385,10 @@ export type ModelSubscriptionTeamFilterInput = {
 
 export type ModelSubscriptionRuleFilterInput = {
   id?: ModelSubscriptionIDInput | null,
-  descriptio?: ModelSubscriptionStringInput | null,
+  title?: ModelSubscriptionStringInput | null,
+  description?: ModelSubscriptionStringInput | null,
   points?: ModelSubscriptionIntInput | null,
+  pointDescription?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionRuleFilterInput | null > | null,
   or?: Array< ModelSubscriptionRuleFilterInput | null > | null,
 };
@@ -621,8 +633,10 @@ export type CreateRuleMutation = {
   createRule?:  {
     __typename: "Rule",
     id: string,
-    descriptio: string,
+    title: string,
+    description: string,
     points: number,
+    pointDescription: string,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -637,8 +651,10 @@ export type UpdateRuleMutation = {
   updateRule?:  {
     __typename: "Rule",
     id: string,
-    descriptio: string,
+    title: string,
+    description: string,
     points: number,
+    pointDescription: string,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -653,8 +669,10 @@ export type DeleteRuleMutation = {
   deleteRule?:  {
     __typename: "Rule",
     id: string,
-    descriptio: string,
+    title: string,
+    description: string,
     points: number,
+    pointDescription: string,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -672,8 +690,10 @@ export type CreateScoreEntryMutation = {
     rule:  {
       __typename: "Rule",
       id: string,
-      descriptio: string,
+      title: string,
+      description: string,
       points: number,
+      pointDescription: string,
       createdAt: string,
       updatedAt: string,
     },
@@ -709,8 +729,10 @@ export type UpdateScoreEntryMutation = {
     rule:  {
       __typename: "Rule",
       id: string,
-      descriptio: string,
+      title: string,
+      description: string,
       points: number,
+      pointDescription: string,
       createdAt: string,
       updatedAt: string,
     },
@@ -746,8 +768,10 @@ export type DeleteScoreEntryMutation = {
     rule:  {
       __typename: "Rule",
       id: string,
-      descriptio: string,
+      title: string,
+      description: string,
       points: number,
+      pointDescription: string,
       createdAt: string,
       updatedAt: string,
     },
@@ -1047,8 +1071,10 @@ export type GetRuleQuery = {
   getRule?:  {
     __typename: "Rule",
     id: string,
-    descriptio: string,
+    title: string,
+    description: string,
     points: number,
+    pointDescription: string,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -1066,8 +1092,10 @@ export type ListRulesQuery = {
     items:  Array< {
       __typename: "Rule",
       id: string,
-      descriptio: string,
+      title: string,
+      description: string,
       points: number,
+      pointDescription: string,
       createdAt: string,
       updatedAt: string,
     } | null >,
@@ -1086,8 +1114,10 @@ export type GetScoreEntryQuery = {
     rule:  {
       __typename: "Rule",
       id: string,
-      descriptio: string,
+      title: string,
+      description: string,
       points: number,
+      pointDescription: string,
       createdAt: string,
       updatedAt: string,
     },
@@ -1126,8 +1156,10 @@ export type ListScoreEntriesQuery = {
       rule:  {
         __typename: "Rule",
         id: string,
-        descriptio: string,
+        title: string,
+        description: string,
         points: number,
+        pointDescription: string,
         createdAt: string,
         updatedAt: string,
       },
@@ -1517,8 +1549,10 @@ export type OnCreateRuleSubscription = {
   onCreateRule?:  {
     __typename: "Rule",
     id: string,
-    descriptio: string,
+    title: string,
+    description: string,
     points: number,
+    pointDescription: string,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -1532,8 +1566,10 @@ export type OnUpdateRuleSubscription = {
   onUpdateRule?:  {
     __typename: "Rule",
     id: string,
-    descriptio: string,
+    title: string,
+    description: string,
     points: number,
+    pointDescription: string,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -1547,8 +1583,10 @@ export type OnDeleteRuleSubscription = {
   onDeleteRule?:  {
     __typename: "Rule",
     id: string,
-    descriptio: string,
+    title: string,
+    description: string,
     points: number,
+    pointDescription: string,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -1565,8 +1603,10 @@ export type OnCreateScoreEntrySubscription = {
     rule:  {
       __typename: "Rule",
       id: string,
-      descriptio: string,
+      title: string,
+      description: string,
       points: number,
+      pointDescription: string,
       createdAt: string,
       updatedAt: string,
     },
@@ -1601,8 +1641,10 @@ export type OnUpdateScoreEntrySubscription = {
     rule:  {
       __typename: "Rule",
       id: string,
-      descriptio: string,
+      title: string,
+      description: string,
       points: number,
+      pointDescription: string,
       createdAt: string,
       updatedAt: string,
     },
@@ -1637,8 +1679,10 @@ export type OnDeleteScoreEntrySubscription = {
     rule:  {
       __typename: "Rule",
       id: string,
-      descriptio: string,
+      title: string,
+      description: string,
       points: number,
+      pointDescription: string,
       createdAt: string,
       updatedAt: string,
     },
