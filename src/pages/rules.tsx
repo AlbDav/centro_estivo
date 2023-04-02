@@ -18,7 +18,8 @@ const Rules = () => {
 
   const fetchRules = async () => {
     try {
-      const ruleData = await API.graphql<ListRulesQuery>({query: listRules}) as any;
+    console.log('ciao');
+    const ruleData = await API.graphql<ListRulesQuery>({query: listRules}) as any;
 	  const rules = ruleData.data.listRules.items;
       setRules(rules);
     } catch (error) {
