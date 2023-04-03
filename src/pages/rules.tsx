@@ -19,7 +19,7 @@ const Rules = () => {
   const fetchRules = async () => {
     try {
     console.log('ciao');
-    const ruleData = await API.graphql<ListRulesQuery>({query: listRules}) as any;
+    const ruleData = await API.graphql<ListRulesQuery>({query: listRules, authMode: 'API_KEY' }) as any;
 	  const rules = ruleData.data.listRules.items;
       setRules(rules);
     } catch (error) {
@@ -29,7 +29,7 @@ const Rules = () => {
 
   const addRule = async (rule: any) => {
     try {
-      await API.graphql(graphqlOperation(createRule, { input: rule }));
+      await API.graphql({ query: createRule, variables: { input: rule }, authMode: 'API_KEY' }) as any;
       fetchRules();
       setShowForm(false);
     } catch (error) {
