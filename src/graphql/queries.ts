@@ -103,39 +103,6 @@ export const listTeams = /* GraphQL */ `
     }
   }
 `;
-export const getRule = /* GraphQL */ `
-  query GetRule($id: ID!) {
-    getRule(id: $id) {
-      id
-      title
-      description
-      points
-      pointDescription
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const listRules = /* GraphQL */ `
-  query ListRules(
-    $filter: ModelRuleFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listRules(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        title
-        description
-        points
-        pointDescription
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
-  }
-`;
 export const getScoreEntry = /* GraphQL */ `
   query GetScoreEntry($id: ID!) {
     getScoreEntry(id: $id) {
@@ -345,6 +312,39 @@ export const teamGroupsByTeamId = /* GraphQL */ `
           updatedAt
           teamLeaderGroupId
         }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getRule = /* GraphQL */ `
+  query GetRule($id: ID!) {
+    getRule(id: $id) {
+      id
+      title
+      description
+      points
+      pointDescription
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listRules = /* GraphQL */ `
+  query ListRules(
+    $filter: ModelRuleFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listRules(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        title
+        description
+        points
+        pointDescription
         createdAt
         updatedAt
       }

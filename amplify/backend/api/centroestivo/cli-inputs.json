@@ -4,15 +4,13 @@
     "apiName": "centroestivo",
     "serviceName": "AppSync",
     "defaultAuthType": {
-      "mode": "AWS_IAM"
+      "mode": "AMAZON_COGNITO_USER_POOLS",
+      "cognitoUserPoolId": "authcentroestivoauth"
     },
     "conflictResolution": {},
     "additionalAuthTypes": [
       {
-        "mode": "API_KEY",
-        "expirationTime": 7,
-        "apiKeyExpirationDate": "2023-04-09T22:21:03.115Z",
-        "keyDescription": "graphql_key"
+        "mode": "AWS_IAM"
       }
     ]
   }

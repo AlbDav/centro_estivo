@@ -144,59 +144,6 @@ export type DeleteTeamInput = {
   id: string,
 };
 
-export type CreateRuleInput = {
-  id?: string | null,
-  title: string,
-  description: string,
-  points: number,
-  pointDescription: string,
-};
-
-export type ModelRuleConditionInput = {
-  title?: ModelStringInput | null,
-  description?: ModelStringInput | null,
-  points?: ModelIntInput | null,
-  pointDescription?: ModelStringInput | null,
-  and?: Array< ModelRuleConditionInput | null > | null,
-  or?: Array< ModelRuleConditionInput | null > | null,
-  not?: ModelRuleConditionInput | null,
-};
-
-export type ModelIntInput = {
-  ne?: number | null,
-  eq?: number | null,
-  le?: number | null,
-  lt?: number | null,
-  ge?: number | null,
-  gt?: number | null,
-  between?: Array< number | null > | null,
-  attributeExists?: boolean | null,
-  attributeType?: ModelAttributeTypes | null,
-};
-
-export type Rule = {
-  __typename: "Rule",
-  id: string,
-  title: string,
-  description: string,
-  points: number,
-  pointDescription: string,
-  createdAt: string,
-  updatedAt: string,
-};
-
-export type UpdateRuleInput = {
-  id: string,
-  title?: string | null,
-  description?: string | null,
-  points?: number | null,
-  pointDescription?: string | null,
-};
-
-export type DeleteRuleInput = {
-  id: string,
-};
-
 export type CreateScoreEntryInput = {
   id?: string | null,
   date: string,
@@ -223,6 +170,17 @@ export type ScoreEntry = {
   updatedAt: string,
   scoreEntryRuleId: string,
   scoreEntryGroupId: string,
+};
+
+export type Rule = {
+  __typename: "Rule",
+  id: string,
+  title: string,
+  description: string,
+  points: number,
+  pointDescription: string,
+  createdAt: string,
+  updatedAt: string,
 };
 
 export type UpdateScoreEntryInput = {
@@ -260,6 +218,48 @@ export type DeleteTeamGroupsInput = {
   id: string,
 };
 
+export type CreateRuleInput = {
+  id?: string | null,
+  title: string,
+  description: string,
+  points: number,
+  pointDescription: string,
+};
+
+export type ModelRuleConditionInput = {
+  title?: ModelStringInput | null,
+  description?: ModelStringInput | null,
+  points?: ModelIntInput | null,
+  pointDescription?: ModelStringInput | null,
+  and?: Array< ModelRuleConditionInput | null > | null,
+  or?: Array< ModelRuleConditionInput | null > | null,
+  not?: ModelRuleConditionInput | null,
+};
+
+export type ModelIntInput = {
+  ne?: number | null,
+  eq?: number | null,
+  le?: number | null,
+  lt?: number | null,
+  ge?: number | null,
+  gt?: number | null,
+  between?: Array< number | null > | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
+};
+
+export type UpdateRuleInput = {
+  id: string,
+  title?: string | null,
+  description?: string | null,
+  points?: number | null,
+  pointDescription?: string | null,
+};
+
+export type DeleteRuleInput = {
+  id: string,
+};
+
 export type ModelGroupFilterInput = {
   id?: ModelIDInput | null,
   name?: ModelStringInput | null,
@@ -287,23 +287,6 @@ export type ModelTeamFilterInput = {
 export type ModelTeamConnection = {
   __typename: "ModelTeamConnection",
   items:  Array<Team | null >,
-  nextToken?: string | null,
-};
-
-export type ModelRuleFilterInput = {
-  id?: ModelIDInput | null,
-  title?: ModelStringInput | null,
-  description?: ModelStringInput | null,
-  points?: ModelIntInput | null,
-  pointDescription?: ModelStringInput | null,
-  and?: Array< ModelRuleFilterInput | null > | null,
-  or?: Array< ModelRuleFilterInput | null > | null,
-  not?: ModelRuleFilterInput | null,
-};
-
-export type ModelRuleConnection = {
-  __typename: "ModelRuleConnection",
-  items:  Array<Rule | null >,
   nextToken?: string | null,
 };
 
@@ -337,6 +320,23 @@ export enum ModelSortDirection {
   DESC = "DESC",
 }
 
+
+export type ModelRuleFilterInput = {
+  id?: ModelIDInput | null,
+  title?: ModelStringInput | null,
+  description?: ModelStringInput | null,
+  points?: ModelIntInput | null,
+  pointDescription?: ModelStringInput | null,
+  and?: Array< ModelRuleFilterInput | null > | null,
+  or?: Array< ModelRuleFilterInput | null > | null,
+  not?: ModelRuleFilterInput | null,
+};
+
+export type ModelRuleConnection = {
+  __typename: "ModelRuleConnection",
+  items:  Array<Rule | null >,
+  nextToken?: string | null,
+};
 
 export type ModelSubscriptionGroupFilterInput = {
   id?: ModelSubscriptionIDInput | null,
@@ -383,6 +383,21 @@ export type ModelSubscriptionTeamFilterInput = {
   or?: Array< ModelSubscriptionTeamFilterInput | null > | null,
 };
 
+export type ModelSubscriptionScoreEntryFilterInput = {
+  id?: ModelSubscriptionIDInput | null,
+  date?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionScoreEntryFilterInput | null > | null,
+  or?: Array< ModelSubscriptionScoreEntryFilterInput | null > | null,
+};
+
+export type ModelSubscriptionTeamGroupsFilterInput = {
+  id?: ModelSubscriptionIDInput | null,
+  groupId?: ModelSubscriptionIDInput | null,
+  teamId?: ModelSubscriptionIDInput | null,
+  and?: Array< ModelSubscriptionTeamGroupsFilterInput | null > | null,
+  or?: Array< ModelSubscriptionTeamGroupsFilterInput | null > | null,
+};
+
 export type ModelSubscriptionRuleFilterInput = {
   id?: ModelSubscriptionIDInput | null,
   title?: ModelSubscriptionStringInput | null,
@@ -403,21 +418,6 @@ export type ModelSubscriptionIntInput = {
   between?: Array< number | null > | null,
   in?: Array< number | null > | null,
   notIn?: Array< number | null > | null,
-};
-
-export type ModelSubscriptionScoreEntryFilterInput = {
-  id?: ModelSubscriptionIDInput | null,
-  date?: ModelSubscriptionStringInput | null,
-  and?: Array< ModelSubscriptionScoreEntryFilterInput | null > | null,
-  or?: Array< ModelSubscriptionScoreEntryFilterInput | null > | null,
-};
-
-export type ModelSubscriptionTeamGroupsFilterInput = {
-  id?: ModelSubscriptionIDInput | null,
-  groupId?: ModelSubscriptionIDInput | null,
-  teamId?: ModelSubscriptionIDInput | null,
-  and?: Array< ModelSubscriptionTeamGroupsFilterInput | null > | null,
-  or?: Array< ModelSubscriptionTeamGroupsFilterInput | null > | null,
 };
 
 export type CreateGroupMutationVariables = {
@@ -621,60 +621,6 @@ export type DeleteTeamMutation = {
     createdAt: string,
     updatedAt: string,
     teamLeaderGroupId?: string | null,
-  } | null,
-};
-
-export type CreateRuleMutationVariables = {
-  input: CreateRuleInput,
-  condition?: ModelRuleConditionInput | null,
-};
-
-export type CreateRuleMutation = {
-  createRule?:  {
-    __typename: "Rule",
-    id: string,
-    title: string,
-    description: string,
-    points: number,
-    pointDescription: string,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type UpdateRuleMutationVariables = {
-  input: UpdateRuleInput,
-  condition?: ModelRuleConditionInput | null,
-};
-
-export type UpdateRuleMutation = {
-  updateRule?:  {
-    __typename: "Rule",
-    id: string,
-    title: string,
-    description: string,
-    points: number,
-    pointDescription: string,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type DeleteRuleMutationVariables = {
-  input: DeleteRuleInput,
-  condition?: ModelRuleConditionInput | null,
-};
-
-export type DeleteRuleMutation = {
-  deleteRule?:  {
-    __typename: "Rule",
-    id: string,
-    title: string,
-    description: string,
-    points: number,
-    pointDescription: string,
-    createdAt: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -939,6 +885,60 @@ export type DeleteTeamGroupsMutation = {
   } | null,
 };
 
+export type CreateRuleMutationVariables = {
+  input: CreateRuleInput,
+  condition?: ModelRuleConditionInput | null,
+};
+
+export type CreateRuleMutation = {
+  createRule?:  {
+    __typename: "Rule",
+    id: string,
+    title: string,
+    description: string,
+    points: number,
+    pointDescription: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateRuleMutationVariables = {
+  input: UpdateRuleInput,
+  condition?: ModelRuleConditionInput | null,
+};
+
+export type UpdateRuleMutation = {
+  updateRule?:  {
+    __typename: "Rule",
+    id: string,
+    title: string,
+    description: string,
+    points: number,
+    pointDescription: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteRuleMutationVariables = {
+  input: DeleteRuleInput,
+  condition?: ModelRuleConditionInput | null,
+};
+
+export type DeleteRuleMutation = {
+  deleteRule?:  {
+    __typename: "Rule",
+    id: string,
+    title: string,
+    description: string,
+    points: number,
+    pointDescription: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
 export type GetGroupQueryVariables = {
   id: string,
 };
@@ -1058,46 +1058,6 @@ export type ListTeamsQuery = {
       createdAt: string,
       updatedAt: string,
       teamLeaderGroupId?: string | null,
-    } | null >,
-    nextToken?: string | null,
-  } | null,
-};
-
-export type GetRuleQueryVariables = {
-  id: string,
-};
-
-export type GetRuleQuery = {
-  getRule?:  {
-    __typename: "Rule",
-    id: string,
-    title: string,
-    description: string,
-    points: number,
-    pointDescription: string,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type ListRulesQueryVariables = {
-  filter?: ModelRuleFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListRulesQuery = {
-  listRules?:  {
-    __typename: "ModelRuleConnection",
-    items:  Array< {
-      __typename: "Rule",
-      id: string,
-      title: string,
-      description: string,
-      points: number,
-      pointDescription: string,
-      createdAt: string,
-      updatedAt: string,
     } | null >,
     nextToken?: string | null,
   } | null,
@@ -1343,6 +1303,46 @@ export type TeamGroupsByTeamIdQuery = {
   } | null,
 };
 
+export type GetRuleQueryVariables = {
+  id: string,
+};
+
+export type GetRuleQuery = {
+  getRule?:  {
+    __typename: "Rule",
+    id: string,
+    title: string,
+    description: string,
+    points: number,
+    pointDescription: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type ListRulesQueryVariables = {
+  filter?: ModelRuleFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListRulesQuery = {
+  listRules?:  {
+    __typename: "ModelRuleConnection",
+    items:  Array< {
+      __typename: "Rule",
+      id: string,
+      title: string,
+      description: string,
+      points: number,
+      pointDescription: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
 export type OnCreateGroupSubscriptionVariables = {
   filter?: ModelSubscriptionGroupFilterInput | null,
 };
@@ -1538,57 +1538,6 @@ export type OnDeleteTeamSubscription = {
     createdAt: string,
     updatedAt: string,
     teamLeaderGroupId?: string | null,
-  } | null,
-};
-
-export type OnCreateRuleSubscriptionVariables = {
-  filter?: ModelSubscriptionRuleFilterInput | null,
-};
-
-export type OnCreateRuleSubscription = {
-  onCreateRule?:  {
-    __typename: "Rule",
-    id: string,
-    title: string,
-    description: string,
-    points: number,
-    pointDescription: string,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type OnUpdateRuleSubscriptionVariables = {
-  filter?: ModelSubscriptionRuleFilterInput | null,
-};
-
-export type OnUpdateRuleSubscription = {
-  onUpdateRule?:  {
-    __typename: "Rule",
-    id: string,
-    title: string,
-    description: string,
-    points: number,
-    pointDescription: string,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type OnDeleteRuleSubscriptionVariables = {
-  filter?: ModelSubscriptionRuleFilterInput | null,
-};
-
-export type OnDeleteRuleSubscription = {
-  onDeleteRule?:  {
-    __typename: "Rule",
-    id: string,
-    title: string,
-    description: string,
-    points: number,
-    pointDescription: string,
-    createdAt: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -1842,6 +1791,57 @@ export type OnDeleteTeamGroupsSubscription = {
       updatedAt: string,
       teamLeaderGroupId?: string | null,
     },
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnCreateRuleSubscriptionVariables = {
+  filter?: ModelSubscriptionRuleFilterInput | null,
+};
+
+export type OnCreateRuleSubscription = {
+  onCreateRule?:  {
+    __typename: "Rule",
+    id: string,
+    title: string,
+    description: string,
+    points: number,
+    pointDescription: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateRuleSubscriptionVariables = {
+  filter?: ModelSubscriptionRuleFilterInput | null,
+};
+
+export type OnUpdateRuleSubscription = {
+  onUpdateRule?:  {
+    __typename: "Rule",
+    id: string,
+    title: string,
+    description: string,
+    points: number,
+    pointDescription: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeleteRuleSubscriptionVariables = {
+  filter?: ModelSubscriptionRuleFilterInput | null,
+};
+
+export type OnDeleteRuleSubscription = {
+  onDeleteRule?:  {
+    __typename: "Rule",
+    id: string,
+    title: string,
+    description: string,
+    points: number,
+    pointDescription: string,
     createdAt: string,
     updatedAt: string,
   } | null,

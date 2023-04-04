@@ -176,54 +176,6 @@ export const deleteTeam = /* GraphQL */ `
     }
   }
 `;
-export const createRule = /* GraphQL */ `
-  mutation CreateRule(
-    $input: CreateRuleInput!
-    $condition: ModelRuleConditionInput
-  ) {
-    createRule(input: $input, condition: $condition) {
-      id
-      title
-      description
-      points
-      pointDescription
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const updateRule = /* GraphQL */ `
-  mutation UpdateRule(
-    $input: UpdateRuleInput!
-    $condition: ModelRuleConditionInput
-  ) {
-    updateRule(input: $input, condition: $condition) {
-      id
-      title
-      description
-      points
-      pointDescription
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const deleteRule = /* GraphQL */ `
-  mutation DeleteRule(
-    $input: DeleteRuleInput!
-    $condition: ModelRuleConditionInput
-  ) {
-    deleteRule(input: $input, condition: $condition) {
-      id
-      title
-      description
-      points
-      pointDescription
-      createdAt
-      updatedAt
-    }
-  }
-`;
 export const createScoreEntry = /* GraphQL */ `
   mutation CreateScoreEntry(
     $input: CreateScoreEntryInput!
@@ -444,6 +396,54 @@ export const deleteTeamGroups = /* GraphQL */ `
         updatedAt
         teamLeaderGroupId
       }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createRule = /* GraphQL */ `
+  mutation CreateRule(
+    $input: CreateRuleInput!
+    $condition: ModelRuleConditionInput
+  ) {
+    createRule(input: $input, condition: $condition) {
+      id
+      title
+      description
+      points
+      pointDescription
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateRule = /* GraphQL */ `
+  mutation UpdateRule(
+    $input: UpdateRuleInput!
+    $condition: ModelRuleConditionInput
+  ) {
+    updateRule(input: $input, condition: $condition) {
+      id
+      title
+      description
+      points
+      pointDescription
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteRule = /* GraphQL */ `
+  mutation DeleteRule(
+    $input: DeleteRuleInput!
+    $condition: ModelRuleConditionInput
+  ) {
+    deleteRule(input: $input, condition: $condition) {
+      id
+      title
+      description
+      points
+      pointDescription
       createdAt
       updatedAt
     }

@@ -158,45 +158,6 @@ export const onDeleteTeam = /* GraphQL */ `
     }
   }
 `;
-export const onCreateRule = /* GraphQL */ `
-  subscription OnCreateRule($filter: ModelSubscriptionRuleFilterInput) {
-    onCreateRule(filter: $filter) {
-      id
-      title
-      description
-      points
-      pointDescription
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onUpdateRule = /* GraphQL */ `
-  subscription OnUpdateRule($filter: ModelSubscriptionRuleFilterInput) {
-    onUpdateRule(filter: $filter) {
-      id
-      title
-      description
-      points
-      pointDescription
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onDeleteRule = /* GraphQL */ `
-  subscription OnDeleteRule($filter: ModelSubscriptionRuleFilterInput) {
-    onDeleteRule(filter: $filter) {
-      id
-      title
-      description
-      points
-      pointDescription
-      createdAt
-      updatedAt
-    }
-  }
-`;
 export const onCreateScoreEntry = /* GraphQL */ `
   subscription OnCreateScoreEntry(
     $filter: ModelSubscriptionScoreEntryFilterInput
@@ -411,6 +372,45 @@ export const onDeleteTeamGroups = /* GraphQL */ `
         updatedAt
         teamLeaderGroupId
       }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateRule = /* GraphQL */ `
+  subscription OnCreateRule($filter: ModelSubscriptionRuleFilterInput) {
+    onCreateRule(filter: $filter) {
+      id
+      title
+      description
+      points
+      pointDescription
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateRule = /* GraphQL */ `
+  subscription OnUpdateRule($filter: ModelSubscriptionRuleFilterInput) {
+    onUpdateRule(filter: $filter) {
+      id
+      title
+      description
+      points
+      pointDescription
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteRule = /* GraphQL */ `
+  subscription OnDeleteRule($filter: ModelSubscriptionRuleFilterInput) {
+    onDeleteRule(filter: $filter) {
+      id
+      title
+      description
+      points
+      pointDescription
       createdAt
       updatedAt
     }

@@ -1,6 +1,6 @@
 # This "input" configures a global authorization rule to enable public access to
 # all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/authorization-rules
-input AMPLIFY { globalAuthRule: AuthRule = { allow: public } } # FOR TESTING ONLY!
+#input AMPLIFY { globalAuthRule: AuthRule = { allow: public, provider: iam } } # FOR TESTING ONLY!
 
 type Group @model {
   id: ID!
@@ -16,7 +16,12 @@ type Team @model {
   leaderGroup: Group @hasOne
 }
 
-type Rule @model {
+type Rule @model @auth(
+	rules: [
+		{ allow: groups, provider: userPools, groups: ["Users"], operations: [create, update, delete, read] },
+		{ allow: public, provider: iam, operations: [read] }
+		]
+	) {
   id: ID!
   title: String!
   description: String!

@@ -18,9 +18,9 @@ const Rules = () => {
 
   const fetchRules = async () => {
     try {
-    console.log('ciao');
-    const ruleData = await API.graphql<ListRulesQuery>({query: listRules, authMode: 'API_KEY' }) as any;
-	  const rules = ruleData.data.listRules.items;
+      console.log('ciao');
+      const ruleData = await API.graphql<ListRulesQuery>({ query: listRules, authMode: "AMAZON_COGNITO_USER_POOLS" }) as any;
+      const rules = ruleData.data.listRules.items;
       setRules(rules);
     } catch (error) {
       console.log('Error fetching rules:', error);
@@ -29,7 +29,7 @@ const Rules = () => {
 
   const addRule = async (rule: any) => {
     try {
-      await API.graphql({ query: createRule, variables: { input: rule }, authMode: 'API_KEY' }) as any;
+      await API.graphql({ query: createRule, variables: { input: rule }, authMode: "AMAZON_COGNITO_USER_POOLS" }) as any;
       fetchRules();
       setShowForm(false);
     } catch (error) {

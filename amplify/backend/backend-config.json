@@ -1,21 +1,27 @@
 {
   "api": {
     "centroestivo": {
-      "dependsOn": [],
+      "dependsOn": [
+        {
+          "attributes": [
+            "UserPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "centroestivoauth"
+        }
+      ],
       "output": {
         "authConfig": {
           "additionalAuthenticationProviders": [
             {
-              "apiKeyConfig": {
-                "apiKeyExpirationDate": "2023-04-09T22:21:03.115Z",
-                "apiKeyExpirationDays": 7,
-                "description": "graphql_key"
-              },
-              "authenticationType": "API_KEY"
+              "authenticationType": "AWS_IAM"
             }
           ],
           "defaultAuthentication": {
-            "authenticationType": "AWS_IAM"
+            "authenticationType": "AMAZON_COGNITO_USER_POOLS",
+            "userPoolConfig": {
+              "userPoolId": "authcentroestivoauth"
+            }
           }
         }
       },
