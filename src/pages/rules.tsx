@@ -4,8 +4,8 @@ import { API, graphqlOperation } from 'aws-amplify';
 import { listRules } from '../graphql/queries';
 import { createRule } from '../graphql/mutations';
 import { Box, Button, Container, Grid } from '@mui/material';
-import NewRuleForm from '../components/NewRuleForm';
-import RuleCard from '@/components/RuleCard';
+import NewRuleForm from '../components/rules/NewRuleForm';
+import RuleCard from '@/components/rules/RuleCard';
 import { ListRulesQuery } from '@/API';
 
 const Rules = () => {

@@ -36,7 +36,7 @@ const Layout = ({ children }: any) => {
   };
 
   const drawerItems = [
-    { title: 'Groups', href: '/' },
+    { title: 'Groups', href: '/groups' },
     { title: 'Team Ranking', href: '/teamRanking' },
     { title: 'Rules', href: '/rules' },
     { title: 'Admin', href: '/admin' },
@@ -50,7 +50,7 @@ const Layout = ({ children }: any) => {
           <IconButton edge="start" color="inherit" aria-label="menu" onClick={toggleDrawer}>
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6">Fantasy Summer Camp</Typography>
+          <Typography variant="h6">FantaCE</Typography>
         </Toolbar>
       </AppBar>
       <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer}>

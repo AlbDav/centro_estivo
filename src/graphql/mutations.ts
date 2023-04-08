@@ -2,78 +2,6 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const createGroup = /* GraphQL */ `
-  mutation CreateGroup(
-    $input: CreateGroupInput!
-    $condition: ModelGroupConditionInput
-  ) {
-    createGroup(input: $input, condition: $condition) {
-      id
-      name
-      color
-      teams {
-        items {
-          id
-          groupId
-          teamId
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const updateGroup = /* GraphQL */ `
-  mutation UpdateGroup(
-    $input: UpdateGroupInput!
-    $condition: ModelGroupConditionInput
-  ) {
-    updateGroup(input: $input, condition: $condition) {
-      id
-      name
-      color
-      teams {
-        items {
-          id
-          groupId
-          teamId
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const deleteGroup = /* GraphQL */ `
-  mutation DeleteGroup(
-    $input: DeleteGroupInput!
-    $condition: ModelGroupConditionInput
-  ) {
-    deleteGroup(input: $input, condition: $condition) {
-      id
-      name
-      color
-      teams {
-        items {
-          id
-          groupId
-          teamId
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
 export const createTeam = /* GraphQL */ `
   mutation CreateTeam(
     $input: CreateTeamInput!
@@ -278,6 +206,126 @@ export const deleteScoreEntry = /* GraphQL */ `
     }
   }
 `;
+export const createGroup = /* GraphQL */ `
+  mutation CreateGroup(
+    $input: CreateGroupInput!
+    $condition: ModelGroupConditionInput
+  ) {
+    createGroup(input: $input, condition: $condition) {
+      id
+      name
+      color
+      teams {
+        items {
+          id
+          groupId
+          teamId
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateGroup = /* GraphQL */ `
+  mutation UpdateGroup(
+    $input: UpdateGroupInput!
+    $condition: ModelGroupConditionInput
+  ) {
+    updateGroup(input: $input, condition: $condition) {
+      id
+      name
+      color
+      teams {
+        items {
+          id
+          groupId
+          teamId
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteGroup = /* GraphQL */ `
+  mutation DeleteGroup(
+    $input: DeleteGroupInput!
+    $condition: ModelGroupConditionInput
+  ) {
+    deleteGroup(input: $input, condition: $condition) {
+      id
+      name
+      color
+      teams {
+        items {
+          id
+          groupId
+          teamId
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createRule = /* GraphQL */ `
+  mutation CreateRule(
+    $input: CreateRuleInput!
+    $condition: ModelRuleConditionInput
+  ) {
+    createRule(input: $input, condition: $condition) {
+      id
+      title
+      description
+      points
+      pointDescription
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateRule = /* GraphQL */ `
+  mutation UpdateRule(
+    $input: UpdateRuleInput!
+    $condition: ModelRuleConditionInput
+  ) {
+    updateRule(input: $input, condition: $condition) {
+      id
+      title
+      description
+      points
+      pointDescription
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteRule = /* GraphQL */ `
+  mutation DeleteRule(
+    $input: DeleteRuleInput!
+    $condition: ModelRuleConditionInput
+  ) {
+    deleteRule(input: $input, condition: $condition) {
+      id
+      title
+      description
+      points
+      pointDescription
+      createdAt
+      updatedAt
+    }
+  }
+`;
 export const createTeamGroups = /* GraphQL */ `
   mutation CreateTeamGroups(
     $input: CreateTeamGroupsInput!
@@ -396,54 +444,6 @@ export const deleteTeamGroups = /* GraphQL */ `
         updatedAt
         teamLeaderGroupId
       }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const createRule = /* GraphQL */ `
-  mutation CreateRule(
-    $input: CreateRuleInput!
-    $condition: ModelRuleConditionInput
-  ) {
-    createRule(input: $input, condition: $condition) {
-      id
-      title
-      description
-      points
-      pointDescription
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const updateRule = /* GraphQL */ `
-  mutation UpdateRule(
-    $input: UpdateRuleInput!
-    $condition: ModelRuleConditionInput
-  ) {
-    updateRule(input: $input, condition: $condition) {
-      id
-      title
-      description
-      points
-      pointDescription
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const deleteRule = /* GraphQL */ `
-  mutation DeleteRule(
-    $input: DeleteRuleInput!
-    $condition: ModelRuleConditionInput
-  ) {
-    deleteRule(input: $input, condition: $condition) {
-      id
-      title
-      description
-      points
-      pointDescription
       createdAt
       updatedAt
     }

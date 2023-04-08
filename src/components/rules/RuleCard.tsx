@@ -4,7 +4,7 @@ import { Card, CardContent, Grid, Typography } from '@mui/material';
 
 const RuleCard = ({ rule }: any) => {
   return (
-    <Card>
+    <Card variant="outlined">
       <CardContent>
         <Grid container justifyContent="space-between">
           <Grid item>

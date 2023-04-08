@@ -1,6 +1,6 @@
 import '@/styles/globals.css'
 import '@aws-amplify/ui-react/styles.css'
-import Layout from '@/components/layout'
+import Layout from '@/layouts/layout'
 import type { AppProps } from 'next/app'
 
 import awsExports from '../aws-exports'

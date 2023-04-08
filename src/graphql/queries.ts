@@ -2,48 +2,6 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const getGroup = /* GraphQL */ `
-  query GetGroup($id: ID!) {
-    getGroup(id: $id) {
-      id
-      name
-      color
-      teams {
-        items {
-          id
-          groupId
-          teamId
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const listGroups = /* GraphQL */ `
-  query ListGroups(
-    $filter: ModelGroupFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listGroups(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        name
-        color
-        teams {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
-  }
-`;
 export const getTeam = /* GraphQL */ `
   query GetTeam($id: ID!) {
     getTeam(id: $id) {
@@ -164,6 +122,81 @@ export const listScoreEntries = /* GraphQL */ `
         updatedAt
         scoreEntryRuleId
         scoreEntryGroupId
+      }
+      nextToken
+    }
+  }
+`;
+export const getGroup = /* GraphQL */ `
+  query GetGroup($id: ID!) {
+    getGroup(id: $id) {
+      id
+      name
+      color
+      teams {
+        items {
+          id
+          groupId
+          teamId
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listGroups = /* GraphQL */ `
+  query ListGroups(
+    $filter: ModelGroupFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listGroups(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        name
+        color
+        teams {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getRule = /* GraphQL */ `
+  query GetRule($id: ID!) {
+    getRule(id: $id) {
+      id
+      title
+      description
+      points
+      pointDescription
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listRules = /* GraphQL */ `
+  query ListRules(
+    $filter: ModelRuleFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listRules(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        title
+        description
+        points
+        pointDescription
+        createdAt
+        updatedAt
       }
       nextToken
     }
@@ -312,39 +345,6 @@ export const teamGroupsByTeamId = /* GraphQL */ `
           updatedAt
           teamLeaderGroupId
         }
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
-  }
-`;
-export const getRule = /* GraphQL */ `
-  query GetRule($id: ID!) {
-    getRule(id: $id) {
-      id
-      title
-      description
-      points
-      pointDescription
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const listRules = /* GraphQL */ `
-  query ListRules(
-    $filter: ModelRuleFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listRules(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        title
-        description
-        points
-        pointDescription
         createdAt
         updatedAt
       }
