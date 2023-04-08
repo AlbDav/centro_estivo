@@ -14,8 +14,10 @@ const CustomColorPicker = ({ color, onChange }: any) => {
           borderRadius: '100%',
           width: '2em',
           height: '2em',
-          backgroundColor: color
+          backgroundColor: color,
+		  border: '1px solid #c4c4c4',
         }}
+		disableRipple
         onClick={(event: any) => {
           setAnchorEl(event.currentTarget);
           setIsOpen(true);

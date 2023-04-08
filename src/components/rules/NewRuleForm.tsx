@@ -1,6 +1,6 @@
 // components/NewRuleForm.js
 import React, { useState } from 'react';
-import { Box, TextField, Button, Grid, Card, CardContent } from '@mui/material';
+import { TextField, Button, Grid, Card, CardContent } from '@mui/material';
 
 const NewRuleForm = ({ onCancel, onSave }: any) => {
 	const [title, setTitle] = useState('');

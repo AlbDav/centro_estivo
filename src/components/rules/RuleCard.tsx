@@ -6,7 +6,7 @@ const RuleCard = ({ rule }: any) => {
   return (
     <Card variant="outlined">
       <CardContent>
-        <Grid container justifyContent="space-between">
+        <Grid container justifyContent="space-between" alignItems="center">
           <Grid item>
             <Typography variant="h6">{rule.title}</Typography>
             <Typography variant="body1">{rule.description}</Typography>

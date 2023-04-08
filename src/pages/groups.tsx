@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { API, graphqlOperation } from 'aws-amplify';
-import { Box, Button, Container, Grid, InputLabel, TextField } from '@mui/material';
+import { API } from 'aws-amplify';
+import { Box, Button, Container, Grid } from '@mui/material';
 import { createGroup } from '../graphql/mutations';
-import { listGroups as listGroupsQuery } from '../graphql/queries';
-import CustomColorPicker from '../components/shared/CustomColorPicker';
+import { listGroups } from '../graphql/queries';
+import GroupCard from '@/components/groups/GroupCard';
+import { ListGroupsQuery } from '@/API';
+import NewGroupForm from '@/components/groups/NewGroupForm';
 
 const Groups = () => {
   const [groups, setGroups] = useState([]);
   const [showForm, setShowForm] = useState(false);
-  const [name, setName] = useState('');
-  const [groupColor, setGroupColor] = useState('#FFFFFF');
 
   useEffect(() => {
     fetchGroups();
@@ -17,21 +17,21 @@ const Groups = () => {
 
   const fetchGroups = async () => {
     try {
-      const groupData = await API.graphql(graphqlOperation(listGroupsQuery)) as any;
-      const groups = groupData.data.listGroups.items;
-      setGroups(groups);
+      const groupData = await API.graphql<ListGroupsQuery>({ query: listGroups }) as any;
+      const groupItems = groupData.data.listGroups.items;
+      setGroups(groupItems);
     } catch (error) {
-      console.log('Error fetching groups:', error);
+      console.log('Error fetching rules:', error);
     }
   };
 
-  const addGroup = async () => {
+  const addGroup = async (rule: any) => {
     try {
-      await API.graphql(graphqlOperation(createGroup, { input: { name, groupColor } })) as any;
+      await API.graphql({ query: createGroup, variables: { input: rule } }) as any;
       fetchGroups();
       setShowForm(false);
     } catch (error) {
-      console.log('Error adding group:', error);
+      console.log('Error adding rule:', error);
     }
   };
 
@@ -39,31 +39,10 @@ const Groups = () => {
     <Container>
       <Box marginTop={4}>
         {showForm ? (
-          <Box>
-            <TextField
-              label="Name"
-              variant="outlined"
-              margin="normal"
-              fullWidth
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-          <Box marginTop={2} marginBottom={2}>
-            <InputLabel id="color-label">Color</InputLabel>
-            <CustomColorPicker
-              color={groupColor}
-              onChange={(color: any) => setGroupColor(color)}
-            />
-          </Box>
-            <Box marginTop={2}>
-              <Button variant="contained" color="primary" onClick={addGroup}>
-                Save
-              </Button>
-              <Button variant="outlined" color="primary" onClick={() => setShowForm(false)}>
-                Cancel
-              </Button>
-            </Box>
-          </Box>
+          <NewGroupForm
+            onCancel={() => setShowForm(false)}
+            onSave={(group: any) => addGroup(group)}
+          />
         ) : (
           <Button variant="contained" color="primary" onClick={() => setShowForm(true)}>
             Add Group
@@ -74,13 +53,7 @@ const Groups = () => {
         <Grid container spacing={4}>
           {groups.map((group: any) => (
             <Grid key={group.id} item xs={12}>
-              <Box
-                padding={2}
-                border={`1px solid ${group.color}`}
-                borderRadius={4}
-              >
-                <Box fontWeight="bold">{group.name}</Box>
-              </Box>
+              <GroupCard group={group} />
             </Grid>
           ))}
         </Grid>
