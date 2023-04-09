@@ -1,0 +1,12 @@
+{
+  "AppSyncApiName": "centroestivo",
+  "DynamoDBBillingMode": "PAY_PER_REQUEST",
+  "DynamoDBEnableServerSideEncryption": false,
+  "AuthModeLastUpdated": "2023-04-04T21:15:54.680Z",
+  "AuthCognitoUserPoolId": {
+    "Fn::GetAtt": [
+      "authcentroestivoauth",
+      "Outputs.UserPoolId"
+    ]
+  }
+}
