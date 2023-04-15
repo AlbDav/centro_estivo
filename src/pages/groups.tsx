@@ -21,17 +21,17 @@ const Groups = () => {
       const groupItems = groupData.data.listGroups.items;
       setGroups(groupItems);
     } catch (error) {
-      console.log('Error fetching rules:', error);
+      console.log('Error fetching grous:', error);
     }
   };
 
-  const addGroup = async (rule: any) => {
+  const addGroup = async (group: any) => {
     try {
-      await API.graphql({ query: createGroup, variables: { input: rule } }) as any;
+      await API.graphql({ query: createGroup, variables: { input: group } }) as any;
       fetchGroups();
       setShowForm(false);
     } catch (error) {
-      console.log('Error adding rule:', error);
+      console.log('Error adding group:', error);
     }
   };
 

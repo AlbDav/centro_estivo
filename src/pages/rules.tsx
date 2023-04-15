@@ -1,6 +1,6 @@
 // pages/rules.js
 import React, { useState, useEffect } from 'react';
-import { API, graphqlOperation } from 'aws-amplify';
+import { API } from 'aws-amplify';
 import { listRules } from '../graphql/queries';
 import { createRule } from '../graphql/mutations';
 import { Box, Button, Container, Grid } from '@mui/material';
