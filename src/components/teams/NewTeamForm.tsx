@@ -1,61 +1,120 @@
 // components/NewRuleForm.js
-import React, { useState } from 'react';
-import { TextField, Button, Grid, Card, CardContent } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { TextField, Button, Grid, Card, CardContent, Select, Typography, Avatar, MenuItem, Box, FormControl, InputLabel } from '@mui/material';
+import { API } from 'aws-amplify';
+import { ListGroupsQuery } from '@/API';
+import { listGroups } from '@/graphql/queries';
 
 const NewTeamForm = ({ onCancel, onSave }: any) => {
-	const [title, setTitle] = useState('');
-	const [description, setDescription] = useState('');
-	const [points, setPoints] = useState('');
-	const [pointDescription, setPointDescription] = useState('');
+  const [groups, setGroups] = useState([]);
+  const [teamName, setTeamName] = useState('');
+  const [leaderGroup, setLeaderGroup] = useState('');
+  const [additionalGroups, setAdditionalGroups] = useState(['', '']);
 
-	const handleSubmit = () => {
-		onSave({ title, description, points: parseInt(points), pointDescription });
-		setTitle('');
-		setDescription('');
-		setPoints('');
-		setPointDescription('');
-	};
+  useEffect(() => {
+    fetchGroups();
+  }, []);
 
-	return (
-		<Card variant="outlined">
-			<CardContent>
+  const handleTeamNameChange = (event: any) => {
+    setTeamName(event.target.value);
+  };
 
-				<Grid container spacing={2}>
-					<Grid item xs={12}>
-						<TextField label="Title" fullWidth value={title} onChange={(e) => setTitle(e.target.value)} />
-					</Grid>
-					<Grid item xs={12}>
-						<TextField label="Description" fullWidth value={description} onChange={(e) => setDescription(e.target.value)} />
-					</Grid>
-					<Grid item xs={6}>
-						<TextField
-							label="Points"
-							fullWidth
-							value={points}
-							onChange={(e) => setPoints(e.target.value)}
-							type="number"
-						/>
-					</Grid>
-					<Grid item xs={6}>
-						<TextField
-							label="Point Description"
-							fullWidth
-							value={pointDescription}
-							onChange={(e) => setPointDescription(e.target.value)}
-						/>
-					</Grid>
-					<Grid item xs={12}>
-						<Button variant="contained" color="primary" onClick={handleSubmit}>
-							Salva
-						</Button>
-						<Button variant="outlined" color="secondary" onClick={onCancel} style={{ marginLeft: '10px' }}>
-							Annulla
-						</Button>
-					</Grid>
-				</Grid>
-			</CardContent>
-		</Card>
-	);
+  const handleLeaderGroupChange = (event: any) => {
+    setLeaderGroup(event.target.value);
+  };
+
+  const handleAdditionalGroupChange = (event: any, index: any) => {
+    const newAdditionalGroups = [...additionalGroups];
+    newAdditionalGroups[index] = event.target.value;
+    setAdditionalGroups(newAdditionalGroups);
+  };
+
+  const fetchGroups = async () => {
+    try {
+      const groupData = await API.graphql<ListGroupsQuery>({ query: listGroups }) as any;
+      const groupItems = groupData.data.listGroups.items;
+      setGroups(groupItems);
+    } catch (error) {
+      console.log('Error fetching grous:', error);
+    }
+  };
+
+  /*   const handleSubmit = () => {
+      onSave({ title, description, points: parseInt(points), pointDescription });
+      setTitle('');
+      setDescription('');
+      setPoints('');
+      setPointDescription('');
+    }; */
+
+  return (
+    <Card variant="outlined">
+      <CardContent>
+        <Grid container justifyContent="center" spacing={2}>
+          <Grid item xs={12}>
+            <TextField
+              label="Nome del team"
+              value={teamName}
+              onChange={handleTeamNameChange}
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <FormControl fullWidth>
+              <InputLabel id="leader-group-label">Gruppo Leader</InputLabel>
+              <Select
+                label="Gruppo Leader"
+                labelId="leader-group-label"
+                value={leaderGroup}
+                onChange={handleLeaderGroupChange}
+                displayEmpty
+                fullWidth
+                inputProps={{ 'aria-label': 'Seleziona gruppo leader' }}
+              >
+                {groups.map((group: any) => (
+                  <MenuItem key={group.id} value={group.id}>
+                    <Box display="flex">
+                      <Avatar
+                        sx={{ bgcolor: group.color, width: 16, height: 16, marginRight: 1 }}
+                      />
+                      <Typography>{group.name}</Typography>
+                    </Box>
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={6}>
+            {additionalGroups.map((additionalGroup, index) => (
+              <FormControl key={index} fullWidth>
+                <InputLabel id={`leader-group-label-${index}`}>Gruppo</InputLabel>
+                <Select
+                  label="Gruppo"
+                  labelId={`leader-group-label-${index}`}
+                  value={additionalGroup}
+                  onChange={(event) => handleAdditionalGroupChange(event, index)}
+                  displayEmpty
+                  fullWidth
+                  inputProps={{ 'aria-label': `Seleziona gruppo aggiuntivo ${index + 1}` }}
+                >
+                  {groups.map((group: any) => (
+                    <MenuItem key={group.id} value={group.id}>
+                      <Box display="flex">
+                        <Avatar
+                          sx={{ bgcolor: group.color, width: 16, height: 16, marginRight: 1 }}
+                        />
+                        <Typography>{group.name}</Typography>
+                      </Box>
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            ))}
+          </Grid>
+        </Grid>
+      </CardContent>
+    </Card>
+  );
 };
 
 export default NewTeamForm;

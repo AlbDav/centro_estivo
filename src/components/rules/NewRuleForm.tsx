@@ -19,7 +19,6 @@ const NewRuleForm = ({ onCancel, onSave }: any) => {
 	return (
 		<Card variant="outlined">
 			<CardContent>
-
 				<Grid container spacing={2}>
 					<Grid item xs={12}>
 						<TextField label="Title" fullWidth value={title} onChange={(e) => setTitle(e.target.value)} />
