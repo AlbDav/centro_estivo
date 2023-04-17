@@ -84,9 +84,9 @@ const NewTeamForm = ({ onCancel, onSave }: any) => {
               </Select>
             </FormControl>
           </Grid>
-          <Grid item xs={6}>
-            {additionalGroups.map((additionalGroup, index) => (
-              <FormControl key={index} fullWidth>
+          {additionalGroups.map((additionalGroup, index) => (
+            <Grid key={index} item xs={6}>
+              <FormControl fullWidth>
                 <InputLabel id={`leader-group-label-${index}`}>Gruppo</InputLabel>
                 <Select
                   label="Gruppo"
@@ -109,8 +109,8 @@ const NewTeamForm = ({ onCancel, onSave }: any) => {
                   ))}
                 </Select>
               </FormControl>
-            ))}
-          </Grid>
+            </Grid>
+          ))}
         </Grid>
       </CardContent>
     </Card>

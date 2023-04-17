@@ -37,7 +37,7 @@ const Layout = ({ children }: any) => {
 
   const drawerItems = [
     { title: 'Groups', href: '/groups' },
-    { title: 'Team Ranking', href: '/teamRanking' },
+    { title: 'Teams', href: '/teams' },
     { title: 'Rules', href: '/rules' },
     { title: 'Admin', href: '/admin' },
   ];
