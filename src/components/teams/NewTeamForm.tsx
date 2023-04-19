@@ -39,13 +39,14 @@ const NewTeamForm = ({ onCancel, onSave }: any) => {
     }
   };
 
-  /*   const handleSubmit = () => {
-      onSave({ title, description, points: parseInt(points), pointDescription });
-      setTitle('');
-      setDescription('');
-      setPoints('');
-      setPointDescription('');
-    }; */
+  const handleSubmit = () => {
+/*     onSave({ title, description, points: parseInt(points), pointDescription });
+    setTitle('');
+    setDescription('');
+    setPoints('');
+    setPointDescription(''); */
+    console.log(teamName, leaderGroup, additionalGroups);
+  };
 
   return (
     <Card variant="outlined">
@@ -111,6 +112,14 @@ const NewTeamForm = ({ onCancel, onSave }: any) => {
               </FormControl>
             </Grid>
           ))}
+          <Grid item xs={12}>
+            <Button variant="contained" color="primary" onClick={handleSubmit}>
+              Salva
+            </Button>
+            <Button variant="outlined" color="secondary" onClick={onCancel} style={{ marginLeft: '10px' }}>
+              Annulla
+            </Button>
+          </Grid>
         </Grid>
       </CardContent>
     </Card>
