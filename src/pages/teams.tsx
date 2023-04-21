@@ -19,7 +19,7 @@ const Teams = () => {
   const fetchTeams = async () => {
     try {
       const teamData = await API.graphql<ListFantaTeamsQuery>({ query: listFantaTeams }) as any;
-      const teamItems = teamData.data.listTeams.items;
+      const teamItems = teamData.data.listFantaTeams.items;
       setTeams(teamItems);
     } catch (error) {
       console.log('Error fetching teams:', error);

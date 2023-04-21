@@ -86,7 +86,7 @@ const NewTeamForm = ({ onCancel, onSave }: any) => {
           {additionalGroups.map((additionalGroup, index) => (
             <Grid key={index} item xs={12} md={6}>
               <FormControl fullWidth>
-                <InputLabel id={`leader-group-label-${index}`}>{`Gruppo ${index+2}`}</InputLabel>
+                <InputLabel id={`leader-group-label-${index}`}>Gruppo {index+2}</InputLabel>
                 <Select
                   label={`Gruppo ${index+2}`}
                   labelId={`leader-group-label-${index}`}

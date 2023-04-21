@@ -17,12 +17,25 @@ export const getGroup = /* GraphQL */ `
             id
             name
             color
+            teams {
+              nextToken
+            }
             createdAt
             updatedAt
           }
           fantaTeam {
             id
             name
+            groups {
+              nextToken
+            }
+            leaderGroup {
+              id
+              name
+              color
+              createdAt
+              updatedAt
+            }
             createdAt
             updatedAt
             fantaTeamLeaderGroupId
@@ -53,6 +66,20 @@ export const listGroups = /* GraphQL */ `
             id
             groupId
             fantaTeamId
+            group {
+              id
+              name
+              color
+              createdAt
+              updatedAt
+            }
+            fantaTeam {
+              id
+              name
+              createdAt
+              updatedAt
+              fantaTeamLeaderGroupId
+            }
             createdAt
             updatedAt
           }
@@ -79,12 +106,25 @@ export const getFantaTeam = /* GraphQL */ `
             id
             name
             color
+            teams {
+              nextToken
+            }
             createdAt
             updatedAt
           }
           fantaTeam {
             id
             name
+            groups {
+              nextToken
+            }
+            leaderGroup {
+              id
+              name
+              color
+              createdAt
+              updatedAt
+            }
             createdAt
             updatedAt
             fantaTeamLeaderGroupId
@@ -103,6 +143,20 @@ export const getFantaTeam = /* GraphQL */ `
             id
             groupId
             fantaTeamId
+            group {
+              id
+              name
+              color
+              createdAt
+              updatedAt
+            }
+            fantaTeam {
+              id
+              name
+              createdAt
+              updatedAt
+              fantaTeamLeaderGroupId
+            }
             createdAt
             updatedAt
           }
@@ -132,6 +186,20 @@ export const listFantaTeams = /* GraphQL */ `
             id
             groupId
             fantaTeamId
+            group {
+              id
+              name
+              color
+              createdAt
+              updatedAt
+            }
+            fantaTeam {
+              id
+              name
+              createdAt
+              updatedAt
+              fantaTeamLeaderGroupId
+            }
             createdAt
             updatedAt
           }
@@ -142,6 +210,13 @@ export const listFantaTeams = /* GraphQL */ `
           name
           color
           teams {
+            items {
+              id
+              groupId
+              fantaTeamId
+              createdAt
+              updatedAt
+            }
             nextToken
           }
           createdAt
@@ -210,6 +285,20 @@ export const getFantaScoreEntry = /* GraphQL */ `
             id
             groupId
             fantaTeamId
+            group {
+              id
+              name
+              color
+              createdAt
+              updatedAt
+            }
+            fantaTeam {
+              id
+              name
+              createdAt
+              updatedAt
+              fantaTeamLeaderGroupId
+            }
             createdAt
             updatedAt
           }
@@ -253,6 +342,13 @@ export const listFantaScoreEntries = /* GraphQL */ `
           name
           color
           teams {
+            items {
+              id
+              groupId
+              fantaTeamId
+              createdAt
+              updatedAt
+            }
             nextToken
           }
           createdAt
@@ -283,6 +379,20 @@ export const getFantaTeamGroups = /* GraphQL */ `
             id
             groupId
             fantaTeamId
+            group {
+              id
+              name
+              color
+              createdAt
+              updatedAt
+            }
+            fantaTeam {
+              id
+              name
+              createdAt
+              updatedAt
+              fantaTeamLeaderGroupId
+            }
             createdAt
             updatedAt
           }
@@ -299,6 +409,20 @@ export const getFantaTeamGroups = /* GraphQL */ `
             id
             groupId
             fantaTeamId
+            group {
+              id
+              name
+              color
+              createdAt
+              updatedAt
+            }
+            fantaTeam {
+              id
+              name
+              createdAt
+              updatedAt
+              fantaTeamLeaderGroupId
+            }
             createdAt
             updatedAt
           }
@@ -309,6 +433,13 @@ export const getFantaTeamGroups = /* GraphQL */ `
           name
           color
           teams {
+            items {
+              id
+              groupId
+              fantaTeamId
+              createdAt
+              updatedAt
+            }
             nextToken
           }
           createdAt
@@ -339,6 +470,13 @@ export const listFantaTeamGroups = /* GraphQL */ `
           name
           color
           teams {
+            items {
+              id
+              groupId
+              fantaTeamId
+              createdAt
+              updatedAt
+            }
             nextToken
           }
           createdAt
@@ -348,12 +486,22 @@ export const listFantaTeamGroups = /* GraphQL */ `
           id
           name
           groups {
+            items {
+              id
+              groupId
+              fantaTeamId
+              createdAt
+              updatedAt
+            }
             nextToken
           }
           leaderGroup {
             id
             name
             color
+            teams {
+              nextToken
+            }
             createdAt
             updatedAt
           }
@@ -392,6 +540,13 @@ export const fantaTeamGroupsByGroupId = /* GraphQL */ `
           name
           color
           teams {
+            items {
+              id
+              groupId
+              fantaTeamId
+              createdAt
+              updatedAt
+            }
             nextToken
           }
           createdAt
@@ -401,12 +556,22 @@ export const fantaTeamGroupsByGroupId = /* GraphQL */ `
           id
           name
           groups {
+            items {
+              id
+              groupId
+              fantaTeamId
+              createdAt
+              updatedAt
+            }
             nextToken
           }
           leaderGroup {
             id
             name
             color
+            teams {
+              nextToken
+            }
             createdAt
             updatedAt
           }
@@ -445,6 +610,13 @@ export const fantaTeamGroupsByFantaTeamId = /* GraphQL */ `
           name
           color
           teams {
+            items {
+              id
+              groupId
+              fantaTeamId
+              createdAt
+              updatedAt
+            }
             nextToken
           }
           createdAt
@@ -454,12 +626,22 @@ export const fantaTeamGroupsByFantaTeamId = /* GraphQL */ `
           id
           name
           groups {
+            items {
+              id
+              groupId
+              fantaTeamId
+              createdAt
+              updatedAt
+            }
             nextToken
           }
           leaderGroup {
             id
             name
             color
+            teams {
+              nextToken
+            }
             createdAt
             updatedAt
           }
