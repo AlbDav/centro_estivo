@@ -40,12 +40,10 @@ const NewTeamForm = ({ onCancel, onSave }: any) => {
   };
 
   const handleSubmit = () => {
-/*     onSave({ title, description, points: parseInt(points), pointDescription });
-    setTitle('');
-    setDescription('');
-    setPoints('');
-    setPointDescription(''); */
-    console.log(teamName, leaderGroup, additionalGroups);
+    onSave({ name: teamName, leaderGroup, additionalGroups });
+    setTeamName('');
+    setLeaderGroup('');
+    setAdditionalGroups(['', '']);
   };
 
   return (
@@ -86,11 +84,11 @@ const NewTeamForm = ({ onCancel, onSave }: any) => {
             </FormControl>
           </Grid>
           {additionalGroups.map((additionalGroup, index) => (
-            <Grid key={index} item xs={6}>
+            <Grid key={index} item xs={12} md={6}>
               <FormControl fullWidth>
-                <InputLabel id={`leader-group-label-${index}`}>Gruppo</InputLabel>
+                <InputLabel id={`leader-group-label-${index}`}>{`Gruppo ${index+2}`}</InputLabel>
                 <Select
-                  label="Gruppo"
+                  label={`Gruppo ${index+2}`}
                   labelId={`leader-group-label-${index}`}
                   value={additionalGroup}
                   onChange={(event) => handleAdditionalGroupChange(event, index)}

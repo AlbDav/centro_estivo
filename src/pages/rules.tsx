@@ -1,12 +1,12 @@
 // pages/rules.js
 import React, { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
-import { listRules } from '../graphql/queries';
-import { createRule } from '../graphql/mutations';
+import { listFantaRules } from '../graphql/queries';
+import { createFantaRule } from '../graphql/mutations';
 import { Box, Button, Container, Grid } from '@mui/material';
 import NewRuleForm from '../components/rules/NewRuleForm';
 import RuleCard from '@/components/rules/RuleCard';
-import { ListRulesQuery } from '@/API';
+import { ListFantaRulesQuery } from '@/API';
 
 const Rules = () => {
   const [rules, setRules] = useState([]);
@@ -18,7 +18,7 @@ const Rules = () => {
 
   const fetchRules = async () => {
     try {
-      const ruleData = await API.graphql<ListRulesQuery>({ query: listRules }) as any;
+      const ruleData = await API.graphql<ListFantaRulesQuery>({ query: listFantaRules }) as any;
       const ruleItems = ruleData.data.listRules.items;
       setRules(ruleItems);
     } catch (error) {
@@ -28,7 +28,7 @@ const Rules = () => {
 
   const addRule = async (rule: any) => {
     try {
-      await API.graphql({ query: createRule, variables: { input: rule } }) as any;
+      await API.graphql({ query: createFantaRule, variables: { input: rule } }) as any;
       fetchRules();
       setShowForm(false);
     } catch (error) {

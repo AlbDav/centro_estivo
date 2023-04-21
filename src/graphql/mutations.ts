@@ -2,210 +2,6 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const createTeam = /* GraphQL */ `
-  mutation CreateTeam(
-    $input: CreateTeamInput!
-    $condition: ModelTeamConditionInput
-  ) {
-    createTeam(input: $input, condition: $condition) {
-      id
-      name
-      groups {
-        items {
-          id
-          groupId
-          teamId
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      leaderGroup {
-        id
-        name
-        color
-        teams {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      createdAt
-      updatedAt
-      teamLeaderGroupId
-    }
-  }
-`;
-export const updateTeam = /* GraphQL */ `
-  mutation UpdateTeam(
-    $input: UpdateTeamInput!
-    $condition: ModelTeamConditionInput
-  ) {
-    updateTeam(input: $input, condition: $condition) {
-      id
-      name
-      groups {
-        items {
-          id
-          groupId
-          teamId
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      leaderGroup {
-        id
-        name
-        color
-        teams {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      createdAt
-      updatedAt
-      teamLeaderGroupId
-    }
-  }
-`;
-export const deleteTeam = /* GraphQL */ `
-  mutation DeleteTeam(
-    $input: DeleteTeamInput!
-    $condition: ModelTeamConditionInput
-  ) {
-    deleteTeam(input: $input, condition: $condition) {
-      id
-      name
-      groups {
-        items {
-          id
-          groupId
-          teamId
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      leaderGroup {
-        id
-        name
-        color
-        teams {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      createdAt
-      updatedAt
-      teamLeaderGroupId
-    }
-  }
-`;
-export const createScoreEntry = /* GraphQL */ `
-  mutation CreateScoreEntry(
-    $input: CreateScoreEntryInput!
-    $condition: ModelScoreEntryConditionInput
-  ) {
-    createScoreEntry(input: $input, condition: $condition) {
-      id
-      rule {
-        id
-        title
-        description
-        points
-        pointDescription
-        createdAt
-        updatedAt
-      }
-      group {
-        id
-        name
-        color
-        teams {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      date
-      createdAt
-      updatedAt
-      scoreEntryRuleId
-      scoreEntryGroupId
-    }
-  }
-`;
-export const updateScoreEntry = /* GraphQL */ `
-  mutation UpdateScoreEntry(
-    $input: UpdateScoreEntryInput!
-    $condition: ModelScoreEntryConditionInput
-  ) {
-    updateScoreEntry(input: $input, condition: $condition) {
-      id
-      rule {
-        id
-        title
-        description
-        points
-        pointDescription
-        createdAt
-        updatedAt
-      }
-      group {
-        id
-        name
-        color
-        teams {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      date
-      createdAt
-      updatedAt
-      scoreEntryRuleId
-      scoreEntryGroupId
-    }
-  }
-`;
-export const deleteScoreEntry = /* GraphQL */ `
-  mutation DeleteScoreEntry(
-    $input: DeleteScoreEntryInput!
-    $condition: ModelScoreEntryConditionInput
-  ) {
-    deleteScoreEntry(input: $input, condition: $condition) {
-      id
-      rule {
-        id
-        title
-        description
-        points
-        pointDescription
-        createdAt
-        updatedAt
-      }
-      group {
-        id
-        name
-        color
-        teams {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      date
-      createdAt
-      updatedAt
-      scoreEntryRuleId
-      scoreEntryGroupId
-    }
-  }
-`;
 export const createGroup = /* GraphQL */ `
   mutation CreateGroup(
     $input: CreateGroupInput!
@@ -219,7 +15,7 @@ export const createGroup = /* GraphQL */ `
         items {
           id
           groupId
-          teamId
+          fantaTeamId
           createdAt
           updatedAt
         }
@@ -243,7 +39,7 @@ export const updateGroup = /* GraphQL */ `
         items {
           id
           groupId
-          teamId
+          fantaTeamId
           createdAt
           updatedAt
         }
@@ -267,7 +63,7 @@ export const deleteGroup = /* GraphQL */ `
         items {
           id
           groupId
-          teamId
+          fantaTeamId
           createdAt
           updatedAt
         }
@@ -278,12 +74,114 @@ export const deleteGroup = /* GraphQL */ `
     }
   }
 `;
-export const createRule = /* GraphQL */ `
-  mutation CreateRule(
-    $input: CreateRuleInput!
-    $condition: ModelRuleConditionInput
+export const createFantaTeam = /* GraphQL */ `
+  mutation CreateFantaTeam(
+    $input: CreateFantaTeamInput!
+    $condition: ModelFantaTeamConditionInput
   ) {
-    createRule(input: $input, condition: $condition) {
+    createFantaTeam(input: $input, condition: $condition) {
+      id
+      name
+      groups {
+        items {
+          id
+          groupId
+          fantaTeamId
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      leaderGroup {
+        id
+        name
+        color
+        teams {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+      fantaTeamLeaderGroupId
+    }
+  }
+`;
+export const updateFantaTeam = /* GraphQL */ `
+  mutation UpdateFantaTeam(
+    $input: UpdateFantaTeamInput!
+    $condition: ModelFantaTeamConditionInput
+  ) {
+    updateFantaTeam(input: $input, condition: $condition) {
+      id
+      name
+      groups {
+        items {
+          id
+          groupId
+          fantaTeamId
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      leaderGroup {
+        id
+        name
+        color
+        teams {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+      fantaTeamLeaderGroupId
+    }
+  }
+`;
+export const deleteFantaTeam = /* GraphQL */ `
+  mutation DeleteFantaTeam(
+    $input: DeleteFantaTeamInput!
+    $condition: ModelFantaTeamConditionInput
+  ) {
+    deleteFantaTeam(input: $input, condition: $condition) {
+      id
+      name
+      groups {
+        items {
+          id
+          groupId
+          fantaTeamId
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      leaderGroup {
+        id
+        name
+        color
+        teams {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+      fantaTeamLeaderGroupId
+    }
+  }
+`;
+export const createFantaRule = /* GraphQL */ `
+  mutation CreateFantaRule(
+    $input: CreateFantaRuleInput!
+    $condition: ModelFantaRuleConditionInput
+  ) {
+    createFantaRule(input: $input, condition: $condition) {
       id
       title
       description
@@ -294,12 +192,12 @@ export const createRule = /* GraphQL */ `
     }
   }
 `;
-export const updateRule = /* GraphQL */ `
-  mutation UpdateRule(
-    $input: UpdateRuleInput!
-    $condition: ModelRuleConditionInput
+export const updateFantaRule = /* GraphQL */ `
+  mutation UpdateFantaRule(
+    $input: UpdateFantaRuleInput!
+    $condition: ModelFantaRuleConditionInput
   ) {
-    updateRule(input: $input, condition: $condition) {
+    updateFantaRule(input: $input, condition: $condition) {
       id
       title
       description
@@ -310,12 +208,12 @@ export const updateRule = /* GraphQL */ `
     }
   }
 `;
-export const deleteRule = /* GraphQL */ `
-  mutation DeleteRule(
-    $input: DeleteRuleInput!
-    $condition: ModelRuleConditionInput
+export const deleteFantaRule = /* GraphQL */ `
+  mutation DeleteFantaRule(
+    $input: DeleteFantaRuleInput!
+    $condition: ModelFantaRuleConditionInput
   ) {
-    deleteRule(input: $input, condition: $condition) {
+    deleteFantaRule(input: $input, condition: $condition) {
       id
       title
       description
@@ -326,15 +224,22 @@ export const deleteRule = /* GraphQL */ `
     }
   }
 `;
-export const createTeamGroups = /* GraphQL */ `
-  mutation CreateTeamGroups(
-    $input: CreateTeamGroupsInput!
-    $condition: ModelTeamGroupsConditionInput
+export const createFantaScoreEntry = /* GraphQL */ `
+  mutation CreateFantaScoreEntry(
+    $input: CreateFantaScoreEntryInput!
+    $condition: ModelFantaScoreEntryConditionInput
   ) {
-    createTeamGroups(input: $input, condition: $condition) {
+    createFantaScoreEntry(input: $input, condition: $condition) {
       id
-      groupId
-      teamId
+      rule {
+        id
+        title
+        description
+        points
+        pointDescription
+        createdAt
+        updatedAt
+      }
       group {
         id
         name
@@ -345,7 +250,102 @@ export const createTeamGroups = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      team {
+      date
+      createdAt
+      updatedAt
+      fantaScoreEntryRuleId
+      fantaScoreEntryGroupId
+    }
+  }
+`;
+export const updateFantaScoreEntry = /* GraphQL */ `
+  mutation UpdateFantaScoreEntry(
+    $input: UpdateFantaScoreEntryInput!
+    $condition: ModelFantaScoreEntryConditionInput
+  ) {
+    updateFantaScoreEntry(input: $input, condition: $condition) {
+      id
+      rule {
+        id
+        title
+        description
+        points
+        pointDescription
+        createdAt
+        updatedAt
+      }
+      group {
+        id
+        name
+        color
+        teams {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      date
+      createdAt
+      updatedAt
+      fantaScoreEntryRuleId
+      fantaScoreEntryGroupId
+    }
+  }
+`;
+export const deleteFantaScoreEntry = /* GraphQL */ `
+  mutation DeleteFantaScoreEntry(
+    $input: DeleteFantaScoreEntryInput!
+    $condition: ModelFantaScoreEntryConditionInput
+  ) {
+    deleteFantaScoreEntry(input: $input, condition: $condition) {
+      id
+      rule {
+        id
+        title
+        description
+        points
+        pointDescription
+        createdAt
+        updatedAt
+      }
+      group {
+        id
+        name
+        color
+        teams {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      date
+      createdAt
+      updatedAt
+      fantaScoreEntryRuleId
+      fantaScoreEntryGroupId
+    }
+  }
+`;
+export const createFantaTeamGroups = /* GraphQL */ `
+  mutation CreateFantaTeamGroups(
+    $input: CreateFantaTeamGroupsInput!
+    $condition: ModelFantaTeamGroupsConditionInput
+  ) {
+    createFantaTeamGroups(input: $input, condition: $condition) {
+      id
+      groupId
+      fantaTeamId
+      group {
+        id
+        name
+        color
+        teams {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      fantaTeam {
         id
         name
         groups {
@@ -360,22 +360,22 @@ export const createTeamGroups = /* GraphQL */ `
         }
         createdAt
         updatedAt
-        teamLeaderGroupId
+        fantaTeamLeaderGroupId
       }
       createdAt
       updatedAt
     }
   }
 `;
-export const updateTeamGroups = /* GraphQL */ `
-  mutation UpdateTeamGroups(
-    $input: UpdateTeamGroupsInput!
-    $condition: ModelTeamGroupsConditionInput
+export const updateFantaTeamGroups = /* GraphQL */ `
+  mutation UpdateFantaTeamGroups(
+    $input: UpdateFantaTeamGroupsInput!
+    $condition: ModelFantaTeamGroupsConditionInput
   ) {
-    updateTeamGroups(input: $input, condition: $condition) {
+    updateFantaTeamGroups(input: $input, condition: $condition) {
       id
       groupId
-      teamId
+      fantaTeamId
       group {
         id
         name
@@ -386,7 +386,7 @@ export const updateTeamGroups = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      team {
+      fantaTeam {
         id
         name
         groups {
@@ -401,22 +401,22 @@ export const updateTeamGroups = /* GraphQL */ `
         }
         createdAt
         updatedAt
-        teamLeaderGroupId
+        fantaTeamLeaderGroupId
       }
       createdAt
       updatedAt
     }
   }
 `;
-export const deleteTeamGroups = /* GraphQL */ `
-  mutation DeleteTeamGroups(
-    $input: DeleteTeamGroupsInput!
-    $condition: ModelTeamGroupsConditionInput
+export const deleteFantaTeamGroups = /* GraphQL */ `
+  mutation DeleteFantaTeamGroups(
+    $input: DeleteFantaTeamGroupsInput!
+    $condition: ModelFantaTeamGroupsConditionInput
   ) {
-    deleteTeamGroups(input: $input, condition: $condition) {
+    deleteFantaTeamGroups(input: $input, condition: $condition) {
       id
       groupId
-      teamId
+      fantaTeamId
       group {
         id
         name
@@ -427,7 +427,7 @@ export const deleteTeamGroups = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      team {
+      fantaTeam {
         id
         name
         groups {
@@ -442,7 +442,7 @@ export const deleteTeamGroups = /* GraphQL */ `
         }
         createdAt
         updatedAt
-        teamLeaderGroupId
+        fantaTeamLeaderGroupId
       }
       createdAt
       updatedAt

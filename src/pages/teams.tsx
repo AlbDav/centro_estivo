@@ -1,10 +1,10 @@
 // pages/teams.js
 import React, { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
-import { listTeams } from '../graphql/queries';
-import { createTeam } from '../graphql/mutations';
+import { listFantaTeams } from '../graphql/queries';
+import { createFantaTeam, createFantaTeamGroups } from '../graphql/mutations';
 import { Box, Button, Container, Grid } from '@mui/material';
-import { ListTeamsQuery } from '@/API';
+import { ListFantaTeamsQuery } from '@/API';
 import NewTeamForm from '@/components/teams/NewTeamForm';
 import TeamCard from '@/components/teams/TeamCard';
 
@@ -18,7 +18,7 @@ const Teams = () => {
 
   const fetchTeams = async () => {
     try {
-      const teamData = await API.graphql<ListTeamsQuery>({ query: listTeams }) as any;
+      const teamData = await API.graphql<ListFantaTeamsQuery>({ query: listFantaTeams }) as any;
       const teamItems = teamData.data.listTeams.items;
       setTeams(teamItems);
     } catch (error) {
@@ -28,11 +28,24 @@ const Teams = () => {
 
   const addTeam = async (team: any) => {
     try {
-      await API.graphql({ query: createTeam, variables: { input: team } }) as any;
-      fetchTeams();
-      setShowForm(false);
+      // Creare un nuovo team utilizzando la mutation GraphQL
+      const teamResponse = await API.graphql({query: createFantaTeam, variables: { input: { name: team.name, fantaTeamLeaderGroupId: team.leaderGroup }}}) as any;
+
+      // Ottenere l'ID del team creato
+      const teamId = teamResponse.data.createTeam.id;
+
+      // Creare le voci TeamGroup per ogni additionalGroup
+      const additionalGroupPromises = team.additionalGroupIds.map(async (groupId: any) => {
+        return API.graphql({ query: createFantaTeamGroups, variables: { input: { teamId, groupId }}});
+      });
+
+      // Attendere il completamento di tutte le chiamate API per creare le voci TeamGroup
+      await Promise.all(additionalGroupPromises);
+
+      // Fare qualcosa con la risposta, ad esempio aggiornare lo stato dell'applicazione o navigare verso un'altra pagina
+      console.log('Team and TeamGroups created successfully');
     } catch (error) {
-      console.log('Error adding team:', error);
+      console.error('Error creating team and TeamGroups:', error);
     }
   };
 

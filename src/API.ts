@@ -2,18 +2,18 @@
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
 
-export type CreateTeamInput = {
+export type CreateGroupInput = {
   id?: string | null,
   name: string,
-  teamLeaderGroupId?: string | null,
+  color: string,
 };
 
-export type ModelTeamConditionInput = {
+export type ModelGroupConditionInput = {
   name?: ModelStringInput | null,
-  and?: Array< ModelTeamConditionInput | null > | null,
-  or?: Array< ModelTeamConditionInput | null > | null,
-  not?: ModelTeamConditionInput | null,
-  teamLeaderGroupId?: ModelIDInput | null,
+  color?: ModelStringInput | null,
+  and?: Array< ModelGroupConditionInput | null > | null,
+  or?: Array< ModelGroupConditionInput | null > | null,
+  not?: ModelGroupConditionInput | null,
 };
 
 export type ModelStringInput = {
@@ -56,6 +56,68 @@ export type ModelSizeInput = {
   between?: Array< number | null > | null,
 };
 
+export type Group = {
+  __typename: "Group",
+  id: string,
+  name: string,
+  color: string,
+  teams?: ModelFantaTeamGroupsConnection | null,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type ModelFantaTeamGroupsConnection = {
+  __typename: "ModelFantaTeamGroupsConnection",
+  items:  Array<FantaTeamGroups | null >,
+  nextToken?: string | null,
+};
+
+export type FantaTeamGroups = {
+  __typename: "FantaTeamGroups",
+  id: string,
+  groupId: string,
+  fantaTeamId: string,
+  group: Group,
+  fantaTeam: FantaTeam,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type FantaTeam = {
+  __typename: "FantaTeam",
+  id: string,
+  name: string,
+  groups?: ModelFantaTeamGroupsConnection | null,
+  leaderGroup?: Group | null,
+  createdAt: string,
+  updatedAt: string,
+  fantaTeamLeaderGroupId?: string | null,
+};
+
+export type UpdateGroupInput = {
+  id: string,
+  name?: string | null,
+  color?: string | null,
+};
+
+export type DeleteGroupInput = {
+  id: string,
+};
+
+export type CreateFantaTeamInput = {
+  id?: string | null,
+  name: string,
+  fantaTeamLeaderGroupId?: string | null,
+};
+
+export type ModelFantaTeamConditionInput = {
+  name?: ModelStringInput | null,
+  and?: Array< ModelFantaTeamConditionInput | null > | null,
+  or?: Array< ModelFantaTeamConditionInput | null > | null,
+  not?: ModelFantaTeamConditionInput | null,
+  fantaTeamLeaderGroupId?: ModelIDInput | null,
+};
+
 export type ModelIDInput = {
   ne?: string | null,
   eq?: string | null,
@@ -72,129 +134,17 @@ export type ModelIDInput = {
   size?: ModelSizeInput | null,
 };
 
-export type Team = {
-  __typename: "Team",
-  id: string,
-  name: string,
-  groups?: ModelTeamGroupsConnection | null,
-  leaderGroup?: Group | null,
-  createdAt: string,
-  updatedAt: string,
-  teamLeaderGroupId?: string | null,
-};
-
-export type ModelTeamGroupsConnection = {
-  __typename: "ModelTeamGroupsConnection",
-  items:  Array<TeamGroups | null >,
-  nextToken?: string | null,
-};
-
-export type TeamGroups = {
-  __typename: "TeamGroups",
-  id: string,
-  groupId: string,
-  teamId: string,
-  group: Group,
-  team: Team,
-  createdAt: string,
-  updatedAt: string,
-};
-
-export type Group = {
-  __typename: "Group",
-  id: string,
-  name: string,
-  color: string,
-  teams?: ModelTeamGroupsConnection | null,
-  createdAt: string,
-  updatedAt: string,
-};
-
-export type UpdateTeamInput = {
+export type UpdateFantaTeamInput = {
   id: string,
   name?: string | null,
-  teamLeaderGroupId?: string | null,
+  fantaTeamLeaderGroupId?: string | null,
 };
 
-export type DeleteTeamInput = {
+export type DeleteFantaTeamInput = {
   id: string,
 };
 
-export type CreateScoreEntryInput = {
-  id?: string | null,
-  date: string,
-  scoreEntryRuleId: string,
-  scoreEntryGroupId: string,
-};
-
-export type ModelScoreEntryConditionInput = {
-  date?: ModelStringInput | null,
-  and?: Array< ModelScoreEntryConditionInput | null > | null,
-  or?: Array< ModelScoreEntryConditionInput | null > | null,
-  not?: ModelScoreEntryConditionInput | null,
-  scoreEntryRuleId?: ModelIDInput | null,
-  scoreEntryGroupId?: ModelIDInput | null,
-};
-
-export type ScoreEntry = {
-  __typename: "ScoreEntry",
-  id: string,
-  rule: Rule,
-  group: Group,
-  date: string,
-  createdAt: string,
-  updatedAt: string,
-  scoreEntryRuleId: string,
-  scoreEntryGroupId: string,
-};
-
-export type Rule = {
-  __typename: "Rule",
-  id: string,
-  title: string,
-  description: string,
-  points: number,
-  pointDescription: string,
-  createdAt: string,
-  updatedAt: string,
-};
-
-export type UpdateScoreEntryInput = {
-  id: string,
-  date?: string | null,
-  scoreEntryRuleId?: string | null,
-  scoreEntryGroupId?: string | null,
-};
-
-export type DeleteScoreEntryInput = {
-  id: string,
-};
-
-export type CreateGroupInput = {
-  id?: string | null,
-  name: string,
-  color: string,
-};
-
-export type ModelGroupConditionInput = {
-  name?: ModelStringInput | null,
-  color?: ModelStringInput | null,
-  and?: Array< ModelGroupConditionInput | null > | null,
-  or?: Array< ModelGroupConditionInput | null > | null,
-  not?: ModelGroupConditionInput | null,
-};
-
-export type UpdateGroupInput = {
-  id: string,
-  name?: string | null,
-  color?: string | null,
-};
-
-export type DeleteGroupInput = {
-  id: string,
-};
-
-export type CreateRuleInput = {
+export type CreateFantaRuleInput = {
   id?: string | null,
   title: string,
   description: string,
@@ -202,14 +152,14 @@ export type CreateRuleInput = {
   pointDescription: string,
 };
 
-export type ModelRuleConditionInput = {
+export type ModelFantaRuleConditionInput = {
   title?: ModelStringInput | null,
   description?: ModelStringInput | null,
   points?: ModelIntInput | null,
   pointDescription?: ModelStringInput | null,
-  and?: Array< ModelRuleConditionInput | null > | null,
-  or?: Array< ModelRuleConditionInput | null > | null,
-  not?: ModelRuleConditionInput | null,
+  and?: Array< ModelFantaRuleConditionInput | null > | null,
+  or?: Array< ModelFantaRuleConditionInput | null > | null,
+  not?: ModelFantaRuleConditionInput | null,
 };
 
 export type ModelIntInput = {
@@ -224,7 +174,18 @@ export type ModelIntInput = {
   attributeType?: ModelAttributeTypes | null,
 };
 
-export type UpdateRuleInput = {
+export type FantaRule = {
+  __typename: "FantaRule",
+  id: string,
+  title: string,
+  description: string,
+  points: number,
+  pointDescription: string,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type UpdateFantaRuleInput = {
   id: string,
   title?: string | null,
   description?: string | null,
@@ -232,63 +193,71 @@ export type UpdateRuleInput = {
   pointDescription?: string | null,
 };
 
-export type DeleteRuleInput = {
+export type DeleteFantaRuleInput = {
   id: string,
 };
 
-export type CreateTeamGroupsInput = {
+export type CreateFantaScoreEntryInput = {
+  id?: string | null,
+  date: string,
+  fantaScoreEntryRuleId: string,
+  fantaScoreEntryGroupId: string,
+};
+
+export type ModelFantaScoreEntryConditionInput = {
+  date?: ModelStringInput | null,
+  and?: Array< ModelFantaScoreEntryConditionInput | null > | null,
+  or?: Array< ModelFantaScoreEntryConditionInput | null > | null,
+  not?: ModelFantaScoreEntryConditionInput | null,
+  fantaScoreEntryRuleId?: ModelIDInput | null,
+  fantaScoreEntryGroupId?: ModelIDInput | null,
+};
+
+export type FantaScoreEntry = {
+  __typename: "FantaScoreEntry",
+  id: string,
+  rule: FantaRule,
+  group: Group,
+  date: string,
+  createdAt: string,
+  updatedAt: string,
+  fantaScoreEntryRuleId: string,
+  fantaScoreEntryGroupId: string,
+};
+
+export type UpdateFantaScoreEntryInput = {
+  id: string,
+  date?: string | null,
+  fantaScoreEntryRuleId?: string | null,
+  fantaScoreEntryGroupId?: string | null,
+};
+
+export type DeleteFantaScoreEntryInput = {
+  id: string,
+};
+
+export type CreateFantaTeamGroupsInput = {
   id?: string | null,
   groupId: string,
-  teamId: string,
+  fantaTeamId: string,
 };
 
-export type ModelTeamGroupsConditionInput = {
+export type ModelFantaTeamGroupsConditionInput = {
   groupId?: ModelIDInput | null,
-  teamId?: ModelIDInput | null,
-  and?: Array< ModelTeamGroupsConditionInput | null > | null,
-  or?: Array< ModelTeamGroupsConditionInput | null > | null,
-  not?: ModelTeamGroupsConditionInput | null,
+  fantaTeamId?: ModelIDInput | null,
+  and?: Array< ModelFantaTeamGroupsConditionInput | null > | null,
+  or?: Array< ModelFantaTeamGroupsConditionInput | null > | null,
+  not?: ModelFantaTeamGroupsConditionInput | null,
 };
 
-export type UpdateTeamGroupsInput = {
+export type UpdateFantaTeamGroupsInput = {
   id: string,
   groupId?: string | null,
-  teamId?: string | null,
+  fantaTeamId?: string | null,
 };
 
-export type DeleteTeamGroupsInput = {
+export type DeleteFantaTeamGroupsInput = {
   id: string,
-};
-
-export type ModelTeamFilterInput = {
-  id?: ModelIDInput | null,
-  name?: ModelStringInput | null,
-  and?: Array< ModelTeamFilterInput | null > | null,
-  or?: Array< ModelTeamFilterInput | null > | null,
-  not?: ModelTeamFilterInput | null,
-  teamLeaderGroupId?: ModelIDInput | null,
-};
-
-export type ModelTeamConnection = {
-  __typename: "ModelTeamConnection",
-  items:  Array<Team | null >,
-  nextToken?: string | null,
-};
-
-export type ModelScoreEntryFilterInput = {
-  id?: ModelIDInput | null,
-  date?: ModelStringInput | null,
-  and?: Array< ModelScoreEntryFilterInput | null > | null,
-  or?: Array< ModelScoreEntryFilterInput | null > | null,
-  not?: ModelScoreEntryFilterInput | null,
-  scoreEntryRuleId?: ModelIDInput | null,
-  scoreEntryGroupId?: ModelIDInput | null,
-};
-
-export type ModelScoreEntryConnection = {
-  __typename: "ModelScoreEntryConnection",
-  items:  Array<ScoreEntry | null >,
-  nextToken?: string | null,
 };
 
 export type ModelGroupFilterInput = {
@@ -306,30 +275,61 @@ export type ModelGroupConnection = {
   nextToken?: string | null,
 };
 
-export type ModelRuleFilterInput = {
+export type ModelFantaTeamFilterInput = {
+  id?: ModelIDInput | null,
+  name?: ModelStringInput | null,
+  and?: Array< ModelFantaTeamFilterInput | null > | null,
+  or?: Array< ModelFantaTeamFilterInput | null > | null,
+  not?: ModelFantaTeamFilterInput | null,
+  fantaTeamLeaderGroupId?: ModelIDInput | null,
+};
+
+export type ModelFantaTeamConnection = {
+  __typename: "ModelFantaTeamConnection",
+  items:  Array<FantaTeam | null >,
+  nextToken?: string | null,
+};
+
+export type ModelFantaRuleFilterInput = {
   id?: ModelIDInput | null,
   title?: ModelStringInput | null,
   description?: ModelStringInput | null,
   points?: ModelIntInput | null,
   pointDescription?: ModelStringInput | null,
-  and?: Array< ModelRuleFilterInput | null > | null,
-  or?: Array< ModelRuleFilterInput | null > | null,
-  not?: ModelRuleFilterInput | null,
+  and?: Array< ModelFantaRuleFilterInput | null > | null,
+  or?: Array< ModelFantaRuleFilterInput | null > | null,
+  not?: ModelFantaRuleFilterInput | null,
 };
 
-export type ModelRuleConnection = {
-  __typename: "ModelRuleConnection",
-  items:  Array<Rule | null >,
+export type ModelFantaRuleConnection = {
+  __typename: "ModelFantaRuleConnection",
+  items:  Array<FantaRule | null >,
   nextToken?: string | null,
 };
 
-export type ModelTeamGroupsFilterInput = {
+export type ModelFantaScoreEntryFilterInput = {
+  id?: ModelIDInput | null,
+  date?: ModelStringInput | null,
+  and?: Array< ModelFantaScoreEntryFilterInput | null > | null,
+  or?: Array< ModelFantaScoreEntryFilterInput | null > | null,
+  not?: ModelFantaScoreEntryFilterInput | null,
+  fantaScoreEntryRuleId?: ModelIDInput | null,
+  fantaScoreEntryGroupId?: ModelIDInput | null,
+};
+
+export type ModelFantaScoreEntryConnection = {
+  __typename: "ModelFantaScoreEntryConnection",
+  items:  Array<FantaScoreEntry | null >,
+  nextToken?: string | null,
+};
+
+export type ModelFantaTeamGroupsFilterInput = {
   id?: ModelIDInput | null,
   groupId?: ModelIDInput | null,
-  teamId?: ModelIDInput | null,
-  and?: Array< ModelTeamGroupsFilterInput | null > | null,
-  or?: Array< ModelTeamGroupsFilterInput | null > | null,
-  not?: ModelTeamGroupsFilterInput | null,
+  fantaTeamId?: ModelIDInput | null,
+  and?: Array< ModelFantaTeamGroupsFilterInput | null > | null,
+  or?: Array< ModelFantaTeamGroupsFilterInput | null > | null,
+  not?: ModelFantaTeamGroupsFilterInput | null,
 };
 
 export enum ModelSortDirection {
@@ -338,11 +338,12 @@ export enum ModelSortDirection {
 }
 
 
-export type ModelSubscriptionTeamFilterInput = {
+export type ModelSubscriptionGroupFilterInput = {
   id?: ModelSubscriptionIDInput | null,
   name?: ModelSubscriptionStringInput | null,
-  and?: Array< ModelSubscriptionTeamFilterInput | null > | null,
-  or?: Array< ModelSubscriptionTeamFilterInput | null > | null,
+  color?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionGroupFilterInput | null > | null,
+  or?: Array< ModelSubscriptionGroupFilterInput | null > | null,
 };
 
 export type ModelSubscriptionIDInput = {
@@ -375,29 +376,21 @@ export type ModelSubscriptionStringInput = {
   notIn?: Array< string | null > | null,
 };
 
-export type ModelSubscriptionScoreEntryFilterInput = {
-  id?: ModelSubscriptionIDInput | null,
-  date?: ModelSubscriptionStringInput | null,
-  and?: Array< ModelSubscriptionScoreEntryFilterInput | null > | null,
-  or?: Array< ModelSubscriptionScoreEntryFilterInput | null > | null,
-};
-
-export type ModelSubscriptionGroupFilterInput = {
+export type ModelSubscriptionFantaTeamFilterInput = {
   id?: ModelSubscriptionIDInput | null,
   name?: ModelSubscriptionStringInput | null,
-  color?: ModelSubscriptionStringInput | null,
-  and?: Array< ModelSubscriptionGroupFilterInput | null > | null,
-  or?: Array< ModelSubscriptionGroupFilterInput | null > | null,
+  and?: Array< ModelSubscriptionFantaTeamFilterInput | null > | null,
+  or?: Array< ModelSubscriptionFantaTeamFilterInput | null > | null,
 };
 
-export type ModelSubscriptionRuleFilterInput = {
+export type ModelSubscriptionFantaRuleFilterInput = {
   id?: ModelSubscriptionIDInput | null,
   title?: ModelSubscriptionStringInput | null,
   description?: ModelSubscriptionStringInput | null,
   points?: ModelSubscriptionIntInput | null,
   pointDescription?: ModelSubscriptionStringInput | null,
-  and?: Array< ModelSubscriptionRuleFilterInput | null > | null,
-  or?: Array< ModelSubscriptionRuleFilterInput | null > | null,
+  and?: Array< ModelSubscriptionFantaRuleFilterInput | null > | null,
+  or?: Array< ModelSubscriptionFantaRuleFilterInput | null > | null,
 };
 
 export type ModelSubscriptionIntInput = {
@@ -412,249 +405,19 @@ export type ModelSubscriptionIntInput = {
   notIn?: Array< number | null > | null,
 };
 
-export type ModelSubscriptionTeamGroupsFilterInput = {
+export type ModelSubscriptionFantaScoreEntryFilterInput = {
+  id?: ModelSubscriptionIDInput | null,
+  date?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionFantaScoreEntryFilterInput | null > | null,
+  or?: Array< ModelSubscriptionFantaScoreEntryFilterInput | null > | null,
+};
+
+export type ModelSubscriptionFantaTeamGroupsFilterInput = {
   id?: ModelSubscriptionIDInput | null,
   groupId?: ModelSubscriptionIDInput | null,
-  teamId?: ModelSubscriptionIDInput | null,
-  and?: Array< ModelSubscriptionTeamGroupsFilterInput | null > | null,
-  or?: Array< ModelSubscriptionTeamGroupsFilterInput | null > | null,
-};
-
-export type CreateTeamMutationVariables = {
-  input: CreateTeamInput,
-  condition?: ModelTeamConditionInput | null,
-};
-
-export type CreateTeamMutation = {
-  createTeam?:  {
-    __typename: "Team",
-    id: string,
-    name: string,
-    groups?:  {
-      __typename: "ModelTeamGroupsConnection",
-      items:  Array< {
-        __typename: "TeamGroups",
-        id: string,
-        groupId: string,
-        teamId: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null >,
-      nextToken?: string | null,
-    } | null,
-    leaderGroup?:  {
-      __typename: "Group",
-      id: string,
-      name: string,
-      color: string,
-      teams?:  {
-        __typename: "ModelTeamGroupsConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
-    createdAt: string,
-    updatedAt: string,
-    teamLeaderGroupId?: string | null,
-  } | null,
-};
-
-export type UpdateTeamMutationVariables = {
-  input: UpdateTeamInput,
-  condition?: ModelTeamConditionInput | null,
-};
-
-export type UpdateTeamMutation = {
-  updateTeam?:  {
-    __typename: "Team",
-    id: string,
-    name: string,
-    groups?:  {
-      __typename: "ModelTeamGroupsConnection",
-      items:  Array< {
-        __typename: "TeamGroups",
-        id: string,
-        groupId: string,
-        teamId: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null >,
-      nextToken?: string | null,
-    } | null,
-    leaderGroup?:  {
-      __typename: "Group",
-      id: string,
-      name: string,
-      color: string,
-      teams?:  {
-        __typename: "ModelTeamGroupsConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
-    createdAt: string,
-    updatedAt: string,
-    teamLeaderGroupId?: string | null,
-  } | null,
-};
-
-export type DeleteTeamMutationVariables = {
-  input: DeleteTeamInput,
-  condition?: ModelTeamConditionInput | null,
-};
-
-export type DeleteTeamMutation = {
-  deleteTeam?:  {
-    __typename: "Team",
-    id: string,
-    name: string,
-    groups?:  {
-      __typename: "ModelTeamGroupsConnection",
-      items:  Array< {
-        __typename: "TeamGroups",
-        id: string,
-        groupId: string,
-        teamId: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null >,
-      nextToken?: string | null,
-    } | null,
-    leaderGroup?:  {
-      __typename: "Group",
-      id: string,
-      name: string,
-      color: string,
-      teams?:  {
-        __typename: "ModelTeamGroupsConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
-    createdAt: string,
-    updatedAt: string,
-    teamLeaderGroupId?: string | null,
-  } | null,
-};
-
-export type CreateScoreEntryMutationVariables = {
-  input: CreateScoreEntryInput,
-  condition?: ModelScoreEntryConditionInput | null,
-};
-
-export type CreateScoreEntryMutation = {
-  createScoreEntry?:  {
-    __typename: "ScoreEntry",
-    id: string,
-    rule:  {
-      __typename: "Rule",
-      id: string,
-      title: string,
-      description: string,
-      points: number,
-      pointDescription: string,
-      createdAt: string,
-      updatedAt: string,
-    },
-    group:  {
-      __typename: "Group",
-      id: string,
-      name: string,
-      color: string,
-      teams?:  {
-        __typename: "ModelTeamGroupsConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-    },
-    date: string,
-    createdAt: string,
-    updatedAt: string,
-    scoreEntryRuleId: string,
-    scoreEntryGroupId: string,
-  } | null,
-};
-
-export type UpdateScoreEntryMutationVariables = {
-  input: UpdateScoreEntryInput,
-  condition?: ModelScoreEntryConditionInput | null,
-};
-
-export type UpdateScoreEntryMutation = {
-  updateScoreEntry?:  {
-    __typename: "ScoreEntry",
-    id: string,
-    rule:  {
-      __typename: "Rule",
-      id: string,
-      title: string,
-      description: string,
-      points: number,
-      pointDescription: string,
-      createdAt: string,
-      updatedAt: string,
-    },
-    group:  {
-      __typename: "Group",
-      id: string,
-      name: string,
-      color: string,
-      teams?:  {
-        __typename: "ModelTeamGroupsConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-    },
-    date: string,
-    createdAt: string,
-    updatedAt: string,
-    scoreEntryRuleId: string,
-    scoreEntryGroupId: string,
-  } | null,
-};
-
-export type DeleteScoreEntryMutationVariables = {
-  input: DeleteScoreEntryInput,
-  condition?: ModelScoreEntryConditionInput | null,
-};
-
-export type DeleteScoreEntryMutation = {
-  deleteScoreEntry?:  {
-    __typename: "ScoreEntry",
-    id: string,
-    rule:  {
-      __typename: "Rule",
-      id: string,
-      title: string,
-      description: string,
-      points: number,
-      pointDescription: string,
-      createdAt: string,
-      updatedAt: string,
-    },
-    group:  {
-      __typename: "Group",
-      id: string,
-      name: string,
-      color: string,
-      teams?:  {
-        __typename: "ModelTeamGroupsConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-    },
-    date: string,
-    createdAt: string,
-    updatedAt: string,
-    scoreEntryRuleId: string,
-    scoreEntryGroupId: string,
-  } | null,
+  fantaTeamId?: ModelSubscriptionIDInput | null,
+  and?: Array< ModelSubscriptionFantaTeamGroupsFilterInput | null > | null,
+  or?: Array< ModelSubscriptionFantaTeamGroupsFilterInput | null > | null,
 };
 
 export type CreateGroupMutationVariables = {
@@ -669,12 +432,12 @@ export type CreateGroupMutation = {
     name: string,
     color: string,
     teams?:  {
-      __typename: "ModelTeamGroupsConnection",
+      __typename: "ModelFantaTeamGroupsConnection",
       items:  Array< {
-        __typename: "TeamGroups",
+        __typename: "FantaTeamGroups",
         id: string,
         groupId: string,
-        teamId: string,
+        fantaTeamId: string,
         createdAt: string,
         updatedAt: string,
       } | null >,
@@ -697,12 +460,12 @@ export type UpdateGroupMutation = {
     name: string,
     color: string,
     teams?:  {
-      __typename: "ModelTeamGroupsConnection",
+      __typename: "ModelFantaTeamGroupsConnection",
       items:  Array< {
-        __typename: "TeamGroups",
+        __typename: "FantaTeamGroups",
         id: string,
         groupId: string,
-        teamId: string,
+        fantaTeamId: string,
         createdAt: string,
         updatedAt: string,
       } | null >,
@@ -725,12 +488,12 @@ export type DeleteGroupMutation = {
     name: string,
     color: string,
     teams?:  {
-      __typename: "ModelTeamGroupsConnection",
+      __typename: "ModelFantaTeamGroupsConnection",
       items:  Array< {
-        __typename: "TeamGroups",
+        __typename: "FantaTeamGroups",
         id: string,
         groupId: string,
-        teamId: string,
+        fantaTeamId: string,
         createdAt: string,
         updatedAt: string,
       } | null >,
@@ -741,220 +504,23 @@ export type DeleteGroupMutation = {
   } | null,
 };
 
-export type CreateRuleMutationVariables = {
-  input: CreateRuleInput,
-  condition?: ModelRuleConditionInput | null,
+export type CreateFantaTeamMutationVariables = {
+  input: CreateFantaTeamInput,
+  condition?: ModelFantaTeamConditionInput | null,
 };
 
-export type CreateRuleMutation = {
-  createRule?:  {
-    __typename: "Rule",
-    id: string,
-    title: string,
-    description: string,
-    points: number,
-    pointDescription: string,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type UpdateRuleMutationVariables = {
-  input: UpdateRuleInput,
-  condition?: ModelRuleConditionInput | null,
-};
-
-export type UpdateRuleMutation = {
-  updateRule?:  {
-    __typename: "Rule",
-    id: string,
-    title: string,
-    description: string,
-    points: number,
-    pointDescription: string,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type DeleteRuleMutationVariables = {
-  input: DeleteRuleInput,
-  condition?: ModelRuleConditionInput | null,
-};
-
-export type DeleteRuleMutation = {
-  deleteRule?:  {
-    __typename: "Rule",
-    id: string,
-    title: string,
-    description: string,
-    points: number,
-    pointDescription: string,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type CreateTeamGroupsMutationVariables = {
-  input: CreateTeamGroupsInput,
-  condition?: ModelTeamGroupsConditionInput | null,
-};
-
-export type CreateTeamGroupsMutation = {
-  createTeamGroups?:  {
-    __typename: "TeamGroups",
-    id: string,
-    groupId: string,
-    teamId: string,
-    group:  {
-      __typename: "Group",
-      id: string,
-      name: string,
-      color: string,
-      teams?:  {
-        __typename: "ModelTeamGroupsConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-    },
-    team:  {
-      __typename: "Team",
-      id: string,
-      name: string,
-      groups?:  {
-        __typename: "ModelTeamGroupsConnection",
-        nextToken?: string | null,
-      } | null,
-      leaderGroup?:  {
-        __typename: "Group",
-        id: string,
-        name: string,
-        color: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-      teamLeaderGroupId?: string | null,
-    },
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type UpdateTeamGroupsMutationVariables = {
-  input: UpdateTeamGroupsInput,
-  condition?: ModelTeamGroupsConditionInput | null,
-};
-
-export type UpdateTeamGroupsMutation = {
-  updateTeamGroups?:  {
-    __typename: "TeamGroups",
-    id: string,
-    groupId: string,
-    teamId: string,
-    group:  {
-      __typename: "Group",
-      id: string,
-      name: string,
-      color: string,
-      teams?:  {
-        __typename: "ModelTeamGroupsConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-    },
-    team:  {
-      __typename: "Team",
-      id: string,
-      name: string,
-      groups?:  {
-        __typename: "ModelTeamGroupsConnection",
-        nextToken?: string | null,
-      } | null,
-      leaderGroup?:  {
-        __typename: "Group",
-        id: string,
-        name: string,
-        color: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-      teamLeaderGroupId?: string | null,
-    },
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type DeleteTeamGroupsMutationVariables = {
-  input: DeleteTeamGroupsInput,
-  condition?: ModelTeamGroupsConditionInput | null,
-};
-
-export type DeleteTeamGroupsMutation = {
-  deleteTeamGroups?:  {
-    __typename: "TeamGroups",
-    id: string,
-    groupId: string,
-    teamId: string,
-    group:  {
-      __typename: "Group",
-      id: string,
-      name: string,
-      color: string,
-      teams?:  {
-        __typename: "ModelTeamGroupsConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-    },
-    team:  {
-      __typename: "Team",
-      id: string,
-      name: string,
-      groups?:  {
-        __typename: "ModelTeamGroupsConnection",
-        nextToken?: string | null,
-      } | null,
-      leaderGroup?:  {
-        __typename: "Group",
-        id: string,
-        name: string,
-        color: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-      teamLeaderGroupId?: string | null,
-    },
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type GetTeamQueryVariables = {
-  id: string,
-};
-
-export type GetTeamQuery = {
-  getTeam?:  {
-    __typename: "Team",
+export type CreateFantaTeamMutation = {
+  createFantaTeam?:  {
+    __typename: "FantaTeam",
     id: string,
     name: string,
     groups?:  {
-      __typename: "ModelTeamGroupsConnection",
+      __typename: "ModelFantaTeamGroupsConnection",
       items:  Array< {
-        __typename: "TeamGroups",
+        __typename: "FantaTeamGroups",
         id: string,
         groupId: string,
-        teamId: string,
+        fantaTeamId: string,
         createdAt: string,
         updatedAt: string,
       } | null >,
@@ -966,7 +532,7 @@ export type GetTeamQuery = {
       name: string,
       color: string,
       teams?:  {
-        __typename: "ModelTeamGroupsConnection",
+        __typename: "ModelFantaTeamGroupsConnection",
         nextToken?: string | null,
       } | null,
       createdAt: string,
@@ -974,53 +540,155 @@ export type GetTeamQuery = {
     } | null,
     createdAt: string,
     updatedAt: string,
-    teamLeaderGroupId?: string | null,
+    fantaTeamLeaderGroupId?: string | null,
   } | null,
 };
 
-export type ListTeamsQueryVariables = {
-  filter?: ModelTeamFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
+export type UpdateFantaTeamMutationVariables = {
+  input: UpdateFantaTeamInput,
+  condition?: ModelFantaTeamConditionInput | null,
 };
 
-export type ListTeamsQuery = {
-  listTeams?:  {
-    __typename: "ModelTeamConnection",
-    items:  Array< {
-      __typename: "Team",
-      id: string,
-      name: string,
-      groups?:  {
-        __typename: "ModelTeamGroupsConnection",
-        nextToken?: string | null,
-      } | null,
-      leaderGroup?:  {
-        __typename: "Group",
+export type UpdateFantaTeamMutation = {
+  updateFantaTeam?:  {
+    __typename: "FantaTeam",
+    id: string,
+    name: string,
+    groups?:  {
+      __typename: "ModelFantaTeamGroupsConnection",
+      items:  Array< {
+        __typename: "FantaTeamGroups",
         id: string,
-        name: string,
-        color: string,
+        groupId: string,
+        fantaTeamId: string,
         createdAt: string,
         updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    leaderGroup?:  {
+      __typename: "Group",
+      id: string,
+      name: string,
+      color: string,
+      teams?:  {
+        __typename: "ModelFantaTeamGroupsConnection",
+        nextToken?: string | null,
       } | null,
       createdAt: string,
       updatedAt: string,
-      teamLeaderGroupId?: string | null,
-    } | null >,
-    nextToken?: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+    fantaTeamLeaderGroupId?: string | null,
   } | null,
 };
 
-export type GetScoreEntryQueryVariables = {
-  id: string,
+export type DeleteFantaTeamMutationVariables = {
+  input: DeleteFantaTeamInput,
+  condition?: ModelFantaTeamConditionInput | null,
 };
 
-export type GetScoreEntryQuery = {
-  getScoreEntry?:  {
-    __typename: "ScoreEntry",
+export type DeleteFantaTeamMutation = {
+  deleteFantaTeam?:  {
+    __typename: "FantaTeam",
+    id: string,
+    name: string,
+    groups?:  {
+      __typename: "ModelFantaTeamGroupsConnection",
+      items:  Array< {
+        __typename: "FantaTeamGroups",
+        id: string,
+        groupId: string,
+        fantaTeamId: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    leaderGroup?:  {
+      __typename: "Group",
+      id: string,
+      name: string,
+      color: string,
+      teams?:  {
+        __typename: "ModelFantaTeamGroupsConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+    fantaTeamLeaderGroupId?: string | null,
+  } | null,
+};
+
+export type CreateFantaRuleMutationVariables = {
+  input: CreateFantaRuleInput,
+  condition?: ModelFantaRuleConditionInput | null,
+};
+
+export type CreateFantaRuleMutation = {
+  createFantaRule?:  {
+    __typename: "FantaRule",
+    id: string,
+    title: string,
+    description: string,
+    points: number,
+    pointDescription: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateFantaRuleMutationVariables = {
+  input: UpdateFantaRuleInput,
+  condition?: ModelFantaRuleConditionInput | null,
+};
+
+export type UpdateFantaRuleMutation = {
+  updateFantaRule?:  {
+    __typename: "FantaRule",
+    id: string,
+    title: string,
+    description: string,
+    points: number,
+    pointDescription: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteFantaRuleMutationVariables = {
+  input: DeleteFantaRuleInput,
+  condition?: ModelFantaRuleConditionInput | null,
+};
+
+export type DeleteFantaRuleMutation = {
+  deleteFantaRule?:  {
+    __typename: "FantaRule",
+    id: string,
+    title: string,
+    description: string,
+    points: number,
+    pointDescription: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type CreateFantaScoreEntryMutationVariables = {
+  input: CreateFantaScoreEntryInput,
+  condition?: ModelFantaScoreEntryConditionInput | null,
+};
+
+export type CreateFantaScoreEntryMutation = {
+  createFantaScoreEntry?:  {
+    __typename: "FantaScoreEntry",
     id: string,
     rule:  {
-      __typename: "Rule",
+      __typename: "FantaRule",
       id: string,
       title: string,
       description: string,
@@ -1035,7 +703,7 @@ export type GetScoreEntryQuery = {
       name: string,
       color: string,
       teams?:  {
-        __typename: "ModelTeamGroupsConnection",
+        __typename: "ModelFantaTeamGroupsConnection",
         nextToken?: string | null,
       } | null,
       createdAt: string,
@@ -1044,48 +712,230 @@ export type GetScoreEntryQuery = {
     date: string,
     createdAt: string,
     updatedAt: string,
-    scoreEntryRuleId: string,
-    scoreEntryGroupId: string,
+    fantaScoreEntryRuleId: string,
+    fantaScoreEntryGroupId: string,
   } | null,
 };
 
-export type ListScoreEntriesQueryVariables = {
-  filter?: ModelScoreEntryFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
+export type UpdateFantaScoreEntryMutationVariables = {
+  input: UpdateFantaScoreEntryInput,
+  condition?: ModelFantaScoreEntryConditionInput | null,
 };
 
-export type ListScoreEntriesQuery = {
-  listScoreEntries?:  {
-    __typename: "ModelScoreEntryConnection",
-    items:  Array< {
-      __typename: "ScoreEntry",
+export type UpdateFantaScoreEntryMutation = {
+  updateFantaScoreEntry?:  {
+    __typename: "FantaScoreEntry",
+    id: string,
+    rule:  {
+      __typename: "FantaRule",
       id: string,
-      rule:  {
-        __typename: "Rule",
-        id: string,
-        title: string,
-        description: string,
-        points: number,
-        pointDescription: string,
-        createdAt: string,
-        updatedAt: string,
-      },
-      group:  {
+      title: string,
+      description: string,
+      points: number,
+      pointDescription: string,
+      createdAt: string,
+      updatedAt: string,
+    },
+    group:  {
+      __typename: "Group",
+      id: string,
+      name: string,
+      color: string,
+      teams?:  {
+        __typename: "ModelFantaTeamGroupsConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    date: string,
+    createdAt: string,
+    updatedAt: string,
+    fantaScoreEntryRuleId: string,
+    fantaScoreEntryGroupId: string,
+  } | null,
+};
+
+export type DeleteFantaScoreEntryMutationVariables = {
+  input: DeleteFantaScoreEntryInput,
+  condition?: ModelFantaScoreEntryConditionInput | null,
+};
+
+export type DeleteFantaScoreEntryMutation = {
+  deleteFantaScoreEntry?:  {
+    __typename: "FantaScoreEntry",
+    id: string,
+    rule:  {
+      __typename: "FantaRule",
+      id: string,
+      title: string,
+      description: string,
+      points: number,
+      pointDescription: string,
+      createdAt: string,
+      updatedAt: string,
+    },
+    group:  {
+      __typename: "Group",
+      id: string,
+      name: string,
+      color: string,
+      teams?:  {
+        __typename: "ModelFantaTeamGroupsConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    date: string,
+    createdAt: string,
+    updatedAt: string,
+    fantaScoreEntryRuleId: string,
+    fantaScoreEntryGroupId: string,
+  } | null,
+};
+
+export type CreateFantaTeamGroupsMutationVariables = {
+  input: CreateFantaTeamGroupsInput,
+  condition?: ModelFantaTeamGroupsConditionInput | null,
+};
+
+export type CreateFantaTeamGroupsMutation = {
+  createFantaTeamGroups?:  {
+    __typename: "FantaTeamGroups",
+    id: string,
+    groupId: string,
+    fantaTeamId: string,
+    group:  {
+      __typename: "Group",
+      id: string,
+      name: string,
+      color: string,
+      teams?:  {
+        __typename: "ModelFantaTeamGroupsConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    fantaTeam:  {
+      __typename: "FantaTeam",
+      id: string,
+      name: string,
+      groups?:  {
+        __typename: "ModelFantaTeamGroupsConnection",
+        nextToken?: string | null,
+      } | null,
+      leaderGroup?:  {
         __typename: "Group",
         id: string,
         name: string,
         color: string,
         createdAt: string,
         updatedAt: string,
-      },
-      date: string,
+      } | null,
       createdAt: string,
       updatedAt: string,
-      scoreEntryRuleId: string,
-      scoreEntryGroupId: string,
-    } | null >,
-    nextToken?: string | null,
+      fantaTeamLeaderGroupId?: string | null,
+    },
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateFantaTeamGroupsMutationVariables = {
+  input: UpdateFantaTeamGroupsInput,
+  condition?: ModelFantaTeamGroupsConditionInput | null,
+};
+
+export type UpdateFantaTeamGroupsMutation = {
+  updateFantaTeamGroups?:  {
+    __typename: "FantaTeamGroups",
+    id: string,
+    groupId: string,
+    fantaTeamId: string,
+    group:  {
+      __typename: "Group",
+      id: string,
+      name: string,
+      color: string,
+      teams?:  {
+        __typename: "ModelFantaTeamGroupsConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    fantaTeam:  {
+      __typename: "FantaTeam",
+      id: string,
+      name: string,
+      groups?:  {
+        __typename: "ModelFantaTeamGroupsConnection",
+        nextToken?: string | null,
+      } | null,
+      leaderGroup?:  {
+        __typename: "Group",
+        id: string,
+        name: string,
+        color: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+      fantaTeamLeaderGroupId?: string | null,
+    },
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteFantaTeamGroupsMutationVariables = {
+  input: DeleteFantaTeamGroupsInput,
+  condition?: ModelFantaTeamGroupsConditionInput | null,
+};
+
+export type DeleteFantaTeamGroupsMutation = {
+  deleteFantaTeamGroups?:  {
+    __typename: "FantaTeamGroups",
+    id: string,
+    groupId: string,
+    fantaTeamId: string,
+    group:  {
+      __typename: "Group",
+      id: string,
+      name: string,
+      color: string,
+      teams?:  {
+        __typename: "ModelFantaTeamGroupsConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    fantaTeam:  {
+      __typename: "FantaTeam",
+      id: string,
+      name: string,
+      groups?:  {
+        __typename: "ModelFantaTeamGroupsConnection",
+        nextToken?: string | null,
+      } | null,
+      leaderGroup?:  {
+        __typename: "Group",
+        id: string,
+        name: string,
+        color: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+      fantaTeamLeaderGroupId?: string | null,
+    },
+    createdAt: string,
+    updatedAt: string,
   } | null,
 };
 
@@ -1100,12 +950,12 @@ export type GetGroupQuery = {
     name: string,
     color: string,
     teams?:  {
-      __typename: "ModelTeamGroupsConnection",
+      __typename: "ModelFantaTeamGroupsConnection",
       items:  Array< {
-        __typename: "TeamGroups",
+        __typename: "FantaTeamGroups",
         id: string,
         groupId: string,
-        teamId: string,
+        fantaTeamId: string,
         createdAt: string,
         updatedAt: string,
       } | null >,
@@ -1131,7 +981,7 @@ export type ListGroupsQuery = {
       name: string,
       color: string,
       teams?:  {
-        __typename: "ModelTeamGroupsConnection",
+        __typename: "ModelFantaTeamGroupsConnection",
         nextToken?: string | null,
       } | null,
       createdAt: string,
@@ -1141,74 +991,60 @@ export type ListGroupsQuery = {
   } | null,
 };
 
-export type GetRuleQueryVariables = {
+export type GetFantaTeamQueryVariables = {
   id: string,
 };
 
-export type GetRuleQuery = {
-  getRule?:  {
-    __typename: "Rule",
+export type GetFantaTeamQuery = {
+  getFantaTeam?:  {
+    __typename: "FantaTeam",
     id: string,
-    title: string,
-    description: string,
-    points: number,
-    pointDescription: string,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type ListRulesQueryVariables = {
-  filter?: ModelRuleFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListRulesQuery = {
-  listRules?:  {
-    __typename: "ModelRuleConnection",
-    items:  Array< {
-      __typename: "Rule",
-      id: string,
-      title: string,
-      description: string,
-      points: number,
-      pointDescription: string,
-      createdAt: string,
-      updatedAt: string,
-    } | null >,
-    nextToken?: string | null,
-  } | null,
-};
-
-export type GetTeamGroupsQueryVariables = {
-  id: string,
-};
-
-export type GetTeamGroupsQuery = {
-  getTeamGroups?:  {
-    __typename: "TeamGroups",
-    id: string,
-    groupId: string,
-    teamId: string,
-    group:  {
+    name: string,
+    groups?:  {
+      __typename: "ModelFantaTeamGroupsConnection",
+      items:  Array< {
+        __typename: "FantaTeamGroups",
+        id: string,
+        groupId: string,
+        fantaTeamId: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    leaderGroup?:  {
       __typename: "Group",
       id: string,
       name: string,
       color: string,
       teams?:  {
-        __typename: "ModelTeamGroupsConnection",
+        __typename: "ModelFantaTeamGroupsConnection",
         nextToken?: string | null,
       } | null,
       createdAt: string,
       updatedAt: string,
-    },
-    team:  {
-      __typename: "Team",
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+    fantaTeamLeaderGroupId?: string | null,
+  } | null,
+};
+
+export type ListFantaTeamsQueryVariables = {
+  filter?: ModelFantaTeamFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListFantaTeamsQuery = {
+  listFantaTeams?:  {
+    __typename: "ModelFantaTeamConnection",
+    items:  Array< {
+      __typename: "FantaTeam",
       id: string,
       name: string,
       groups?:  {
-        __typename: "ModelTeamGroupsConnection",
+        __typename: "ModelFantaTeamGroupsConnection",
         nextToken?: string | null,
       } | null,
       leaderGroup?:  {
@@ -1221,27 +1057,112 @@ export type GetTeamGroupsQuery = {
       } | null,
       createdAt: string,
       updatedAt: string,
-      teamLeaderGroupId?: string | null,
-    },
+      fantaTeamLeaderGroupId?: string | null,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type GetFantaRuleQueryVariables = {
+  id: string,
+};
+
+export type GetFantaRuleQuery = {
+  getFantaRule?:  {
+    __typename: "FantaRule",
+    id: string,
+    title: string,
+    description: string,
+    points: number,
+    pointDescription: string,
     createdAt: string,
     updatedAt: string,
   } | null,
 };
 
-export type ListTeamGroupsQueryVariables = {
-  filter?: ModelTeamGroupsFilterInput | null,
+export type ListFantaRulesQueryVariables = {
+  filter?: ModelFantaRuleFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
 };
 
-export type ListTeamGroupsQuery = {
-  listTeamGroups?:  {
-    __typename: "ModelTeamGroupsConnection",
+export type ListFantaRulesQuery = {
+  listFantaRules?:  {
+    __typename: "ModelFantaRuleConnection",
     items:  Array< {
-      __typename: "TeamGroups",
+      __typename: "FantaRule",
       id: string,
-      groupId: string,
-      teamId: string,
+      title: string,
+      description: string,
+      points: number,
+      pointDescription: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type GetFantaScoreEntryQueryVariables = {
+  id: string,
+};
+
+export type GetFantaScoreEntryQuery = {
+  getFantaScoreEntry?:  {
+    __typename: "FantaScoreEntry",
+    id: string,
+    rule:  {
+      __typename: "FantaRule",
+      id: string,
+      title: string,
+      description: string,
+      points: number,
+      pointDescription: string,
+      createdAt: string,
+      updatedAt: string,
+    },
+    group:  {
+      __typename: "Group",
+      id: string,
+      name: string,
+      color: string,
+      teams?:  {
+        __typename: "ModelFantaTeamGroupsConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    date: string,
+    createdAt: string,
+    updatedAt: string,
+    fantaScoreEntryRuleId: string,
+    fantaScoreEntryGroupId: string,
+  } | null,
+};
+
+export type ListFantaScoreEntriesQueryVariables = {
+  filter?: ModelFantaScoreEntryFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListFantaScoreEntriesQuery = {
+  listFantaScoreEntries?:  {
+    __typename: "ModelFantaScoreEntryConnection",
+    items:  Array< {
+      __typename: "FantaScoreEntry",
+      id: string,
+      rule:  {
+        __typename: "FantaRule",
+        id: string,
+        title: string,
+        description: string,
+        points: number,
+        pointDescription: string,
+        createdAt: string,
+        updatedAt: string,
+      },
       group:  {
         __typename: "Group",
         id: string,
@@ -1250,13 +1171,92 @@ export type ListTeamGroupsQuery = {
         createdAt: string,
         updatedAt: string,
       },
-      team:  {
-        __typename: "Team",
+      date: string,
+      createdAt: string,
+      updatedAt: string,
+      fantaScoreEntryRuleId: string,
+      fantaScoreEntryGroupId: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type GetFantaTeamGroupsQueryVariables = {
+  id: string,
+};
+
+export type GetFantaTeamGroupsQuery = {
+  getFantaTeamGroups?:  {
+    __typename: "FantaTeamGroups",
+    id: string,
+    groupId: string,
+    fantaTeamId: string,
+    group:  {
+      __typename: "Group",
+      id: string,
+      name: string,
+      color: string,
+      teams?:  {
+        __typename: "ModelFantaTeamGroupsConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    fantaTeam:  {
+      __typename: "FantaTeam",
+      id: string,
+      name: string,
+      groups?:  {
+        __typename: "ModelFantaTeamGroupsConnection",
+        nextToken?: string | null,
+      } | null,
+      leaderGroup?:  {
+        __typename: "Group",
+        id: string,
+        name: string,
+        color: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+      fantaTeamLeaderGroupId?: string | null,
+    },
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type ListFantaTeamGroupsQueryVariables = {
+  filter?: ModelFantaTeamGroupsFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListFantaTeamGroupsQuery = {
+  listFantaTeamGroups?:  {
+    __typename: "ModelFantaTeamGroupsConnection",
+    items:  Array< {
+      __typename: "FantaTeamGroups",
+      id: string,
+      groupId: string,
+      fantaTeamId: string,
+      group:  {
+        __typename: "Group",
+        id: string,
+        name: string,
+        color: string,
+        createdAt: string,
+        updatedAt: string,
+      },
+      fantaTeam:  {
+        __typename: "FantaTeam",
         id: string,
         name: string,
         createdAt: string,
         updatedAt: string,
-        teamLeaderGroupId?: string | null,
+        fantaTeamLeaderGroupId?: string | null,
       },
       createdAt: string,
       updatedAt: string,
@@ -1265,22 +1265,22 @@ export type ListTeamGroupsQuery = {
   } | null,
 };
 
-export type TeamGroupsByGroupIdQueryVariables = {
+export type FantaTeamGroupsByGroupIdQueryVariables = {
   groupId: string,
   sortDirection?: ModelSortDirection | null,
-  filter?: ModelTeamGroupsFilterInput | null,
+  filter?: ModelFantaTeamGroupsFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
 };
 
-export type TeamGroupsByGroupIdQuery = {
-  teamGroupsByGroupId?:  {
-    __typename: "ModelTeamGroupsConnection",
+export type FantaTeamGroupsByGroupIdQuery = {
+  fantaTeamGroupsByGroupId?:  {
+    __typename: "ModelFantaTeamGroupsConnection",
     items:  Array< {
-      __typename: "TeamGroups",
+      __typename: "FantaTeamGroups",
       id: string,
       groupId: string,
-      teamId: string,
+      fantaTeamId: string,
       group:  {
         __typename: "Group",
         id: string,
@@ -1289,13 +1289,13 @@ export type TeamGroupsByGroupIdQuery = {
         createdAt: string,
         updatedAt: string,
       },
-      team:  {
-        __typename: "Team",
+      fantaTeam:  {
+        __typename: "FantaTeam",
         id: string,
         name: string,
         createdAt: string,
         updatedAt: string,
-        teamLeaderGroupId?: string | null,
+        fantaTeamLeaderGroupId?: string | null,
       },
       createdAt: string,
       updatedAt: string,
@@ -1304,22 +1304,22 @@ export type TeamGroupsByGroupIdQuery = {
   } | null,
 };
 
-export type TeamGroupsByTeamIdQueryVariables = {
-  teamId: string,
+export type FantaTeamGroupsByFantaTeamIdQueryVariables = {
+  fantaTeamId: string,
   sortDirection?: ModelSortDirection | null,
-  filter?: ModelTeamGroupsFilterInput | null,
+  filter?: ModelFantaTeamGroupsFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
 };
 
-export type TeamGroupsByTeamIdQuery = {
-  teamGroupsByTeamId?:  {
-    __typename: "ModelTeamGroupsConnection",
+export type FantaTeamGroupsByFantaTeamIdQuery = {
+  fantaTeamGroupsByFantaTeamId?:  {
+    __typename: "ModelFantaTeamGroupsConnection",
     items:  Array< {
-      __typename: "TeamGroups",
+      __typename: "FantaTeamGroups",
       id: string,
       groupId: string,
-      teamId: string,
+      fantaTeamId: string,
       group:  {
         __typename: "Group",
         id: string,
@@ -1328,249 +1328,18 @@ export type TeamGroupsByTeamIdQuery = {
         createdAt: string,
         updatedAt: string,
       },
-      team:  {
-        __typename: "Team",
+      fantaTeam:  {
+        __typename: "FantaTeam",
         id: string,
         name: string,
         createdAt: string,
         updatedAt: string,
-        teamLeaderGroupId?: string | null,
+        fantaTeamLeaderGroupId?: string | null,
       },
       createdAt: string,
       updatedAt: string,
     } | null >,
     nextToken?: string | null,
-  } | null,
-};
-
-export type OnCreateTeamSubscriptionVariables = {
-  filter?: ModelSubscriptionTeamFilterInput | null,
-};
-
-export type OnCreateTeamSubscription = {
-  onCreateTeam?:  {
-    __typename: "Team",
-    id: string,
-    name: string,
-    groups?:  {
-      __typename: "ModelTeamGroupsConnection",
-      items:  Array< {
-        __typename: "TeamGroups",
-        id: string,
-        groupId: string,
-        teamId: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null >,
-      nextToken?: string | null,
-    } | null,
-    leaderGroup?:  {
-      __typename: "Group",
-      id: string,
-      name: string,
-      color: string,
-      teams?:  {
-        __typename: "ModelTeamGroupsConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
-    createdAt: string,
-    updatedAt: string,
-    teamLeaderGroupId?: string | null,
-  } | null,
-};
-
-export type OnUpdateTeamSubscriptionVariables = {
-  filter?: ModelSubscriptionTeamFilterInput | null,
-};
-
-export type OnUpdateTeamSubscription = {
-  onUpdateTeam?:  {
-    __typename: "Team",
-    id: string,
-    name: string,
-    groups?:  {
-      __typename: "ModelTeamGroupsConnection",
-      items:  Array< {
-        __typename: "TeamGroups",
-        id: string,
-        groupId: string,
-        teamId: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null >,
-      nextToken?: string | null,
-    } | null,
-    leaderGroup?:  {
-      __typename: "Group",
-      id: string,
-      name: string,
-      color: string,
-      teams?:  {
-        __typename: "ModelTeamGroupsConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
-    createdAt: string,
-    updatedAt: string,
-    teamLeaderGroupId?: string | null,
-  } | null,
-};
-
-export type OnDeleteTeamSubscriptionVariables = {
-  filter?: ModelSubscriptionTeamFilterInput | null,
-};
-
-export type OnDeleteTeamSubscription = {
-  onDeleteTeam?:  {
-    __typename: "Team",
-    id: string,
-    name: string,
-    groups?:  {
-      __typename: "ModelTeamGroupsConnection",
-      items:  Array< {
-        __typename: "TeamGroups",
-        id: string,
-        groupId: string,
-        teamId: string,
-        createdAt: string,
-        updatedAt: string,
-      } | null >,
-      nextToken?: string | null,
-    } | null,
-    leaderGroup?:  {
-      __typename: "Group",
-      id: string,
-      name: string,
-      color: string,
-      teams?:  {
-        __typename: "ModelTeamGroupsConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
-    createdAt: string,
-    updatedAt: string,
-    teamLeaderGroupId?: string | null,
-  } | null,
-};
-
-export type OnCreateScoreEntrySubscriptionVariables = {
-  filter?: ModelSubscriptionScoreEntryFilterInput | null,
-};
-
-export type OnCreateScoreEntrySubscription = {
-  onCreateScoreEntry?:  {
-    __typename: "ScoreEntry",
-    id: string,
-    rule:  {
-      __typename: "Rule",
-      id: string,
-      title: string,
-      description: string,
-      points: number,
-      pointDescription: string,
-      createdAt: string,
-      updatedAt: string,
-    },
-    group:  {
-      __typename: "Group",
-      id: string,
-      name: string,
-      color: string,
-      teams?:  {
-        __typename: "ModelTeamGroupsConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-    },
-    date: string,
-    createdAt: string,
-    updatedAt: string,
-    scoreEntryRuleId: string,
-    scoreEntryGroupId: string,
-  } | null,
-};
-
-export type OnUpdateScoreEntrySubscriptionVariables = {
-  filter?: ModelSubscriptionScoreEntryFilterInput | null,
-};
-
-export type OnUpdateScoreEntrySubscription = {
-  onUpdateScoreEntry?:  {
-    __typename: "ScoreEntry",
-    id: string,
-    rule:  {
-      __typename: "Rule",
-      id: string,
-      title: string,
-      description: string,
-      points: number,
-      pointDescription: string,
-      createdAt: string,
-      updatedAt: string,
-    },
-    group:  {
-      __typename: "Group",
-      id: string,
-      name: string,
-      color: string,
-      teams?:  {
-        __typename: "ModelTeamGroupsConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-    },
-    date: string,
-    createdAt: string,
-    updatedAt: string,
-    scoreEntryRuleId: string,
-    scoreEntryGroupId: string,
-  } | null,
-};
-
-export type OnDeleteScoreEntrySubscriptionVariables = {
-  filter?: ModelSubscriptionScoreEntryFilterInput | null,
-};
-
-export type OnDeleteScoreEntrySubscription = {
-  onDeleteScoreEntry?:  {
-    __typename: "ScoreEntry",
-    id: string,
-    rule:  {
-      __typename: "Rule",
-      id: string,
-      title: string,
-      description: string,
-      points: number,
-      pointDescription: string,
-      createdAt: string,
-      updatedAt: string,
-    },
-    group:  {
-      __typename: "Group",
-      id: string,
-      name: string,
-      color: string,
-      teams?:  {
-        __typename: "ModelTeamGroupsConnection",
-        nextToken?: string | null,
-      } | null,
-      createdAt: string,
-      updatedAt: string,
-    },
-    date: string,
-    createdAt: string,
-    updatedAt: string,
-    scoreEntryRuleId: string,
-    scoreEntryGroupId: string,
   } | null,
 };
 
@@ -1585,12 +1354,12 @@ export type OnCreateGroupSubscription = {
     name: string,
     color: string,
     teams?:  {
-      __typename: "ModelTeamGroupsConnection",
+      __typename: "ModelFantaTeamGroupsConnection",
       items:  Array< {
-        __typename: "TeamGroups",
+        __typename: "FantaTeamGroups",
         id: string,
         groupId: string,
-        teamId: string,
+        fantaTeamId: string,
         createdAt: string,
         updatedAt: string,
       } | null >,
@@ -1612,12 +1381,12 @@ export type OnUpdateGroupSubscription = {
     name: string,
     color: string,
     teams?:  {
-      __typename: "ModelTeamGroupsConnection",
+      __typename: "ModelFantaTeamGroupsConnection",
       items:  Array< {
-        __typename: "TeamGroups",
+        __typename: "FantaTeamGroups",
         id: string,
         groupId: string,
-        teamId: string,
+        fantaTeamId: string,
         createdAt: string,
         updatedAt: string,
       } | null >,
@@ -1639,12 +1408,12 @@ export type OnDeleteGroupSubscription = {
     name: string,
     color: string,
     teams?:  {
-      __typename: "ModelTeamGroupsConnection",
+      __typename: "ModelFantaTeamGroupsConnection",
       items:  Array< {
-        __typename: "TeamGroups",
+        __typename: "FantaTeamGroups",
         id: string,
         groupId: string,
-        teamId: string,
+        fantaTeamId: string,
         createdAt: string,
         updatedAt: string,
       } | null >,
@@ -1655,13 +1424,130 @@ export type OnDeleteGroupSubscription = {
   } | null,
 };
 
-export type OnCreateRuleSubscriptionVariables = {
-  filter?: ModelSubscriptionRuleFilterInput | null,
+export type OnCreateFantaTeamSubscriptionVariables = {
+  filter?: ModelSubscriptionFantaTeamFilterInput | null,
 };
 
-export type OnCreateRuleSubscription = {
-  onCreateRule?:  {
-    __typename: "Rule",
+export type OnCreateFantaTeamSubscription = {
+  onCreateFantaTeam?:  {
+    __typename: "FantaTeam",
+    id: string,
+    name: string,
+    groups?:  {
+      __typename: "ModelFantaTeamGroupsConnection",
+      items:  Array< {
+        __typename: "FantaTeamGroups",
+        id: string,
+        groupId: string,
+        fantaTeamId: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    leaderGroup?:  {
+      __typename: "Group",
+      id: string,
+      name: string,
+      color: string,
+      teams?:  {
+        __typename: "ModelFantaTeamGroupsConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+    fantaTeamLeaderGroupId?: string | null,
+  } | null,
+};
+
+export type OnUpdateFantaTeamSubscriptionVariables = {
+  filter?: ModelSubscriptionFantaTeamFilterInput | null,
+};
+
+export type OnUpdateFantaTeamSubscription = {
+  onUpdateFantaTeam?:  {
+    __typename: "FantaTeam",
+    id: string,
+    name: string,
+    groups?:  {
+      __typename: "ModelFantaTeamGroupsConnection",
+      items:  Array< {
+        __typename: "FantaTeamGroups",
+        id: string,
+        groupId: string,
+        fantaTeamId: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    leaderGroup?:  {
+      __typename: "Group",
+      id: string,
+      name: string,
+      color: string,
+      teams?:  {
+        __typename: "ModelFantaTeamGroupsConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+    fantaTeamLeaderGroupId?: string | null,
+  } | null,
+};
+
+export type OnDeleteFantaTeamSubscriptionVariables = {
+  filter?: ModelSubscriptionFantaTeamFilterInput | null,
+};
+
+export type OnDeleteFantaTeamSubscription = {
+  onDeleteFantaTeam?:  {
+    __typename: "FantaTeam",
+    id: string,
+    name: string,
+    groups?:  {
+      __typename: "ModelFantaTeamGroupsConnection",
+      items:  Array< {
+        __typename: "FantaTeamGroups",
+        id: string,
+        groupId: string,
+        fantaTeamId: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null >,
+      nextToken?: string | null,
+    } | null,
+    leaderGroup?:  {
+      __typename: "Group",
+      id: string,
+      name: string,
+      color: string,
+      teams?:  {
+        __typename: "ModelFantaTeamGroupsConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+    fantaTeamLeaderGroupId?: string | null,
+  } | null,
+};
+
+export type OnCreateFantaRuleSubscriptionVariables = {
+  filter?: ModelSubscriptionFantaRuleFilterInput | null,
+};
+
+export type OnCreateFantaRuleSubscription = {
+  onCreateFantaRule?:  {
+    __typename: "FantaRule",
     id: string,
     title: string,
     description: string,
@@ -1672,13 +1558,13 @@ export type OnCreateRuleSubscription = {
   } | null,
 };
 
-export type OnUpdateRuleSubscriptionVariables = {
-  filter?: ModelSubscriptionRuleFilterInput | null,
+export type OnUpdateFantaRuleSubscriptionVariables = {
+  filter?: ModelSubscriptionFantaRuleFilterInput | null,
 };
 
-export type OnUpdateRuleSubscription = {
-  onUpdateRule?:  {
-    __typename: "Rule",
+export type OnUpdateFantaRuleSubscription = {
+  onUpdateFantaRule?:  {
+    __typename: "FantaRule",
     id: string,
     title: string,
     description: string,
@@ -1689,13 +1575,13 @@ export type OnUpdateRuleSubscription = {
   } | null,
 };
 
-export type OnDeleteRuleSubscriptionVariables = {
-  filter?: ModelSubscriptionRuleFilterInput | null,
+export type OnDeleteFantaRuleSubscriptionVariables = {
+  filter?: ModelSubscriptionFantaRuleFilterInput | null,
 };
 
-export type OnDeleteRuleSubscription = {
-  onDeleteRule?:  {
-    __typename: "Rule",
+export type OnDeleteFantaRuleSubscription = {
+  onDeleteFantaRule?:  {
+    __typename: "FantaRule",
     id: string,
     title: string,
     description: string,
@@ -1706,34 +1592,148 @@ export type OnDeleteRuleSubscription = {
   } | null,
 };
 
-export type OnCreateTeamGroupsSubscriptionVariables = {
-  filter?: ModelSubscriptionTeamGroupsFilterInput | null,
+export type OnCreateFantaScoreEntrySubscriptionVariables = {
+  filter?: ModelSubscriptionFantaScoreEntryFilterInput | null,
 };
 
-export type OnCreateTeamGroupsSubscription = {
-  onCreateTeamGroups?:  {
-    __typename: "TeamGroups",
+export type OnCreateFantaScoreEntrySubscription = {
+  onCreateFantaScoreEntry?:  {
+    __typename: "FantaScoreEntry",
     id: string,
-    groupId: string,
-    teamId: string,
+    rule:  {
+      __typename: "FantaRule",
+      id: string,
+      title: string,
+      description: string,
+      points: number,
+      pointDescription: string,
+      createdAt: string,
+      updatedAt: string,
+    },
     group:  {
       __typename: "Group",
       id: string,
       name: string,
       color: string,
       teams?:  {
-        __typename: "ModelTeamGroupsConnection",
+        __typename: "ModelFantaTeamGroupsConnection",
         nextToken?: string | null,
       } | null,
       createdAt: string,
       updatedAt: string,
     },
-    team:  {
-      __typename: "Team",
+    date: string,
+    createdAt: string,
+    updatedAt: string,
+    fantaScoreEntryRuleId: string,
+    fantaScoreEntryGroupId: string,
+  } | null,
+};
+
+export type OnUpdateFantaScoreEntrySubscriptionVariables = {
+  filter?: ModelSubscriptionFantaScoreEntryFilterInput | null,
+};
+
+export type OnUpdateFantaScoreEntrySubscription = {
+  onUpdateFantaScoreEntry?:  {
+    __typename: "FantaScoreEntry",
+    id: string,
+    rule:  {
+      __typename: "FantaRule",
+      id: string,
+      title: string,
+      description: string,
+      points: number,
+      pointDescription: string,
+      createdAt: string,
+      updatedAt: string,
+    },
+    group:  {
+      __typename: "Group",
+      id: string,
+      name: string,
+      color: string,
+      teams?:  {
+        __typename: "ModelFantaTeamGroupsConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    date: string,
+    createdAt: string,
+    updatedAt: string,
+    fantaScoreEntryRuleId: string,
+    fantaScoreEntryGroupId: string,
+  } | null,
+};
+
+export type OnDeleteFantaScoreEntrySubscriptionVariables = {
+  filter?: ModelSubscriptionFantaScoreEntryFilterInput | null,
+};
+
+export type OnDeleteFantaScoreEntrySubscription = {
+  onDeleteFantaScoreEntry?:  {
+    __typename: "FantaScoreEntry",
+    id: string,
+    rule:  {
+      __typename: "FantaRule",
+      id: string,
+      title: string,
+      description: string,
+      points: number,
+      pointDescription: string,
+      createdAt: string,
+      updatedAt: string,
+    },
+    group:  {
+      __typename: "Group",
+      id: string,
+      name: string,
+      color: string,
+      teams?:  {
+        __typename: "ModelFantaTeamGroupsConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    date: string,
+    createdAt: string,
+    updatedAt: string,
+    fantaScoreEntryRuleId: string,
+    fantaScoreEntryGroupId: string,
+  } | null,
+};
+
+export type OnCreateFantaTeamGroupsSubscriptionVariables = {
+  filter?: ModelSubscriptionFantaTeamGroupsFilterInput | null,
+};
+
+export type OnCreateFantaTeamGroupsSubscription = {
+  onCreateFantaTeamGroups?:  {
+    __typename: "FantaTeamGroups",
+    id: string,
+    groupId: string,
+    fantaTeamId: string,
+    group:  {
+      __typename: "Group",
+      id: string,
+      name: string,
+      color: string,
+      teams?:  {
+        __typename: "ModelFantaTeamGroupsConnection",
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    },
+    fantaTeam:  {
+      __typename: "FantaTeam",
       id: string,
       name: string,
       groups?:  {
-        __typename: "ModelTeamGroupsConnection",
+        __typename: "ModelFantaTeamGroupsConnection",
         nextToken?: string | null,
       } | null,
       leaderGroup?:  {
@@ -1746,41 +1746,41 @@ export type OnCreateTeamGroupsSubscription = {
       } | null,
       createdAt: string,
       updatedAt: string,
-      teamLeaderGroupId?: string | null,
+      fantaTeamLeaderGroupId?: string | null,
     },
     createdAt: string,
     updatedAt: string,
   } | null,
 };
 
-export type OnUpdateTeamGroupsSubscriptionVariables = {
-  filter?: ModelSubscriptionTeamGroupsFilterInput | null,
+export type OnUpdateFantaTeamGroupsSubscriptionVariables = {
+  filter?: ModelSubscriptionFantaTeamGroupsFilterInput | null,
 };
 
-export type OnUpdateTeamGroupsSubscription = {
-  onUpdateTeamGroups?:  {
-    __typename: "TeamGroups",
+export type OnUpdateFantaTeamGroupsSubscription = {
+  onUpdateFantaTeamGroups?:  {
+    __typename: "FantaTeamGroups",
     id: string,
     groupId: string,
-    teamId: string,
+    fantaTeamId: string,
     group:  {
       __typename: "Group",
       id: string,
       name: string,
       color: string,
       teams?:  {
-        __typename: "ModelTeamGroupsConnection",
+        __typename: "ModelFantaTeamGroupsConnection",
         nextToken?: string | null,
       } | null,
       createdAt: string,
       updatedAt: string,
     },
-    team:  {
-      __typename: "Team",
+    fantaTeam:  {
+      __typename: "FantaTeam",
       id: string,
       name: string,
       groups?:  {
-        __typename: "ModelTeamGroupsConnection",
+        __typename: "ModelFantaTeamGroupsConnection",
         nextToken?: string | null,
       } | null,
       leaderGroup?:  {
@@ -1793,41 +1793,41 @@ export type OnUpdateTeamGroupsSubscription = {
       } | null,
       createdAt: string,
       updatedAt: string,
-      teamLeaderGroupId?: string | null,
+      fantaTeamLeaderGroupId?: string | null,
     },
     createdAt: string,
     updatedAt: string,
   } | null,
 };
 
-export type OnDeleteTeamGroupsSubscriptionVariables = {
-  filter?: ModelSubscriptionTeamGroupsFilterInput | null,
+export type OnDeleteFantaTeamGroupsSubscriptionVariables = {
+  filter?: ModelSubscriptionFantaTeamGroupsFilterInput | null,
 };
 
-export type OnDeleteTeamGroupsSubscription = {
-  onDeleteTeamGroups?:  {
-    __typename: "TeamGroups",
+export type OnDeleteFantaTeamGroupsSubscription = {
+  onDeleteFantaTeamGroups?:  {
+    __typename: "FantaTeamGroups",
     id: string,
     groupId: string,
-    teamId: string,
+    fantaTeamId: string,
     group:  {
       __typename: "Group",
       id: string,
       name: string,
       color: string,
       teams?:  {
-        __typename: "ModelTeamGroupsConnection",
+        __typename: "ModelFantaTeamGroupsConnection",
         nextToken?: string | null,
       } | null,
       createdAt: string,
       updatedAt: string,
     },
-    team:  {
-      __typename: "Team",
+    fantaTeam:  {
+      __typename: "FantaTeam",
       id: string,
       name: string,
       groups?:  {
-        __typename: "ModelTeamGroupsConnection",
+        __typename: "ModelFantaTeamGroupsConnection",
         nextToken?: string | null,
       } | null,
       leaderGroup?:  {
@@ -1840,7 +1840,7 @@ export type OnDeleteTeamGroupsSubscription = {
       } | null,
       createdAt: string,
       updatedAt: string,
-      teamLeaderGroupId?: string | null,
+      fantaTeamLeaderGroupId?: string | null,
     },
     createdAt: string,
     updatedAt: string,

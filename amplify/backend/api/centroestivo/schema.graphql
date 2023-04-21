@@ -11,17 +11,22 @@ type Group @model @auth(
   id: ID!
   name: String!
   color: String!
-  teams: [Team] @manyToMany(relationName: "TeamGroups")
+  teams: [FantaTeam] @manyToMany(relationName: "FantaTeamGroups")
 }
 
-type Team @model {
+type FantaTeam @model @auth(
+	rules: [
+		{ allow: groups, provider: userPools, groups: ["Users"], operations: [create, update, delete, read] },
+		{ allow: public, provider: iam, operations: [read] }
+		]
+	) {
   id: ID!
   name: String!
-  groups: [Group] @manyToMany(relationName: "TeamGroups")
+  groups: [Group] @manyToMany(relationName: "FantaTeamGroups")
   leaderGroup: Group @hasOne
 }
 
-type Rule @model @auth(
+type FantaRule @model @auth(
 	rules: [
 		{ allow: groups, provider: userPools, groups: ["Users"], operations: [create, update, delete, read] },
 		{ allow: public, provider: iam, operations: [read] }
@@ -34,9 +39,14 @@ type Rule @model @auth(
   pointDescription: String!
 }
 
-type ScoreEntry @model {
+type FantaScoreEntry @model @auth(
+	rules: [
+		{ allow: groups, provider: userPools, groups: ["Users"], operations: [create, update, delete, read] },
+		{ allow: public, provider: iam, operations: [read] }
+		]
+	) {
   id: ID!
-  rule: Rule! @hasOne
+  rule: FantaRule! @hasOne
   group: Group! @hasOne
   date: AWSDateTime!
 }

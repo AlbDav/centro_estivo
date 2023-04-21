@@ -2,131 +2,6 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const getTeam = /* GraphQL */ `
-  query GetTeam($id: ID!) {
-    getTeam(id: $id) {
-      id
-      name
-      groups {
-        items {
-          id
-          groupId
-          teamId
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      leaderGroup {
-        id
-        name
-        color
-        teams {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      createdAt
-      updatedAt
-      teamLeaderGroupId
-    }
-  }
-`;
-export const listTeams = /* GraphQL */ `
-  query ListTeams(
-    $filter: ModelTeamFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listTeams(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        name
-        groups {
-          nextToken
-        }
-        leaderGroup {
-          id
-          name
-          color
-          createdAt
-          updatedAt
-        }
-        createdAt
-        updatedAt
-        teamLeaderGroupId
-      }
-      nextToken
-    }
-  }
-`;
-export const getScoreEntry = /* GraphQL */ `
-  query GetScoreEntry($id: ID!) {
-    getScoreEntry(id: $id) {
-      id
-      rule {
-        id
-        title
-        description
-        points
-        pointDescription
-        createdAt
-        updatedAt
-      }
-      group {
-        id
-        name
-        color
-        teams {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      date
-      createdAt
-      updatedAt
-      scoreEntryRuleId
-      scoreEntryGroupId
-    }
-  }
-`;
-export const listScoreEntries = /* GraphQL */ `
-  query ListScoreEntries(
-    $filter: ModelScoreEntryFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listScoreEntries(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        rule {
-          id
-          title
-          description
-          points
-          pointDescription
-          createdAt
-          updatedAt
-        }
-        group {
-          id
-          name
-          color
-          createdAt
-          updatedAt
-        }
-        date
-        createdAt
-        updatedAt
-        scoreEntryRuleId
-        scoreEntryGroupId
-      }
-      nextToken
-    }
-  }
-`;
 export const getGroup = /* GraphQL */ `
   query GetGroup($id: ID!) {
     getGroup(id: $id) {
@@ -137,7 +12,7 @@ export const getGroup = /* GraphQL */ `
         items {
           id
           groupId
-          teamId
+          fantaTeamId
           createdAt
           updatedAt
         }
@@ -169,46 +44,22 @@ export const listGroups = /* GraphQL */ `
     }
   }
 `;
-export const getRule = /* GraphQL */ `
-  query GetRule($id: ID!) {
-    getRule(id: $id) {
+export const getFantaTeam = /* GraphQL */ `
+  query GetFantaTeam($id: ID!) {
+    getFantaTeam(id: $id) {
       id
-      title
-      description
-      points
-      pointDescription
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const listRules = /* GraphQL */ `
-  query ListRules(
-    $filter: ModelRuleFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listRules(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        title
-        description
-        points
-        pointDescription
-        createdAt
-        updatedAt
+      name
+      groups {
+        items {
+          id
+          groupId
+          fantaTeamId
+          createdAt
+          updatedAt
+        }
+        nextToken
       }
-      nextToken
-    }
-  }
-`;
-export const getTeamGroups = /* GraphQL */ `
-  query GetTeamGroups($id: ID!) {
-    getTeamGroups(id: $id) {
-      id
-      groupId
-      teamId
-      group {
+      leaderGroup {
         id
         name
         color
@@ -218,7 +69,20 @@ export const getTeamGroups = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      team {
+      createdAt
+      updatedAt
+      fantaTeamLeaderGroupId
+    }
+  }
+`;
+export const listFantaTeams = /* GraphQL */ `
+  query ListFantaTeams(
+    $filter: ModelFantaTeamFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listFantaTeams(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
         id
         name
         groups {
@@ -233,24 +97,98 @@ export const getTeamGroups = /* GraphQL */ `
         }
         createdAt
         updatedAt
-        teamLeaderGroupId
+        fantaTeamLeaderGroupId
       }
+      nextToken
+    }
+  }
+`;
+export const getFantaRule = /* GraphQL */ `
+  query GetFantaRule($id: ID!) {
+    getFantaRule(id: $id) {
+      id
+      title
+      description
+      points
+      pointDescription
       createdAt
       updatedAt
     }
   }
 `;
-export const listTeamGroups = /* GraphQL */ `
-  query ListTeamGroups(
-    $filter: ModelTeamGroupsFilterInput
+export const listFantaRules = /* GraphQL */ `
+  query ListFantaRules(
+    $filter: ModelFantaRuleFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listTeamGroups(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listFantaRules(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        groupId
-        teamId
+        title
+        description
+        points
+        pointDescription
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getFantaScoreEntry = /* GraphQL */ `
+  query GetFantaScoreEntry($id: ID!) {
+    getFantaScoreEntry(id: $id) {
+      id
+      rule {
+        id
+        title
+        description
+        points
+        pointDescription
+        createdAt
+        updatedAt
+      }
+      group {
+        id
+        name
+        color
+        teams {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      date
+      createdAt
+      updatedAt
+      fantaScoreEntryRuleId
+      fantaScoreEntryGroupId
+    }
+  }
+`;
+export const listFantaScoreEntries = /* GraphQL */ `
+  query ListFantaScoreEntries(
+    $filter: ModelFantaScoreEntryFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listFantaScoreEntries(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        rule {
+          id
+          title
+          description
+          points
+          pointDescription
+          createdAt
+          updatedAt
+        }
         group {
           id
           name
@@ -258,12 +196,78 @@ export const listTeamGroups = /* GraphQL */ `
           createdAt
           updatedAt
         }
-        team {
+        date
+        createdAt
+        updatedAt
+        fantaScoreEntryRuleId
+        fantaScoreEntryGroupId
+      }
+      nextToken
+    }
+  }
+`;
+export const getFantaTeamGroups = /* GraphQL */ `
+  query GetFantaTeamGroups($id: ID!) {
+    getFantaTeamGroups(id: $id) {
+      id
+      groupId
+      fantaTeamId
+      group {
+        id
+        name
+        color
+        teams {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      fantaTeam {
+        id
+        name
+        groups {
+          nextToken
+        }
+        leaderGroup {
+          id
+          name
+          color
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+        fantaTeamLeaderGroupId
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listFantaTeamGroups = /* GraphQL */ `
+  query ListFantaTeamGroups(
+    $filter: ModelFantaTeamGroupsFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listFantaTeamGroups(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        groupId
+        fantaTeamId
+        group {
+          id
+          name
+          color
+          createdAt
+          updatedAt
+        }
+        fantaTeam {
           id
           name
           createdAt
           updatedAt
-          teamLeaderGroupId
+          fantaTeamLeaderGroupId
         }
         createdAt
         updatedAt
@@ -272,15 +276,15 @@ export const listTeamGroups = /* GraphQL */ `
     }
   }
 `;
-export const teamGroupsByGroupId = /* GraphQL */ `
-  query TeamGroupsByGroupId(
+export const fantaTeamGroupsByGroupId = /* GraphQL */ `
+  query FantaTeamGroupsByGroupId(
     $groupId: ID!
     $sortDirection: ModelSortDirection
-    $filter: ModelTeamGroupsFilterInput
+    $filter: ModelFantaTeamGroupsFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    teamGroupsByGroupId(
+    fantaTeamGroupsByGroupId(
       groupId: $groupId
       sortDirection: $sortDirection
       filter: $filter
@@ -290,7 +294,7 @@ export const teamGroupsByGroupId = /* GraphQL */ `
       items {
         id
         groupId
-        teamId
+        fantaTeamId
         group {
           id
           name
@@ -298,12 +302,12 @@ export const teamGroupsByGroupId = /* GraphQL */ `
           createdAt
           updatedAt
         }
-        team {
+        fantaTeam {
           id
           name
           createdAt
           updatedAt
-          teamLeaderGroupId
+          fantaTeamLeaderGroupId
         }
         createdAt
         updatedAt
@@ -312,16 +316,16 @@ export const teamGroupsByGroupId = /* GraphQL */ `
     }
   }
 `;
-export const teamGroupsByTeamId = /* GraphQL */ `
-  query TeamGroupsByTeamId(
-    $teamId: ID!
+export const fantaTeamGroupsByFantaTeamId = /* GraphQL */ `
+  query FantaTeamGroupsByFantaTeamId(
+    $fantaTeamId: ID!
     $sortDirection: ModelSortDirection
-    $filter: ModelTeamGroupsFilterInput
+    $filter: ModelFantaTeamGroupsFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    teamGroupsByTeamId(
-      teamId: $teamId
+    fantaTeamGroupsByFantaTeamId(
+      fantaTeamId: $fantaTeamId
       sortDirection: $sortDirection
       filter: $filter
       limit: $limit
@@ -330,7 +334,7 @@ export const teamGroupsByTeamId = /* GraphQL */ `
       items {
         id
         groupId
-        teamId
+        fantaTeamId
         group {
           id
           name
@@ -338,12 +342,12 @@ export const teamGroupsByTeamId = /* GraphQL */ `
           createdAt
           updatedAt
         }
-        team {
+        fantaTeam {
           id
           name
           createdAt
           updatedAt
-          teamLeaderGroupId
+          fantaTeamLeaderGroupId
         }
         createdAt
         updatedAt
