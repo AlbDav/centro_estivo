@@ -4,8 +4,8 @@ import { API } from 'aws-amplify';
 import { listFantaRules } from '../graphql/queries';
 import { createFantaRule } from '../graphql/mutations';
 import { Box, Button, Container, Grid } from '@mui/material';
-import NewRuleForm from '../components/rules/NewRuleForm';
-import RuleCard from '@/components/rules/RuleCard';
+import NewRuleForm from '../components/fanta-rules/NewRuleForm';
+import RuleCard from '@/components/fanta-rules/RuleCard';
 import { ListFantaRulesQuery } from '@/API';
 
 const FantaRules = () => {
