@@ -39,7 +39,7 @@ const Layout = ({ children }: any) => {
     { title: 'Groups', href: '/groups' },
     { title: 'Teams', href: '/fanta-teams' },
     { title: 'Rules', href: '/fanta-rules' },
-    { title: 'Admin', href: '/admin' },
+    { title: 'Classifica', href: '/fanta-scores' },
   ];
 
   return (
