@@ -8,7 +8,7 @@ import NewRuleForm from '../components/rules/NewRuleForm';
 import RuleCard from '@/components/rules/RuleCard';
 import { ListFantaRulesQuery } from '@/API';
 
-const Rules = () => {
+const FantaRules = () => {
   const [rules, setRules] = useState([]);
   const [showForm, setShowForm] = useState(false);
 
@@ -19,7 +19,7 @@ const Rules = () => {
   const fetchRules = async () => {
     try {
       const ruleData = await API.graphql<ListFantaRulesQuery>({ query: listFantaRules }) as any;
-      const ruleItems = ruleData.data.listRules.items;
+      const ruleItems = ruleData.data.listFantaRules.items;
       setRules(ruleItems);
     } catch (error) {
       console.log('Error fetching rules:', error);
@@ -63,4 +63,4 @@ const Rules = () => {
   );
 };
 
-export default Rules;
+export default FantaRules;

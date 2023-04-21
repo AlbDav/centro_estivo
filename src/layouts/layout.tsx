@@ -37,8 +37,8 @@ const Layout = ({ children }: any) => {
 
   const drawerItems = [
     { title: 'Groups', href: '/groups' },
-    { title: 'Teams', href: '/teams' },
-    { title: 'Rules', href: '/rules' },
+    { title: 'Teams', href: '/fanta-teams' },
+    { title: 'Rules', href: '/fanta-rules' },
     { title: 'Admin', href: '/admin' },
   ];
 
@@ -57,7 +57,7 @@ const Layout = ({ children }: any) => {
         <List>
           {drawerItems.map((item, index) => (
             <Link key={index} href={item.href} passHref>
-              <ListItemButton component="a">
+              <ListItemButton>
                 <ListItemText primary={item.title} />
               </ListItemButton>
             </Link>
