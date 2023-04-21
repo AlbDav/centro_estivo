@@ -32,11 +32,11 @@ const Teams = () => {
       const teamResponse = await API.graphql({query: createFantaTeam, variables: { input: { name: team.name, fantaTeamLeaderGroupId: team.leaderGroup }}}) as any;
 
       // Ottenere l'ID del team creato
-      const teamId = teamResponse.data.createTeam.id;
+      const fantaTeamId = teamResponse.data.createFantaTeam.id;
 
       // Creare le voci TeamGroup per ogni additionalGroup
-      const additionalGroupPromises = team.additionalGroupIds.map(async (groupId: any) => {
-        return API.graphql({ query: createFantaTeamGroups, variables: { input: { teamId, groupId }}});
+      const additionalGroupPromises = team.additionalGroups.map(async (groupId: any) => {
+        return API.graphql({ query: createFantaTeamGroups, variables: { input: { fantaTeamId, groupId }}});
       });
 
       // Attendere il completamento di tutte le chiamate API per creare le voci TeamGroup
