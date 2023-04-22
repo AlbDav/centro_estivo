@@ -8,7 +8,7 @@ import { ListFantaTeamsQuery } from '@/API';
 import NewTeamForm from '@/components/fanta-teams/NewTeamForm';
 import TeamCard from '@/components/fanta-teams/TeamCard';
 
-const FantaTeams = () => {
+const FantaScore = () => {
   const [teams, setTeams] = useState([]);
   const [showForm, setShowForm] = useState(false);
 
@@ -76,4 +76,4 @@ const FantaTeams = () => {
   );
 };
 
-export default FantaTeams;
+export default FantaScore;

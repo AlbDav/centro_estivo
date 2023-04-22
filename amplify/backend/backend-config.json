@@ -82,47 +82,5 @@
       "service": "amplifyhosting",
       "type": "cicd"
     }
-  },
-  "parameters": {
-    "AMPLIFY_function_centroestivo7d1e9a7cPostConfirmation_GROUP": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "centroestivo7d1e9a7cPostConfirmation"
-        }
-      ]
-    },
-    "AMPLIFY_function_centroestivo7d1e9a7cPostConfirmation_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "centroestivo7d1e9a7cPostConfirmation"
-        }
-      ]
-    },
-    "AMPLIFY_function_centroestivo7d1e9a7cPostConfirmation_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "centroestivo7d1e9a7cPostConfirmation"
-        }
-      ]
-    },
-    "AMPLIFY_hosting_amplifyhosting_appId": {
-      "usedBy": [
-        {
-          "category": "hosting",
-          "resourceName": "amplifyhosting"
-        }
-      ]
-    },
-    "AMPLIFY_hosting_amplifyhosting_type": {
-      "usedBy": [
-        {
-          "category": "hosting",
-          "resourceName": "amplifyhosting"
-        }
-      ]
-    }
   }
 }
