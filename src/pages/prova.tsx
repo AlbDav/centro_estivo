@@ -1,22 +1,17 @@
 import * as React from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { makeStyles } from "@mui/styles";
-import { alpha } from "@mui/material";
+import { styled } from "@mui/system";
 
-const useStyles = makeStyles((theme: any) => ({
-  root: {
-    "& .MuiDataGrid-row.Mui-selected": {
-      backgroundColor: alpha(theme.palette.secondary.light, 0.5),
-      "&:hover": {
-        backgroundColor: alpha(theme.palette.secondary.dark, 0.5),
-      },
+const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
+  '& .MuiDataGrid-row.Mui-selected': {
+    backgroundColor: theme.palette.secondary.light,
+    '&:hover': {
+      backgroundColor: theme.palette.secondary.main,
     },
   },
 }));
 
 const Prova = () => {
-  const classes = useStyles();
-
   const [selectedRow, setSelectedRow] = React.useState(null);
 
   const columns = [
@@ -40,8 +35,7 @@ const Prova = () => {
 
   return (
     <div style={{ height: 300, width: "100%" }}>
-      <DataGrid
-        className={classes.root}
+      <StyledDataGrid
         rows={rows}
         columns={columns}
         onRowSelectionModelChange={handleSelectionModelChange}

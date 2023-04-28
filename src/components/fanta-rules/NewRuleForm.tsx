@@ -17,7 +17,7 @@ const NewRuleForm = ({ onCancel, onSave }: any) => {
 	};
 
 	return (
-		<Card variant="outlined">
+		<Card>
 			<CardContent>
 				<Grid container spacing={2}>
 					<Grid item xs={12}>

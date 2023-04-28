@@ -47,7 +47,7 @@ const NewTeamForm = ({ onCancel, onSave }: any) => {
   };
 
   return (
-    <Card variant="outlined">
+    <Card>
       <CardContent>
         <Grid container justifyContent="center" spacing={2}>
           <Grid item xs={12}>

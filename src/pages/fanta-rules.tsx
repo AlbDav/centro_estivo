@@ -3,25 +3,25 @@ import React, { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
 import { listFantaRules } from '../graphql/queries';
 import { createFantaRule } from '../graphql/mutations';
-import { Box, Button, Container, Fab, Grid, Typography } from '@mui/material';
+import { Box, Button, Card, CardContent, Container, Fab, Grid, Typography } from '@mui/material';
 import NewRuleForm from '../components/fanta-rules/NewRuleForm';
 import RuleCard from '@/components/fanta-rules/RuleCard';
 import { ListFantaRulesQuery } from '@/API';
 import { Add } from '@mui/icons-material';
 import { makeStyles } from '@mui/styles';
+import { styled } from '@mui/system';
 
-const useStyles = makeStyles((theme) => ({
-  newRuleForm: {
-    flex: 1,
-    color: "blue",
+const RuleBox = styled('div')(({ theme }) => ({
+  padding: theme.spacing(1),
+  borderBottom: `1px solid ${theme.palette.divider}`,
+  '&:last-child': {
+    borderBottom: 'none',
   },
 }));
 
 const FantaRules = () => {
   const [rules, setRules] = useState([]);
   const [showForm, setShowForm] = useState(false);
-
-  const classes = useStyles();
 
   useEffect(() => {
     fetchRules();
@@ -54,27 +54,33 @@ const FantaRules = () => {
       </Box>
       <Box marginTop={4} display="flex" justifyContent="center">
         {showForm ? (
-          <Box className={classes.newRuleForm}>
+          <Box sx={{ flex: 1 }}>
             <NewRuleForm
               onCancel={() => setShowForm(false)}
               onSave={(rule: any) => addRule(rule)}
             />
           </Box>
         ) : (
-          <Fab variant="extended" color="secondary" aria-label="add" onClick={() => setShowForm(true)}>
+          <Fab variant="extended" color="secondary"
+            sx={{
+              color: "white",
+            }}
+            aria-label="add" onClick={() => setShowForm(true)}>
             <Add sx={{ mr: 1 }} />
             Aggiungi regola
           </Fab>
         )}
       </Box>
-      <Box marginTop={4}>
-        <Grid container spacing={4}>
-          {rules.map((rule: any) => (
-            <Grid key={rule.id} item xs={12}>
-              <RuleCard rule={rule} />
-            </Grid>
-          ))}
-        </Grid>
+      <Box marginY={4}>
+        <Card>
+          <CardContent>
+            {rules.map((rule: any) => (
+              <RuleBox key={rule.id}>
+                <RuleCard rule={rule} />
+              </RuleBox>
+            ))}
+          </CardContent>
+        </Card>
       </Box>
     </Container>
   );

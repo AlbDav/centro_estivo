@@ -6,7 +6,7 @@ export default function Home() {
       {({ signOut, user }: any) => (
         <>
             <main>
-              <h1>Hello {user.username}</h1>
+              <h1>Ciao {user.username}, purtroppo si, sei sloggato. Vuoi sloggarti!?</h1>
               <button onClick={signOut}>Sign out</button>
             </main>
         </>
