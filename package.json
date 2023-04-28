@@ -9,7 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@aws-amplify/ui-react": "^4.4.0",
+    "@aws-amplify/ui-react": "^4.6.0",
+    "@aws-amplify/ui-react-storage": "^1.1.0",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@fontsource/roboto": "^4.5.8",

@@ -3,14 +3,25 @@ import React, { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
 import { listFantaRules } from '../graphql/queries';
 import { createFantaRule } from '../graphql/mutations';
-import { Box, Button, Container, Grid } from '@mui/material';
+import { Box, Button, Container, Fab, Grid, Typography } from '@mui/material';
 import NewRuleForm from '../components/fanta-rules/NewRuleForm';
 import RuleCard from '@/components/fanta-rules/RuleCard';
 import { ListFantaRulesQuery } from '@/API';
+import { Add } from '@mui/icons-material';
+import { makeStyles } from '@mui/styles';
+
+const useStyles = makeStyles((theme) => ({
+  newRuleForm: {
+    flex: 1,
+    color: "blue",
+  },
+}));
 
 const FantaRules = () => {
   const [rules, setRules] = useState([]);
   const [showForm, setShowForm] = useState(false);
+
+  const classes = useStyles();
 
   useEffect(() => {
     fetchRules();
@@ -39,15 +50,21 @@ const FantaRules = () => {
   return (
     <Container>
       <Box marginTop={4}>
+        <Typography variant="h4" color="textPrimary" align="center">Regole</Typography>
+      </Box>
+      <Box marginTop={4} display="flex" justifyContent="center">
         {showForm ? (
-          <NewRuleForm
-            onCancel={() => setShowForm(false)}
-            onSave={(rule: any) => addRule(rule)}
-          />
+          <Box className={classes.newRuleForm}>
+            <NewRuleForm
+              onCancel={() => setShowForm(false)}
+              onSave={(rule: any) => addRule(rule)}
+            />
+          </Box>
         ) : (
-          <Button variant="contained" color="primary" onClick={() => setShowForm(true)}>
-            +
-          </Button>
+          <Fab variant="extended" color="secondary" aria-label="add" onClick={() => setShowForm(true)}>
+            <Add sx={{ mr: 1 }} />
+            Aggiungi regola
+          </Fab>
         )}
       </Box>
       <Box marginTop={4}>

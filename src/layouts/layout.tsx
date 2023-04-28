@@ -1,9 +1,16 @@
 // components/Layout.js
 import React, { useState } from 'react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { CssBaseline, AppBar, Toolbar, Typography, IconButton, Drawer, List, ListItemText, ListItemButton, Box } from '@mui/material';
+import { CssBaseline, AppBar, Toolbar, Typography, IconButton, Drawer, List, ListItemText, ListItemButton, Box, ListItemIcon } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import Link from 'next/link';
+import { useAuthenticator } from '@aws-amplify/ui-react';
+import { isAdmin } from '@/helpers/AuthHelpers';
+import { styled } from '@mui/styles';
+import GroupIcon from '@mui/icons-material/Group';
+import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
+import DescriptionIcon from '@mui/icons-material/Description';
+import BarChartIcon from '@mui/icons-material/BarChart';
 
 const theme = createTheme({
   palette: {
@@ -28,7 +35,29 @@ const theme = createTheme({
   },
 });
 
+const StyledListItemButton = styled(ListItemButton)({
+  '&:hover': {
+    backgroundColor: theme.palette.secondary.light,
+  },
+  '&:focus': {
+    backgroundColor: theme.palette.secondary.main,
+    color: theme.palette.common.white,
+  },
+});
+
+const StyledDrawer = styled(Drawer)({
+  width: '240px',
+  flexShrink: 0,
+  '& .MuiDrawer-paper': {
+    width: '240px',
+    boxSizing: 'border-box',
+  },
+});
+
 const Layout = ({ children }: any) => {
+  const { user } = useAuthenticator((context) => [context.user]);
+  const isUserAdmin = isAdmin(user);
+
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   const toggleDrawer = () => {
@@ -36,11 +65,11 @@ const Layout = ({ children }: any) => {
   };
 
   const drawerItems = [
-    { title: 'Groups', href: '/groups' },
-    { title: 'Teams', href: '/fanta-teams' },
-    { title: 'Rules', href: '/fanta-rules' },
-    { title: 'Classifica', href: '/fanta-score' },
-  ];
+    { title: 'Groups', href: '/groups', icon: <GroupIcon /> },
+    isUserAdmin ? { title: 'Teams', href: '/fanta-teams', icon: <SportsEsportsIcon /> } : null,
+    { title: 'Rules', href: '/fanta-rules', icon: <DescriptionIcon /> },
+    isUserAdmin ? { title: 'Classifica', href: '/fanta-score', icon: <BarChartIcon /> } : null,
+  ].filter(Boolean);
 
   return (
     <ThemeProvider theme={theme}>
@@ -53,17 +82,20 @@ const Layout = ({ children }: any) => {
           <Typography variant="h6">FantaCE</Typography>
         </Toolbar>
       </AppBar>
-      <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer}>
+      <StyledDrawer anchor="left" open={drawerOpen} onClose={toggleDrawer} transitionDuration={400}>
         <List>
           {drawerItems.map((item, index) => (
-            <Link key={index} href={item.href} passHref>
-              <ListItemButton>
-                <ListItemText primary={item.title} />
-              </ListItemButton>
+            <Link key={index} href={item!.href} passHref onClick={toggleDrawer}>
+              <StyledListItemButton>
+                <ListItemIcon>
+                  {item!.icon}
+                </ListItemIcon>
+                <ListItemText primary={item!.title} />
+              </StyledListItemButton>
             </Link>
           ))}
         </List>
-      </Drawer>
+      </StyledDrawer>
       <Box component="main" paddingTop="64px">
         {children}
       </Box>
