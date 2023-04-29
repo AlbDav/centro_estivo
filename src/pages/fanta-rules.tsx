@@ -91,7 +91,7 @@ const FantaRules = () => {
               Tra i 3 Gruppi scelti bisogna sceglierne 1 che sarà il Gruppo Leader e prenderà il doppio dei punti.
             </li>
             <li>
-              Il Team dovrà essere comunicato entro il 21 maggio per poter essere inserito prima dell'inizio del Centro Estivo.
+              Il Team dovrà essere comunicato entro il 21 maggio per poter essere inserito prima dell&#39;inizio del Centro Estivo.
             </li>
             <li>
               Durante il centro estivo sarà possibile prendere o perdere punti in base ai bonus e ai malus elencati di seguito.
