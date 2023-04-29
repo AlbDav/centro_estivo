@@ -13,7 +13,7 @@ const RuleCard = ({ rule }: any) => {
           </Grid>
           <Grid item>
             <Typography variant="body1" sx={{
-              color: rule.points < 0 ? theme.palette.error.main : theme.palette.success.light,
+              color: rule.points < 0 ? theme.palette.error.light : theme.palette.success.light,
               fontWeight: 'bold'
             }}>
               {rule.pointDescription}
