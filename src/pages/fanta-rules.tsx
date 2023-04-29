@@ -3,12 +3,11 @@ import React, { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
 import { listFantaRules } from '../graphql/queries';
 import { createFantaRule } from '../graphql/mutations';
-import { Box, Button, Card, CardContent, Container, Fab, Grid, Typography } from '@mui/material';
+import { Box, Card, CardContent, Container, Fab, Typography } from '@mui/material';
 import NewRuleForm from '../components/fanta-rules/NewRuleForm';
 import RuleCard from '@/components/fanta-rules/RuleCard';
 import { ListFantaRulesQuery } from '@/API';
 import { Add } from '@mui/icons-material';
-import { makeStyles } from '@mui/styles';
 import { styled } from '@mui/system';
 
 const RuleBox = styled('div')(({ theme }) => ({
@@ -18,6 +17,10 @@ const RuleBox = styled('div')(({ theme }) => ({
     borderBottom: 'none',
   },
 }));
+
+const StyledUl = styled('ul')({
+  marginLeft: '16px'
+});
 
 const FantaRules = () => {
   const [rules, setRules] = useState([]);
@@ -49,10 +52,32 @@ const FantaRules = () => {
 
   return (
     <Container>
-      <Box marginTop={4}>
-        <Typography variant="h4" color="textPrimary" align="center">Regole</Typography>
+      <Box marginTop={2}>
+        <Typography variant="h4" color="textPrimary" align="center" sx={{ textTransform: 'uppercase' }}>Regolamento</Typography>
+        <Typography variant="body1" color="textPrimary" marginX={1} marginTop={1}>
+          <StyledUl>
+            <li>
+              Ogni Gruppo del Centro Estivo avrà la possibilità di creare il proprio Team, che sarà formato da 3 Gruppi.
+            </li>
+            <li>
+              Uno dei 3 Gruppi scelti dovrà essere il proprio.
+            </li>
+            <li>
+              Tra i 3 Gruppi scelti bisogna sceglierne 1 che sarà il Gruppo Leader e prenderà il doppio dei punti.
+            </li>
+            <li>
+              Il Team dovrà essere comunicato entro il 21 maggio per poter essere inserito prima dell'inizio del Centro Estivo.
+            </li>
+            <li>
+              Durante il centro estivo sarà possibile prendere o perdere punti in base ai bonus e ai malus elencati di seguito.
+            </li>
+            <li>
+              I punti e la classifica saranno aggiornati ogni giorno e saranno visibili in una apposita sezione del sito.
+            </li>
+          </StyledUl>
+        </Typography>
       </Box>
-      <Box marginTop={4} display="flex" justifyContent="center">
+      <Box marginTop={3} display="flex" justifyContent="center">
         {showForm ? (
           <Box sx={{ flex: 1 }}>
             <NewRuleForm

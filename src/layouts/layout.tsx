@@ -45,6 +45,15 @@ const theme = createTheme({
           boxShadow: "0 4px 15px 0 rgba(0, 0, 0, 0.1)"
         }
       }
+    },
+    MuiCardContent: {
+      styleOverrides: {
+        root: {
+          '&:last-child': {
+            paddingBottom: '16px', // Usa il valore di paddingBottom desiderato per l'ultimo figlio
+          },
+        }
+      }
     }
   },
 });
