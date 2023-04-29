@@ -5,12 +5,9 @@ import { CssBaseline, AppBar, Toolbar, Typography, IconButton, Drawer, List, Lis
 import MenuIcon from '@mui/icons-material/Menu';
 import Link from 'next/link';
 import { useAuthenticator } from '@aws-amplify/ui-react';
-import { isAdmin } from '@/helpers/AuthHelpers';
+import { isAdmin, isUser } from '@/helpers/AuthHelpers';
 import { styled } from '@mui/system';
-import GroupIcon from '@mui/icons-material/Group';
-import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
-import DescriptionIcon from '@mui/icons-material/Description';
-import BarChartIcon from '@mui/icons-material/BarChart';
+import { Group, SportsEsports, Description, BarChart, Home } from '@mui/icons-material'
 
 const theme = createTheme({
   palette: {
@@ -80,6 +77,7 @@ const StyledDrawer = styled(Drawer)({
 const Layout = ({ children }: any) => {
   const { user } = useAuthenticator((context) => [context.user]);
   const isUserAdmin = isAdmin(user);
+  const isUserUser = isUser(user);
 
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -88,11 +86,12 @@ const Layout = ({ children }: any) => {
   };
 
   const drawerItems = [
-    { title: 'Groups', href: '/groups', icon: <GroupIcon /> },
-    isUserAdmin ? { title: 'Teams', href: '/fanta-teams', icon: <SportsEsportsIcon /> } : null,
-    { title: 'Rules', href: '/fanta-rules', icon: <DescriptionIcon /> },
-    isUserAdmin ? { title: 'Classifica', href: '/fanta-score', icon: <BarChartIcon /> } : null,
-  ].filter(Boolean);
+    { title: 'Home', href: '/', icon: <Home />, condition: true },
+    { title: 'Groups', href: '/groups', icon: <Group />, condition: isUserAdmin },
+    { title: 'Teams', href: '/fanta-teams', icon: <SportsEsports />, condition: isUserAdmin },
+    { title: 'Rules', href: '/fanta-rules', icon: <Description />, condition: true},
+    { title: 'Classifica', href: '/fanta-score', icon: <BarChart />, condition: isUserAdmin },
+  ];
 
   return (
     <ThemeProvider theme={theme}>
@@ -107,13 +106,13 @@ const Layout = ({ children }: any) => {
       </AppBar>
       <StyledDrawer anchor="left" open={drawerOpen} onClose={toggleDrawer} transitionDuration={400}>
         <List>
-          {drawerItems.map((item, index) => (
-            <Link key={index} href={item!.href} passHref onClick={toggleDrawer}>
+          {drawerItems.filter((el: any) => el.condition).map((item, index) => (
+            <Link key={index} href={item.href} passHref onClick={toggleDrawer}>
               <StyledListItemButton>
                 <ListItemIcon>
-                  {item!.icon}
+                  {item.icon}
                 </ListItemIcon>
-                <ListItemText primary={item!.title} />
+                <ListItemText primary={item.title} />
               </StyledListItemButton>
             </Link>
           ))}

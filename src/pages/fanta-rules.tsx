@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
 import { listFantaRules } from '../graphql/queries';
 import { createFantaRule } from '../graphql/mutations';
-import { Box, Card, CardContent, CircularProgress, Container, Fab, Skeleton, Typography } from '@mui/material';
+import { Box, Card, CardContent, CardHeader, CircularProgress, Container, Fab, Skeleton, Typography } from '@mui/material';
 import NewRuleForm from '../components/fanta-rules/NewRuleForm';
 import RuleCard from '@/components/fanta-rules/RuleCard';
 import { ListFantaRulesQuery } from '@/API';
@@ -22,6 +22,15 @@ const RuleBox = styled('div')(({ theme }) => ({
 
 const StyledUl = styled('ul')({
   marginLeft: '16px'
+});
+
+const StyledCardHeader = styled(CardHeader)({
+  textAlign: 'center',
+  textTransform: 'uppercase',
+  paddingBottom: 0,
+  '& .MuiCardHeader-title': {
+    fontSize: '1.8rem',
+  },
 });
 
 const FantaRules = () => {
@@ -69,8 +78,8 @@ const FantaRules = () => {
   return (
     <Container>
       <Box marginTop={2}>
-        <Typography variant="h4" align="center" sx={{ textTransform: 'uppercase' }}>Regolamento</Typography>
-        <Typography component="div" variant="body1" color="textPrimary" marginX={1} marginTop={1}>
+        <Typography variant="h4" align="center" color="text.primary" sx={{ textTransform: 'uppercase' }}>Regolamento</Typography>
+        <Typography component="div" variant="body1" color="text.primary" marginX={1} marginTop={1}>
           <StyledUl>
             <li>
               Ogni Gruppo del Centro Estivo avrà la possibilità di creare il proprio Team, che sarà formato da 3 Gruppi.
@@ -95,12 +104,10 @@ const FantaRules = () => {
       </Box>
       {isUserAdmin && <Box marginTop={3} display="flex" justifyContent="center">
         {showForm ? (
-          <Box sx={{ flex: 1 }}>
             <NewRuleForm
               onCancel={() => setShowForm(false)}
               onSave={(rule: any) => addRule(rule)}
             />
-          </Box>
         ) : (
           <Fab variant="extended" color="secondary"
             sx={{
@@ -114,7 +121,8 @@ const FantaRules = () => {
       </Box>}
       <Box marginY={4}>
         <Card>
-          <CardContent>
+          <StyledCardHeader title="Bonus" />
+          <CardContent sx={{ paddingTop: 0 }}>
             {isLoading ?
               <Box display="flex" justifyContent="center">
                 <CircularProgress color="secondary" />
@@ -129,7 +137,8 @@ const FantaRules = () => {
       </Box>
       <Box marginY={4}>
         <Card>
-          <CardContent>
+          <StyledCardHeader title="Malus" />
+          <CardContent sx={{ paddingTop: 0 }}>
             {isLoading ?
               <Box display="flex" justifyContent="center">
                 <CircularProgress color="secondary" />
