@@ -54,7 +54,7 @@ const FantaRules = () => {
     <Container>
       <Box marginTop={2}>
         <Typography variant="h4" color="textPrimary" align="center" sx={{ textTransform: 'uppercase' }}>Regolamento</Typography>
-        <Typography variant="body1" color="textPrimary" marginX={1} marginTop={1}>
+        <Typography component="div" variant="body1" color="textPrimary" marginX={1} marginTop={1}>
           <StyledUl>
             <li>
               Ogni Gruppo del Centro Estivo avrà la possibilità di creare il proprio Team, che sarà formato da 3 Gruppi.
