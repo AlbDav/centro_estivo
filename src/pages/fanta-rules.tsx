@@ -3,12 +3,14 @@ import React, { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
 import { listFantaRules } from '../graphql/queries';
 import { createFantaRule } from '../graphql/mutations';
-import { Box, Card, CardContent, Container, Fab, Typography } from '@mui/material';
+import { Box, Card, CardContent, CircularProgress, Container, Fab, Skeleton, Typography } from '@mui/material';
 import NewRuleForm from '../components/fanta-rules/NewRuleForm';
 import RuleCard from '@/components/fanta-rules/RuleCard';
 import { ListFantaRulesQuery } from '@/API';
 import { Add } from '@mui/icons-material';
 import { styled } from '@mui/system';
+import { useAuthenticator } from '@aws-amplify/ui-react';
+import { isAdmin } from '@/helpers/AuthHelpers';
 
 const RuleBox = styled('div')(({ theme }) => ({
   padding: theme.spacing(1),
@@ -23,8 +25,13 @@ const StyledUl = styled('ul')({
 });
 
 const FantaRules = () => {
-  const [rules, setRules] = useState([]);
+  const { user } = useAuthenticator((context) => [context.user]);
+  const isUserAdmin = isAdmin(user);
+
+  const [positiveRules, setPositiveRules] = useState([]);
+  const [negativeRules, setNegativeRules] = useState([]);
   const [showForm, setShowForm] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     fetchRules();
@@ -33,8 +40,9 @@ const FantaRules = () => {
   const fetchRules = async () => {
     try {
       const ruleData = await API.graphql<ListFantaRulesQuery>({ query: listFantaRules }) as any;
-      const ruleItems = ruleData.data.listFantaRules.items;
-      setRules(ruleItems);
+      const ruleItems = ruleData.data.listFantaRules.items.sort((a: any, b: any) => b.points - a.points);
+      splitRules(ruleItems);
+      setIsLoading(false);
     } catch (error) {
       console.log('Error fetching rules:', error);
     }
@@ -50,10 +58,18 @@ const FantaRules = () => {
     }
   };
 
+  const splitRules = (rules: any) => {
+    let positive = rules.filter((el: any) => el.points >= 0);
+    let negative = rules.filter((el: any) => el.points < 0);
+
+    setPositiveRules(positive);
+    setNegativeRules(negative);
+  };
+
   return (
     <Container>
       <Box marginTop={2}>
-        <Typography variant="h4" color="textPrimary" align="center" sx={{ textTransform: 'uppercase' }}>Regolamento</Typography>
+        <Typography variant="h4" align="center" sx={{ textTransform: 'uppercase' }}>Regolamento</Typography>
         <Typography component="div" variant="body1" color="textPrimary" marginX={1} marginTop={1}>
           <StyledUl>
             <li>
@@ -77,7 +93,7 @@ const FantaRules = () => {
           </StyledUl>
         </Typography>
       </Box>
-      <Box marginTop={3} display="flex" justifyContent="center">
+      {isUserAdmin && <Box marginTop={3} display="flex" justifyContent="center">
         {showForm ? (
           <Box sx={{ flex: 1 }}>
             <NewRuleForm
@@ -95,15 +111,34 @@ const FantaRules = () => {
             Aggiungi regola
           </Fab>
         )}
+      </Box>}
+      <Box marginY={4}>
+        <Card>
+          <CardContent>
+            {isLoading ?
+              <Box display="flex" justifyContent="center">
+                <CircularProgress color="secondary" />
+              </Box>
+              : positiveRules.map((rule: any) => (
+                <RuleBox key={rule.id}>
+                  <RuleCard rule={rule} />
+                </RuleBox>
+              ))}
+          </CardContent>
+        </Card>
       </Box>
       <Box marginY={4}>
         <Card>
           <CardContent>
-            {rules.map((rule: any) => (
-              <RuleBox key={rule.id}>
-                <RuleCard rule={rule} />
-              </RuleBox>
-            ))}
+            {isLoading ?
+              <Box display="flex" justifyContent="center">
+                <CircularProgress color="secondary" />
+              </Box>
+              : negativeRules.map((rule: any) => (
+                <RuleBox key={rule.id}>
+                  <RuleCard rule={rule} />
+                </RuleBox>
+              ))}
           </CardContent>
         </Card>
       </Box>

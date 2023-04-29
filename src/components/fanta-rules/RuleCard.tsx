@@ -1,8 +1,10 @@
 // components/RuleCard.js
 import React from 'react';
-import { Card, CardContent, Grid, Typography } from '@mui/material';
+import { Grid, Typography, useTheme } from '@mui/material';
 
 const RuleCard = ({ rule }: any) => {
+  const theme = useTheme();
+
   return (
         <Grid container justifyContent="space-between" alignItems="center">
           <Grid item>
@@ -10,8 +12,11 @@ const RuleCard = ({ rule }: any) => {
             <Typography variant="body1">{rule.description}</Typography>
           </Grid>
           <Grid item>
-            <Typography variant="body1">
-              {rule.points > 0 ? '+' : ''}{rule.points} {rule.pointDescription}
+            <Typography variant="body1" sx={{
+              color: rule.points < 0 ? theme.palette.error.main : theme.palette.success.light,
+              fontWeight: 'bold'
+            }}>
+              {rule.pointDescription}
             </Typography>
           </Grid>
         </Grid>
