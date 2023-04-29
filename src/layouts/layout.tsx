@@ -6,7 +6,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Link from 'next/link';
 import { useAuthenticator } from '@aws-amplify/ui-react';
 import { isAdmin } from '@/helpers/AuthHelpers';
-import { styled } from '@mui/styles';
+import { styled } from '@mui/system';
 import GroupIcon from '@mui/icons-material/Group';
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import DescriptionIcon from '@mui/icons-material/Description';
