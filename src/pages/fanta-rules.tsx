@@ -11,6 +11,7 @@ import { Add } from '@mui/icons-material';
 import { styled } from '@mui/system';
 import { useAuthenticator } from '@aws-amplify/ui-react';
 import { isAdmin } from '@/helpers/AuthHelpers';
+import { useRouter } from 'next/router';
 
 const RuleBox = styled('div')(({ theme }) => ({
   padding: theme.spacing(1),
@@ -35,7 +36,10 @@ const StyledCardHeader = styled(CardHeader)({
 
 const FantaRules = () => {
   const { user } = useAuthenticator((context) => [context.user]);
+  const [authChecked, setAuthChecked] = useState(false);
   const isUserAdmin = isAdmin(user);
+
+  const router = useRouter();
 
   const [positiveRules, setPositiveRules] = useState([]);
   const [negativeRules, setNegativeRules] = useState([]);
@@ -43,7 +47,12 @@ const FantaRules = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    fetchRules();
+    if (!user) {
+      router.push('/');
+    } else {
+      fetchRules();
+      setAuthChecked(true);
+    }
   }, []);
 
   const fetchRules = async () => {
@@ -75,6 +84,14 @@ const FantaRules = () => {
     setNegativeRules(negative);
   };
 
+  if (!authChecked) {
+    return (
+      <Box height="calc(100vh - 64px)" display="flex" alignItems="center" justifyContent="center">
+        <CircularProgress color="secondary" size={60} />
+      </Box>
+    )
+  }
+
   return (
     <Container>
       <Box marginTop={2}>
@@ -104,10 +121,10 @@ const FantaRules = () => {
       </Box>
       {isUserAdmin && <Box marginTop={3} display="flex" justifyContent="center">
         {showForm ? (
-            <NewRuleForm
-              onCancel={() => setShowForm(false)}
-              onSave={(rule: any) => addRule(rule)}
-            />
+          <NewRuleForm
+            onCancel={() => setShowForm(false)}
+            onSave={(rule: any) => addRule(rule)}
+          />
         ) : (
           <Fab variant="extended" color="secondary"
             sx={{
