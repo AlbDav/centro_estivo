@@ -13,7 +13,7 @@ const NewGroupForm = ({ onCancel, onSave }: any) => {
   };
 
   return (
-    <Card variant="outlined">
+    <Card>
       <CardContent>
         <TextField
           label="Name"

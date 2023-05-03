@@ -2,198 +2,6 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const onCreateTeam = /* GraphQL */ `
-  subscription OnCreateTeam($filter: ModelSubscriptionTeamFilterInput) {
-    onCreateTeam(filter: $filter) {
-      id
-      name
-      groups {
-        items {
-          id
-          groupId
-          teamId
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      leaderGroup {
-        id
-        name
-        color
-        teams {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      createdAt
-      updatedAt
-      teamLeaderGroupId
-    }
-  }
-`;
-export const onUpdateTeam = /* GraphQL */ `
-  subscription OnUpdateTeam($filter: ModelSubscriptionTeamFilterInput) {
-    onUpdateTeam(filter: $filter) {
-      id
-      name
-      groups {
-        items {
-          id
-          groupId
-          teamId
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      leaderGroup {
-        id
-        name
-        color
-        teams {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      createdAt
-      updatedAt
-      teamLeaderGroupId
-    }
-  }
-`;
-export const onDeleteTeam = /* GraphQL */ `
-  subscription OnDeleteTeam($filter: ModelSubscriptionTeamFilterInput) {
-    onDeleteTeam(filter: $filter) {
-      id
-      name
-      groups {
-        items {
-          id
-          groupId
-          teamId
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      leaderGroup {
-        id
-        name
-        color
-        teams {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      createdAt
-      updatedAt
-      teamLeaderGroupId
-    }
-  }
-`;
-export const onCreateScoreEntry = /* GraphQL */ `
-  subscription OnCreateScoreEntry(
-    $filter: ModelSubscriptionScoreEntryFilterInput
-  ) {
-    onCreateScoreEntry(filter: $filter) {
-      id
-      rule {
-        id
-        title
-        description
-        points
-        pointDescription
-        createdAt
-        updatedAt
-      }
-      group {
-        id
-        name
-        color
-        teams {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      date
-      createdAt
-      updatedAt
-      scoreEntryRuleId
-      scoreEntryGroupId
-    }
-  }
-`;
-export const onUpdateScoreEntry = /* GraphQL */ `
-  subscription OnUpdateScoreEntry(
-    $filter: ModelSubscriptionScoreEntryFilterInput
-  ) {
-    onUpdateScoreEntry(filter: $filter) {
-      id
-      rule {
-        id
-        title
-        description
-        points
-        pointDescription
-        createdAt
-        updatedAt
-      }
-      group {
-        id
-        name
-        color
-        teams {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      date
-      createdAt
-      updatedAt
-      scoreEntryRuleId
-      scoreEntryGroupId
-    }
-  }
-`;
-export const onDeleteScoreEntry = /* GraphQL */ `
-  subscription OnDeleteScoreEntry(
-    $filter: ModelSubscriptionScoreEntryFilterInput
-  ) {
-    onDeleteScoreEntry(filter: $filter) {
-      id
-      rule {
-        id
-        title
-        description
-        points
-        pointDescription
-        createdAt
-        updatedAt
-      }
-      group {
-        id
-        name
-        color
-        teams {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      date
-      createdAt
-      updatedAt
-      scoreEntryRuleId
-      scoreEntryGroupId
-    }
-  }
-`;
 export const onCreateGroup = /* GraphQL */ `
   subscription OnCreateGroup($filter: ModelSubscriptionGroupFilterInput) {
     onCreateGroup(filter: $filter) {
@@ -204,7 +12,34 @@ export const onCreateGroup = /* GraphQL */ `
         items {
           id
           groupId
-          teamId
+          fantaTeamId
+          group {
+            id
+            name
+            color
+            teams {
+              nextToken
+            }
+            createdAt
+            updatedAt
+          }
+          fantaTeam {
+            id
+            name
+            groups {
+              nextToken
+            }
+            leaderGroup {
+              id
+              name
+              color
+              createdAt
+              updatedAt
+            }
+            createdAt
+            updatedAt
+            fantaTeamLeaderGroupId
+          }
           createdAt
           updatedAt
         }
@@ -225,7 +60,34 @@ export const onUpdateGroup = /* GraphQL */ `
         items {
           id
           groupId
-          teamId
+          fantaTeamId
+          group {
+            id
+            name
+            color
+            teams {
+              nextToken
+            }
+            createdAt
+            updatedAt
+          }
+          fantaTeam {
+            id
+            name
+            groups {
+              nextToken
+            }
+            leaderGroup {
+              id
+              name
+              color
+              createdAt
+              updatedAt
+            }
+            createdAt
+            updatedAt
+            fantaTeamLeaderGroupId
+          }
           createdAt
           updatedAt
         }
@@ -246,7 +108,34 @@ export const onDeleteGroup = /* GraphQL */ `
         items {
           id
           groupId
-          teamId
+          fantaTeamId
+          group {
+            id
+            name
+            color
+            teams {
+              nextToken
+            }
+            createdAt
+            updatedAt
+          }
+          fantaTeam {
+            id
+            name
+            groups {
+              nextToken
+            }
+            leaderGroup {
+              id
+              name
+              color
+              createdAt
+              updatedAt
+            }
+            createdAt
+            updatedAt
+            fantaTeamLeaderGroupId
+          }
           createdAt
           updatedAt
         }
@@ -257,9 +146,254 @@ export const onDeleteGroup = /* GraphQL */ `
     }
   }
 `;
-export const onCreateRule = /* GraphQL */ `
-  subscription OnCreateRule($filter: ModelSubscriptionRuleFilterInput) {
-    onCreateRule(filter: $filter) {
+export const onCreateFantaTeam = /* GraphQL */ `
+  subscription OnCreateFantaTeam(
+    $filter: ModelSubscriptionFantaTeamFilterInput
+  ) {
+    onCreateFantaTeam(filter: $filter) {
+      id
+      name
+      groups {
+        items {
+          id
+          groupId
+          fantaTeamId
+          group {
+            id
+            name
+            color
+            teams {
+              nextToken
+            }
+            createdAt
+            updatedAt
+          }
+          fantaTeam {
+            id
+            name
+            groups {
+              nextToken
+            }
+            leaderGroup {
+              id
+              name
+              color
+              createdAt
+              updatedAt
+            }
+            createdAt
+            updatedAt
+            fantaTeamLeaderGroupId
+          }
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      leaderGroup {
+        id
+        name
+        color
+        teams {
+          items {
+            id
+            groupId
+            fantaTeamId
+            group {
+              id
+              name
+              color
+              createdAt
+              updatedAt
+            }
+            fantaTeam {
+              id
+              name
+              createdAt
+              updatedAt
+              fantaTeamLeaderGroupId
+            }
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+      fantaTeamLeaderGroupId
+    }
+  }
+`;
+export const onUpdateFantaTeam = /* GraphQL */ `
+  subscription OnUpdateFantaTeam(
+    $filter: ModelSubscriptionFantaTeamFilterInput
+  ) {
+    onUpdateFantaTeam(filter: $filter) {
+      id
+      name
+      groups {
+        items {
+          id
+          groupId
+          fantaTeamId
+          group {
+            id
+            name
+            color
+            teams {
+              nextToken
+            }
+            createdAt
+            updatedAt
+          }
+          fantaTeam {
+            id
+            name
+            groups {
+              nextToken
+            }
+            leaderGroup {
+              id
+              name
+              color
+              createdAt
+              updatedAt
+            }
+            createdAt
+            updatedAt
+            fantaTeamLeaderGroupId
+          }
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      leaderGroup {
+        id
+        name
+        color
+        teams {
+          items {
+            id
+            groupId
+            fantaTeamId
+            group {
+              id
+              name
+              color
+              createdAt
+              updatedAt
+            }
+            fantaTeam {
+              id
+              name
+              createdAt
+              updatedAt
+              fantaTeamLeaderGroupId
+            }
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+      fantaTeamLeaderGroupId
+    }
+  }
+`;
+export const onDeleteFantaTeam = /* GraphQL */ `
+  subscription OnDeleteFantaTeam(
+    $filter: ModelSubscriptionFantaTeamFilterInput
+  ) {
+    onDeleteFantaTeam(filter: $filter) {
+      id
+      name
+      groups {
+        items {
+          id
+          groupId
+          fantaTeamId
+          group {
+            id
+            name
+            color
+            teams {
+              nextToken
+            }
+            createdAt
+            updatedAt
+          }
+          fantaTeam {
+            id
+            name
+            groups {
+              nextToken
+            }
+            leaderGroup {
+              id
+              name
+              color
+              createdAt
+              updatedAt
+            }
+            createdAt
+            updatedAt
+            fantaTeamLeaderGroupId
+          }
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      leaderGroup {
+        id
+        name
+        color
+        teams {
+          items {
+            id
+            groupId
+            fantaTeamId
+            group {
+              id
+              name
+              color
+              createdAt
+              updatedAt
+            }
+            fantaTeam {
+              id
+              name
+              createdAt
+              updatedAt
+              fantaTeamLeaderGroupId
+            }
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+      fantaTeamLeaderGroupId
+    }
+  }
+`;
+export const onCreateFantaRule = /* GraphQL */ `
+  subscription OnCreateFantaRule(
+    $filter: ModelSubscriptionFantaRuleFilterInput
+  ) {
+    onCreateFantaRule(filter: $filter) {
       id
       title
       description
@@ -270,9 +404,11 @@ export const onCreateRule = /* GraphQL */ `
     }
   }
 `;
-export const onUpdateRule = /* GraphQL */ `
-  subscription OnUpdateRule($filter: ModelSubscriptionRuleFilterInput) {
-    onUpdateRule(filter: $filter) {
+export const onUpdateFantaRule = /* GraphQL */ `
+  subscription OnUpdateFantaRule(
+    $filter: ModelSubscriptionFantaRuleFilterInput
+  ) {
+    onUpdateFantaRule(filter: $filter) {
       id
       title
       description
@@ -283,9 +419,11 @@ export const onUpdateRule = /* GraphQL */ `
     }
   }
 `;
-export const onDeleteRule = /* GraphQL */ `
-  subscription OnDeleteRule($filter: ModelSubscriptionRuleFilterInput) {
-    onDeleteRule(filter: $filter) {
+export const onDeleteFantaRule = /* GraphQL */ `
+  subscription OnDeleteFantaRule(
+    $filter: ModelSubscriptionFantaRuleFilterInput
+  ) {
+    onDeleteFantaRule(filter: $filter) {
       id
       title
       description
@@ -296,120 +434,438 @@ export const onDeleteRule = /* GraphQL */ `
     }
   }
 `;
-export const onCreateTeamGroups = /* GraphQL */ `
-  subscription OnCreateTeamGroups(
-    $filter: ModelSubscriptionTeamGroupsFilterInput
+export const onCreateFantaScoreEntry = /* GraphQL */ `
+  subscription OnCreateFantaScoreEntry(
+    $filter: ModelSubscriptionFantaScoreEntryFilterInput
   ) {
-    onCreateTeamGroups(filter: $filter) {
+    onCreateFantaScoreEntry(filter: $filter) {
       id
-      groupId
-      teamId
+      rule {
+        id
+        title
+        description
+        points
+        pointDescription
+        createdAt
+        updatedAt
+      }
       group {
         id
         name
         color
         teams {
+          items {
+            id
+            groupId
+            fantaTeamId
+            group {
+              id
+              name
+              color
+              createdAt
+              updatedAt
+            }
+            fantaTeam {
+              id
+              name
+              createdAt
+              updatedAt
+              fantaTeamLeaderGroupId
+            }
+            createdAt
+            updatedAt
+          }
           nextToken
         }
         createdAt
         updatedAt
       }
-      team {
+      date
+      createdAt
+      updatedAt
+      fantaScoreEntryRuleId
+      fantaScoreEntryGroupId
+    }
+  }
+`;
+export const onUpdateFantaScoreEntry = /* GraphQL */ `
+  subscription OnUpdateFantaScoreEntry(
+    $filter: ModelSubscriptionFantaScoreEntryFilterInput
+  ) {
+    onUpdateFantaScoreEntry(filter: $filter) {
+      id
+      rule {
+        id
+        title
+        description
+        points
+        pointDescription
+        createdAt
+        updatedAt
+      }
+      group {
+        id
+        name
+        color
+        teams {
+          items {
+            id
+            groupId
+            fantaTeamId
+            group {
+              id
+              name
+              color
+              createdAt
+              updatedAt
+            }
+            fantaTeam {
+              id
+              name
+              createdAt
+              updatedAt
+              fantaTeamLeaderGroupId
+            }
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      date
+      createdAt
+      updatedAt
+      fantaScoreEntryRuleId
+      fantaScoreEntryGroupId
+    }
+  }
+`;
+export const onDeleteFantaScoreEntry = /* GraphQL */ `
+  subscription OnDeleteFantaScoreEntry(
+    $filter: ModelSubscriptionFantaScoreEntryFilterInput
+  ) {
+    onDeleteFantaScoreEntry(filter: $filter) {
+      id
+      rule {
+        id
+        title
+        description
+        points
+        pointDescription
+        createdAt
+        updatedAt
+      }
+      group {
+        id
+        name
+        color
+        teams {
+          items {
+            id
+            groupId
+            fantaTeamId
+            group {
+              id
+              name
+              color
+              createdAt
+              updatedAt
+            }
+            fantaTeam {
+              id
+              name
+              createdAt
+              updatedAt
+              fantaTeamLeaderGroupId
+            }
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      date
+      createdAt
+      updatedAt
+      fantaScoreEntryRuleId
+      fantaScoreEntryGroupId
+    }
+  }
+`;
+export const onCreateFantaTeamGroups = /* GraphQL */ `
+  subscription OnCreateFantaTeamGroups(
+    $filter: ModelSubscriptionFantaTeamGroupsFilterInput
+  ) {
+    onCreateFantaTeamGroups(filter: $filter) {
+      id
+      groupId
+      fantaTeamId
+      group {
+        id
+        name
+        color
+        teams {
+          items {
+            id
+            groupId
+            fantaTeamId
+            group {
+              id
+              name
+              color
+              createdAt
+              updatedAt
+            }
+            fantaTeam {
+              id
+              name
+              createdAt
+              updatedAt
+              fantaTeamLeaderGroupId
+            }
+            createdAt
+            updatedAt
+          }
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      fantaTeam {
         id
         name
         groups {
+          items {
+            id
+            groupId
+            fantaTeamId
+            group {
+              id
+              name
+              color
+              createdAt
+              updatedAt
+            }
+            fantaTeam {
+              id
+              name
+              createdAt
+              updatedAt
+              fantaTeamLeaderGroupId
+            }
+            createdAt
+            updatedAt
+          }
           nextToken
         }
         leaderGroup {
           id
           name
           color
+          teams {
+            items {
+              id
+              groupId
+              fantaTeamId
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
           createdAt
           updatedAt
         }
         createdAt
         updatedAt
-        teamLeaderGroupId
+        fantaTeamLeaderGroupId
       }
       createdAt
       updatedAt
     }
   }
 `;
-export const onUpdateTeamGroups = /* GraphQL */ `
-  subscription OnUpdateTeamGroups(
-    $filter: ModelSubscriptionTeamGroupsFilterInput
+export const onUpdateFantaTeamGroups = /* GraphQL */ `
+  subscription OnUpdateFantaTeamGroups(
+    $filter: ModelSubscriptionFantaTeamGroupsFilterInput
   ) {
-    onUpdateTeamGroups(filter: $filter) {
+    onUpdateFantaTeamGroups(filter: $filter) {
       id
       groupId
-      teamId
+      fantaTeamId
       group {
         id
         name
         color
         teams {
+          items {
+            id
+            groupId
+            fantaTeamId
+            group {
+              id
+              name
+              color
+              createdAt
+              updatedAt
+            }
+            fantaTeam {
+              id
+              name
+              createdAt
+              updatedAt
+              fantaTeamLeaderGroupId
+            }
+            createdAt
+            updatedAt
+          }
           nextToken
         }
         createdAt
         updatedAt
       }
-      team {
+      fantaTeam {
         id
         name
         groups {
+          items {
+            id
+            groupId
+            fantaTeamId
+            group {
+              id
+              name
+              color
+              createdAt
+              updatedAt
+            }
+            fantaTeam {
+              id
+              name
+              createdAt
+              updatedAt
+              fantaTeamLeaderGroupId
+            }
+            createdAt
+            updatedAt
+          }
           nextToken
         }
         leaderGroup {
           id
           name
           color
+          teams {
+            items {
+              id
+              groupId
+              fantaTeamId
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
           createdAt
           updatedAt
         }
         createdAt
         updatedAt
-        teamLeaderGroupId
+        fantaTeamLeaderGroupId
       }
       createdAt
       updatedAt
     }
   }
 `;
-export const onDeleteTeamGroups = /* GraphQL */ `
-  subscription OnDeleteTeamGroups(
-    $filter: ModelSubscriptionTeamGroupsFilterInput
+export const onDeleteFantaTeamGroups = /* GraphQL */ `
+  subscription OnDeleteFantaTeamGroups(
+    $filter: ModelSubscriptionFantaTeamGroupsFilterInput
   ) {
-    onDeleteTeamGroups(filter: $filter) {
+    onDeleteFantaTeamGroups(filter: $filter) {
       id
       groupId
-      teamId
+      fantaTeamId
       group {
         id
         name
         color
         teams {
+          items {
+            id
+            groupId
+            fantaTeamId
+            group {
+              id
+              name
+              color
+              createdAt
+              updatedAt
+            }
+            fantaTeam {
+              id
+              name
+              createdAt
+              updatedAt
+              fantaTeamLeaderGroupId
+            }
+            createdAt
+            updatedAt
+          }
           nextToken
         }
         createdAt
         updatedAt
       }
-      team {
+      fantaTeam {
         id
         name
         groups {
+          items {
+            id
+            groupId
+            fantaTeamId
+            group {
+              id
+              name
+              color
+              createdAt
+              updatedAt
+            }
+            fantaTeam {
+              id
+              name
+              createdAt
+              updatedAt
+              fantaTeamLeaderGroupId
+            }
+            createdAt
+            updatedAt
+          }
           nextToken
         }
         leaderGroup {
           id
           name
           color
+          teams {
+            items {
+              id
+              groupId
+              fantaTeamId
+              createdAt
+              updatedAt
+            }
+            nextToken
+          }
           createdAt
           updatedAt
         }
         createdAt
         updatedAt
-        teamLeaderGroupId
+        fantaTeamLeaderGroupId
       }
       createdAt
       updatedAt

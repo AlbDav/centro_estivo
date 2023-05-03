@@ -3,7 +3,7 @@ import { Box, Card, CardContent, Chip, Typography } from '@mui/material';
 
 const GroupCard = ({ group }: any) => {
   return (
-    <Card variant="outlined">
+    <Card>
       <CardContent>
 	  	<Typography variant="h6">{group.name}</Typography>
 		<Box

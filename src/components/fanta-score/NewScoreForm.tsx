@@ -1,4 +1,4 @@
-// components/NewRuleForm.js
+// components/NewScoreForm.tsx
 import React, { useState } from 'react';
 import { TextField, Button, Grid, Card, CardContent } from '@mui/material';
 
@@ -17,9 +17,8 @@ const NewRuleForm = ({ onCancel, onSave }: any) => {
 	};
 
 	return (
-		<Card variant="outlined">
+		<Card>
 			<CardContent>
-
 				<Grid container spacing={2}>
 					<Grid item xs={12}>
 						<TextField label="Title" fullWidth value={title} onChange={(e) => setTitle(e.target.value)} />

@@ -1,19 +1,32 @@
-import { Inter } from 'next/font/google'
 import { Authenticator } from '@aws-amplify/ui-react'
-
-const inter = Inter({ subsets: ['latin'] })
+import { Box, Button, Typography } from '@mui/material'
+import { styled } from '@mui/system'
 
 export default function Home() {
+  const LargeButton = styled(Button)(({ theme }) => ({
+    padding: '10px 60px', // Aumenta il padding intorno al testo
+  }));
+
   return (
-    <Authenticator>
-      {({ signOut, user }: any) => (
-        <>
+    <Box height="calc(100vh - 64px)" display="flex" alignItems="center" justifyContent="center">
+      <Authenticator
+        hideSignUp={true}
+      >
+        {({ signOut, user }: any) => (
+          <>
             <main>
-              <h1>Hello {user.username}</h1>
-              <button onClick={signOut}>Sign out</button>
+              <Box marginX={2}>
+                <Typography variant="h4" color="text.primary">Ciao {user.username}, purtroppo si, sei sloggato. Vuoi sloggarti!?</Typography>
+              </Box>
+              <Box display="flex" justifyContent="center" marginTop={3}>
+                <LargeButton variant="contained" color="primary" onClick={signOut}>
+                  Logout
+                </LargeButton>
+              </Box>
             </main>
-        </>
-      )}
-    </Authenticator>
+          </>
+        )}
+      </Authenticator>
+    </Box>
   )
 }

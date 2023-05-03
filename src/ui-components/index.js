@@ -7,7 +7,7 @@
 export { default as studioTheme } from "./studioTheme";
 export { default as GroupCreateForm } from "./GroupCreateForm";
 export { default as GroupUpdateForm } from "./GroupUpdateForm";
-export { default as TeamCreateForm } from "./TeamCreateForm";
-export { default as TeamUpdateForm } from "./TeamUpdateForm";
-export { default as RuleCreateForm } from "./RuleCreateForm";
-export { default as RuleUpdateForm } from "./RuleUpdateForm";
+export { default as FantaTeamCreateForm } from "./FantaTeamCreateForm";
+export { default as FantaTeamUpdateForm } from "./FantaTeamUpdateForm";
+export { default as FantaRuleCreateForm } from "./FantaRuleCreateForm";
+export { default as FantaRuleUpdateForm } from "./FantaRuleUpdateForm";
