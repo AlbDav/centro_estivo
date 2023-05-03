@@ -16,7 +16,7 @@ export default function Home() {
           <>
             <main>
               <Box marginX={2}>
-                <Typography variant="h4" color="text.primary">Ciao {user.username}, purtroppo si, sei sloggato. Vuoi sloggarti!?</Typography>
+                <Typography variant="h4" color="text.primary">Ciao {user.username}, purtroppo si, sei loggato. Vuoi sloggarti!?</Typography>
               </Box>
               <Box display="flex" justifyContent="center" marginTop={3}>
                 <LargeButton variant="contained" color="primary" onClick={signOut}>
