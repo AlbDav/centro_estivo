@@ -147,6 +147,9 @@ const FantaRules = () => {
                 Durante il Centro Estivo sarà possibile <strong>prendere o perdere punti</strong> in base ai bonus e ai malus <strong>elencati di seguito</strong>.
               </li>
               <li>
+                I punti <strong>non sono cumulabili</strong> alll&#39;interno dello stesso giorno.
+              </li>
+              <li>
                 I punti e la classifica saranno <strong>aggiornati ogni giorno</strong> e saranno visibili in una apposita sezione del sito.
               </li>
             </StyledUl>
