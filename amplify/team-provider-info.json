@@ -55,7 +55,17 @@
         }
       },
       "auth": {
-        "centroestivoauth": {}
+        "centroestivoauth": {},
+        "userPoolGroups": {}
+      },
+      "function": {
+        "centroestivo7d1e9a7cPostConfirmation": {
+          "deploymentBucketName": "amplify-centroestivo-prod-134122-deployment",
+          "s3Key": "amplify-builds/centroestivo7d1e9a7cPostConfirmation-6c78575a417252344846-build.zip"
+        }
+      },
+      "api": {
+        "centroestivo": {}
       }
     }
   }
