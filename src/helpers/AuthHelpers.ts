@@ -15,7 +15,7 @@ export const isStand = (user: any): boolean => {
 
 export const isRef = (user: any): boolean => {
   const groups = getGroups(user);
-  return groups.includes("Ref");
+  return groups.includes("Refs");
 };
 
 export const isAdmin = (user: any): boolean => {

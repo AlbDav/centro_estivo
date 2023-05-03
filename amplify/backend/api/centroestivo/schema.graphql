@@ -5,6 +5,7 @@
 type Group @model @auth(
 	rules: [
 		{ allow: groups, provider: userPools, groups: ["Admins"], operations: [create, update, delete, read] },
+		{ allow: groups, provider: userPools, groups: ["Refs"], operations: [create, update, read] },
 		{ allow: groups, provider: userPools, groups: ["Users"], operations: [read] },
 		{ allow: public, provider: iam, operations: [read] }
 		]
@@ -18,6 +19,7 @@ type Group @model @auth(
 type FantaTeam @model @auth(
 	rules: [
 		{ allow: groups, provider: userPools, groups: ["Admins"], operations: [create, update, delete, read] },
+		{ allow: groups, provider: userPools, groups: ["Refs"], operations: [create, update, read] },
 		{ allow: groups, provider: userPools, groups: ["Users"], operations: [read] },
 		{ allow: public, provider: iam, operations: [read] }
 		]
@@ -31,6 +33,7 @@ type FantaTeam @model @auth(
 type FantaRule @model @auth(
 	rules: [
 		{ allow: groups, provider: userPools, groups: ["Admins"], operations: [create, update, delete, read] },
+		{ allow: groups, provider: userPools, groups: ["Refs"], operations: [create, update, read] },
 		{ allow: groups, provider: userPools, groups: ["Users"], operations: [read] },
 		{ allow: public, provider: iam, operations: [read] }
 		]
@@ -45,6 +48,7 @@ type FantaRule @model @auth(
 type FantaScoreEntry @model @auth(
 	rules: [
 		{ allow: groups, provider: userPools, groups: ["Admins"], operations: [create, update, delete, read] },
+		{ allow: groups, provider: userPools, groups: ["Refs"], operations: [create, update, read] },
 		{ allow: groups, provider: userPools, groups: ["Users"], operations: [read] },
 		{ allow: public, provider: iam, operations: [read] }
 		]

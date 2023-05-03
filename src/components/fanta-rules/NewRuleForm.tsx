@@ -89,11 +89,11 @@ const NewRuleForm = ({ onCancel, onSave }: any) => {
           </Grid>
           <Grid item xs={12}>
             <Box display="flex" justifyContent="center">
-              <LargeButton variant="contained" color="primary" onClick={handleSubmit}>
-                Salva
-              </LargeButton>
-              <LargeButton variant="outlined" color="secondary" onClick={onCancel} style={{ marginLeft: '40px' }}>
+              <LargeButton variant="outlined" color="secondary" onClick={onCancel}>
                 Annulla
+              </LargeButton>
+              <LargeButton variant="contained" color="primary" onClick={handleSubmit} style={{ marginLeft: '40px' }}>
+                Salva
               </LargeButton>
             </Box>
           </Grid>
