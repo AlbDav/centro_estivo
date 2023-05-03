@@ -59,8 +59,8 @@ const FantaRules = () => {
   }, [authStatus]);
 
   useEffect(() => {
-	setIsUserAdmin(isAdmin(user));
-	setIsUserRef(isRef(user));
+    setIsUserAdmin(isAdmin(user));
+    setIsUserRef(isRef(user));
   }, [user]);
 
   const fetchRules = async () => {
@@ -133,6 +133,9 @@ const FantaRules = () => {
             <StyledUl>
               <li>
                 <strong>Ogni Gruppo</strong> del Centro Estivo avrà la possibilità di <strong>creare il proprio Team</strong>, che sarà formato da <strong>3 Gruppi</strong>.
+              </li>
+              <li>
+                Ogni Team dovrà avere un <strong>nome</strong>.
               </li>
               <li>
                 <strong>Uno dei 3 Gruppi</strong> scelti dovrà essere <strong>il proprio</strong>.
