@@ -176,7 +176,7 @@ const FantaRules = () => {
           )}
         </Box>}
         <Box marginY={4}>
-          <Card>
+          <Card variant="elevation">
             <StyledCardHeader title="Bonus" />
             <CardContent sx={{ paddingTop: 0 }}>
               {isLoading ?
@@ -192,7 +192,7 @@ const FantaRules = () => {
           </Card>
         </Box>
         <Box marginY={4}>
-          <Card>
+          <Card variant="elevation">
             <StyledCardHeader title="Malus" />
             <CardContent sx={{ paddingTop: 0 }}>
               {isLoading ?
