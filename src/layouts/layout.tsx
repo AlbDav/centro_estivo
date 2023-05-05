@@ -1,11 +1,12 @@
 // components/Layout.js
 import React, { useState } from 'react';
-import { createTheme, ThemeProvider } from '@mui/material';
+import { BottomNavigation, BottomNavigationAction, createTheme, Hidden, Paper, ThemeProvider } from '@mui/material';
 import { CssBaseline, AppBar, Toolbar, Typography, IconButton, Drawer, List, ListItemText, ListItemButton, Box, ListItemIcon } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import Link from 'next/link';
 import { styled } from '@mui/system';
 import { useMenuItems } from '@/hooks/useMenuItems';
+import { useRouter } from 'next/router';
 
 const theme = createTheme({
   palette: {
@@ -33,7 +34,7 @@ const theme = createTheme({
           props: { variant: 'elevation' },
           style: {
             boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
-			borderRadius: '0.75rem'
+            borderRadius: '0.75rem'
           }
         }
       ],
@@ -78,6 +79,9 @@ const StyledDrawer = styled(Drawer)({
 
 const Layout = ({ children }: any) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [navigation, setNavigation] = useState(0);
+
+  const router = useRouter();
 
   const toggleDrawer = () => {
     setDrawerOpen(!drawerOpen);
@@ -90,9 +94,11 @@ const Layout = ({ children }: any) => {
       <CssBaseline />
       <AppBar position="fixed">
         <Toolbar>
-          <IconButton edge="start" color="inherit" aria-label="menu" onClick={toggleDrawer}>
-            <MenuIcon />
-          </IconButton>
+          <Hidden mdDown>
+            <IconButton edge="start" color="inherit" aria-label="menu" onClick={toggleDrawer}>
+              <MenuIcon />
+            </IconButton>
+          </Hidden>
           <Typography variant="h5" marginLeft={2}>FantaCE</Typography>
         </Toolbar>
       </AppBar>
@@ -110,9 +116,44 @@ const Layout = ({ children }: any) => {
           ))}
         </List>
       </StyledDrawer>
-      <Box component="main" paddingTop="64px" paddingBottom={4}>
+      <Box component="main" paddingTop="64px" paddingBottom="64px">
         {children}
       </Box>
+      <Hidden mdUp>
+        <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 1100 }} elevation={3}>
+          <BottomNavigation
+            value={navigation}
+            onChange={(event, newNavigation) => {
+              setNavigation(newNavigation);
+            }}
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-around',
+              '& .MuiBottomNavigationAction-root': {
+                minWidth: 'auto',
+                padding: '6px 8px',
+                '@media (min-width: 600px)': {
+                  padding: '6px 12px',
+                },
+              },
+            }}
+          >
+            {menuItems
+              .filter((el: any) => el.condition)
+              .map((item, index) => (
+                <BottomNavigationAction
+                  sx={{ fontSize: '1.5rem' }}
+                  key={index}
+                  icon={item.icon}
+                  label={item.title}
+                  onClick={() => {
+                    router.push(item.href);
+                  }}
+                />
+              ))}
+          </BottomNavigation>
+        </Paper>
+      </Hidden>
     </ThemeProvider>
   );
 };
