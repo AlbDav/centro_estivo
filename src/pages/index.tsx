@@ -1,5 +1,5 @@
 import { useMenuItems } from '@/hooks/useMenuItems';
-import { Card, CardContent, Container, Grid, Typography } from '@mui/material'
+import { Box, Card, CardContent, Container, Grid, Typography } from '@mui/material'
 import Link from 'next/link';
 
 export default function Home() {
@@ -13,11 +13,11 @@ export default function Home() {
             <Link href={item.href} passHref>
               <Card variant="elevation">
                 <CardContent>
-                  <Typography variant="h5" component="h2">
-                    {item.title}
+                  <Typography variant="h2" color="textSecondary" textAlign="center">
+				  {item.icon}
                   </Typography>
-                  <Typography color="textSecondary" gutterBottom>
-                    {item.icon}
+                  <Typography variant="h5" color="textPrimary" textAlign="center">
+                    {item.title}
                   </Typography>
                 </CardContent>
               </Card>

@@ -185,7 +185,7 @@ const FantaRules = () => {
             </CardContent>
           </Card>
         </Box>
-        <Box marginY={4}>
+        <Box marginTop={4}>
           <Card variant="elevation">
             <StyledCardHeader title="Malus" />
             <CardContent sx={{ paddingTop: 0 }}>

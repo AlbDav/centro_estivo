@@ -33,6 +33,7 @@ const theme = createTheme({
           props: { variant: 'elevation' },
           style: {
             boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
+			borderRadius: '0.75rem'
           }
         }
       ],
@@ -100,7 +101,7 @@ const Layout = ({ children }: any) => {
           {menuItems.filter((el: any) => el.condition).map((item, index) => (
             <Link key={index} href={item.href} passHref onClick={toggleDrawer}>
               <StyledListItemButton>
-                <ListItemIcon>
+                <ListItemIcon sx={{ fontSize: '1.5rem' }}>
                   {item.icon}
                 </ListItemIcon>
                 <ListItemText primary={item.title} />
@@ -109,7 +110,7 @@ const Layout = ({ children }: any) => {
           ))}
         </List>
       </StyledDrawer>
-      <Box component="main" paddingTop="64px">
+      <Box component="main" paddingTop="64px" paddingBottom={4}>
         {children}
       </Box>
     </ThemeProvider>
