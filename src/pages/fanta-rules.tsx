@@ -10,8 +10,8 @@ import { ListFantaRulesQuery } from '@/API';
 import { Add } from '@mui/icons-material';
 import { styled } from '@mui/system';
 import { useAuthenticator } from '@aws-amplify/ui-react';
-import { isAdmin, isRef } from '@/helpers/AuthHelpers';
 import { useRouter } from 'next/router';
+import { useUserStatus } from '@/hooks/useUserStatus';
 
 const RuleBox = styled('div')(({ theme }) => ({
   padding: theme.spacing(1),
@@ -35,12 +35,20 @@ const StyledCardHeader = styled(CardHeader)({
 });
 
 const FantaRules = () => {
-  const { user, authStatus } = useAuthenticator((context) => [context.user, context.authStatus]);
+  const { authStatus } = useAuthenticator((context) => [context.user, context.authStatus]);
   const [authChecked, setAuthChecked] = useState(false);
-  const [isUserAdmin, setIsUserAdmin] = useState(false);
-  const [isUserRef, setIsUserRef] = useState(false);
-
   const router = useRouter();
+
+  useEffect(() => {
+    if (authStatus === 'authenticated') {
+      fetchRules();
+      setAuthChecked(true);
+    } else if (authStatus === 'unauthenticated') {
+      router.push('/account');
+    }
+  }, [authStatus]);
+
+  const { isUserAdmin, isUserRef } = useUserStatus();
 
   const [positiveRules, setPositiveRules] = useState([]);
   const [negativeRules, setNegativeRules] = useState([]);
@@ -48,20 +56,6 @@ const FantaRules = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [deleteDialogVisible, setDeleteDialogVisible] = useState(false);
   const [ruleToDelete, setRuleToDelete] = useState<any | null>(null);
-
-  useEffect(() => {
-    if (authStatus === 'authenticated') {
-      fetchRules();
-      setAuthChecked(true);
-    } else if (authStatus === 'unauthenticated') {
-      router.push('/');
-    }
-  }, [authStatus]);
-
-  useEffect(() => {
-    setIsUserAdmin(isAdmin(user));
-    setIsUserRef(isRef(user));
-  }, [user]);
 
   const fetchRules = async () => {
     try {
