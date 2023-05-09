@@ -35,7 +35,7 @@ const StyledCardHeader = styled(CardHeader)({
 });
 
 const FantaRules = () => {
-  const { authStatus } = useAuthenticator((context) => [context.user, context.authStatus]);
+  const { authStatus } = useAuthenticator((context) => [context.authStatus]);
   const [authChecked, setAuthChecked] = useState(false);
   const router = useRouter();
 

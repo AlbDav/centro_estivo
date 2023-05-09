@@ -1,5 +1,5 @@
 // components/Layout.js
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { BottomNavigation, BottomNavigationAction, createTheme, Hidden, Paper, ThemeProvider } from '@mui/material';
 import { CssBaseline, AppBar, Toolbar, Typography, IconButton, Drawer, List, ListItemText, ListItemButton, Box, ListItemIcon } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -77,8 +77,30 @@ const StyledDrawer = styled(Drawer)({
   },
 });
 
+const getMobileMenuItems = (menuItems: any) => {
+	const bottomNavigationItems = [];
+	const mobileDrawerItems = [];
+  
+	const filteredItems = menuItems.filter((item: any) => item.condition);
+  
+	if (filteredItems.length <= 4) {
+	  bottomNavigationItems.push(...filteredItems);
+	} else {
+	  bottomNavigationItems.push(...filteredItems.slice(0, 3));
+	  bottomNavigationItems.push({
+		title: 'Altro',
+		icon: <MenuIcon />,
+		condition: true,
+	  });
+	  mobileDrawerItems.push(...filteredItems.slice(3));
+	}
+  
+	return [bottomNavigationItems, mobileDrawerItems];
+  };
+
 const Layout = ({ children }: any) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
   const [navigation, setNavigation] = useState(0);
 
   const router = useRouter();
@@ -87,7 +109,12 @@ const Layout = ({ children }: any) => {
     setDrawerOpen(!drawerOpen);
   };
 
+  const toggleMobileDrawer = () => {
+	setMobileDrawerOpen(!mobileDrawerOpen);
+  }
+
   const menuItems = useMenuItems();
+  const [bottomNavigationItems, mobileDrawerItems] = useMemo(() => getMobileMenuItems(menuItems), [menuItems]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -116,6 +143,20 @@ const Layout = ({ children }: any) => {
           ))}
         </List>
       </StyledDrawer>
+      <StyledDrawer anchor="right" open={mobileDrawerOpen} onClose={toggleMobileDrawer} transitionDuration={400}>
+        <List>
+          {mobileDrawerItems.filter((el: any) => el.condition).map((item, index) => (
+            <Link key={index} href={item.href} passHref onClick={toggleMobileDrawer}>
+              <StyledListItemButton>
+                <ListItemIcon sx={{ fontSize: '1.5rem' }}>
+                  {item.icon}
+                </ListItemIcon>
+                <ListItemText primary={item.title} />
+              </StyledListItemButton>
+            </Link>
+          ))}
+        </List>
+      </StyledDrawer>
       <Box component="main" paddingTop="64px" paddingBottom="64px">
         {children}
       </Box>
@@ -126,6 +167,7 @@ const Layout = ({ children }: any) => {
             onChange={(event, newNavigation) => {
               setNavigation(newNavigation);
             }}
+			showLabels
             sx={{
               display: 'flex',
               justifyContent: 'space-around',
@@ -138,8 +180,7 @@ const Layout = ({ children }: any) => {
               },
             }}
           >
-            {menuItems
-              .filter((el: any) => el.condition)
+            {bottomNavigationItems
               .map((item, index) => (
                 <BottomNavigationAction
                   sx={{ fontSize: '1.5rem' }}
@@ -147,7 +188,8 @@ const Layout = ({ children }: any) => {
                   icon={item.icon}
                   label={item.title}
                   onClick={() => {
-                    router.push(item.href);
+					if (item.href) router.push(item.href)
+					else toggleMobileDrawer()
                   }}
                 />
               ))}
