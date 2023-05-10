@@ -1,5 +1,5 @@
 // components/Layout.js
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { BottomNavigation, BottomNavigationAction, createTheme, Hidden, Paper, ThemeProvider } from '@mui/material';
 import { CssBaseline, AppBar, Toolbar, Typography, IconButton, Drawer, List, ListItemText, ListItemButton, Box, ListItemIcon } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -78,25 +78,25 @@ const StyledDrawer = styled(Drawer)({
 });
 
 const getMobileMenuItems = (menuItems: any) => {
-	const bottomNavigationItems = [];
-	const mobileDrawerItems = [];
-  
-	const filteredItems = menuItems.filter((item: any) => item.condition);
-  
-	if (filteredItems.length <= 4) {
-	  bottomNavigationItems.push(...filteredItems);
-	} else {
-	  bottomNavigationItems.push(...filteredItems.slice(0, 3));
-	  bottomNavigationItems.push({
-		title: 'Altro',
-		icon: <MenuIcon />,
-		condition: true,
-	  });
-	  mobileDrawerItems.push(...filteredItems.slice(3));
-	}
-  
-	return [bottomNavigationItems, mobileDrawerItems];
-  };
+  const bottomNavigationItems = [];
+  const mobileDrawerItems = [];
+
+  const filteredItems = menuItems.filter((item: any) => item.condition);
+
+  if (filteredItems.length <= 4) {
+    bottomNavigationItems.push(...filteredItems);
+  } else {
+    bottomNavigationItems.push(...filteredItems.slice(0, 3));
+    bottomNavigationItems.push({
+      title: 'Altro',
+      icon: <MenuIcon />,
+      condition: true,
+    });
+    mobileDrawerItems.push(...filteredItems.slice(3));
+  }
+
+  return [bottomNavigationItems, mobileDrawerItems];
+};
 
 const Layout = ({ children }: any) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -110,11 +110,19 @@ const Layout = ({ children }: any) => {
   };
 
   const toggleMobileDrawer = () => {
-	setMobileDrawerOpen(!mobileDrawerOpen);
+    setMobileDrawerOpen(!mobileDrawerOpen);
   }
 
   const menuItems = useMenuItems();
   const [bottomNavigationItems, mobileDrawerItems] = useMemo(() => getMobileMenuItems(menuItems), [menuItems]);
+
+  useEffect(() => {
+    const currentPath = router.pathname;
+
+    const currentIndex = bottomNavigationItems.findIndex((item) => item.href === currentPath);
+
+    setNavigation(currentIndex);
+  }, [router.pathname, bottomNavigationItems]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -164,10 +172,7 @@ const Layout = ({ children }: any) => {
         <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 1100 }} elevation={3}>
           <BottomNavigation
             value={navigation}
-            onChange={(event, newNavigation) => {
-              setNavigation(newNavigation);
-            }}
-			showLabels
+            showLabels
             sx={{
               display: 'flex',
               justifyContent: 'space-around',
@@ -188,8 +193,8 @@ const Layout = ({ children }: any) => {
                   icon={item.icon}
                   label={item.title}
                   onClick={() => {
-					if (item.href) router.push(item.href)
-					else toggleMobileDrawer()
+                    if (item.href) router.push(item.href)
+                    else toggleMobileDrawer()
                   }}
                 />
               ))}
