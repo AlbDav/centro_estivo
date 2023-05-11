@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { TextField, Button, Grid, Card, CardContent } from '@mui/material';
 
-const NewRuleForm = ({ onCancel, onSave }: any) => {
+const NewScoreForm = ({ onCancel, onSave }: any) => {
 	const [title, setTitle] = useState('');
 	const [description, setDescription] = useState('');
 	const [points, setPoints] = useState('');
@@ -17,7 +17,7 @@ const NewRuleForm = ({ onCancel, onSave }: any) => {
 	};
 
 	return (
-		<Card>
+		<Card variant="elevation">
 			<CardContent>
 				<Grid container spacing={2}>
 					<Grid item xs={12}>
@@ -57,4 +57,4 @@ const NewRuleForm = ({ onCancel, onSave }: any) => {
 	);
 };
 
-export default NewRuleForm;
+export default NewScoreForm;

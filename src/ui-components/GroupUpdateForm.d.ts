@@ -16,16 +16,19 @@ export declare type ValidationFunction<T> = (value: T, validationResponse: Valid
 export declare type GroupUpdateFormInputValues = {
     name?: string;
     color?: string;
+    age?: number;
 };
 export declare type GroupUpdateFormValidationValues = {
     name?: ValidationFunction<string>;
     color?: ValidationFunction<string>;
+    age?: ValidationFunction<number>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type GroupUpdateFormOverridesProps = {
     GroupUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
     name?: PrimitiveOverrideProps<TextFieldProps>;
     color?: PrimitiveOverrideProps<TextFieldProps>;
+    age?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type GroupUpdateFormProps = React.PropsWithChildren<{
     overrides?: GroupUpdateFormOverridesProps | undefined | null;

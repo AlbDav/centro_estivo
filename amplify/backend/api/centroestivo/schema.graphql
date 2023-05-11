@@ -13,7 +13,8 @@ type Group @model @auth(
   id: ID!
   name: String!
   color: String!
-  teams: [FantaTeam] @manyToMany(relationName: "FantaTeamGroups")
+  age: Int!
+  fantaTeams: [FantaTeam] @manyToMany(relationName: "FantaTeamGroups")
 }
 
 type FantaTeam @model @auth(
@@ -56,5 +57,5 @@ type FantaScoreEntry @model @auth(
   id: ID!
   rule: FantaRule! @hasOne
   group: Group! @hasOne
-  date: AWSDateTime!
+  date: AWSDate!
 }

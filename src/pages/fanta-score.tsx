@@ -1,78 +1,144 @@
 // pages/teams.js
 import React, { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
-import { listFantaTeams } from '../graphql/queries';
-import { createFantaTeam, createFantaTeamGroups } from '../graphql/mutations';
-import { Box, Button, Container, Grid } from '@mui/material';
-import { ListFantaTeamsQuery } from '@/API';
+import { listFantaScoreEntries, listFantaTeams } from '../graphql/queries';
+import { createFantaScoreEntry, createFantaTeam, createFantaTeamGroups, deleteFantaScoreEntry } from '../graphql/mutations';
+import { Box, Button, Card, CardContent, CircularProgress, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Fab, Grid, Typography } from '@mui/material';
+import { ListFantaScoreEntriesQuery, ListFantaTeamsQuery } from '@/API';
 import NewTeamForm from '@/components/fanta-teams/NewTeamForm';
 import TeamCard from '@/components/fanta-teams/TeamCard';
+import { useAuthenticator } from '@aws-amplify/ui-react';
+import { useRouter } from 'next/router';
+import { useUserStatus } from '@/hooks/useUserStatus';
+import NewScoreForm from '@/components/fanta-score/NewScoreForm';
+import { Add } from '@mui/icons-material';
 
 const FantaScore = () => {
-  const [teams, setTeams] = useState([]);
-  const [showForm, setShowForm] = useState(false);
+  const { authStatus } = useAuthenticator((context) => [context.authStatus]);
+  const [authChecked, setAuthChecked] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
-    fetchTeams();
-  }, []);
+    if (authStatus === 'authenticated') {
+      fetchRules();
+      setAuthChecked(true);
+    } else if (authStatus === 'unauthenticated') {
+      router.push('/account');
+    }
+  }, [authStatus]);
 
-  const fetchTeams = async () => {
+  const { isUserAdmin, isUserRef } = useUserStatus();
+
+  const [positiveRules, setPositiveRules] = useState([]);
+  const [negativeRules, setNegativeRules] = useState([]);
+  const [showForm, setShowForm] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [deleteDialogVisible, setDeleteDialogVisible] = useState(false);
+  const [ruleToDelete, setRuleToDelete] = useState<any | null>(null);
+
+  const fetchRules = async () => {
     try {
-      const teamData = await API.graphql<ListFantaTeamsQuery>({ query: listFantaTeams }) as any;
-      const teamItems = teamData.data.listFantaTeams.items;
-      setTeams(teamItems);
+      const ruleData = await API.graphql<ListFantaScoreEntriesQuery>({ query: listFantaScoreEntries }) as any;
+      const ruleItems = ruleData.data.listFantaRules.items.sort((a: any, b: any) => b.points - a.points);
+      splitRules(ruleItems);
+      setIsLoading(false);
     } catch (error) {
-      console.log('Error fetching teams:', error);
+      console.log('Error fetching rules:', error);
     }
   };
 
-  const addTeam = async (team: any) => {
+  const addRule = async (rule: any) => {
     try {
-      // Creare un nuovo team utilizzando la mutation GraphQL
-      const teamResponse = await API.graphql({query: createFantaTeam, variables: { input: { name: team.name, fantaTeamLeaderGroupId: team.leaderGroup }}}) as any;
-
-      // Ottenere l'ID del team creato
-      const fantaTeamId = teamResponse.data.createFantaTeam.id;
-
-      // Creare le voci TeamGroup per ogni additionalGroup
-      const additionalGroupPromises = team.additionalGroups.map(async (groupId: any) => {
-        return API.graphql({ query: createFantaTeamGroups, variables: { input: { fantaTeamId, groupId }}});
-      });
-
-      // Attendere il completamento di tutte le chiamate API per creare le voci TeamGroup
-      await Promise.all(additionalGroupPromises);
-
-      // Fare qualcosa con la risposta, ad esempio aggiornare lo stato dell'applicazione o navigare verso un'altra pagina
-      console.log('Team and TeamGroups created successfully');
+      await API.graphql({ query: createFantaScoreEntry, variables: { input: rule } }) as any;
+      fetchRules();
+      setShowForm(false);
     } catch (error) {
-      console.error('Error creating team and TeamGroups:', error);
+      console.log('Error adding rule:', error);
     }
   };
+
+  const deleteRule = async (ruleId: string) => {
+    try {
+      await API.graphql({ query: deleteFantaScoreEntry, variables: { input: { id: ruleId } } }) as any;
+      fetchRules();
+    } catch (error) {
+      console.log('Error deleting rule:', error);
+    }
+  };
+
+  const splitRules = (rules: any) => {
+    let positive = rules.filter((el: any) => el.points >= 0);
+    let negative = rules.filter((el: any) => el.points < 0);
+
+    setPositiveRules(positive);
+    setNegativeRules(negative);
+  };
+
+  const toggleDeleteDialog = (rule?: any) => {
+    if (!deleteDialogVisible) {
+      setRuleToDelete(rule);
+      setDeleteDialogVisible(true);
+    } else {
+      setDeleteDialogVisible(false);
+      setRuleToDelete(null);
+    }
+  }
+
+  const deleteAndClose = () => {
+    deleteRule(ruleToDelete.id);
+    toggleDeleteDialog();
+  }
+
+  if (!authChecked) {
+    return (
+      <Box height="calc(100vh - 64px)" display="flex" alignItems="center" justifyContent="center">
+        <CircularProgress color="secondary" size={60} />
+      </Box>
+    )
+  }
 
   return (
-    <Container>
-      <Box marginTop={4}>
-        {showForm ? (
-          <NewTeamForm
-            onCancel={() => setShowForm(false)}
-            onSave={(team: any) => addTeam(team)}
-          />
-        ) : (
-          <Button variant="contained" color="primary" onClick={() => setShowForm(true)}>
-            +
+    <>
+      <Container>
+        {(isUserAdmin || isUserRef) && <Box marginTop={3} display="flex" justifyContent="center">
+          {showForm ? (
+            <NewScoreForm
+              onCancel={() => setShowForm(false)}
+              onSave={(rule: any) => addRule(rule)}
+            />
+          ) : (
+            <Fab variant="extended" color="secondary"
+              sx={{
+                color: "white",
+              }}
+              aria-label="add" onClick={() => setShowForm(true)}>
+              <Add sx={{ mr: 1 }} />
+              Aggiungi regola
+            </Fab>
+          )}
+        </Box>}
+      </Container>
+      <Dialog open={deleteDialogVisible} onClose={() => setDeleteDialogVisible(false)}>
+        <DialogTitle>Eliminare la regola?</DialogTitle>
+        <DialogContent>
+          {ruleToDelete ? (<DialogContentText>
+            Sei sicuro di voler eliminare la regola <strong>{ruleToDelete && ruleToDelete.title}: {ruleToDelete && ruleToDelete.description}</strong>?
+          </DialogContentText>) : (
+            <Box display="flex" justifyContent="center">
+              <CircularProgress color="secondary" />
+            </Box>
+          )}
+        </DialogContent>
+        <DialogActions sx={{ marginRight: 2 }}>
+          <Button onClick={toggleDeleteDialog} variant="outlined" color="secondary">
+            Annulla
           </Button>
-        )}
-      </Box>
-      <Box marginTop={4}>
-        <Grid container spacing={4}>
-          {teams.map((team: any) => (
-            <Grid key={team.id} item xs={12}>
-              <TeamCard team={team} />
-            </Grid>
-          ))}
-        </Grid>
-      </Box>
-    </Container>
+          <Button onClick={deleteAndClose} color="error" variant="contained">
+            Elimina
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </>
   );
 };
 
