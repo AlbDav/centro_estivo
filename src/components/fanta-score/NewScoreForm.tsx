@@ -6,6 +6,7 @@ import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { API } from 'aws-amplify';
 import { ListFantaRulesQuery } from '@/API';
 import { listFantaRules } from '@/graphql/queries';
+import { DatePicker } from '@mui/x-date-pickers';
 
 const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
   '& .MuiDataGrid-row.Mui-selected': {
@@ -29,6 +30,7 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
 }));
 
 const NewScoreForm = ({ onCancel, onSave }: any) => {
+  const [selectedDate, setSelectedDate] = useState(null);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [points, setPoints] = useState('');
@@ -72,7 +74,7 @@ const NewScoreForm = ({ onCancel, onSave }: any) => {
       const ruleData = await API.graphql<ListFantaRulesQuery>({ query: listFantaRules }) as any;
       const ruleItems = ruleData.data.listFantaRules.items.sort((a: any, b: any) => b.points - a.points);
       setRules(ruleItems.map((rule: any) => {
-        return {...rule, titleAndDescription: `${rule.title} ${rule.description}`}
+        return { ...rule, titleAndDescription: `${rule.title} ${rule.description}` }
       }));
     } catch (error) {
       console.log('Error fetching rules:', error);
@@ -82,6 +84,8 @@ const NewScoreForm = ({ onCancel, onSave }: any) => {
   const handleSelectionModelChange = (newSelectionModel: any) => {
     setSelectedRow(newSelectionModel[newSelectionModel.length - 1]);
   };
+
+  const handleDateChange = (date: any) => setSelectedDate(date);
 
   const handleSubmit = () => {
     onSave({ title, description, points: parseInt(points), pointDescription });
@@ -99,10 +103,14 @@ const NewScoreForm = ({ onCancel, onSave }: any) => {
     <Card variant="elevation">
       <CardContent>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <TextField label="Title" fullWidth value={title} onChange={(e) => setTitle(e.target.value)} />
+          <Grid item xs={12} md={6}>
+            <DatePicker
+              label="Date"
+              value={selectedDate}
+              onChange={handleDateChange}
+            />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} md={6}>
             <TextField label="Description" fullWidth value={description} onChange={(e) => setDescription(e.target.value)} />
           </Grid>
           <Grid item xs={12} sx={{ height: 400 }}>
