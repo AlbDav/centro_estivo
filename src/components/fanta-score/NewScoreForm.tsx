@@ -1,12 +1,13 @@
 // components/NewScoreForm.tsx
 import React, { useEffect, useState } from 'react';
-import { TextField, Button, Grid, Card, CardContent } from '@mui/material';
+import { Button, Grid, Card, CardContent, FormControl, InputLabel, Select, MenuItem, Box, Avatar, Typography } from '@mui/material';
 import { styled } from '@mui/system';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { API } from 'aws-amplify';
-import { ListFantaRulesQuery } from '@/API';
-import { listFantaRules } from '@/graphql/queries';
+import { ListFantaRulesQuery, ListGroupsQuery } from '@/API';
+import { listFantaRules, listGroups } from '@/graphql/queries';
 import { DatePicker } from '@mui/x-date-pickers';
+import { format } from 'date-fns';
 
 const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
   '& .MuiDataGrid-row.Mui-selected': {
@@ -29,14 +30,16 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
   }
 }));
 
+const LargeButton: any = styled(Button)(({ theme }) => ({
+  padding: '10px 60px', // Aumenta il padding intorno al testo
+}));
+
 const NewScoreForm = ({ onCancel, onSave }: any) => {
-  const [selectedDate, setSelectedDate] = useState(null);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [points, setPoints] = useState('');
-  const [pointDescription, setPointDescription] = useState('');
+  const [selectedDate, setSelectedDate] = useState(new Date());
   const [rules, setRules] = useState([]);
-  const [selectedRow, setSelectedRow] = useState(null);
+  const [selectedRule, setSelectedRule] = useState(null);
+  const [selectedGroup, setSelectedGroup] = useState('');
+  const [groups, setGroups] = useState([]);
 
   const columns = [
     {
@@ -67,7 +70,17 @@ const NewScoreForm = ({ onCancel, onSave }: any) => {
         );
       },
     },
-  ]
+  ];
+
+  const fetchGroups = async () => {
+    try {
+      const groupData = await API.graphql<ListGroupsQuery>({ query: listGroups }) as any;
+      const groupItems = groupData.data.listGroups.items;
+      setGroups(groupItems);
+    } catch (error) {
+      console.log('Error fetching grous:', error);
+    }
+  };
 
   const fetchRules = async () => {
     try {
@@ -82,20 +95,24 @@ const NewScoreForm = ({ onCancel, onSave }: any) => {
   };
 
   const handleSelectionModelChange = (newSelectionModel: any) => {
-    setSelectedRow(newSelectionModel[newSelectionModel.length - 1]);
+    setSelectedRule(newSelectionModel[newSelectionModel.length - 1]);
   };
 
   const handleDateChange = (date: any) => setSelectedDate(date);
 
+  const handleSelectedGroupChange = (event: any) => {
+    setSelectedGroup(event.target.value);
+  };
+
   const handleSubmit = () => {
-    onSave({ title, description, points: parseInt(points), pointDescription });
-    setTitle('');
-    setDescription('');
-    setPoints('');
-    setPointDescription('');
+        onSave({ date: format(selectedDate, 'yyyy-MM-dd'), fantaScoreEntryGroupId: selectedGroup, fantaScoreEntryRuleId: selectedRule });
+        setSelectedDate(new Date());
+        setSelectedGroup('');
+        setSelectedRule(null);
   };
 
   useEffect(() => {
+    fetchGroups();
     fetchRules();
   }, [])
 
@@ -126,14 +143,36 @@ const NewScoreForm = ({ onCancel, onSave }: any) => {
             />
           </Grid>
           <Grid item xs={12} md={6}>
-            <TextField label="Description" fullWidth value={description} onChange={(e) => setDescription(e.target.value)} />
+            <FormControl fullWidth>
+              <InputLabel id="leader-group-label">Gruppo Leader</InputLabel>
+              <Select
+                label="Gruppo Leader"
+                labelId="leader-group-label"
+                value={selectedGroup}
+                onChange={handleSelectedGroupChange}
+                displayEmpty
+                fullWidth
+                inputProps={{ 'aria-label': 'Seleziona gruppo leader' }}
+              >
+                {groups.map((group: any) => (
+                  <MenuItem key={group.id} value={group.id}>
+                    <Box display="flex">
+                      <Avatar
+                        sx={{ bgcolor: group.color, width: 16, height: 16, marginRight: 1 }}
+                      />
+                      <Typography>{group.name}</Typography>
+                    </Box>
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           </Grid>
           <Grid item xs={12} sx={{ height: 400 }}>
             <StyledDataGrid
               rows={rules}
               columns={columns}
               onRowSelectionModelChange={handleSelectionModelChange}
-              rowSelectionModel={selectedRow ? [selectedRow] : []}
+              rowSelectionModel={selectedRule ? [selectedRule] : []}
               slots={{ toolbar: GridToolbar }}
               slotProps={{
                 toolbar: {
@@ -142,30 +181,15 @@ const NewScoreForm = ({ onCancel, onSave }: any) => {
               }}
             />
           </Grid>
-          <Grid item xs={6}>
-            <TextField
-              label="Points"
-              fullWidth
-              value={points}
-              onChange={(e) => setPoints(e.target.value)}
-              type="number"
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              label="Point Description"
-              fullWidth
-              value={pointDescription}
-              onChange={(e) => setPointDescription(e.target.value)}
-            />
-          </Grid>
           <Grid item xs={12}>
-            <Button variant="contained" color="primary" onClick={handleSubmit}>
-              Salva
-            </Button>
-            <Button variant="outlined" color="secondary" onClick={onCancel} style={{ marginLeft: '10px' }}>
-              Annulla
-            </Button>
+            <Box display="flex" justifyContent="center">
+              <LargeButton variant="outlined" color="secondary" onClick={onCancel}>
+                Annulla
+              </LargeButton>
+              <LargeButton variant="contained" color="primary" onClick={handleSubmit} style={{ marginLeft: '40px' }}>
+                Salva
+              </LargeButton>
+            </Box>
           </Grid>
         </Grid>
       </CardContent>

@@ -37,7 +37,7 @@ const NewRuleForm = ({ onCancel, onSave }: any) => {
   };
 
 
-  const LargeButton = styled(Button)(({ theme }) => ({
+  const LargeButton: any = styled(Button)(({ theme }) => ({
     padding: '10px 60px', // Aumenta il padding intorno al testo
   }));
 
