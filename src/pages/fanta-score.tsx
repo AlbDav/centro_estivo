@@ -29,6 +29,7 @@ const FantaScore = () => {
   const addScoreEntry = async (scoreEntry: any) => {
 	try {
 	  await API.graphql({ query: createFantaScoreEntry, variables: { input: scoreEntry } }) as any;
+	  setShowForm(false);
 	} catch (error) {
 	  console.log('Error adding score entry:', error);
 	}
