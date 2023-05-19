@@ -2,17 +2,20 @@
 import React, { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
 import { createFantaScoreEntry } from '../graphql/mutations';
-import { Box, CircularProgress, Container, Fab } from '@mui/material';
+import { Box, Button, CircularProgress, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Fab } from '@mui/material';
 import { useAuthenticator } from '@aws-amplify/ui-react';
 import { useRouter } from 'next/router';
 import { useUserStatus } from '@/hooks/useUserStatus';
 import NewScoreForm from '@/components/fanta-score/NewScoreForm';
 import { Add } from '@mui/icons-material';
+import { ListFantaScoreEntriesQuery } from '@/API';
+import { fantaTeamGroupsByGroupId, listFantaScoreEntries } from '@/graphql/queries';
 
 const FantaScore = () => {
   const { authStatus } = useAuthenticator((context) => [context.authStatus]);
   const [authChecked, setAuthChecked] = useState(false);
   const router = useRouter();
+  const [progressDialogOpen, setProgressDialogOpen] = useState(false);
 
   useEffect(() => {
     if (authStatus === 'authenticated') {
@@ -26,13 +29,58 @@ const FantaScore = () => {
 
   const [showForm, setShowForm] = useState(false);
 
+  const fetchScoreEntries = async () => {
+    try {
+      await API.graphql<ListFantaScoreEntriesQuery>({ query: listFantaScoreEntries }) as any;
+    } catch (error) {
+      console.log('Error fetching scores:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchScoreEntries();
+  }, [])
+
   const addScoreEntry = async (scoreEntry: any) => {
-	try {
-	  await API.graphql({ query: createFantaScoreEntry, variables: { input: scoreEntry } }) as any;
-	  setShowForm(false);
-	} catch (error) {
-	  console.log('Error adding score entry:', error);
-	}
+    try {
+      if (!scoreEntry.date || !scoreEntry.fantaScoreEntryRuleId || !scoreEntry.fantaScoreEntryGroupId) {
+        throw new Error('Missing mandatory fields');
+      }
+
+      const existingEntry = await checkForExistingEntry(scoreEntry.date, scoreEntry.fantaScoreEntryRuleId, scoreEntry.fantaScoreEntryGroupId);
+
+      if (existingEntry) {
+        toggleProgressDialog();
+        throw new Error ('Already existing rule');
+      }
+
+      await API.graphql({
+        query: createFantaScoreEntry, variables: {
+          input: scoreEntry,
+        }
+      }) as any;
+      setShowForm(false);
+    } catch (error) {
+      console.log('Error adding score entry:', error);
+    }
+  };
+
+  const checkForExistingEntry = async (date: any, ruleId: any, groupId: any) => {
+    const existingEntries = await API.graphql({
+      query: listFantaScoreEntries,
+      variables: {
+        filter: {
+          date: { eq: date },
+          fantaScoreEntryRuleId: { eq: ruleId },
+          fantaScoreEntryGroupId: { eq: groupId }
+        }
+      }
+    }) as any;
+    return existingEntries.data.listFantaScoreEntries.items.length > 0;
+  };
+
+  const toggleProgressDialog = () => {
+    setProgressDialogOpen(!progressDialogOpen);
   };
 
   if (!authChecked) {
@@ -64,6 +112,20 @@ const FantaScore = () => {
           )}
         </Box>}
       </Container>
+      <Dialog
+        open={progressDialogOpen}
+        onClose={toggleProgressDialog}
+      >
+        <DialogTitle>{"Errore"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+           Punteggio già esistente. 
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={toggleProgressDialog} variant="contained">OK</Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 };
