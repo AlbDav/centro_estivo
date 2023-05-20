@@ -1,11 +1,30 @@
 import { Authenticator } from '@aws-amplify/ui-react'
 import { Box, Button, Typography } from '@mui/material'
 import { styled } from '@mui/system'
+import { Hub } from 'aws-amplify';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+
+const LargeButton = styled(Button)(({
+  padding: '10px 60px', // Aumenta il padding intorno al testo
+}));
 
 export default function Account() {
-  const LargeButton = styled(Button)(({ theme }) => ({
-    padding: '10px 60px', // Aumenta il padding intorno al testo
-  }));
+  const router = useRouter();
+
+  useEffect(() => {
+    const removeListener = Hub.listen('auth', async ({ payload: { event } }) => {
+      if (event === 'signIn') {
+        console.log('ciao')
+          const redirect = router.query.redirect as string;
+          router.push(redirect || '/');
+      }
+    });
+
+    return () => {
+      removeListener();
+    };
+  }, []);
 
   return (
     <Box height="calc(100vh - 64px)" display="flex" alignItems="center" justifyContent="center">

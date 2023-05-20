@@ -8,16 +8,17 @@ import { Authenticator } from '@aws-amplify/ui-react'
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import itLocale from 'date-fns/locale/it';
+import { AuthProvider } from '@/contexts/AuthContext'
 Amplify.configure(awsExports)
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <Authenticator.Provider>
+    <AuthProvider>
       <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={itLocale}>
         <Layout>
           <Component {...pageProps} />
         </Layout>
       </LocalizationProvider>
-    </Authenticator.Provider>
+    </AuthProvider>
   )
 }

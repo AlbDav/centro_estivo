@@ -3,131 +3,125 @@ import React, { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
 import { createFantaScoreEntry } from '../graphql/mutations';
 import { Box, Button, CircularProgress, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Fab } from '@mui/material';
-import { useAuthenticator } from '@aws-amplify/ui-react';
 import { useRouter } from 'next/router';
-import { useUserStatus } from '@/hooks/useUserStatus';
 import NewScoreForm from '@/components/fanta-score/NewScoreForm';
 import { Add } from '@mui/icons-material';
 import { ListFantaScoreEntriesQuery } from '@/API';
-import { fantaTeamGroupsByGroupId, listFantaScoreEntries } from '@/graphql/queries';
+import { listFantaScoreEntries } from '@/graphql/queries';
+import { useAuth } from '@/hooks/useAuth';
 
 const FantaScore = () => {
-  const { authStatus } = useAuthenticator((context) => [context.authStatus]);
-  const [authChecked, setAuthChecked] = useState(false);
-  const router = useRouter();
-  const [progressDialogOpen, setProgressDialogOpen] = useState(false);
+	const { isUserLogged, isUserAdmin, isUserRef } = useAuth();
+	const [authChecked, setAuthChecked] = useState(false);
+	const router = useRouter();
+	const [progressDialogOpen, setProgressDialogOpen] = useState(false);
 
-  useEffect(() => {
-    if (authStatus === 'authenticated') {
-      setAuthChecked(true);
-    } else if (authStatus === 'unauthenticated') {
-      router.push('/account');
-    }
-  }, [authStatus]);
+	useEffect(() => {
+		if (isUserLogged) {
+			fetchScoreEntries();
+			setAuthChecked(true);
+		} else if (isUserLogged === false) {
+			router.push({ pathname: '/account', query: { redirect: router.pathname } });
+		}
+	}, [isUserLogged]);
 
-  const { isUserAdmin, isUserRef } = useUserStatus();
+	const [showForm, setShowForm] = useState(false);
 
-  const [showForm, setShowForm] = useState(false);
+	const fetchScoreEntries = async () => {
+		try {
+			await API.graphql<ListFantaScoreEntriesQuery>({ query: listFantaScoreEntries }) as any;
+		} catch (error) {
+			console.log('Error fetching scores:', error);
+		}
+	};
 
-  const fetchScoreEntries = async () => {
-    try {
-      await API.graphql<ListFantaScoreEntriesQuery>({ query: listFantaScoreEntries }) as any;
-    } catch (error) {
-      console.log('Error fetching scores:', error);
-    }
-  };
+	const addScoreEntry = async (scoreEntry: any) => {
+		try {
+			if (!scoreEntry.date || !scoreEntry.fantaScoreEntryRuleId || !scoreEntry.fantaScoreEntryGroupId) {
+				throw new Error('Missing mandatory fields');
+			}
 
-  useEffect(() => {
-    fetchScoreEntries();
-  }, [])
+			const existingEntry = await checkForExistingEntry(scoreEntry.date, scoreEntry.fantaScoreEntryRuleId, scoreEntry.fantaScoreEntryGroupId);
 
-  const addScoreEntry = async (scoreEntry: any) => {
-    try {
-      if (!scoreEntry.date || !scoreEntry.fantaScoreEntryRuleId || !scoreEntry.fantaScoreEntryGroupId) {
-        throw new Error('Missing mandatory fields');
-      }
+			if (existingEntry) {
+				toggleProgressDialog();
+				throw new Error('Already existing rule');
+			}
 
-      const existingEntry = await checkForExistingEntry(scoreEntry.date, scoreEntry.fantaScoreEntryRuleId, scoreEntry.fantaScoreEntryGroupId);
+			await API.graphql({
+				query: createFantaScoreEntry, variables: {
+					input: scoreEntry,
+				}
+			}) as any;
+			setShowForm(false);
+		} catch (error) {
+			console.log('Error adding score entry:', error);
+		}
+	};
 
-      if (existingEntry) {
-        toggleProgressDialog();
-        throw new Error ('Already existing rule');
-      }
+	const checkForExistingEntry = async (date: any, ruleId: any, groupId: any) => {
+		const existingEntries = await API.graphql({
+			query: listFantaScoreEntries,
+			variables: {
+				filter: {
+					date: { eq: date },
+					fantaScoreEntryRuleId: { eq: ruleId },
+					fantaScoreEntryGroupId: { eq: groupId }
+				}
+			}
+		}) as any;
+		return existingEntries.data.listFantaScoreEntries.items.length > 0;
+	};
 
-      await API.graphql({
-        query: createFantaScoreEntry, variables: {
-          input: scoreEntry,
-        }
-      }) as any;
-      setShowForm(false);
-    } catch (error) {
-      console.log('Error adding score entry:', error);
-    }
-  };
+	const toggleProgressDialog = () => {
+		setProgressDialogOpen(!progressDialogOpen);
+	};
 
-  const checkForExistingEntry = async (date: any, ruleId: any, groupId: any) => {
-    const existingEntries = await API.graphql({
-      query: listFantaScoreEntries,
-      variables: {
-        filter: {
-          date: { eq: date },
-          fantaScoreEntryRuleId: { eq: ruleId },
-          fantaScoreEntryGroupId: { eq: groupId }
-        }
-      }
-    }) as any;
-    return existingEntries.data.listFantaScoreEntries.items.length > 0;
-  };
+	if (!authChecked) {
+		return (
+			<Box height="calc(100vh - 64px)" display="flex" alignItems="center" justifyContent="center">
+				<CircularProgress color="secondary" size={60} />
+			</Box>
+		)
+	}
 
-  const toggleProgressDialog = () => {
-    setProgressDialogOpen(!progressDialogOpen);
-  };
-
-  if (!authChecked) {
-    return (
-      <Box height="calc(100vh - 64px)" display="flex" alignItems="center" justifyContent="center">
-        <CircularProgress color="secondary" size={60} />
-      </Box>
-    )
-  }
-
-  return (
-    <>
-      <Container>
-        {(isUserAdmin || isUserRef) && <Box marginTop={3} display="flex" justifyContent="center">
-          {showForm ? (
-            <NewScoreForm
-              onCancel={() => setShowForm(false)}
-              onSave={(rule: any) => addScoreEntry(rule)}
-            />
-          ) : (
-            <Fab variant="extended" color="secondary"
-              sx={{
-                color: "white",
-              }}
-              aria-label="add" onClick={() => setShowForm(true)}>
-              <Add sx={{ mr: 1 }} />
-              Aggiungi regola
-            </Fab>
-          )}
-        </Box>}
-      </Container>
-      <Dialog
-        open={progressDialogOpen}
-        onClose={toggleProgressDialog}
-      >
-        <DialogTitle>{"Errore"}</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-           Punteggio già esistente. 
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={toggleProgressDialog} variant="contained">OK</Button>
-        </DialogActions>
-      </Dialog>
-    </>
-  );
+	return (
+		<>
+			<Container>
+				{(isUserAdmin || isUserRef) && <Box marginTop={3} display="flex" justifyContent="center">
+					{showForm ? (
+						<NewScoreForm
+							onCancel={() => setShowForm(false)}
+							onSave={(rule: any) => addScoreEntry(rule)}
+						/>
+					) : (
+						<Fab variant="extended" color="secondary"
+							sx={{
+								color: "white",
+							}}
+							aria-label="add" onClick={() => setShowForm(true)}>
+							<Add sx={{ mr: 1 }} />
+							Aggiungi regola
+						</Fab>
+					)}
+				</Box>}
+			</Container>
+			<Dialog
+				open={progressDialogOpen}
+				onClose={toggleProgressDialog}
+			>
+				<DialogTitle>{"Errore"}</DialogTitle>
+				<DialogContent>
+					<DialogContentText>
+						Punteggio già esistente.
+					</DialogContentText>
+				</DialogContent>
+				<DialogActions>
+					<Button onClick={toggleProgressDialog} variant="contained">OK</Button>
+				</DialogActions>
+			</Dialog>
+		</>
+	);
 };
 
 export default FantaScore;

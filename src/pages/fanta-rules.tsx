@@ -9,9 +9,8 @@ import RuleCard from '@/components/fanta-rules/RuleCard';
 import { ListFantaRulesQuery } from '@/API';
 import { Add } from '@mui/icons-material';
 import { styled } from '@mui/system';
-import { useAuthenticator } from '@aws-amplify/ui-react';
 import { useRouter } from 'next/router';
-import { useUserStatus } from '@/hooks/useUserStatus';
+import { useAuth } from '@/hooks/useAuth';
 
 const RuleBox = styled('div')(({ theme }) => ({
   padding: theme.spacing(1),
@@ -35,20 +34,19 @@ const StyledCardHeader = styled(CardHeader)({
 });
 
 const FantaRules = () => {
-  const { authStatus } = useAuthenticator((context) => [context.authStatus]);
   const [authChecked, setAuthChecked] = useState(false);
+  const { isUserLogged, isUserAdmin, isUserRef } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
-    if (authStatus === 'authenticated') {
+    if (isUserLogged) {
       fetchRules();
       setAuthChecked(true);
-    } else if (authStatus === 'unauthenticated') {
-      router.push('/account');
+    } else if (isUserLogged === false) {
+      router.push({pathname: '/account', query: {redirect: router.pathname}});
     }
-  }, [authStatus]);
+  }, [isUserLogged]);
 
-  const { isUserAdmin, isUserRef } = useUserStatus();
 
   const [positiveRules, setPositiveRules] = useState([]);
   const [negativeRules, setNegativeRules] = useState([]);

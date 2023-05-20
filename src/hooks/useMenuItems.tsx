@@ -4,11 +4,11 @@ import Description from '@mui/icons-material/Description';
 import Group from '@mui/icons-material/Group';
 import SportsEsports from '@mui/icons-material/SportsEsports';
 import BarChart from '@mui/icons-material/BarChart';
-import { useUserStatus } from './useUserStatus'; // Importa il tuo hook useUserStatus
 import { Person } from '@mui/icons-material';
+import { useAuth } from './useAuth';
 
 export const useMenuItems = () => {
-  const { isUserLogged, isUserAdmin } = useUserStatus();
+  const { isUserLogged, isUserAdmin } = useAuth();
 
   const drawerItems = useMemo(() => [
     { title: 'Home', href: '/', icon: <Home fontSize="inherit" />, condition: true },
