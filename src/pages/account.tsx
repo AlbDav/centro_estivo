@@ -1,13 +1,10 @@
+import LargeButton from '@/components/shared/LargeButton';
 import { Authenticator } from '@aws-amplify/ui-react'
 import { Box, Button, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 import { Hub } from 'aws-amplify';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-
-const LargeButton = styled(Button)(({
-  padding: '10px 60px', // Aumenta il padding intorno al testo
-}));
 
 export default function Account() {
   const router = useRouter();

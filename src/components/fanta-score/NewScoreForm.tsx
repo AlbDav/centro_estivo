@@ -8,6 +8,7 @@ import { ListFantaRulesQuery, ListGroupsQuery } from '@/API';
 import { listFantaRules, listGroups } from '@/graphql/queries';
 import { DatePicker } from '@mui/x-date-pickers';
 import { format } from 'date-fns';
+import LargeButton from '../shared/LargeButton';
 
 const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
   '& .MuiDataGrid-row.Mui-selected': {
@@ -28,10 +29,6 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
       outline: 'none',
     },
   }
-}));
-
-const LargeButton: any = styled(Button)(({ theme }) => ({
-  padding: '10px 60px', // Aumenta il padding intorno al testo
 }));
 
 const NewScoreForm = ({ onCancel, onSave }: any) => {

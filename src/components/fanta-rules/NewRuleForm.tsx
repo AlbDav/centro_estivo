@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { TextField, Button, Grid, Card, CardContent, Box, FormControlLabel, Checkbox } from '@mui/material';
 import { styled } from '@mui/system';
+import LargeButton from '../shared/LargeButton';
 
 const NewRuleForm = ({ onCancel, onSave }: any) => {
   const [title, setTitle] = useState('');
@@ -36,13 +37,8 @@ const NewRuleForm = ({ onCancel, onSave }: any) => {
     setNanRule(value);
   };
 
-
-  const LargeButton: any = styled(Button)(({ theme }) => ({
-    padding: '10px 60px', // Aumenta il padding intorno al testo
-  }));
-
   return (
-    <Card variant="elevation">
+    <Card variant="elevation" sx={{ flexGrow: 1 }}>
       <CardContent>
         <Grid container spacing={2}>
           <Grid item xs={12}>
@@ -57,7 +53,7 @@ const NewRuleForm = ({ onCancel, onSave }: any) => {
               rows={3}
               onChange={(e) => setDescription(e.target.value)} />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <TextField
               label="Points"
               fullWidth
@@ -68,7 +64,7 @@ const NewRuleForm = ({ onCancel, onSave }: any) => {
               disabled={nanRule}
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <TextField
               label="Point Description"
               fullWidth
