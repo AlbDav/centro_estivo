@@ -31,7 +31,8 @@
       },
       "auth": {
         "centroestivoauth": {},
-        "userPoolGroups": {}
+        "userPoolGroups": {},
+        "centroestivo7d1e9a7c": {}
       }
     }
   },
