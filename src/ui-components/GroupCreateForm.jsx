@@ -40,7 +40,7 @@ export default function GroupCreateForm(props) {
   const validations = {
     name: [{ type: "Required" }],
     color: [{ type: "Required" }],
-    age: [],
+    age: [{ type: "Required" }],
   };
   const runValidationTasks = async (
     fieldName,
@@ -170,7 +170,7 @@ export default function GroupCreateForm(props) {
       ></TextField>
       <TextField
         label="Age"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         type="number"
         step="any"
