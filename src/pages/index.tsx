@@ -1,32 +1,30 @@
-import { Authenticator } from '@aws-amplify/ui-react'
-import { Box, Button, Typography } from '@mui/material'
-import { styled } from '@mui/system'
+import { useMenuItems } from '@/hooks/useMenuItems';
+import { Box, Card, CardContent, Container, Grid, Typography } from '@mui/material'
+import Link from 'next/link';
 
 export default function Home() {
-  const LargeButton = styled(Button)(({ theme }) => ({
-    padding: '10px 60px', // Aumenta il padding intorno al testo
-  }));
+  const menuItems = useMenuItems();
 
   return (
-    <Box height="calc(100vh - 64px)" display="flex" alignItems="center" justifyContent="center">
-      <Authenticator
-        hideSignUp={true}
-      >
-        {({ signOut, user }: any) => (
-          <>
-            <main>
-              <Box marginX={2}>
-                <Typography variant="h4" color="text.primary">Ciao {user.username}, purtroppo si, sei loggato. Vuoi sloggarti!?</Typography>
-              </Box>
-              <Box display="flex" justifyContent="center" marginTop={3}>
-                <LargeButton variant="contained" color="primary" onClick={signOut}>
-                  Logout
-                </LargeButton>
-              </Box>
-            </main>
-          </>
-        )}
-      </Authenticator>
-    </Box>
+    <Container sx={{ marginTop: 2 }}>
+      <Grid container spacing={3}>
+        {menuItems.filter((el: any) => el.condition && el.href !== '/').map((item, index) => (
+          <Grid item xs={12} md={4} lg={3} key={index}>
+            <Link href={item.href} passHref>
+              <Card variant="elevation">
+                <CardContent>
+                  <Typography variant="h2" color="textSecondary" textAlign="center">
+				  {item.icon}
+                  </Typography>
+                  <Typography variant="h5" color="textPrimary" textAlign="center">
+                    {item.title}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Link>
+          </Grid>
+        ))}
+      </Grid>
+    </Container>
   )
 }

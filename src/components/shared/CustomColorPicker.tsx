@@ -1,14 +1,19 @@
 import React, { useState } from "react";
 import { HexColorInput, HexColorPicker } from "react-colorful";
-import { Box, ButtonBase, Popover } from "@mui/material";
+import { Avatar, Box, ButtonBase, Popover, TextField, useTheme } from "@mui/material";
+import { Group } from "@mui/icons-material";
+import { isLight } from "@/helpers/ColorHelpers";
+import GroupAvatar from "./GroupAvatar";
 
 const CustomColorPicker = ({ color, onChange }: any) => {
   const [isOpen, setIsOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
 
+  const theme = useTheme();
+
   return (
-    <div className="picker">
-      <ButtonBase
+    <>
+      {/*       <ButtonBase
         className="swatch"
         sx={{
           borderRadius: '100%',
@@ -18,6 +23,19 @@ const CustomColorPicker = ({ color, onChange }: any) => {
 		  border: '1px solid #c4c4c4',
         }}
 		disableRipple
+        onClick={(event: any) => {
+          setAnchorEl(event.currentTarget);
+          setIsOpen(true);
+        }}
+      /> */}
+      <TextField
+        label="Colore"
+        fullWidth
+        value={color}
+        InputProps={{
+          startAdornment: <GroupAvatar color={color}/>,
+          readOnly: true,
+        }}
         onClick={(event: any) => {
           setAnchorEl(event.currentTarget);
           setIsOpen(true);
@@ -42,7 +60,7 @@ const CustomColorPicker = ({ color, onChange }: any) => {
           </Box>
         </Box>
       </Popover>
-    </div>
+    </>
   );
 };
 
