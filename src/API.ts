@@ -6,13 +6,11 @@ export type CreateGroupInput = {
   id?: string | null,
   name: string,
   color: string,
-  age: number,
 };
 
 export type ModelGroupConditionInput = {
   name?: ModelStringInput | null,
   color?: ModelStringInput | null,
-  age?: ModelIntInput | null,
   and?: Array< ModelGroupConditionInput | null > | null,
   or?: Array< ModelGroupConditionInput | null > | null,
   not?: ModelGroupConditionInput | null,
@@ -58,25 +56,12 @@ export type ModelSizeInput = {
   between?: Array< number | null > | null,
 };
 
-export type ModelIntInput = {
-  ne?: number | null,
-  eq?: number | null,
-  le?: number | null,
-  lt?: number | null,
-  ge?: number | null,
-  gt?: number | null,
-  between?: Array< number | null > | null,
-  attributeExists?: boolean | null,
-  attributeType?: ModelAttributeTypes | null,
-};
-
 export type Group = {
   __typename: "Group",
   id: string,
   name: string,
   color: string,
-  age: number,
-  fantaTeams?: ModelFantaTeamGroupsConnection | null,
+  teams?: ModelFantaTeamGroupsConnection | null,
   createdAt: string,
   updatedAt: string,
 };
@@ -113,7 +98,6 @@ export type UpdateGroupInput = {
   id: string,
   name?: string | null,
   color?: string | null,
-  age?: number | null,
 };
 
 export type DeleteGroupInput = {
@@ -176,6 +160,18 @@ export type ModelFantaRuleConditionInput = {
   and?: Array< ModelFantaRuleConditionInput | null > | null,
   or?: Array< ModelFantaRuleConditionInput | null > | null,
   not?: ModelFantaRuleConditionInput | null,
+};
+
+export type ModelIntInput = {
+  ne?: number | null,
+  eq?: number | null,
+  le?: number | null,
+  lt?: number | null,
+  ge?: number | null,
+  gt?: number | null,
+  between?: Array< number | null > | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
 };
 
 export type FantaRule = {
@@ -268,7 +264,6 @@ export type ModelGroupFilterInput = {
   id?: ModelIDInput | null,
   name?: ModelStringInput | null,
   color?: ModelStringInput | null,
-  age?: ModelIntInput | null,
   and?: Array< ModelGroupFilterInput | null > | null,
   or?: Array< ModelGroupFilterInput | null > | null,
   not?: ModelGroupFilterInput | null,
@@ -347,7 +342,6 @@ export type ModelSubscriptionGroupFilterInput = {
   id?: ModelSubscriptionIDInput | null,
   name?: ModelSubscriptionStringInput | null,
   color?: ModelSubscriptionStringInput | null,
-  age?: ModelSubscriptionIntInput | null,
   and?: Array< ModelSubscriptionGroupFilterInput | null > | null,
   or?: Array< ModelSubscriptionGroupFilterInput | null > | null,
 };
@@ -382,18 +376,6 @@ export type ModelSubscriptionStringInput = {
   notIn?: Array< string | null > | null,
 };
 
-export type ModelSubscriptionIntInput = {
-  ne?: number | null,
-  eq?: number | null,
-  le?: number | null,
-  lt?: number | null,
-  ge?: number | null,
-  gt?: number | null,
-  between?: Array< number | null > | null,
-  in?: Array< number | null > | null,
-  notIn?: Array< number | null > | null,
-};
-
 export type ModelSubscriptionFantaTeamFilterInput = {
   id?: ModelSubscriptionIDInput | null,
   name?: ModelSubscriptionStringInput | null,
@@ -409,6 +391,18 @@ export type ModelSubscriptionFantaRuleFilterInput = {
   pointDescription?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionFantaRuleFilterInput | null > | null,
   or?: Array< ModelSubscriptionFantaRuleFilterInput | null > | null,
+};
+
+export type ModelSubscriptionIntInput = {
+  ne?: number | null,
+  eq?: number | null,
+  le?: number | null,
+  lt?: number | null,
+  ge?: number | null,
+  gt?: number | null,
+  between?: Array< number | null > | null,
+  in?: Array< number | null > | null,
+  notIn?: Array< number | null > | null,
 };
 
 export type ModelSubscriptionFantaScoreEntryFilterInput = {
@@ -437,8 +431,7 @@ export type CreateGroupMutation = {
     id: string,
     name: string,
     color: string,
-    age: number,
-    fantaTeams?:  {
+    teams?:  {
       __typename: "ModelFantaTeamGroupsConnection",
       items:  Array< {
         __typename: "FantaTeamGroups",
@@ -450,8 +443,7 @@ export type CreateGroupMutation = {
           id: string,
           name: string,
           color: string,
-          age: number,
-          fantaTeams?:  {
+          teams?:  {
             __typename: "ModelFantaTeamGroupsConnection",
             nextToken?: string | null,
           } | null,
@@ -471,7 +463,6 @@ export type CreateGroupMutation = {
             id: string,
             name: string,
             color: string,
-            age: number,
             createdAt: string,
             updatedAt: string,
           } | null,
@@ -500,8 +491,7 @@ export type UpdateGroupMutation = {
     id: string,
     name: string,
     color: string,
-    age: number,
-    fantaTeams?:  {
+    teams?:  {
       __typename: "ModelFantaTeamGroupsConnection",
       items:  Array< {
         __typename: "FantaTeamGroups",
@@ -513,8 +503,7 @@ export type UpdateGroupMutation = {
           id: string,
           name: string,
           color: string,
-          age: number,
-          fantaTeams?:  {
+          teams?:  {
             __typename: "ModelFantaTeamGroupsConnection",
             nextToken?: string | null,
           } | null,
@@ -534,7 +523,6 @@ export type UpdateGroupMutation = {
             id: string,
             name: string,
             color: string,
-            age: number,
             createdAt: string,
             updatedAt: string,
           } | null,
@@ -563,8 +551,7 @@ export type DeleteGroupMutation = {
     id: string,
     name: string,
     color: string,
-    age: number,
-    fantaTeams?:  {
+    teams?:  {
       __typename: "ModelFantaTeamGroupsConnection",
       items:  Array< {
         __typename: "FantaTeamGroups",
@@ -576,8 +563,7 @@ export type DeleteGroupMutation = {
           id: string,
           name: string,
           color: string,
-          age: number,
-          fantaTeams?:  {
+          teams?:  {
             __typename: "ModelFantaTeamGroupsConnection",
             nextToken?: string | null,
           } | null,
@@ -597,7 +583,6 @@ export type DeleteGroupMutation = {
             id: string,
             name: string,
             color: string,
-            age: number,
             createdAt: string,
             updatedAt: string,
           } | null,
@@ -637,8 +622,7 @@ export type CreateFantaTeamMutation = {
           id: string,
           name: string,
           color: string,
-          age: number,
-          fantaTeams?:  {
+          teams?:  {
             __typename: "ModelFantaTeamGroupsConnection",
             nextToken?: string | null,
           } | null,
@@ -658,7 +642,6 @@ export type CreateFantaTeamMutation = {
             id: string,
             name: string,
             color: string,
-            age: number,
             createdAt: string,
             updatedAt: string,
           } | null,
@@ -676,8 +659,7 @@ export type CreateFantaTeamMutation = {
       id: string,
       name: string,
       color: string,
-      age: number,
-      fantaTeams?:  {
+      teams?:  {
         __typename: "ModelFantaTeamGroupsConnection",
         items:  Array< {
           __typename: "FantaTeamGroups",
@@ -689,7 +671,6 @@ export type CreateFantaTeamMutation = {
             id: string,
             name: string,
             color: string,
-            age: number,
             createdAt: string,
             updatedAt: string,
           },
@@ -737,8 +718,7 @@ export type UpdateFantaTeamMutation = {
           id: string,
           name: string,
           color: string,
-          age: number,
-          fantaTeams?:  {
+          teams?:  {
             __typename: "ModelFantaTeamGroupsConnection",
             nextToken?: string | null,
           } | null,
@@ -758,7 +738,6 @@ export type UpdateFantaTeamMutation = {
             id: string,
             name: string,
             color: string,
-            age: number,
             createdAt: string,
             updatedAt: string,
           } | null,
@@ -776,8 +755,7 @@ export type UpdateFantaTeamMutation = {
       id: string,
       name: string,
       color: string,
-      age: number,
-      fantaTeams?:  {
+      teams?:  {
         __typename: "ModelFantaTeamGroupsConnection",
         items:  Array< {
           __typename: "FantaTeamGroups",
@@ -789,7 +767,6 @@ export type UpdateFantaTeamMutation = {
             id: string,
             name: string,
             color: string,
-            age: number,
             createdAt: string,
             updatedAt: string,
           },
@@ -837,8 +814,7 @@ export type DeleteFantaTeamMutation = {
           id: string,
           name: string,
           color: string,
-          age: number,
-          fantaTeams?:  {
+          teams?:  {
             __typename: "ModelFantaTeamGroupsConnection",
             nextToken?: string | null,
           } | null,
@@ -858,7 +834,6 @@ export type DeleteFantaTeamMutation = {
             id: string,
             name: string,
             color: string,
-            age: number,
             createdAt: string,
             updatedAt: string,
           } | null,
@@ -876,8 +851,7 @@ export type DeleteFantaTeamMutation = {
       id: string,
       name: string,
       color: string,
-      age: number,
-      fantaTeams?:  {
+      teams?:  {
         __typename: "ModelFantaTeamGroupsConnection",
         items:  Array< {
           __typename: "FantaTeamGroups",
@@ -889,7 +863,6 @@ export type DeleteFantaTeamMutation = {
             id: string,
             name: string,
             color: string,
-            age: number,
             createdAt: string,
             updatedAt: string,
           },
@@ -993,8 +966,7 @@ export type CreateFantaScoreEntryMutation = {
       id: string,
       name: string,
       color: string,
-      age: number,
-      fantaTeams?:  {
+      teams?:  {
         __typename: "ModelFantaTeamGroupsConnection",
         items:  Array< {
           __typename: "FantaTeamGroups",
@@ -1006,7 +978,6 @@ export type CreateFantaScoreEntryMutation = {
             id: string,
             name: string,
             color: string,
-            age: number,
             createdAt: string,
             updatedAt: string,
           },
@@ -1058,8 +1029,7 @@ export type UpdateFantaScoreEntryMutation = {
       id: string,
       name: string,
       color: string,
-      age: number,
-      fantaTeams?:  {
+      teams?:  {
         __typename: "ModelFantaTeamGroupsConnection",
         items:  Array< {
           __typename: "FantaTeamGroups",
@@ -1071,7 +1041,6 @@ export type UpdateFantaScoreEntryMutation = {
             id: string,
             name: string,
             color: string,
-            age: number,
             createdAt: string,
             updatedAt: string,
           },
@@ -1123,8 +1092,7 @@ export type DeleteFantaScoreEntryMutation = {
       id: string,
       name: string,
       color: string,
-      age: number,
-      fantaTeams?:  {
+      teams?:  {
         __typename: "ModelFantaTeamGroupsConnection",
         items:  Array< {
           __typename: "FantaTeamGroups",
@@ -1136,7 +1104,6 @@ export type DeleteFantaScoreEntryMutation = {
             id: string,
             name: string,
             color: string,
-            age: number,
             createdAt: string,
             updatedAt: string,
           },
@@ -1180,8 +1147,7 @@ export type CreateFantaTeamGroupsMutation = {
       id: string,
       name: string,
       color: string,
-      age: number,
-      fantaTeams?:  {
+      teams?:  {
         __typename: "ModelFantaTeamGroupsConnection",
         items:  Array< {
           __typename: "FantaTeamGroups",
@@ -1193,7 +1159,6 @@ export type CreateFantaTeamGroupsMutation = {
             id: string,
             name: string,
             color: string,
-            age: number,
             createdAt: string,
             updatedAt: string,
           },
@@ -1229,7 +1194,6 @@ export type CreateFantaTeamGroupsMutation = {
             id: string,
             name: string,
             color: string,
-            age: number,
             createdAt: string,
             updatedAt: string,
           },
@@ -1251,8 +1215,7 @@ export type CreateFantaTeamGroupsMutation = {
         id: string,
         name: string,
         color: string,
-        age: number,
-        fantaTeams?:  {
+        teams?:  {
           __typename: "ModelFantaTeamGroupsConnection",
           items:  Array< {
             __typename: "FantaTeamGroups",
@@ -1292,8 +1255,7 @@ export type UpdateFantaTeamGroupsMutation = {
       id: string,
       name: string,
       color: string,
-      age: number,
-      fantaTeams?:  {
+      teams?:  {
         __typename: "ModelFantaTeamGroupsConnection",
         items:  Array< {
           __typename: "FantaTeamGroups",
@@ -1305,7 +1267,6 @@ export type UpdateFantaTeamGroupsMutation = {
             id: string,
             name: string,
             color: string,
-            age: number,
             createdAt: string,
             updatedAt: string,
           },
@@ -1341,7 +1302,6 @@ export type UpdateFantaTeamGroupsMutation = {
             id: string,
             name: string,
             color: string,
-            age: number,
             createdAt: string,
             updatedAt: string,
           },
@@ -1363,8 +1323,7 @@ export type UpdateFantaTeamGroupsMutation = {
         id: string,
         name: string,
         color: string,
-        age: number,
-        fantaTeams?:  {
+        teams?:  {
           __typename: "ModelFantaTeamGroupsConnection",
           items:  Array< {
             __typename: "FantaTeamGroups",
@@ -1404,8 +1363,7 @@ export type DeleteFantaTeamGroupsMutation = {
       id: string,
       name: string,
       color: string,
-      age: number,
-      fantaTeams?:  {
+      teams?:  {
         __typename: "ModelFantaTeamGroupsConnection",
         items:  Array< {
           __typename: "FantaTeamGroups",
@@ -1417,7 +1375,6 @@ export type DeleteFantaTeamGroupsMutation = {
             id: string,
             name: string,
             color: string,
-            age: number,
             createdAt: string,
             updatedAt: string,
           },
@@ -1453,7 +1410,6 @@ export type DeleteFantaTeamGroupsMutation = {
             id: string,
             name: string,
             color: string,
-            age: number,
             createdAt: string,
             updatedAt: string,
           },
@@ -1475,8 +1431,7 @@ export type DeleteFantaTeamGroupsMutation = {
         id: string,
         name: string,
         color: string,
-        age: number,
-        fantaTeams?:  {
+        teams?:  {
           __typename: "ModelFantaTeamGroupsConnection",
           items:  Array< {
             __typename: "FantaTeamGroups",
@@ -1510,8 +1465,7 @@ export type GetGroupQuery = {
     id: string,
     name: string,
     color: string,
-    age: number,
-    fantaTeams?:  {
+    teams?:  {
       __typename: "ModelFantaTeamGroupsConnection",
       items:  Array< {
         __typename: "FantaTeamGroups",
@@ -1523,8 +1477,7 @@ export type GetGroupQuery = {
           id: string,
           name: string,
           color: string,
-          age: number,
-          fantaTeams?:  {
+          teams?:  {
             __typename: "ModelFantaTeamGroupsConnection",
             nextToken?: string | null,
           } | null,
@@ -1544,7 +1497,6 @@ export type GetGroupQuery = {
             id: string,
             name: string,
             color: string,
-            age: number,
             createdAt: string,
             updatedAt: string,
           } | null,
@@ -1576,8 +1528,7 @@ export type ListGroupsQuery = {
       id: string,
       name: string,
       color: string,
-      age: number,
-      fantaTeams?:  {
+      teams?:  {
         __typename: "ModelFantaTeamGroupsConnection",
         items:  Array< {
           __typename: "FantaTeamGroups",
@@ -1589,7 +1540,6 @@ export type ListGroupsQuery = {
             id: string,
             name: string,
             color: string,
-            age: number,
             createdAt: string,
             updatedAt: string,
           },
@@ -1634,8 +1584,7 @@ export type GetFantaTeamQuery = {
           id: string,
           name: string,
           color: string,
-          age: number,
-          fantaTeams?:  {
+          teams?:  {
             __typename: "ModelFantaTeamGroupsConnection",
             nextToken?: string | null,
           } | null,
@@ -1655,7 +1604,6 @@ export type GetFantaTeamQuery = {
             id: string,
             name: string,
             color: string,
-            age: number,
             createdAt: string,
             updatedAt: string,
           } | null,
@@ -1673,8 +1621,7 @@ export type GetFantaTeamQuery = {
       id: string,
       name: string,
       color: string,
-      age: number,
-      fantaTeams?:  {
+      teams?:  {
         __typename: "ModelFantaTeamGroupsConnection",
         items:  Array< {
           __typename: "FantaTeamGroups",
@@ -1686,7 +1633,6 @@ export type GetFantaTeamQuery = {
             id: string,
             name: string,
             color: string,
-            age: number,
             createdAt: string,
             updatedAt: string,
           },
@@ -1737,7 +1683,6 @@ export type ListFantaTeamsQuery = {
             id: string,
             name: string,
             color: string,
-            age: number,
             createdAt: string,
             updatedAt: string,
           },
@@ -1759,8 +1704,7 @@ export type ListFantaTeamsQuery = {
         id: string,
         name: string,
         color: string,
-        age: number,
-        fantaTeams?:  {
+        teams?:  {
           __typename: "ModelFantaTeamGroupsConnection",
           items:  Array< {
             __typename: "FantaTeamGroups",
@@ -1846,8 +1790,7 @@ export type GetFantaScoreEntryQuery = {
       id: string,
       name: string,
       color: string,
-      age: number,
-      fantaTeams?:  {
+      teams?:  {
         __typename: "ModelFantaTeamGroupsConnection",
         items:  Array< {
           __typename: "FantaTeamGroups",
@@ -1859,7 +1802,6 @@ export type GetFantaScoreEntryQuery = {
             id: string,
             name: string,
             color: string,
-            age: number,
             createdAt: string,
             updatedAt: string,
           },
@@ -1914,8 +1856,7 @@ export type ListFantaScoreEntriesQuery = {
         id: string,
         name: string,
         color: string,
-        age: number,
-        fantaTeams?:  {
+        teams?:  {
           __typename: "ModelFantaTeamGroupsConnection",
           items:  Array< {
             __typename: "FantaTeamGroups",
@@ -1955,8 +1896,7 @@ export type GetFantaTeamGroupsQuery = {
       id: string,
       name: string,
       color: string,
-      age: number,
-      fantaTeams?:  {
+      teams?:  {
         __typename: "ModelFantaTeamGroupsConnection",
         items:  Array< {
           __typename: "FantaTeamGroups",
@@ -1968,7 +1908,6 @@ export type GetFantaTeamGroupsQuery = {
             id: string,
             name: string,
             color: string,
-            age: number,
             createdAt: string,
             updatedAt: string,
           },
@@ -2004,7 +1943,6 @@ export type GetFantaTeamGroupsQuery = {
             id: string,
             name: string,
             color: string,
-            age: number,
             createdAt: string,
             updatedAt: string,
           },
@@ -2026,8 +1964,7 @@ export type GetFantaTeamGroupsQuery = {
         id: string,
         name: string,
         color: string,
-        age: number,
-        fantaTeams?:  {
+        teams?:  {
           __typename: "ModelFantaTeamGroupsConnection",
           items:  Array< {
             __typename: "FantaTeamGroups",
@@ -2070,8 +2007,7 @@ export type ListFantaTeamGroupsQuery = {
         id: string,
         name: string,
         color: string,
-        age: number,
-        fantaTeams?:  {
+        teams?:  {
           __typename: "ModelFantaTeamGroupsConnection",
           items:  Array< {
             __typename: "FantaTeamGroups",
@@ -2107,8 +2043,7 @@ export type ListFantaTeamGroupsQuery = {
           id: string,
           name: string,
           color: string,
-          age: number,
-          fantaTeams?:  {
+          teams?:  {
             __typename: "ModelFantaTeamGroupsConnection",
             nextToken?: string | null,
           } | null,
@@ -2147,8 +2082,7 @@ export type FantaTeamGroupsByGroupIdQuery = {
         id: string,
         name: string,
         color: string,
-        age: number,
-        fantaTeams?:  {
+        teams?:  {
           __typename: "ModelFantaTeamGroupsConnection",
           items:  Array< {
             __typename: "FantaTeamGroups",
@@ -2184,8 +2118,7 @@ export type FantaTeamGroupsByGroupIdQuery = {
           id: string,
           name: string,
           color: string,
-          age: number,
-          fantaTeams?:  {
+          teams?:  {
             __typename: "ModelFantaTeamGroupsConnection",
             nextToken?: string | null,
           } | null,
@@ -2224,8 +2157,7 @@ export type FantaTeamGroupsByFantaTeamIdQuery = {
         id: string,
         name: string,
         color: string,
-        age: number,
-        fantaTeams?:  {
+        teams?:  {
           __typename: "ModelFantaTeamGroupsConnection",
           items:  Array< {
             __typename: "FantaTeamGroups",
@@ -2261,8 +2193,7 @@ export type FantaTeamGroupsByFantaTeamIdQuery = {
           id: string,
           name: string,
           color: string,
-          age: number,
-          fantaTeams?:  {
+          teams?:  {
             __typename: "ModelFantaTeamGroupsConnection",
             nextToken?: string | null,
           } | null,
@@ -2290,8 +2221,7 @@ export type OnCreateGroupSubscription = {
     id: string,
     name: string,
     color: string,
-    age: number,
-    fantaTeams?:  {
+    teams?:  {
       __typename: "ModelFantaTeamGroupsConnection",
       items:  Array< {
         __typename: "FantaTeamGroups",
@@ -2303,8 +2233,7 @@ export type OnCreateGroupSubscription = {
           id: string,
           name: string,
           color: string,
-          age: number,
-          fantaTeams?:  {
+          teams?:  {
             __typename: "ModelFantaTeamGroupsConnection",
             nextToken?: string | null,
           } | null,
@@ -2324,7 +2253,6 @@ export type OnCreateGroupSubscription = {
             id: string,
             name: string,
             color: string,
-            age: number,
             createdAt: string,
             updatedAt: string,
           } | null,
@@ -2352,8 +2280,7 @@ export type OnUpdateGroupSubscription = {
     id: string,
     name: string,
     color: string,
-    age: number,
-    fantaTeams?:  {
+    teams?:  {
       __typename: "ModelFantaTeamGroupsConnection",
       items:  Array< {
         __typename: "FantaTeamGroups",
@@ -2365,8 +2292,7 @@ export type OnUpdateGroupSubscription = {
           id: string,
           name: string,
           color: string,
-          age: number,
-          fantaTeams?:  {
+          teams?:  {
             __typename: "ModelFantaTeamGroupsConnection",
             nextToken?: string | null,
           } | null,
@@ -2386,7 +2312,6 @@ export type OnUpdateGroupSubscription = {
             id: string,
             name: string,
             color: string,
-            age: number,
             createdAt: string,
             updatedAt: string,
           } | null,
@@ -2414,8 +2339,7 @@ export type OnDeleteGroupSubscription = {
     id: string,
     name: string,
     color: string,
-    age: number,
-    fantaTeams?:  {
+    teams?:  {
       __typename: "ModelFantaTeamGroupsConnection",
       items:  Array< {
         __typename: "FantaTeamGroups",
@@ -2427,8 +2351,7 @@ export type OnDeleteGroupSubscription = {
           id: string,
           name: string,
           color: string,
-          age: number,
-          fantaTeams?:  {
+          teams?:  {
             __typename: "ModelFantaTeamGroupsConnection",
             nextToken?: string | null,
           } | null,
@@ -2448,7 +2371,6 @@ export type OnDeleteGroupSubscription = {
             id: string,
             name: string,
             color: string,
-            age: number,
             createdAt: string,
             updatedAt: string,
           } | null,
@@ -2487,8 +2409,7 @@ export type OnCreateFantaTeamSubscription = {
           id: string,
           name: string,
           color: string,
-          age: number,
-          fantaTeams?:  {
+          teams?:  {
             __typename: "ModelFantaTeamGroupsConnection",
             nextToken?: string | null,
           } | null,
@@ -2508,7 +2429,6 @@ export type OnCreateFantaTeamSubscription = {
             id: string,
             name: string,
             color: string,
-            age: number,
             createdAt: string,
             updatedAt: string,
           } | null,
@@ -2526,8 +2446,7 @@ export type OnCreateFantaTeamSubscription = {
       id: string,
       name: string,
       color: string,
-      age: number,
-      fantaTeams?:  {
+      teams?:  {
         __typename: "ModelFantaTeamGroupsConnection",
         items:  Array< {
           __typename: "FantaTeamGroups",
@@ -2539,7 +2458,6 @@ export type OnCreateFantaTeamSubscription = {
             id: string,
             name: string,
             color: string,
-            age: number,
             createdAt: string,
             updatedAt: string,
           },
@@ -2586,8 +2504,7 @@ export type OnUpdateFantaTeamSubscription = {
           id: string,
           name: string,
           color: string,
-          age: number,
-          fantaTeams?:  {
+          teams?:  {
             __typename: "ModelFantaTeamGroupsConnection",
             nextToken?: string | null,
           } | null,
@@ -2607,7 +2524,6 @@ export type OnUpdateFantaTeamSubscription = {
             id: string,
             name: string,
             color: string,
-            age: number,
             createdAt: string,
             updatedAt: string,
           } | null,
@@ -2625,8 +2541,7 @@ export type OnUpdateFantaTeamSubscription = {
       id: string,
       name: string,
       color: string,
-      age: number,
-      fantaTeams?:  {
+      teams?:  {
         __typename: "ModelFantaTeamGroupsConnection",
         items:  Array< {
           __typename: "FantaTeamGroups",
@@ -2638,7 +2553,6 @@ export type OnUpdateFantaTeamSubscription = {
             id: string,
             name: string,
             color: string,
-            age: number,
             createdAt: string,
             updatedAt: string,
           },
@@ -2685,8 +2599,7 @@ export type OnDeleteFantaTeamSubscription = {
           id: string,
           name: string,
           color: string,
-          age: number,
-          fantaTeams?:  {
+          teams?:  {
             __typename: "ModelFantaTeamGroupsConnection",
             nextToken?: string | null,
           } | null,
@@ -2706,7 +2619,6 @@ export type OnDeleteFantaTeamSubscription = {
             id: string,
             name: string,
             color: string,
-            age: number,
             createdAt: string,
             updatedAt: string,
           } | null,
@@ -2724,8 +2636,7 @@ export type OnDeleteFantaTeamSubscription = {
       id: string,
       name: string,
       color: string,
-      age: number,
-      fantaTeams?:  {
+      teams?:  {
         __typename: "ModelFantaTeamGroupsConnection",
         items:  Array< {
           __typename: "FantaTeamGroups",
@@ -2737,7 +2648,6 @@ export type OnDeleteFantaTeamSubscription = {
             id: string,
             name: string,
             color: string,
-            age: number,
             createdAt: string,
             updatedAt: string,
           },
@@ -2837,8 +2747,7 @@ export type OnCreateFantaScoreEntrySubscription = {
       id: string,
       name: string,
       color: string,
-      age: number,
-      fantaTeams?:  {
+      teams?:  {
         __typename: "ModelFantaTeamGroupsConnection",
         items:  Array< {
           __typename: "FantaTeamGroups",
@@ -2850,7 +2759,6 @@ export type OnCreateFantaScoreEntrySubscription = {
             id: string,
             name: string,
             color: string,
-            age: number,
             createdAt: string,
             updatedAt: string,
           },
@@ -2901,8 +2809,7 @@ export type OnUpdateFantaScoreEntrySubscription = {
       id: string,
       name: string,
       color: string,
-      age: number,
-      fantaTeams?:  {
+      teams?:  {
         __typename: "ModelFantaTeamGroupsConnection",
         items:  Array< {
           __typename: "FantaTeamGroups",
@@ -2914,7 +2821,6 @@ export type OnUpdateFantaScoreEntrySubscription = {
             id: string,
             name: string,
             color: string,
-            age: number,
             createdAt: string,
             updatedAt: string,
           },
@@ -2965,8 +2871,7 @@ export type OnDeleteFantaScoreEntrySubscription = {
       id: string,
       name: string,
       color: string,
-      age: number,
-      fantaTeams?:  {
+      teams?:  {
         __typename: "ModelFantaTeamGroupsConnection",
         items:  Array< {
           __typename: "FantaTeamGroups",
@@ -2978,7 +2883,6 @@ export type OnDeleteFantaScoreEntrySubscription = {
             id: string,
             name: string,
             color: string,
-            age: number,
             createdAt: string,
             updatedAt: string,
           },
@@ -3021,8 +2925,7 @@ export type OnCreateFantaTeamGroupsSubscription = {
       id: string,
       name: string,
       color: string,
-      age: number,
-      fantaTeams?:  {
+      teams?:  {
         __typename: "ModelFantaTeamGroupsConnection",
         items:  Array< {
           __typename: "FantaTeamGroups",
@@ -3034,7 +2937,6 @@ export type OnCreateFantaTeamGroupsSubscription = {
             id: string,
             name: string,
             color: string,
-            age: number,
             createdAt: string,
             updatedAt: string,
           },
@@ -3070,7 +2972,6 @@ export type OnCreateFantaTeamGroupsSubscription = {
             id: string,
             name: string,
             color: string,
-            age: number,
             createdAt: string,
             updatedAt: string,
           },
@@ -3092,8 +2993,7 @@ export type OnCreateFantaTeamGroupsSubscription = {
         id: string,
         name: string,
         color: string,
-        age: number,
-        fantaTeams?:  {
+        teams?:  {
           __typename: "ModelFantaTeamGroupsConnection",
           items:  Array< {
             __typename: "FantaTeamGroups",
@@ -3132,8 +3032,7 @@ export type OnUpdateFantaTeamGroupsSubscription = {
       id: string,
       name: string,
       color: string,
-      age: number,
-      fantaTeams?:  {
+      teams?:  {
         __typename: "ModelFantaTeamGroupsConnection",
         items:  Array< {
           __typename: "FantaTeamGroups",
@@ -3145,7 +3044,6 @@ export type OnUpdateFantaTeamGroupsSubscription = {
             id: string,
             name: string,
             color: string,
-            age: number,
             createdAt: string,
             updatedAt: string,
           },
@@ -3181,7 +3079,6 @@ export type OnUpdateFantaTeamGroupsSubscription = {
             id: string,
             name: string,
             color: string,
-            age: number,
             createdAt: string,
             updatedAt: string,
           },
@@ -3203,8 +3100,7 @@ export type OnUpdateFantaTeamGroupsSubscription = {
         id: string,
         name: string,
         color: string,
-        age: number,
-        fantaTeams?:  {
+        teams?:  {
           __typename: "ModelFantaTeamGroupsConnection",
           items:  Array< {
             __typename: "FantaTeamGroups",
@@ -3243,8 +3139,7 @@ export type OnDeleteFantaTeamGroupsSubscription = {
       id: string,
       name: string,
       color: string,
-      age: number,
-      fantaTeams?:  {
+      teams?:  {
         __typename: "ModelFantaTeamGroupsConnection",
         items:  Array< {
           __typename: "FantaTeamGroups",
@@ -3256,7 +3151,6 @@ export type OnDeleteFantaTeamGroupsSubscription = {
             id: string,
             name: string,
             color: string,
-            age: number,
             createdAt: string,
             updatedAt: string,
           },
@@ -3292,7 +3186,6 @@ export type OnDeleteFantaTeamGroupsSubscription = {
             id: string,
             name: string,
             color: string,
-            age: number,
             createdAt: string,
             updatedAt: string,
           },
@@ -3314,8 +3207,7 @@ export type OnDeleteFantaTeamGroupsSubscription = {
         id: string,
         name: string,
         color: string,
-        age: number,
-        fantaTeams?:  {
+        teams?:  {
           __typename: "ModelFantaTeamGroupsConnection",
           items:  Array< {
             __typename: "FantaTeamGroups",

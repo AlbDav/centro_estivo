@@ -1,68 +1,43 @@
 import React, { useState } from 'react';
-import { Box, TextField, Button, Card, CardContent, InputLabel, Grid } from '@mui/material';
+import { Box, TextField, Button, Card, CardContent, InputLabel } from '@mui/material';
 import CustomColorPicker from '../shared/CustomColorPicker';
-import LargeButton from '../shared/LargeButton';
 
 const NewGroupForm = ({ onCancel, onSave }: any) => {
   const [name, setName] = useState('');
   const [color, setColor] = useState('#FFFFFF');
-  const [age, setAge] = useState('0');
-
-  const ageBlurred = (event: any) => {
-    const value = parseInt(event.target.value);
-    if (isNaN(value)) {
-      setAge('0');
-    }
-  }
 
   const handleSubmit = () => {
-    onSave({ name, color, age: parseInt(age) });
+    onSave({ name, color });
     setName('');
-    setColor('#ffffff');
-    setAge('0');
+    setColor('#FFFFFF');
   };
 
   return (
-    <Card variant="elevation" sx={{ flexGrow: 1 }}>
+    <Card>
       <CardContent>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <TextField
-              label="Nome"
-              variant="outlined"
-              margin="normal"
-              fullWidth
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <CustomColorPicker
-              color={color}
-              onChange={(colorSelected: any) => setColor(colorSelected)}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <TextField
-              label="Età"
-              fullWidth
-              value={age}
-              onChange={(e) => setAge(e.target.value)}
-              onBlur={ageBlurred}
-              type="number"
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Box display="flex" justifyContent="center">
-              <LargeButton variant="outlined" color="secondary" onClick={onCancel}>
-                Annulla
-              </LargeButton>
-              <LargeButton variant="contained" color="primary" onClick={handleSubmit} style={{ marginLeft: '40px' }}>
-                Salva
-              </LargeButton>
-            </Box>
-          </Grid>
-        </Grid>
+        <TextField
+          label="Name"
+          variant="outlined"
+          margin="normal"
+          fullWidth
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+        <Box marginTop={2} marginBottom={2}>
+          <InputLabel id="color-label">Color</InputLabel>
+          <CustomColorPicker
+            color={color}
+            onChange={(colorSelected: any) => setColor(colorSelected)}
+          />
+        </Box>
+        <Box marginTop={2}>
+          <Button variant="contained" color="primary" onClick={handleSubmit}>
+            Salva
+          </Button>
+          <Button variant="outlined" color="secondary" onClick={onCancel} style={{ marginLeft: '10px' }}>
+            Annulla
+          </Button>
+        </Box>
       </CardContent>
     </Card>
   );

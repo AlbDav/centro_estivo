@@ -1,127 +1,79 @@
 // pages/teams.js
 import React, { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
-import { createFantaScoreEntry } from '../graphql/mutations';
-import { Box, Button, CircularProgress, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Fab } from '@mui/material';
-import { useRouter } from 'next/router';
-import NewScoreForm from '@/components/fanta-score/NewScoreForm';
-import { Add } from '@mui/icons-material';
-import { ListFantaScoreEntriesQuery } from '@/API';
-import { listFantaScoreEntries } from '@/graphql/queries';
-import { useAuth } from '@/hooks/useAuth';
+import { listFantaTeams } from '../graphql/queries';
+import { createFantaTeam, createFantaTeamGroups } from '../graphql/mutations';
+import { Box, Button, Container, Grid } from '@mui/material';
+import { ListFantaTeamsQuery } from '@/API';
+import NewTeamForm from '@/components/fanta-teams/NewTeamForm';
+import TeamCard from '@/components/fanta-teams/TeamCard';
 
 const FantaScore = () => {
-	const { isUserLogged, isUserAdmin, isUserRef } = useAuth();
-	const [authChecked, setAuthChecked] = useState(false);
-	const router = useRouter();
-	const [progressDialogOpen, setProgressDialogOpen] = useState(false);
+  const [teams, setTeams] = useState([]);
+  const [showForm, setShowForm] = useState(false);
 
-	useEffect(() => {
-		if (isUserLogged) {
-			fetchScoreEntries();
-			setAuthChecked(true);
-		} else if (isUserLogged === false) {
-			router.push({ pathname: '/account', query: { redirect: router.pathname } });
-		}
-	}, [isUserLogged]);
+  useEffect(() => {
+    fetchTeams();
+  }, []);
 
-	const [showForm, setShowForm] = useState(false);
+  const fetchTeams = async () => {
+    try {
+      const teamData = await API.graphql<ListFantaTeamsQuery>({ query: listFantaTeams }) as any;
+      const teamItems = teamData.data.listFantaTeams.items;
+      setTeams(teamItems);
+    } catch (error) {
+      console.log('Error fetching teams:', error);
+    }
+  };
 
-	const fetchScoreEntries = async () => {
-		try {
-			await API.graphql<ListFantaScoreEntriesQuery>({ query: listFantaScoreEntries }) as any;
-		} catch (error) {
-			console.log('Error fetching scores:', error);
-		}
-	};
+  const addTeam = async (team: any) => {
+    try {
+      // Creare un nuovo team utilizzando la mutation GraphQL
+      const teamResponse = await API.graphql({query: createFantaTeam, variables: { input: { name: team.name, fantaTeamLeaderGroupId: team.leaderGroup }}}) as any;
 
-	const addScoreEntry = async (scoreEntry: any) => {
-		try {
-			if (!scoreEntry.date || !scoreEntry.fantaScoreEntryRuleId || !scoreEntry.fantaScoreEntryGroupId) {
-				throw new Error('Missing mandatory fields');
-			}
+      // Ottenere l'ID del team creato
+      const fantaTeamId = teamResponse.data.createFantaTeam.id;
 
-			const existingEntry = await checkForExistingEntry(scoreEntry.date, scoreEntry.fantaScoreEntryRuleId, scoreEntry.fantaScoreEntryGroupId);
+      // Creare le voci TeamGroup per ogni additionalGroup
+      const additionalGroupPromises = team.additionalGroups.map(async (groupId: any) => {
+        return API.graphql({ query: createFantaTeamGroups, variables: { input: { fantaTeamId, groupId }}});
+      });
 
-			if (existingEntry) {
-				toggleProgressDialog();
-				throw new Error('Already existing rule');
-			}
+      // Attendere il completamento di tutte le chiamate API per creare le voci TeamGroup
+      await Promise.all(additionalGroupPromises);
 
-			await API.graphql({
-				query: createFantaScoreEntry, variables: {
-					input: scoreEntry,
-				}
-			}) as any;
-			setShowForm(false);
-		} catch (error) {
-			console.log('Error adding score entry:', error);
-		}
-	};
+      // Fare qualcosa con la risposta, ad esempio aggiornare lo stato dell'applicazione o navigare verso un'altra pagina
+      console.log('Team and TeamGroups created successfully');
+    } catch (error) {
+      console.error('Error creating team and TeamGroups:', error);
+    }
+  };
 
-	const checkForExistingEntry = async (date: any, ruleId: any, groupId: any) => {
-		const existingEntries = await API.graphql({
-			query: listFantaScoreEntries,
-			variables: {
-				filter: {
-					date: { eq: date },
-					fantaScoreEntryRuleId: { eq: ruleId },
-					fantaScoreEntryGroupId: { eq: groupId }
-				}
-			}
-		}) as any;
-		return existingEntries.data.listFantaScoreEntries.items.length > 0;
-	};
-
-	const toggleProgressDialog = () => {
-		setProgressDialogOpen(!progressDialogOpen);
-	};
-
-	if (!authChecked) {
-		return (
-			<Box height="calc(100vh - 64px)" display="flex" alignItems="center" justifyContent="center">
-				<CircularProgress color="secondary" size={60} />
-			</Box>
-		)
-	}
-
-	return (
-		<>
-			<Container>
-				{(isUserAdmin || isUserRef) && <Box marginTop={3} display="flex" justifyContent="center">
-					{showForm ? (
-						<NewScoreForm
-							onCancel={() => setShowForm(false)}
-							onSave={(rule: any) => addScoreEntry(rule)}
-						/>
-					) : (
-						<Fab variant="extended" color="secondary"
-							sx={{
-								color: "white",
-							}}
-							aria-label="add" onClick={() => setShowForm(true)}>
-							<Add sx={{ mr: 1 }} />
-							Aggiungi regola
-						</Fab>
-					)}
-				</Box>}
-			</Container>
-			<Dialog
-				open={progressDialogOpen}
-				onClose={toggleProgressDialog}
-			>
-				<DialogTitle>{"Errore"}</DialogTitle>
-				<DialogContent>
-					<DialogContentText>
-						Punteggio già esistente.
-					</DialogContentText>
-				</DialogContent>
-				<DialogActions>
-					<Button onClick={toggleProgressDialog} variant="contained">OK</Button>
-				</DialogActions>
-			</Dialog>
-		</>
-	);
+  return (
+    <Container>
+      <Box marginTop={4}>
+        {showForm ? (
+          <NewTeamForm
+            onCancel={() => setShowForm(false)}
+            onSave={(team: any) => addTeam(team)}
+          />
+        ) : (
+          <Button variant="contained" color="primary" onClick={() => setShowForm(true)}>
+            +
+          </Button>
+        )}
+      </Box>
+      <Box marginTop={4}>
+        <Grid container spacing={4}>
+          {teams.map((team: any) => (
+            <Grid key={team.id} item xs={12}>
+              <TeamCard team={team} />
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
+    </Container>
+  );
 };
 
 export default FantaScore;

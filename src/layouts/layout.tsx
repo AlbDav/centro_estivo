@@ -1,12 +1,13 @@
 // components/Layout.js
-import React, { useEffect, useMemo, useState } from 'react';
-import { BottomNavigation, BottomNavigationAction, createTheme, Hidden, Paper, ThemeProvider } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { createTheme, ThemeProvider } from '@mui/material';
 import { CssBaseline, AppBar, Toolbar, Typography, IconButton, Drawer, List, ListItemText, ListItemButton, Box, ListItemIcon } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import Link from 'next/link';
+import { useAuthenticator } from '@aws-amplify/ui-react';
+import { isAdmin, isRef, isUser } from '@/helpers/AuthHelpers';
 import { styled } from '@mui/system';
-import { useMenuItems } from '@/hooks/useMenuItems';
-import { useRouter } from 'next/router';
+import { Group, SportsEsports, Description, BarChart, Home } from '@mui/icons-material'
 
 const theme = createTheme({
   palette: {
@@ -29,15 +30,11 @@ const theme = createTheme({
       },
     },
     MuiCard: {
-      variants: [
-        {
-          props: { variant: 'elevation' },
-          style: {
-            boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
-            borderRadius: '0.75rem'
-          }
-        }
-      ],
+      styleOverrides: {
+        root: {
+          boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
+        },
+      },
     },
     MuiFab: {
       styleOverrides: {
@@ -77,72 +74,50 @@ const StyledDrawer = styled(Drawer)({
   },
 });
 
-const getMobileMenuItems = (menuItems: any) => {
-  const bottomNavigationItems = [];
-  const mobileDrawerItems = [];
-
-  const filteredItems = menuItems.filter((item: any) => item.condition);
-
-  if (filteredItems.length <= 4) {
-    bottomNavigationItems.push(...filteredItems);
-  } else {
-    bottomNavigationItems.push(...filteredItems.slice(0, 3));
-    bottomNavigationItems.push({
-      title: 'Altro',
-      icon: <MenuIcon />,
-      condition: true,
-    });
-    mobileDrawerItems.push(...filteredItems.slice(3));
-  }
-
-  return [bottomNavigationItems, mobileDrawerItems];
-};
-
 const Layout = ({ children }: any) => {
-  const [drawerOpen, setDrawerOpen] = useState(false);
-  const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
-  const [navigation, setNavigation] = useState(0);
+  const { user, authStatus } = useAuthenticator((context) => [context.user, context.authStatus]);
+  const [isUserAdmin, setIsUserAdmin] = useState(false);
+  const [isUserLogged, setIsUserLogged] = useState(false);
 
-  const router = useRouter();
+  useEffect(() => {
+	setIsUserLogged(authStatus === "authenticated");
+  }, [authStatus]);
+
+  useEffect(() => {
+	setIsUserAdmin(isAdmin(user));
+  }, [user]);
+
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   const toggleDrawer = () => {
     setDrawerOpen(!drawerOpen);
   };
 
-  const toggleMobileDrawer = () => {
-    setMobileDrawerOpen(!mobileDrawerOpen);
-  }
-
-  const menuItems = useMenuItems();
-  const [bottomNavigationItems, mobileDrawerItems] = useMemo(() => getMobileMenuItems(menuItems), [menuItems]);
-
-  useEffect(() => {
-    const currentPath = router.pathname;
-
-    const currentIndex = bottomNavigationItems.findIndex((item) => item.href === currentPath);
-
-    setNavigation(currentIndex);
-  }, [router.pathname, bottomNavigationItems]);
+  const drawerItems = [
+    { title: 'Home', href: '/', icon: <Home />, condition: true },
+    { title: 'Rules', href: '/fanta-rules', icon: <Description />, condition: isUserLogged},
+    { title: 'Groups', href: '/groups', icon: <Group />, condition: isUserAdmin },
+    { title: 'Teams', href: '/fanta-teams', icon: <SportsEsports />, condition: isUserAdmin },
+    { title: 'Classifica', href: '/fanta-score', icon: <BarChart />, condition: isUserAdmin },
+  ];
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <AppBar position="fixed">
         <Toolbar>
-          <Hidden mdDown>
-            <IconButton edge="start" color="inherit" aria-label="menu" onClick={toggleDrawer}>
-              <MenuIcon />
-            </IconButton>
-          </Hidden>
-          <Typography variant="h5" marginLeft={2}>FantaCE</Typography>
+          <IconButton edge="start" color="inherit" aria-label="menu" onClick={toggleDrawer}>
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="h6">FantaCE</Typography>
         </Toolbar>
       </AppBar>
       <StyledDrawer anchor="left" open={drawerOpen} onClose={toggleDrawer} transitionDuration={400}>
         <List>
-          {menuItems.filter((el: any) => el.condition).map((item, index) => (
+          {drawerItems.filter((el: any) => el.condition).map((item, index) => (
             <Link key={index} href={item.href} passHref onClick={toggleDrawer}>
               <StyledListItemButton>
-                <ListItemIcon sx={{ fontSize: '1.5rem' }}>
+                <ListItemIcon>
                   {item.icon}
                 </ListItemIcon>
                 <ListItemText primary={item.title} />
@@ -151,56 +126,9 @@ const Layout = ({ children }: any) => {
           ))}
         </List>
       </StyledDrawer>
-      <StyledDrawer anchor="right" open={mobileDrawerOpen} onClose={toggleMobileDrawer} transitionDuration={400}>
-        <List>
-          {mobileDrawerItems.filter((el: any) => el.condition).map((item, index) => (
-            <Link key={index} href={item.href} passHref onClick={toggleMobileDrawer}>
-              <StyledListItemButton>
-                <ListItemIcon sx={{ fontSize: '1.5rem' }}>
-                  {item.icon}
-                </ListItemIcon>
-                <ListItemText primary={item.title} />
-              </StyledListItemButton>
-            </Link>
-          ))}
-        </List>
-      </StyledDrawer>
-      <Box component="main" paddingTop="64px" paddingBottom="64px">
+      <Box component="main" paddingTop="64px">
         {children}
       </Box>
-      <Hidden mdUp>
-        <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 1100 }} elevation={3}>
-          <BottomNavigation
-            value={navigation}
-            showLabels
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-around',
-              '& .MuiBottomNavigationAction-root': {
-                minWidth: 'auto',
-                padding: '6px 8px',
-                '@media (min-width: 600px)': {
-                  padding: '6px 12px',
-                },
-              },
-            }}
-          >
-            {bottomNavigationItems
-              .map((item, index) => (
-                <BottomNavigationAction
-                  sx={{ fontSize: '1.5rem' }}
-                  key={index}
-                  icon={item.icon}
-                  label={item.title}
-                  onClick={() => {
-                    if (item.href) router.push(item.href)
-                    else toggleMobileDrawer()
-                  }}
-                />
-              ))}
-          </BottomNavigation>
-        </Paper>
-      </Hidden>
     </ThemeProvider>
   );
 };

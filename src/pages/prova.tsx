@@ -1,5 +1,5 @@
 import * as React from "react";
-import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+import { DataGrid } from "@mui/x-data-grid";
 import { styled } from "@mui/system";
 
 const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
@@ -40,12 +40,6 @@ const Prova = () => {
         columns={columns}
         onRowSelectionModelChange={handleSelectionModelChange}
         rowSelectionModel={selectedRow ? [selectedRow] : []}
-		slots={{ toolbar: GridToolbar }}
-		slotProps={{
-			toolbar: {
-				showQuickFilter: true
-			}
-		}}
       />
     </div>
   );

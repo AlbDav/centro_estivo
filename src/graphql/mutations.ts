@@ -11,8 +11,7 @@ export const createGroup = /* GraphQL */ `
       id
       name
       color
-      age
-      fantaTeams {
+      teams {
         items {
           id
           groupId
@@ -21,8 +20,7 @@ export const createGroup = /* GraphQL */ `
             id
             name
             color
-            age
-            fantaTeams {
+            teams {
               nextToken
             }
             createdAt
@@ -38,7 +36,6 @@ export const createGroup = /* GraphQL */ `
               id
               name
               color
-              age
               createdAt
               updatedAt
             }
@@ -65,8 +62,7 @@ export const updateGroup = /* GraphQL */ `
       id
       name
       color
-      age
-      fantaTeams {
+      teams {
         items {
           id
           groupId
@@ -75,8 +71,7 @@ export const updateGroup = /* GraphQL */ `
             id
             name
             color
-            age
-            fantaTeams {
+            teams {
               nextToken
             }
             createdAt
@@ -92,7 +87,6 @@ export const updateGroup = /* GraphQL */ `
               id
               name
               color
-              age
               createdAt
               updatedAt
             }
@@ -119,8 +113,7 @@ export const deleteGroup = /* GraphQL */ `
       id
       name
       color
-      age
-      fantaTeams {
+      teams {
         items {
           id
           groupId
@@ -129,8 +122,7 @@ export const deleteGroup = /* GraphQL */ `
             id
             name
             color
-            age
-            fantaTeams {
+            teams {
               nextToken
             }
             createdAt
@@ -146,7 +138,6 @@ export const deleteGroup = /* GraphQL */ `
               id
               name
               color
-              age
               createdAt
               updatedAt
             }
@@ -181,8 +172,7 @@ export const createFantaTeam = /* GraphQL */ `
             id
             name
             color
-            age
-            fantaTeams {
+            teams {
               nextToken
             }
             createdAt
@@ -198,7 +188,6 @@ export const createFantaTeam = /* GraphQL */ `
               id
               name
               color
-              age
               createdAt
               updatedAt
             }
@@ -215,8 +204,7 @@ export const createFantaTeam = /* GraphQL */ `
         id
         name
         color
-        age
-        fantaTeams {
+        teams {
           items {
             id
             groupId
@@ -225,7 +213,6 @@ export const createFantaTeam = /* GraphQL */ `
               id
               name
               color
-              age
               createdAt
               updatedAt
             }
@@ -267,8 +254,7 @@ export const updateFantaTeam = /* GraphQL */ `
             id
             name
             color
-            age
-            fantaTeams {
+            teams {
               nextToken
             }
             createdAt
@@ -284,7 +270,6 @@ export const updateFantaTeam = /* GraphQL */ `
               id
               name
               color
-              age
               createdAt
               updatedAt
             }
@@ -301,8 +286,7 @@ export const updateFantaTeam = /* GraphQL */ `
         id
         name
         color
-        age
-        fantaTeams {
+        teams {
           items {
             id
             groupId
@@ -311,7 +295,6 @@ export const updateFantaTeam = /* GraphQL */ `
               id
               name
               color
-              age
               createdAt
               updatedAt
             }
@@ -353,8 +336,7 @@ export const deleteFantaTeam = /* GraphQL */ `
             id
             name
             color
-            age
-            fantaTeams {
+            teams {
               nextToken
             }
             createdAt
@@ -370,7 +352,6 @@ export const deleteFantaTeam = /* GraphQL */ `
               id
               name
               color
-              age
               createdAt
               updatedAt
             }
@@ -387,8 +368,7 @@ export const deleteFantaTeam = /* GraphQL */ `
         id
         name
         color
-        age
-        fantaTeams {
+        teams {
           items {
             id
             groupId
@@ -397,7 +377,6 @@ export const deleteFantaTeam = /* GraphQL */ `
               id
               name
               color
-              age
               createdAt
               updatedAt
             }
@@ -490,8 +469,7 @@ export const createFantaScoreEntry = /* GraphQL */ `
         id
         name
         color
-        age
-        fantaTeams {
+        teams {
           items {
             id
             groupId
@@ -500,7 +478,6 @@ export const createFantaScoreEntry = /* GraphQL */ `
               id
               name
               color
-              age
               createdAt
               updatedAt
             }
@@ -547,8 +524,7 @@ export const updateFantaScoreEntry = /* GraphQL */ `
         id
         name
         color
-        age
-        fantaTeams {
+        teams {
           items {
             id
             groupId
@@ -557,7 +533,6 @@ export const updateFantaScoreEntry = /* GraphQL */ `
               id
               name
               color
-              age
               createdAt
               updatedAt
             }
@@ -604,8 +579,7 @@ export const deleteFantaScoreEntry = /* GraphQL */ `
         id
         name
         color
-        age
-        fantaTeams {
+        teams {
           items {
             id
             groupId
@@ -614,7 +588,6 @@ export const deleteFantaScoreEntry = /* GraphQL */ `
               id
               name
               color
-              age
               createdAt
               updatedAt
             }
@@ -654,8 +627,7 @@ export const createFantaTeamGroups = /* GraphQL */ `
         id
         name
         color
-        age
-        fantaTeams {
+        teams {
           items {
             id
             groupId
@@ -664,7 +636,6 @@ export const createFantaTeamGroups = /* GraphQL */ `
               id
               name
               color
-              age
               createdAt
               updatedAt
             }
@@ -695,7 +666,6 @@ export const createFantaTeamGroups = /* GraphQL */ `
               id
               name
               color
-              age
               createdAt
               updatedAt
             }
@@ -715,8 +685,7 @@ export const createFantaTeamGroups = /* GraphQL */ `
           id
           name
           color
-          age
-          fantaTeams {
+          teams {
             items {
               id
               groupId
@@ -751,8 +720,7 @@ export const updateFantaTeamGroups = /* GraphQL */ `
         id
         name
         color
-        age
-        fantaTeams {
+        teams {
           items {
             id
             groupId
@@ -761,7 +729,6 @@ export const updateFantaTeamGroups = /* GraphQL */ `
               id
               name
               color
-              age
               createdAt
               updatedAt
             }
@@ -792,7 +759,6 @@ export const updateFantaTeamGroups = /* GraphQL */ `
               id
               name
               color
-              age
               createdAt
               updatedAt
             }
@@ -812,8 +778,7 @@ export const updateFantaTeamGroups = /* GraphQL */ `
           id
           name
           color
-          age
-          fantaTeams {
+          teams {
             items {
               id
               groupId
@@ -848,8 +813,7 @@ export const deleteFantaTeamGroups = /* GraphQL */ `
         id
         name
         color
-        age
-        fantaTeams {
+        teams {
           items {
             id
             groupId
@@ -858,7 +822,6 @@ export const deleteFantaTeamGroups = /* GraphQL */ `
               id
               name
               color
-              age
               createdAt
               updatedAt
             }
@@ -889,7 +852,6 @@ export const deleteFantaTeamGroups = /* GraphQL */ `
               id
               name
               color
-              age
               createdAt
               updatedAt
             }
@@ -909,8 +871,7 @@ export const deleteFantaTeamGroups = /* GraphQL */ `
           id
           name
           color
-          age
-          fantaTeams {
+          teams {
             items {
               id
               groupId

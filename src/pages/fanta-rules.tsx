@@ -9,8 +9,9 @@ import RuleCard from '@/components/fanta-rules/RuleCard';
 import { ListFantaRulesQuery } from '@/API';
 import { Add } from '@mui/icons-material';
 import { styled } from '@mui/system';
+import { useAuthenticator } from '@aws-amplify/ui-react';
+import { isAdmin, isRef } from '@/helpers/AuthHelpers';
 import { useRouter } from 'next/router';
-import { useAuth } from '@/hooks/useAuth';
 
 const RuleBox = styled('div')(({ theme }) => ({
   padding: theme.spacing(1),
@@ -34,19 +35,12 @@ const StyledCardHeader = styled(CardHeader)({
 });
 
 const FantaRules = () => {
+  const { user, authStatus } = useAuthenticator((context) => [context.user, context.authStatus]);
   const [authChecked, setAuthChecked] = useState(false);
-  const { isUserLogged, isUserAdmin, isUserRef } = useAuth();
+  const [isUserAdmin, setIsUserAdmin] = useState(false);
+  const [isUserRef, setIsUserRef] = useState(false);
+
   const router = useRouter();
-
-  useEffect(() => {
-    if (isUserLogged) {
-      fetchRules();
-      setAuthChecked(true);
-    } else if (isUserLogged === false) {
-      router.push({pathname: '/account', query: {redirect: router.pathname}});
-    }
-  }, [isUserLogged]);
-
 
   const [positiveRules, setPositiveRules] = useState([]);
   const [negativeRules, setNegativeRules] = useState([]);
@@ -54,6 +48,20 @@ const FantaRules = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [deleteDialogVisible, setDeleteDialogVisible] = useState(false);
   const [ruleToDelete, setRuleToDelete] = useState<any | null>(null);
+
+  useEffect(() => {
+    if (authStatus === 'authenticated') {
+      fetchRules();
+      setAuthChecked(true);
+    } else if (authStatus === 'unauthenticated') {
+      router.push('/');
+    }
+  }, [authStatus]);
+
+  useEffect(() => {
+    setIsUserAdmin(isAdmin(user));
+    setIsUserRef(isRef(user));
+  }, [user]);
 
   const fetchRules = async () => {
     try {
@@ -168,7 +176,7 @@ const FantaRules = () => {
           )}
         </Box>}
         <Box marginY={4}>
-          <Card variant="elevation">
+          <Card>
             <StyledCardHeader title="Bonus" />
             <CardContent sx={{ paddingTop: 0 }}>
               {isLoading ?
@@ -183,8 +191,8 @@ const FantaRules = () => {
             </CardContent>
           </Card>
         </Box>
-        <Box marginTop={4}>
-          <Card variant="elevation">
+        <Box marginY={4}>
+          <Card>
             <StyledCardHeader title="Malus" />
             <CardContent sx={{ paddingTop: 0 }}>
               {isLoading ?

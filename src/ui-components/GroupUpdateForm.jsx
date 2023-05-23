@@ -26,11 +26,9 @@ export default function GroupUpdateForm(props) {
   const initialValues = {
     name: "",
     color: "",
-    age: "",
   };
   const [name, setName] = React.useState(initialValues.name);
   const [color, setColor] = React.useState(initialValues.color);
-  const [age, setAge] = React.useState(initialValues.age);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     const cleanValues = groupRecord
@@ -38,7 +36,6 @@ export default function GroupUpdateForm(props) {
       : initialValues;
     setName(cleanValues.name);
     setColor(cleanValues.color);
-    setAge(cleanValues.age);
     setErrors({});
   };
   const [groupRecord, setGroupRecord] = React.useState(groupModelProp);
@@ -55,7 +52,6 @@ export default function GroupUpdateForm(props) {
   const validations = {
     name: [{ type: "Required" }],
     color: [{ type: "Required" }],
-    age: [{ type: "Required" }],
   };
   const runValidationTasks = async (
     fieldName,
@@ -85,7 +81,6 @@ export default function GroupUpdateForm(props) {
         let modelFields = {
           name,
           color,
-          age,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -143,7 +138,6 @@ export default function GroupUpdateForm(props) {
             const modelFields = {
               name: value,
               color,
-              age,
             };
             const result = onChange(modelFields);
             value = result?.name ?? value;
@@ -169,7 +163,6 @@ export default function GroupUpdateForm(props) {
             const modelFields = {
               name,
               color: value,
-              age,
             };
             const result = onChange(modelFields);
             value = result?.color ?? value;
@@ -183,36 +176,6 @@ export default function GroupUpdateForm(props) {
         errorMessage={errors.color?.errorMessage}
         hasError={errors.color?.hasError}
         {...getOverrideProps(overrides, "color")}
-      ></TextField>
-      <TextField
-        label="Age"
-        isRequired={true}
-        isReadOnly={false}
-        type="number"
-        step="any"
-        value={age}
-        onChange={(e) => {
-          let value = isNaN(parseInt(e.target.value))
-            ? e.target.value
-            : parseInt(e.target.value);
-          if (onChange) {
-            const modelFields = {
-              name,
-              color,
-              age: value,
-            };
-            const result = onChange(modelFields);
-            value = result?.age ?? value;
-          }
-          if (errors.age?.hasError) {
-            runValidationTasks("age", value);
-          }
-          setAge(value);
-        }}
-        onBlur={() => runValidationTasks("age", age)}
-        errorMessage={errors.age?.errorMessage}
-        hasError={errors.age?.hasError}
-        {...getOverrideProps(overrides, "age")}
       ></TextField>
       <Flex
         justifyContent="space-between"
