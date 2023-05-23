@@ -5,7 +5,7 @@ import LargeButton from '../shared/LargeButton';
 
 const NewGroupForm = ({ onCancel, onSave }: any) => {
   const [name, setName] = useState('');
-  const [color, setColor] = useState('#FFFFFF');
+  const [color, setColor] = useState('#ffffff');
   const [age, setAge] = useState('0');
 
   const ageBlurred = (event: any) => {
