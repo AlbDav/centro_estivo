@@ -1,7 +1,6 @@
 // components/NewRuleForm.js
 import React, { useState } from 'react';
-import { TextField, Button, Grid, Card, CardContent, Box, FormControlLabel, Checkbox } from '@mui/material';
-import { styled } from '@mui/system';
+import { TextField, Grid, Card, CardContent, Box, FormControlLabel, Checkbox } from '@mui/material';
 import LargeButton from '../shared/LargeButton';
 
 const NewRuleForm = ({ onCancel, onSave }: any) => {

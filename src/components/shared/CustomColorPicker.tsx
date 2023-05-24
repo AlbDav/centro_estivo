@@ -1,15 +1,11 @@
 import React, { useState } from "react";
 import { HexColorInput, HexColorPicker } from "react-colorful";
-import { Avatar, Box, ButtonBase, Popover, TextField, useTheme } from "@mui/material";
-import { Group } from "@mui/icons-material";
-import { isLight } from "@/helpers/ColorHelpers";
+import { Box, Popover, TextField } from "@mui/material";
 import GroupAvatar from "./GroupAvatar";
 
 const CustomColorPicker = ({ color, onChange }: any) => {
   const [isOpen, setIsOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
-
-  const theme = useTheme();
 
   return (
     <>

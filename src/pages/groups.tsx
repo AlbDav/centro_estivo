@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
-import { Box, Button, CircularProgress, Container, Fab, Grid } from '@mui/material';
+import { Box, CircularProgress, Container, Fab, Grid } from '@mui/material';
 import { createGroup } from '../graphql/mutations';
 import { listGroups } from '../graphql/queries';
 import GroupCard from '@/components/groups/GroupCard';

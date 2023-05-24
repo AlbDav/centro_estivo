@@ -1,5 +1,5 @@
 import { useMenuItems } from '@/hooks/useMenuItems';
-import { Box, Card, CardContent, Container, Grid, Typography } from '@mui/material'
+import { Card, CardContent, Container, Grid, Typography } from '@mui/material'
 import Link from 'next/link';
 
 export default function Home() {
