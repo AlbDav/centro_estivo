@@ -3,18 +3,29 @@ import { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
 import { listFantaTeams } from '../graphql/queries';
 import { createFantaTeam, createFantaTeamGroups } from '../graphql/mutations';
-import { Box, Button, Container, Grid } from '@mui/material';
+import { Box, Button, CircularProgress, Container, Fab, Grid } from '@mui/material';
 import { ListFantaTeamsQuery } from '@/API';
 import NewTeamForm from '@/components/fanta-teams/NewTeamForm';
 import TeamCard from '@/components/fanta-teams/TeamCard';
+import { useAuth } from '@/hooks/useAuth';
+import { useRouter } from 'next/router';
+import { Add } from '@mui/icons-material';
 
 const FantaTeams = () => {
   const [teams, setTeams] = useState([]);
   const [showForm, setShowForm] = useState(false);
+	const [authChecked, setAuthChecked] = useState(false);
+	const { isUserLogged, isUserAdmin, isUserRef } = useAuth();
+	const router = useRouter();
 
-  useEffect(() => {
-    fetchTeams();
-  }, []);
+	useEffect(() => {
+		if (isUserLogged) {
+			fetchTeams();
+			setAuthChecked(true);
+		} else if (isUserLogged === false) {
+			router.push({ pathname: '/account', query: { redirect: router.pathname } });
+		}
+	}, [isUserLogged]);
 
   const fetchTeams = async () => {
     try {
@@ -28,41 +39,49 @@ const FantaTeams = () => {
 
   const addTeam = async (team: any) => {
     try {
-      // Creare un nuovo team utilizzando la mutation GraphQL
       const teamResponse = await API.graphql({query: createFantaTeam, variables: { input: { name: team.name, fantaTeamLeaderGroupId: team.leaderGroup }}}) as any;
 
-      // Ottenere l'ID del team creato
       const fantaTeamId = teamResponse.data.createFantaTeam.id;
 
-      // Creare le voci TeamGroup per ogni additionalGroup
       const additionalGroupPromises = team.additionalGroups.map(async (groupId: any) => {
         return API.graphql({ query: createFantaTeamGroups, variables: { input: { fantaTeamId, groupId }}});
       });
 
-      // Attendere il completamento di tutte le chiamate API per creare le voci TeamGroup
       await Promise.all(additionalGroupPromises);
 
-      // Fare qualcosa con la risposta, ad esempio aggiornare lo stato dell'applicazione o navigare verso un'altra pagina
       console.log('Team and TeamGroups created successfully');
     } catch (error) {
       console.error('Error creating team and TeamGroups:', error);
     }
   };
 
+	if (!authChecked) {
+		return (
+			<Box height="calc(100vh - 64px)" display="flex" alignItems="center" justifyContent="center">
+				<CircularProgress color="secondary" size={60} />
+			</Box>
+		)
+	}
+
   return (
     <Container>
-      <Box marginTop={4}>
+      {(isUserAdmin || isUserRef) && <Box marginTop={3} display="flex" justifyContent="center">
         {showForm ? (
           <NewTeamForm
             onCancel={() => setShowForm(false)}
             onSave={(team: any) => addTeam(team)}
           />
         ) : (
-          <Button variant="contained" color="primary" onClick={() => setShowForm(true)}>
-            +
-          </Button>
+					<Fab variant="extended" color="secondary"
+						sx={{
+							color: "white",
+						}}
+						aria-label="add" onClick={() => setShowForm(true)}>
+						<Add sx={{ mr: 1 }} />
+						Aggiungi team
+					</Fab>
         )}
-      </Box>
+      </Box>}
       <Box marginTop={4}>
         <Grid container spacing={4}>
           {teams.map((team: any) => (
