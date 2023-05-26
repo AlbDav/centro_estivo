@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
 import { Box, CircularProgress, Container, Fab, Grid } from '@mui/material';
 import { createGroup } from '../graphql/mutations';

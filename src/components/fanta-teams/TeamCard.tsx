@@ -1,5 +1,4 @@
 // components/TeamCard.js
-import React from 'react';
 import { Card, CardContent, Grid, Typography } from '@mui/material';
 
 const TeamCard = ({ team }: any) => {

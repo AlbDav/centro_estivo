@@ -1,5 +1,5 @@
 // components/NewRuleForm.js
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { TextField, Grid, Card, CardContent, Box, FormControlLabel, Checkbox } from '@mui/material';
 import LargeButton from '../shared/LargeButton';
 

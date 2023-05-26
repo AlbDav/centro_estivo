@@ -1,5 +1,5 @@
 // pages/teams.js
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
 import { listFantaTeams } from '../graphql/queries';
 import { createFantaTeam, createFantaTeamGroups } from '../graphql/mutations';

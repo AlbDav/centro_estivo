@@ -1,5 +1,5 @@
 // components/NewRuleForm.js
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { TextField, Button, Grid, Card, CardContent, Select, Typography, Avatar, MenuItem, Box, FormControl, InputLabel } from '@mui/material';
 import { API } from 'aws-amplify';
 import { ListGroupsQuery } from '@/API';

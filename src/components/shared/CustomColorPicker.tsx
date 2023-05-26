@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { HexColorInput, HexColorPicker } from "react-colorful";
 import { Box, Popover, TextField } from "@mui/material";
 import GroupAvatar from "./GroupAvatar";

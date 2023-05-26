@@ -1,5 +1,5 @@
 // pages/rules.js
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
 import { listFantaRules } from '../graphql/queries';
 import { createFantaRule, deleteFantaRule } from '../graphql/mutations';

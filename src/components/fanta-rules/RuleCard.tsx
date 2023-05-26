@@ -1,5 +1,4 @@
 // components/RuleCard.js
-import React from 'react';
 import { Box, Grid, IconButton, Typography, useTheme } from '@mui/material';
 import { Delete } from '@mui/icons-material';
 

@@ -1,5 +1,5 @@
 // pages/teams.js
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
 import { createFantaScoreEntry } from '../graphql/mutations';
 import { Box, Button, CircularProgress, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Fab } from '@mui/material';

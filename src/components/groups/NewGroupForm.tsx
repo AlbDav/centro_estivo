@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Box, TextField, Card, CardContent, Grid } from '@mui/material';
 import CustomColorPicker from '../shared/CustomColorPicker';
 import LargeButton from '../shared/LargeButton';

@@ -1,5 +1,5 @@
 // components/Layout.js
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { BottomNavigation, BottomNavigationAction, createTheme, Hidden, Paper, ThemeProvider } from '@mui/material';
 import { CssBaseline, AppBar, Toolbar, Typography, IconButton, Drawer, List, ListItemText, ListItemButton, Box, ListItemIcon } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
