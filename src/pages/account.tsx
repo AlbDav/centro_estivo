@@ -1,3 +1,4 @@
+import '@aws-amplify/ui-react/styles.css'
 import LargeButton from '@/components/shared/LargeButton';
 import { Authenticator } from '@aws-amplify/ui-react'
 import { Box, Typography } from '@mui/material'
