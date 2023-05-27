@@ -11,8 +11,7 @@ const NewRuleForm = ({ onCancel, onSave }: any) => {
   const [nanRule, setNanRule] = useState(false);
 
   const handleSubmit = () => {
-    const pointDescriptionToSave = pointDescription ? pointDescription : points.toString();
-    onSave({ title, description, points: parseInt(points), pointDescription: pointDescriptionToSave });
+    onSave({ title, description, points: parseInt(points), pointDescription });
     setTitle('');
     setDescription('');
     setPoints('0');
