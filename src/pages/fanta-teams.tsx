@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
 import { listFantaTeams } from '../graphql/queries';
 import { createFantaTeam, createFantaTeamGroups } from '../graphql/mutations';
-import { Box, Button, CircularProgress, Container, Fab, Grid } from '@mui/material';
+import { Box, Button, Card, CardContent, CircularProgress, Container, Fab, Grid } from '@mui/material';
 import { ListFantaTeamsQuery } from '@/API';
 import NewTeamForm from '@/components/fanta-teams/NewTeamForm';
 import TeamCard from '@/components/fanta-teams/TeamCard';
@@ -14,18 +14,18 @@ import { Add } from '@mui/icons-material';
 const FantaTeams = () => {
   const [teams, setTeams] = useState([]);
   const [showForm, setShowForm] = useState(false);
-	const [authChecked, setAuthChecked] = useState(false);
-	const { isUserLogged, isUserAdmin, isUserRef } = useAuth();
-	const router = useRouter();
+  const [authChecked, setAuthChecked] = useState(false);
+  const { isUserLogged, isUserAdmin, isUserRef } = useAuth();
+  const router = useRouter();
 
-	useEffect(() => {
-		if (isUserLogged) {
-			fetchTeams();
-			setAuthChecked(true);
-		} else if (isUserLogged === false) {
-			router.push({ pathname: '/account', query: { redirect: router.pathname } });
-		}
-	}, [isUserLogged]);
+  useEffect(() => {
+    if (isUserLogged) {
+      fetchTeams();
+      setAuthChecked(true);
+    } else if (isUserLogged === false) {
+      router.push({ pathname: '/account', query: { redirect: router.pathname } });
+    }
+  }, [isUserLogged]);
 
   const fetchTeams = async () => {
     try {
@@ -39,12 +39,15 @@ const FantaTeams = () => {
 
   const addTeam = async (team: any) => {
     try {
-      const teamResponse = await API.graphql({query: createFantaTeam, variables: { input: { name: team.name, fantaTeamLeaderGroupId: team.leaderGroup }}}) as any;
+      if (!team.name || !team.leaderGroup || !team.additionalGroups[0] || !team.additionalGroups[1]) {
+        throw new Error('Missing mandatory fields');
+      }
+
+      const teamResponse = await API.graphql({ query: createFantaTeam, variables: { input: { name: team.name, fantaTeamLeaderGroupId: team.leaderGroup } } }) as any;
 
       const fantaTeamId = teamResponse.data.createFantaTeam.id;
-
       const additionalGroupPromises = team.additionalGroups.map(async (groupId: any) => {
-        return API.graphql({ query: createFantaTeamGroups, variables: { input: { fantaTeamId, groupId }}});
+        return API.graphql({ query: createFantaTeamGroups, variables: { input: { fantaTeamId, groupId } } });
       });
 
       await Promise.all(additionalGroupPromises);
@@ -55,31 +58,35 @@ const FantaTeams = () => {
     }
   };
 
-	if (!authChecked) {
-		return (
-			<Box height="calc(100vh - 64px)" display="flex" alignItems="center" justifyContent="center">
-				<CircularProgress color="secondary" size={60} />
-			</Box>
-		)
-	}
+  if (!authChecked) {
+    return (
+      <Box height="calc(100vh - 64px)" display="flex" alignItems="center" justifyContent="center">
+        <CircularProgress color="secondary" size={60} />
+      </Box>
+    )
+  }
 
   return (
     <Container>
       {(isUserAdmin || isUserRef) && <Box marginTop={3} display="flex" justifyContent="center">
         {showForm ? (
-          <NewTeamForm
-            onCancel={() => setShowForm(false)}
-            onSave={(team: any) => addTeam(team)}
-          />
+          <Card variant="elevation" sx={{ flexGrow: 1 }}>
+            <CardContent>
+              <NewTeamForm
+                onCancel={() => setShowForm(false)}
+                onSave={(team: any) => addTeam(team)}
+              />
+            </CardContent>
+          </Card>
         ) : (
-					<Fab variant="extended" color="secondary"
-						sx={{
-							color: "white",
-						}}
-						aria-label="add" onClick={() => setShowForm(true)}>
-						<Add sx={{ mr: 1 }} />
-						Aggiungi team
-					</Fab>
+          <Fab variant="extended" color="secondary"
+            sx={{
+              color: "white",
+            }}
+            aria-label="add" onClick={() => setShowForm(true)}>
+            <Add sx={{ mr: 1 }} />
+            Aggiungi team
+          </Fab>
         )}
       </Box>}
       <Box marginTop={4}>

@@ -10,8 +10,8 @@ const GroupAvatar = ({ color }: any) => {
     <Avatar
       sx={{
         bgcolor: color,
-        width: '2.25rem',
-        height: '2.25rem',
+        width: '2.125rem',
+        height: '2.125rem',
         marginRight: 1,
         border: isLight(color) ? `1px solid ${theme.palette.text.primary}` : 'none',
       }}
