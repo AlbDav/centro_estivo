@@ -1,10 +1,10 @@
 // pages/teams.js
 import { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
-import { listFantaTeams } from '../graphql/queries';
+import { listFantaScoreEntries, listFantaTeams } from '../graphql/queries';
 import { createFantaTeam, createFantaTeamGroups } from '../graphql/mutations';
-import { Box, Button, Card, CardContent, CircularProgress, Container, Fab, Grid } from '@mui/material';
-import { ListFantaTeamsQuery } from '@/API';
+import { Box, Card, CardContent, CircularProgress, Container, Fab, Grid } from '@mui/material';
+import { ListFantaScoreEntriesQuery, ListFantaTeamsQuery } from '@/API';
 import NewTeamForm from '@/components/fanta-teams/NewTeamForm';
 import TeamCard from '@/components/fanta-teams/TeamCard';
 import { useAuth } from '@/hooks/useAuth';
@@ -13,6 +13,8 @@ import { Add } from '@mui/icons-material';
 
 const FantaTeams = () => {
   const [teams, setTeams] = useState([]);
+  const [teamsToShow, setTeamsToShow] = useState<any>([]);
+  const [scoreEntries, setScoreEntries] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [authChecked, setAuthChecked] = useState(false);
   const { isUserLogged, isUserAdmin, isUserRef } = useAuth();
@@ -21,11 +23,18 @@ const FantaTeams = () => {
   useEffect(() => {
     if (isUserLogged) {
       fetchTeams();
+      fetchScoreEntries();
       setAuthChecked(true);
     } else if (isUserLogged === false) {
       router.push({ pathname: '/account', query: { redirect: router.pathname } });
     }
   }, [isUserLogged]);
+
+  useEffect(() => {
+      const newTeamsToShow = teams.map(team => calculateTeamData(team));
+      setTeamsToShow(newTeamsToShow);
+      console.log(newTeamsToShow);
+  }, [teams, scoreEntries]);
 
   const fetchTeams = async () => {
     try {
@@ -36,6 +45,64 @@ const FantaTeams = () => {
       console.log('Error fetching teams:', error);
     }
   };
+
+  const fetchScoreEntries = async () => {
+    try {
+      const scoreData = await API.graphql<ListFantaScoreEntriesQuery>({ query: listFantaScoreEntries }) as any;
+      const scoreItems = scoreData.data.listFantaScoreEntries.items;
+      setScoreEntries(scoreItems);
+    } catch (error) {
+      console.log('Error fetching scores:', error);
+    }
+  };
+
+  const getScoreEntriesAndTotal = (group: any) => {
+    const entries = scoreEntries.filter((entry: any) => entry.fantaScoreEntryGroupId === group.id);
+    const total = entries.reduce((total: number, entry: any) => total + entry.rule.points, 0);
+    let resultEntries: any = {};
+
+    entries.forEach((entry: any) => {
+      if (!resultEntries[entry.date]) {
+        resultEntries[entry.date] = [];
+      }
+      resultEntries[entry.date].push(entry);
+    });
+    return {groupScore: total, groupScoreEntries: resultEntries};
+  };
+
+  const calculateTeamData = (team: any) => {
+    const { leaderGroup } = team;
+    const groups = team.groups.items.map((el: any) => el.group);
+
+    const leaderGroupScore = getScoreEntriesAndTotal(leaderGroup);
+    const groupScores = groups.map((group: any) => getScoreEntriesAndTotal(group));
+
+    return {
+      groupScores
+    }
+  
+/*     const teamScore = 2 * leaderGroupScore + groupScores.reduce((a: any, b: any) => a + b, 0);
+  
+    const leaderGroupData = {
+      groupName: leaderGroup.name,
+      groupScore: leaderGroupScore,
+      groupScoreEntries: getGroupScoreEntries(leaderGroup)
+    };
+  
+    const groupData = groups.items.map((group: any) => ({
+      groupName: group.group.name,
+      groupScore: calculateGroupScore(group),
+      groupScoreEntries: getGroupScoreEntries(group)
+    }));
+  
+    return {
+      teamId: team.id,
+      teamName: team.name,
+      teamScore,
+      leaderGroup: leaderGroupData,
+      groups: groupData
+    }; */
+  }
 
   const addTeam = async (team: any) => {
     try {
