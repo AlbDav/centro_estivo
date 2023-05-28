@@ -36,6 +36,12 @@ const theme = createTheme({
             boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
             borderRadius: '0.75rem'
           }
+        },
+        {
+          props: { variant: 'outlined' },
+          style: {
+            borderRadius: '0.5rem'
+          },
         }
       ],
     },

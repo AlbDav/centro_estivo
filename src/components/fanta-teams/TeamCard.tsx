@@ -1,25 +1,56 @@
 // components/TeamCard.js
-import { Card, CardContent, Grid, Typography } from '@mui/material';
+import { Card, CardActions, CardContent, CardHeader, Chip, Typography } from '@mui/material';
 
 const TeamCard = ({ team }: any) => {
   return (
     <Card variant="elevation">
+      <CardHeader
+        title={team.teamName}
+        action={<Typography variant="h6">{team.teamScore}</Typography>}
+      />
       <CardContent>
-        <Grid container justifyContent="space-between" alignItems="center">
-          <Grid item>
-            <Typography variant="h6">{team.name}</Typography>
-            <Typography variant="body1">Grouppo Leader: {team.leaderGroup.name}</Typography>
-            {team.groups.items.map((groupItem: any, index: any) => (
-              <Typography key={index} variant="body1">Grouppo {index + 2}: {groupItem.group.name}</Typography>
+        <Card variant="outlined">
+          <CardHeader
+            title={
+              <>
+                {team.leaderGroup.groupName} <Chip label="x2" size="small" />
+              </>
+            }
+            action={<Typography variant="h6">{team.leaderGroup.groupScore}</Typography>}
+          />
+          <CardContent>
+            {team.leaderGroup.groupScoreEntries.map((entry: any) => (
+              <Typography key={entry.date}>
+                {entry.date}
+                {entry.scoreEntries.map((scoreEntry: any) => (
+                  <Typography key={scoreEntry.id}>{scoreEntry.rule.title}: {scoreEntry.points}</Typography>
+                ))}
+              </Typography>
             ))}
-          </Grid>
-          <Grid item>
-            <Typography variant="body1">
-              {team.points > 0 ? '+' : ''}{team.points} {team.pointDescription}
-            </Typography>
-          </Grid>
-        </Grid>
+          </CardContent>
+        </Card>
+        {team.groups.map((group: any) => (
+          <Card variant="outlined" key={group.groupName}>
+            <CardHeader
+              title={group.groupName}
+              action={<Typography variant="h6">{group.groupScore}</Typography>}
+            />
+            <CardContent>
+              {group.groupScoreEntries.map((entry: any) => (
+                <Typography key={entry.date}>
+                  {entry.date}
+                  {entry.scoreEntries.map((scoreEntry: any) => (
+                    <Typography key={scoreEntry.id}>{scoreEntry.rule.title}: {scoreEntry.points}</Typography>
+                  ))}
+                </Typography>
+              ))}
+            </CardContent>
+          </Card>
+        ))}
       </CardContent>
+      <CardActions>
+        {/* Put any actions here */}
+      </CardActions>
     </Card>
   );
 };
