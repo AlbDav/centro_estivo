@@ -10,11 +10,12 @@ import TeamCard from '@/components/fanta-teams/TeamCard';
 import { useAuth } from '@/hooks/useAuth';
 import { useRouter } from 'next/router';
 import { Add } from '@mui/icons-material';
+import { getGroupScore, getGroupedScores } from '@/helpers/FantaHelpers';
 
 const FantaTeams = () => {
   const [teams, setTeams] = useState([]);
   const [teamsToShow, setTeamsToShow] = useState<any>([]);
-  const [scoreEntries, setScoreEntries] = useState([]);
+  const [groupedScores, setGroupedScores] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [authChecked, setAuthChecked] = useState(false);
   const { isUserLogged, isUserAdmin, isUserRef } = useAuth();
@@ -31,10 +32,9 @@ const FantaTeams = () => {
   }, [isUserLogged]);
 
   useEffect(() => {
-      const newTeamsToShow = teams.map(team => calculateTeamData(team));
-      setTeamsToShow(newTeamsToShow);
-      console.log(newTeamsToShow);
-  }, [teams, scoreEntries]);
+    const newTeamsToShow = teams.map(team => calculateTeamData(team)).sort((a: any, b: any) => b.teamScore - a.teamScore);;
+    setTeamsToShow(newTeamsToShow);
+  }, [teams, groupedScores]);
 
   const fetchTeams = async () => {
     try {
@@ -50,58 +50,28 @@ const FantaTeams = () => {
     try {
       const scoreData = await API.graphql<ListFantaScoreEntriesQuery>({ query: listFantaScoreEntries }) as any;
       const scoreItems = scoreData.data.listFantaScoreEntries.items;
-      setScoreEntries(scoreItems);
+      const groupedScoreItems = getGroupedScores(scoreItems);
+      setGroupedScores(groupedScoreItems);
     } catch (error) {
       console.log('Error fetching scores:', error);
     }
-  };
-
-  const getScoreEntriesAndTotal = (group: any) => {
-    const entries = scoreEntries.filter((entry: any) => entry.fantaScoreEntryGroupId === group.id);
-    const total = entries.reduce((total: number, entry: any) => total + entry.rule.points, 0);
-    let resultEntries: any = {};
-
-    entries.forEach((entry: any) => {
-      if (!resultEntries[entry.date]) {
-        resultEntries[entry.date] = [];
-      }
-      resultEntries[entry.date].push(entry);
-    });
-    return {groupScore: total, groupScoreEntries: resultEntries};
   };
 
   const calculateTeamData = (team: any) => {
     const { leaderGroup } = team;
     const groups = team.groups.items.map((el: any) => el.group);
 
-    const leaderGroupScore = getScoreEntriesAndTotal(leaderGroup);
-    const groupScores = groups.map((group: any) => getScoreEntriesAndTotal(group));
+    const leaderGroupData = getGroupScore(leaderGroup, groupedScores, true);
+    const groupData = groups.map((group: any) => getGroupScore(group, groupedScores));
+    const teamScore = leaderGroupData.groupScore + groupData.reduce((total: number, group: any) => total + group.groupScore, 0);
 
-    return {
-      groupScores
-    }
-  
-/*     const teamScore = 2 * leaderGroupScore + groupScores.reduce((a: any, b: any) => a + b, 0);
-  
-    const leaderGroupData = {
-      groupName: leaderGroup.name,
-      groupScore: leaderGroupScore,
-      groupScoreEntries: getGroupScoreEntries(leaderGroup)
-    };
-  
-    const groupData = groups.items.map((group: any) => ({
-      groupName: group.group.name,
-      groupScore: calculateGroupScore(group),
-      groupScoreEntries: getGroupScoreEntries(group)
-    }));
-  
     return {
       teamId: team.id,
       teamName: team.name,
       teamScore,
       leaderGroup: leaderGroupData,
       groups: groupData
-    }; */
+    };
   }
 
   const addTeam = async (team: any) => {
@@ -118,6 +88,9 @@ const FantaTeams = () => {
       });
 
       await Promise.all(additionalGroupPromises);
+
+      fetchTeams();
+      setShowForm(false);
 
       console.log('Team and TeamGroups created successfully');
     } catch (error) {

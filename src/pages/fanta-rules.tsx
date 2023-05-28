@@ -67,7 +67,6 @@ const FantaRules = () => {
 
 	const addRule = async (rule: any) => {
 		try {
-			console.log(rule.title, rule.description, rule.points, rule.pointDescription)
 			if (!rule.title || !rule.description || (rule.pointDescription === '' && rule.points === 0)) {
 				throw new Error('Missing mandatory fields');
 			}

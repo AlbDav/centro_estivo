@@ -12,7 +12,6 @@ export default function Account() {
   useEffect(() => {
     const removeListener = Hub.listen('auth', async ({ payload: { event } }) => {
       if (event === 'signIn') {
-        console.log('ciao')
           const redirect = router.query.redirect as string;
           router.push(redirect || '/');
       }

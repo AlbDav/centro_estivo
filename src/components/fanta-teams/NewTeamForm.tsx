@@ -18,7 +18,6 @@ const NewTeamForm = ({ onCancel, onSave }: any) => {
   }, []);
 
   const getGroupById = (id: string) => {
-    console.log(id);
     return groups.find((el: any) => el.id === id);
   }
 
