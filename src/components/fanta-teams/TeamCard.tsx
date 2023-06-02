@@ -20,7 +20,10 @@ const TeamCard = ({ team }: any) => {
 
   const toggleCardContent = () => {
     setShowTeamInfo(!showTeamInfo);
-    cardRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    if (cardRef.current !== null) {
+      const topOffset = cardRef.current.getBoundingClientRect().top + window.pageYOffset - 74;
+        window.scrollTo({ top: topOffset });
+    }
   }
 
   return (
@@ -58,12 +61,12 @@ const TeamCard = ({ team }: any) => {
           />
           {showTeamInfo && <StyledCardContent>
             {team.leaderGroup.groupScoreEntries.map((entry: any) => (
-              <Typography key={entry.date}>
+              <Box key={entry.date}>
                 {entry.date}
                 {entry.scoreEntries.map((scoreEntry: any) => (
                   <Typography key={scoreEntry.id}>{scoreEntry.rule.title}: {scoreEntry.points}</Typography>
                 ))}
-              </Typography>
+              </Box>
             ))}
           </StyledCardContent>}
         </Card>
@@ -85,12 +88,12 @@ const TeamCard = ({ team }: any) => {
             />
             {showTeamInfo && <StyledCardContent>
               {group.groupScoreEntries.map((entry: any) => (
-                <Typography key={entry.date}>
+                <Box key={entry.date}>
                   {entry.date}
                   {entry.scoreEntries.map((scoreEntry: any) => (
                     <Typography key={scoreEntry.id}>{scoreEntry.rule.title}: {scoreEntry.points}</Typography>
                   ))}
-                </Typography>
+                </Box>
               ))}
             </StyledCardContent>}
           </Card>

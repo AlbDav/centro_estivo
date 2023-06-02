@@ -64,13 +64,17 @@ const FantaTeams = () => {
     const leaderGroupData = getGroupScore(leaderGroup, groupedScores, true);
     const groupData = groups.map((group: any) => getGroupScore(group, groupedScores));
     const teamScore = leaderGroupData.groupScore + groupData.reduce((total: number, group: any) => total + group.groupScore, 0);
+	
+	const uniqueDates = Array.from(new Set([leaderGroupData, ...groupData].flatMap(group => group.groupScoreEntries.map((entry: any) => entry.date))));
+	uniqueDates.sort((a: any, b: any) => new Date(b).getTime() - new Date(a).getTime());
 
     return {
       teamId: team.id,
       teamName: team.name,
       teamScore,
       leaderGroup: leaderGroupData,
-      groups: groupData
+      groups: groupData,
+	  dates: uniqueDates
     };
   }
 
