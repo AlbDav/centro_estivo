@@ -132,7 +132,7 @@ const FantaTeams = () => {
       <Box marginTop={4}>
         <Grid container spacing={4}>
           {teamsToShow.map((team: any) => (
-            <Grid key={team.id} item xs={12}>
+            <Grid key={team.teamId} item xs={12}>
               <TeamCard team={team} />
             </Grid>
           ))}

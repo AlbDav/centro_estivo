@@ -1,10 +1,9 @@
 // components/RuleCard.js
-import { Box, Grid, IconButton, Typography, useTheme } from '@mui/material';
+import { Box, Grid, IconButton, Typography } from '@mui/material';
 import { Delete } from '@mui/icons-material';
+import PointsTypography from '../shared/PointsTypography';
 
 const RuleCard = ({ rule, isUserAdmin, onDelete }: any) => {
-	const theme = useTheme();
-
 	return (
 		<Grid container justifyContent="space-between" alignItems="center">
 			{isUserAdmin && <Grid item xs={12}>
@@ -18,12 +17,7 @@ const RuleCard = ({ rule, isUserAdmin, onDelete }: any) => {
 			</Grid>
 			<Grid item xs={2}>
 				<Box display="flex" justifyContent="end">
-					<Typography variant="body1" sx={{
-						color: rule.points < 0 ? theme.palette.error.light : theme.palette.success.light,
-						fontWeight: 'bold'
-					}}>
-						{rule.pointDescription}
-					</Typography>
+					<PointsTypography points={rule.points} pointDescription={rule.pointDescription} />
 				</Box>
 			</Grid>
 		</Grid>
