@@ -36,6 +36,7 @@ export const getGroupScore = (group: any, groupedScores: any, isLeader: boolean 
   return {
     groupId: group.id,
     groupName: group.name,
+	groupColor: group.color,
     groupScore: isLeader ? groupScore * 2 : groupScore,
     groupScoreEntries: groupScoreEntries
   }

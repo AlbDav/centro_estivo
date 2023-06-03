@@ -4,6 +4,7 @@ import PointsTypography from '../shared/PointsTypography';
 import { styled } from '@mui/system';
 import { useRef, useState } from 'react';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
+import CardHeaderTitlePoints from '../shared/CardHeaderTitlePoints';
 
 const StyledCardHeader = styled(CardHeader)({
   paddingTop: '0.75rem',
@@ -22,42 +23,32 @@ const TeamCard = ({ team }: any) => {
     setShowTeamInfo(!showTeamInfo);
     if (cardRef.current !== null) {
       const topOffset = cardRef.current.getBoundingClientRect().top + window.pageYOffset - 74;
-        window.scrollTo({ top: topOffset });
+      window.scrollTo({ top: topOffset });
     }
   }
+  console.log(team);
 
   return (
     <Card ref={cardRef} variant="elevation">
       <CardHeader
         sx={{ px: '1.75rem' }}
-        title={
-          <Grid container justifyContent="space-between" alignItems="center">
-            <Grid item xs={10}>
-              <Typography variant="h5">{team.teamName}</Typography>
-            </Grid>
-            <Grid item xs={2}>
-              <Box display="flex" justifyContent="end">
-                <PointsTypography variant="h5" points={team.teamScore} pointDescription={team.teamScore} />
-              </Box>
-            </Grid>
-          </Grid>
-        }
+        title={<CardHeaderTitlePoints
+          name={team.teamName}
+          score={team.teamScore}
+          variant="h5"
+        />}
       />
       <StyledCardContent>
         <Card variant="outlined">
           <StyledCardHeader
-            title={
-              <Grid container justifyContent="space-between" alignItems="center">
-                <Grid item xs={10}>
-                  <Typography variant="h6">{team.leaderGroup.groupName} <Chip label="x2" size="small" color="secondary" sx={{ color: "white" }} /></Typography>
-                </Grid>
-                <Grid item xs={2}>
-                  <Box display="flex" justifyContent="end">
-                    <PointsTypography variant="h6" points={team.leaderGroup.groupScore} pointDescription={team.leaderGroup.groupScore} />
-                  </Box>
-                </Grid>
-              </Grid>
-            }
+            disableTypography
+            title={<CardHeaderTitlePoints
+              name={team.leaderGroup.groupName}
+              score={team.leaderGroup.groupScore}
+              variant="h6"
+              color={team.leaderGroup.groupColor}
+              showMultiplier
+            />}
           />
           {showTeamInfo && <StyledCardContent>
             {team.leaderGroup.groupScoreEntries.map((entry: any) => (
@@ -73,18 +64,13 @@ const TeamCard = ({ team }: any) => {
         {team.groups.map((group: any) => (
           <Card variant="outlined" key={group.groupName} sx={{ mt: '1rem' }}>
             <StyledCardHeader
-              title={
-                <Grid container justifyContent="space-between" alignItems="center">
-                  <Grid item xs={10}>
-                    <Typography variant="h6">{group.groupName}</Typography>
-                  </Grid>
-                  <Grid item xs={2}>
-                    <Box display="flex" justifyContent="end">
-                      <PointsTypography variant="h6" points={group.groupScore} pointDescription={group.groupScore} />
-                    </Box>
-                  </Grid>
-                </Grid>
-              }
+              disableTypography
+              title={<CardHeaderTitlePoints
+                  name={group.groupName}
+                  score={group.groupScore}
+                  variant="h6"
+                  color={group.groupColor}
+                />}
             />
             {showTeamInfo && <StyledCardContent>
               {group.groupScoreEntries.map((entry: any) => (
