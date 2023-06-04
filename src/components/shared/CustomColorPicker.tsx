@@ -49,7 +49,6 @@ const CustomColorPicker = ({ color, onChange }: any) => {
         }}
       >
         <Box display={'flex'} flexDirection={'column'} justifyContent={'center'} alignItems={'center'}>
-
           <HexColorPicker color={color} onChange={onChange} />
           <Box mt={'0.5em'}>
             <HexColorInput color={color} onChange={onChange} />

@@ -33,7 +33,7 @@ const TeamCard = ({ team }: any) => {
   return (
     <Card ref={cardRef} variant="elevation">
       <CardHeader
-        sx={{ px: '1.75rem' }}
+        sx={{ px: '1.75rem', pb: '0.5rem' }}
         title={<CardHeaderTitlePoints
           name={team.teamName}
           score={team.teamScore}

@@ -12,7 +12,7 @@ const RuleCard = ({ rule, isUserAdmin, onDelete }: any) => {
           <IconButton onClick={() => onDelete(rule)}><Delete /></IconButton>
         </Box>
 			</Grid>}
-			<RuleDisplay rule={rule} />
+			<RuleDisplay rule={rule} variant="h6" />
 		</Grid>
 	);
 };
