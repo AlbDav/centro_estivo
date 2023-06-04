@@ -1,6 +1,6 @@
 import { Box, Button, Card, CardActions, CardContent, CardHeader, Grid, MenuItem, Select } from '@mui/material';
 import { styled } from '@mui/system';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import CardHeaderTitlePoints from '../shared/CardHeaderTitlePoints';
 import TeamGroupCard from './TeamGroupCard';
@@ -11,7 +11,7 @@ const StyledCardContent = styled(CardContent)({
 
 const TeamCard = ({ team }: any) => {
   const [showTeamInfo, setShowTeamInfo] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(team.dates[0]);
+  const [selectedDate, setSelectedDate] = useState('all');
   const cardRef = useRef<any>(null);
 
   const toggleCardContent = () => {
@@ -25,6 +25,10 @@ const TeamCard = ({ team }: any) => {
   const handleDateChange = (event: any) => {
     setSelectedDate(event.target.value);
   };
+
+  useEffect(() => {
+	if (team.dates.length > 0) setSelectedDate(team.dates[0])
+  }, [team.dates])
 
   return (
     <Card ref={cardRef} variant="elevation">
