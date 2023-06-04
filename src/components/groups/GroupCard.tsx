@@ -1,5 +1,4 @@
-import React from 'react';
-import { Box, Card, CardContent, Chip, Typography } from '@mui/material';
+import { Box, Card, CardContent, Typography } from '@mui/material';
 
 const GroupCard = ({ group }: any) => {
   return (

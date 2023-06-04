@@ -1,20 +1,40 @@
 // pages/teams.js
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
-import { listFantaTeams } from '../graphql/queries';
+import { listFantaScoreEntries, listFantaTeams } from '../graphql/queries';
 import { createFantaTeam, createFantaTeamGroups } from '../graphql/mutations';
-import { Box, Button, Container, Grid } from '@mui/material';
-import { ListFantaTeamsQuery } from '@/API';
+import { Box, Card, CardContent, CircularProgress, Container, Fab, Grid } from '@mui/material';
+import { ListFantaScoreEntriesQuery, ListFantaTeamsQuery } from '@/API';
 import NewTeamForm from '@/components/fanta-teams/NewTeamForm';
 import TeamCard from '@/components/fanta-teams/TeamCard';
+import { useAuth } from '@/hooks/useAuth';
+import { useRouter } from 'next/router';
+import { Add } from '@mui/icons-material';
+import { getGroupScore, getGroupedScores } from '@/helpers/FantaHelpers';
 
 const FantaTeams = () => {
   const [teams, setTeams] = useState([]);
+  const [teamsToShow, setTeamsToShow] = useState<any>([]);
+  const [groupedScores, setGroupedScores] = useState([]);
   const [showForm, setShowForm] = useState(false);
+  const [authChecked, setAuthChecked] = useState(false);
+  const { isUserLogged, isUserAdmin, isUserRef } = useAuth();
+  const router = useRouter();
 
   useEffect(() => {
-    fetchTeams();
-  }, []);
+    if (isUserLogged) {
+      fetchTeams();
+      fetchScoreEntries();
+      setAuthChecked(true);
+    } else if (isUserLogged === false) {
+      router.push({ pathname: '/account', query: { redirect: router.pathname } });
+    }
+  }, [isUserLogged]);
+
+  useEffect(() => {
+    const newTeamsToShow = teams.map(team => calculateTeamData(team)).sort((a: any, b: any) => b.teamScore - a.teamScore);;
+    setTeamsToShow(newTeamsToShow);
+  }, [teams, groupedScores]);
 
   const fetchTeams = async () => {
     try {
@@ -26,47 +46,97 @@ const FantaTeams = () => {
     }
   };
 
+  const fetchScoreEntries = async () => {
+    try {
+      const scoreData = await API.graphql<ListFantaScoreEntriesQuery>({ query: listFantaScoreEntries }) as any;
+      const scoreItems = scoreData.data.listFantaScoreEntries.items;
+      const groupedScoreItems = getGroupedScores(scoreItems);
+      setGroupedScores(groupedScoreItems);
+    } catch (error) {
+      console.log('Error fetching scores:', error);
+    }
+  };
+
+  const calculateTeamData = (team: any) => {
+    const { leaderGroup } = team;
+    const groups = team.groups.items.map((el: any) => el.group);
+
+    const leaderGroupData = getGroupScore(leaderGroup, groupedScores, true);
+    const groupData = groups.map((group: any) => getGroupScore(group, groupedScores));
+    const teamScore = leaderGroupData.groupScore + groupData.reduce((total: number, group: any) => total + group.groupScore, 0);
+	
+	const uniqueDates = Array.from(new Set([leaderGroupData, ...groupData].flatMap(group => group.groupScoreEntries.map((entry: any) => entry.date))));
+	uniqueDates.sort((a: any, b: any) => new Date(b).getTime() - new Date(a).getTime());
+
+    return {
+      teamId: team.id,
+      teamName: team.name,
+      teamScore,
+      leaderGroup: leaderGroupData,
+      groups: groupData,
+	  dates: uniqueDates
+    };
+  }
+
   const addTeam = async (team: any) => {
     try {
-      // Creare un nuovo team utilizzando la mutation GraphQL
-      const teamResponse = await API.graphql({query: createFantaTeam, variables: { input: { name: team.name, fantaTeamLeaderGroupId: team.leaderGroup }}}) as any;
+      if (!team.name || !team.leaderGroup || !team.additionalGroups[0] || !team.additionalGroups[1]) {
+        throw new Error('Missing mandatory fields');
+      }
 
-      // Ottenere l'ID del team creato
+      const teamResponse = await API.graphql({ query: createFantaTeam, variables: { input: { name: team.name, fantaTeamLeaderGroupId: team.leaderGroup } } }) as any;
+
       const fantaTeamId = teamResponse.data.createFantaTeam.id;
-
-      // Creare le voci TeamGroup per ogni additionalGroup
       const additionalGroupPromises = team.additionalGroups.map(async (groupId: any) => {
-        return API.graphql({ query: createFantaTeamGroups, variables: { input: { fantaTeamId, groupId }}});
+        return API.graphql({ query: createFantaTeamGroups, variables: { input: { fantaTeamId, groupId } } });
       });
 
-      // Attendere il completamento di tutte le chiamate API per creare le voci TeamGroup
       await Promise.all(additionalGroupPromises);
 
-      // Fare qualcosa con la risposta, ad esempio aggiornare lo stato dell'applicazione o navigare verso un'altra pagina
+      fetchTeams();
+      setShowForm(false);
+
       console.log('Team and TeamGroups created successfully');
     } catch (error) {
       console.error('Error creating team and TeamGroups:', error);
     }
   };
 
+  if (!authChecked) {
+    return (
+      <Box height="calc(100vh - 64px)" display="flex" alignItems="center" justifyContent="center">
+        <CircularProgress color="secondary" size={60} />
+      </Box>
+    )
+  }
+
   return (
     <Container>
-      <Box marginTop={4}>
+      {(isUserAdmin || isUserRef) && <Box marginTop={3} display="flex" justifyContent="center">
         {showForm ? (
-          <NewTeamForm
-            onCancel={() => setShowForm(false)}
-            onSave={(team: any) => addTeam(team)}
-          />
+          <Card variant="elevation" sx={{ flexGrow: 1 }}>
+            <CardContent>
+              <NewTeamForm
+                onCancel={() => setShowForm(false)}
+                onSave={(team: any) => addTeam(team)}
+              />
+            </CardContent>
+          </Card>
         ) : (
-          <Button variant="contained" color="primary" onClick={() => setShowForm(true)}>
-            +
-          </Button>
+          <Fab variant="extended" color="secondary"
+            sx={{
+              color: "white",
+            }}
+            aria-label="add" onClick={() => setShowForm(true)}>
+            <Add sx={{ mr: 1 }} />
+            Aggiungi team
+          </Fab>
         )}
-      </Box>
+      </Box>}
       <Box marginTop={4}>
         <Grid container spacing={4}>
-          {teams.map((team: any) => (
-            <Grid key={team.id} item xs={12}>
+          {teamsToShow.map((team: any) => (
+            <Grid key={team.teamId} item xs={12}>
               <TeamCard team={team} />
             </Grid>
           ))}

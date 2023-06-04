@@ -1,7 +1,6 @@
 // components/NewRuleForm.js
-import React, { useState } from 'react';
-import { TextField, Button, Grid, Card, CardContent, Box, FormControlLabel, Checkbox } from '@mui/material';
-import { styled } from '@mui/system';
+import { useState } from 'react';
+import { TextField, Grid, Card, CardContent, Box, FormControlLabel, Checkbox } from '@mui/material';
 import LargeButton from '../shared/LargeButton';
 
 const NewRuleForm = ({ onCancel, onSave }: any) => {
@@ -12,8 +11,7 @@ const NewRuleForm = ({ onCancel, onSave }: any) => {
   const [nanRule, setNanRule] = useState(false);
 
   const handleSubmit = () => {
-    const pointDescriptionToSave = pointDescription ? pointDescription : points.toString();
-    onSave({ title, description, points: parseInt(points), pointDescription: pointDescriptionToSave });
+    onSave({ title, description, points: parseInt(points), pointDescription });
     setTitle('');
     setDescription('');
     setPoints('0');

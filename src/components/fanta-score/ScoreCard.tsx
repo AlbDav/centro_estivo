@@ -1,5 +1,4 @@
 // components/RuleCard.js
-import React from 'react';
 import { Card, CardContent, Grid, Typography } from '@mui/material';
 
 const RuleCard = ({ rule }: any) => {

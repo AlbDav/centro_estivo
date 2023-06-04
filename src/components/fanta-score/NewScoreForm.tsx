@@ -1,6 +1,6 @@
 // components/NewScoreForm.tsx
-import React, { useEffect, useState } from 'react';
-import { Button, Grid, Card, CardContent, FormControl, InputLabel, Select, MenuItem, Box, Avatar, Typography } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { Grid, Card, CardContent, FormControl, InputLabel, Select, MenuItem, Box, Avatar, Typography } from '@mui/material';
 import { styled } from '@mui/system';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { API } from 'aws-amplify';

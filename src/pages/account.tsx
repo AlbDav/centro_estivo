@@ -1,7 +1,7 @@
+import '@aws-amplify/ui-react/styles.css'
 import LargeButton from '@/components/shared/LargeButton';
 import { Authenticator } from '@aws-amplify/ui-react'
-import { Box, Button, Typography } from '@mui/material'
-import { styled } from '@mui/system'
+import { Box, Typography } from '@mui/material'
 import { Hub } from 'aws-amplify';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
@@ -12,7 +12,6 @@ export default function Account() {
   useEffect(() => {
     const removeListener = Hub.listen('auth', async ({ payload: { event } }) => {
       if (event === 'signIn') {
-        console.log('ciao')
           const redirect = router.query.redirect as string;
           router.push(redirect || '/');
       }

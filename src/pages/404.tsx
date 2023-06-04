@@ -1,5 +1,4 @@
 // pages/404.js
-import React from 'react';
 import { Container, Typography, Box } from '@mui/material';
 import Link from 'next/link';
 
