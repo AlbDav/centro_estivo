@@ -1,7 +1,6 @@
 // components/RuleCard.js
-import { Box, Grid, IconButton, Typography } from '@mui/material';
+import { Box, Grid, IconButton } from '@mui/material';
 import { Delete } from '@mui/icons-material';
-import PointsTypography from '../shared/PointsTypography';
 import RuleDisplay from '../shared/RuleDisplay';
 
 const RuleCard = ({ rule, isUserAdmin, onDelete }: any) => {

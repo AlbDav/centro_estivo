@@ -1,4 +1,4 @@
-import { Box, Grid, Tooltip, Typography, IconButton, Popover } from '@mui/material';
+import { Box, Grid, Typography, IconButton, Popover } from '@mui/material';
 import { InfoOutlined } from '@mui/icons-material';
 import PointsTypography from './PointsTypography';
 import { useState } from 'react';
