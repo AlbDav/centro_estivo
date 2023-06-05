@@ -1,24 +1,43 @@
-// components/RuleCard.js
-import { Card, CardContent, Grid, Typography } from '@mui/material';
+import { Delete } from '@mui/icons-material';
+import { DataGrid } from '@mui/x-data-grid';
 
-const RuleCard = ({ rule }: any) => {
+const ScoreCard = ({ rows }: any) => {
+
+  const columns = [
+    {
+      field: 'date',
+      headerName: 'Data',
+      sortable: true,
+      sortComparator: (v1: any, v2: any) => new Date(v2).getTime() - new Date(v1).getTime(),
+      valueGetter: (params: any) => params.row.date
+    },
+    {
+      field: 'groupName',
+      headerName: 'Gruppo',
+      sortable: true,
+      valueGetter: (params: any) => params.row.name
+    },
+    {
+      field: 'ruleTitle',
+      headerName: 'Regola',
+      valueGetter: (params: any) => params.row.title
+    },
+    {
+      field: 'action',
+      headerName: 'Azione',
+      renderCell: (params: any) => (
+        <Delete onClick={() => deleteScoreEntry(params.row.id)} />
+      ),
+    }
+  ];
+
+  const deleteScoreEntry = (id: any) => {
+    console.log(id);
+  }
+
   return (
-    <Card>
-      <CardContent>
-        <Grid container justifyContent="space-between" alignItems="center">
-          <Grid item>
-            <Typography variant="h6">{rule.title}</Typography>
-            <Typography variant="body1">{rule.description}</Typography>
-          </Grid>
-          <Grid item>
-            <Typography variant="body1">
-              {rule.points > 0 ? '+' : ''}{rule.points} {rule.pointDescription}
-            </Typography>
-          </Grid>
-        </Grid>
-      </CardContent>
-    </Card>
+    <DataGrid rows={rows} columns={columns} autoHeight />
   );
 };
 
-export default RuleCard;
+export default ScoreCard;

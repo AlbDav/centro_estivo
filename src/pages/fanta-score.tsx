@@ -2,19 +2,21 @@
 import { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
 import { createFantaScoreEntry } from '../graphql/mutations';
-import { Box, Button, CircularProgress, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Fab } from '@mui/material';
+import { Box, Button, Card, CardContent, CircularProgress, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Fab } from '@mui/material';
 import { useRouter } from 'next/router';
 import NewScoreForm from '@/components/fanta-score/NewScoreForm';
 import { Add } from '@mui/icons-material';
 import { ListFantaScoreEntriesQuery } from '@/API';
 import { listFantaScoreEntries } from '@/graphql/queries';
 import { useAuth } from '@/hooks/useAuth';
+import ScoreCard from '@/components/fanta-score/ScoreCard';
 
 const FantaScore = () => {
 	const { isUserLogged, isUserAdmin, isUserRef } = useAuth();
 	const [authChecked, setAuthChecked] = useState(false);
 	const router = useRouter();
 	const [progressDialogOpen, setProgressDialogOpen] = useState(false);
+	const [scoreEntries, setScoreEntries] = useState([]);
 
 	useEffect(() => {
 		if (isUserLogged) {
@@ -29,7 +31,9 @@ const FantaScore = () => {
 
 	const fetchScoreEntries = async () => {
 		try {
-			await API.graphql<ListFantaScoreEntriesQuery>({ query: listFantaScoreEntries }) as any;
+			const scoreEntries = await API.graphql<ListFantaScoreEntriesQuery>({ query: listFantaScoreEntries }) as any;
+      const scoreEntriesItems = scoreEntries.data.listFantaScoreEntries.items;
+      setScoreEntries(scoreEntriesItems);
 		} catch (error) {
 			console.log('Error fetching scores:', error);
 		}
@@ -105,6 +109,11 @@ const FantaScore = () => {
 						</Fab>
 					)}
 				</Box>}
+				<Card variant="elevation">
+					<CardContent>
+						<ScoreCard rows={scoreEntries} />
+					</CardContent>
+				</Card>
 			</Container>
 			<Dialog
 				open={progressDialogOpen}

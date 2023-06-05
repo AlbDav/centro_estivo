@@ -1,4 +1,3 @@
-// pages/teams.js
 import { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
 import { listFantaScoreEntries, listFantaTeams } from '../graphql/queries';
