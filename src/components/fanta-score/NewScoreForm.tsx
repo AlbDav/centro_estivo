@@ -9,6 +9,7 @@ import { listFantaRules, listGroups } from '@/graphql/queries';
 import { DatePicker } from '@mui/x-date-pickers';
 import { format } from 'date-fns';
 import LargeButton from '../shared/LargeButton';
+import StyledDataGrid from '../shared/StyledDataGrid';
 
 /* const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
   '& .MuiDataGrid-row.Mui-selected': {
@@ -30,20 +31,6 @@ import LargeButton from '../shared/LargeButton';
   },
   }
 })); */
-
-const StyledDataGrid = styled(DataGrid)({
-  '& .MuiDataGrid-columnHeaderTitle': {
-    fontWeight: 'bold',
-  },
-  '& .MuiDataGrid-columnHeader:focus': {
-    outline: 'none',
-  },
-  '& .MuiDataGrid-cell': {
-    '&:focus': {
-      outline: 'none',
-    },
-  }
-});
 
 const NewScoreForm = ({ onCancel, onSave }: any) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -184,6 +171,7 @@ const NewScoreForm = ({ onCancel, onSave }: any) => {
               columns={columns}
               onRowSelectionModelChange={handleSelectionModelChange}
               rowSelectionModel={selectedRule ? [selectedRule] : []}
+              checkboxSelection
               slots={{ toolbar: GridToolbar }}
               slotProps={{
                 toolbar: {

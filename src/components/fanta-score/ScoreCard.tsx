@@ -1,13 +1,16 @@
 import { Delete } from '@mui/icons-material';
-import { DataGrid } from '@mui/x-data-grid';
+import StyledDataGrid from '../shared/StyledDataGrid';
+import { IconButton, useTheme } from '@mui/material';
 
 const ScoreCard = ({ rows }: any) => {
+  const theme = useTheme();
 
   const columns = [
     {
       field: 'date',
       headerName: 'Data',
       sortable: true,
+      flex: 1,
       sortComparator: (v1: any, v2: any) => new Date(v2).getTime() - new Date(v1).getTime(),
       valueGetter: (params: any) => params.row.date
     },
@@ -15,18 +18,25 @@ const ScoreCard = ({ rows }: any) => {
       field: 'groupName',
       headerName: 'Gruppo',
       sortable: true,
-      valueGetter: (params: any) => params.row.name
+      flex: 1.5,
+      valueGetter: (params: any) => params.row.group.name
     },
     {
       field: 'ruleTitle',
       headerName: 'Regola',
-      valueGetter: (params: any) => params.row.title
+      flex: 4,
+      sortable: false,
+      valueGetter: (params: any) => params.row.rule.title
     },
     {
       field: 'action',
-      headerName: 'Azione',
+      headerName: 'Elimina',
+      flex: 0.5,
+      sortable: false,
       renderCell: (params: any) => (
-        <Delete onClick={() => deleteScoreEntry(params.row.id)} />
+        <IconButton onClick={() => deleteScoreEntry(params.row.id)}>
+          <Delete sx={{ color: theme.palette.error.main }} />
+        </IconButton>
       ),
     }
   ];
@@ -36,7 +46,7 @@ const ScoreCard = ({ rows }: any) => {
   }
 
   return (
-    <DataGrid rows={rows} columns={columns} autoHeight />
+    <StyledDataGrid rows={rows} columns={columns} autoHeight />
   );
 };
 
