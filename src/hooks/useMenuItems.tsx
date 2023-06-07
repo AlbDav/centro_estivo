@@ -10,7 +10,7 @@ export const useMenuItems = () => {
   const drawerItems = useMemo(() => [
     { title: 'Home', href: '/', icon: <Home fontSize="inherit" />, condition: true },
     { title: 'Regole', href: '/fanta-rules', icon: <Assignment fontSize="inherit" />, condition: isUserLogged },
-    { title: 'Classifica Team', href: '/fanta-teams', icon: <EmojiEvents fontSize="inherit" />, condition: isUserLogged },
+    { title: 'Classifica', href: '/fanta-teams', icon: <EmojiEvents fontSize="inherit" />, condition: isUserLogged },
     { title: 'Punteggi', href: '/fanta-score', icon: <Scoreboard fontSize="inherit" />, condition: isUserAdmin },
     { title: 'Gruppi', href: '/groups', icon: <Group fontSize="inherit" />, condition: isUserAdmin },
     { title: 'Account', href: '/account', icon: <Person fontSize="inherit" />, condition: true },
