@@ -29,6 +29,7 @@ const FantaScore = () => {
   const [scoreEntries, setScoreEntries] = useState([]);
   const [deleteDialogVisible, setDeleteDialogVisible] = useState(false);
   const [scoreEntryToDelete, setScoreEntryToDelete] = useState<any | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (isUserLogged) {
@@ -45,8 +46,8 @@ const FantaScore = () => {
     try {
       const scoreEntries = await API.graphql<ListFantaScoreEntriesQuery>({ query: listFantaScoreEntries }) as any;
       const scoreEntriesItems = scoreEntries.data.listFantaScoreEntries.items;
-      console.log(scoreEntriesItems);
       setScoreEntries(scoreEntriesItems);
+      setIsLoading(false);
     } catch (error) {
       console.log('Error fetching scores:', error);
     }
@@ -105,18 +106,18 @@ const FantaScore = () => {
   }
 
   const deleteAndClose = () => {
-		deleteScoreEntry(scoreEntryToDelete.id);
-		toggleDeleteDialog();
-	}
+    deleteScoreEntry(scoreEntryToDelete.id);
+    toggleDeleteDialog();
+  }
 
   const deleteScoreEntry = async (scoreEntryId: string) => {
-		try {
-			await API.graphql({ query: deleteFantaScoreEntry, variables: { input: { id: scoreEntryId } } }) as any;
-			fetchScoreEntries();
-		} catch (error) {
-			console.log('Error deleting rule:', error);
-		}
-	};
+    try {
+      await API.graphql({ query: deleteFantaScoreEntry, variables: { input: { id: scoreEntryId } } }) as any;
+      fetchScoreEntries();
+    } catch (error) {
+      console.log('Error deleting rule:', error);
+    }
+  };
 
   if (!authChecked) {
     return (
@@ -150,11 +151,16 @@ const FantaScore = () => {
           <Card variant="elevation">
             <StyledCardHeader title="Punti assegnati" />
             <CardContent>
-              <ScoreCard rows={scoreEntries} onDelete={toggleDeleteDialog} />
+              {isLoading ?
+                <Box display="flex" justifyContent="center">
+                  <CircularProgress color="secondary" />
+                </Box> :
+                <ScoreCard rows={scoreEntries} onDelete={toggleDeleteDialog} />}
             </CardContent>
           </Card>
         </Box>
       </Container>
+
       <Dialog
         open={progressDialogOpen}
         onClose={toggleProgressDialog}
@@ -169,26 +175,27 @@ const FantaScore = () => {
           <Button onClick={toggleProgressDialog} variant="contained">OK</Button>
         </DialogActions>
       </Dialog>
+
       <Dialog open={deleteDialogVisible} onClose={() => setDeleteDialogVisible(false)}>
-				<DialogTitle>Eliminare la regola?</DialogTitle>
-				<DialogContent>
-					{scoreEntryToDelete ? (<DialogContentText>
-						Sei sicuro di voler eliminare <strong>{scoreEntryToDelete && scoreEntryToDelete.rule.title} - {scoreEntryToDelete && scoreEntryToDelete.group.name} - {scoreEntryToDelete && scoreEntryToDelete.date}</strong>?
-					</DialogContentText>) : (
-						<Box display="flex" justifyContent="center">
-							<CircularProgress color="secondary" />
-						</Box>
-					)}
-				</DialogContent>
-				<DialogActions sx={{ marginRight: 2 }}>
-					<Button onClick={toggleDeleteDialog} variant="outlined" color="secondary">
-						Annulla
-					</Button>
-					<Button onClick={deleteAndClose} color="error" variant="contained">
-						Elimina
-					</Button>
-				</DialogActions>
-			</Dialog>
+        <DialogTitle>Eliminare la regola?</DialogTitle>
+        <DialogContent>
+          {scoreEntryToDelete ? (<DialogContentText>
+            Sei sicuro di voler eliminare <strong>{scoreEntryToDelete && scoreEntryToDelete.rule.title} - {scoreEntryToDelete && scoreEntryToDelete.group.name} - {scoreEntryToDelete && scoreEntryToDelete.date}</strong>?
+          </DialogContentText>) : (
+            <Box display="flex" justifyContent="center">
+              <CircularProgress color="secondary" />
+            </Box>
+          )}
+        </DialogContent>
+        <DialogActions sx={{ marginRight: 2 }}>
+          <Button onClick={toggleDeleteDialog} variant="outlined" color="secondary">
+            Annulla
+          </Button>
+          <Button onClick={deleteAndClose} color="error" variant="contained">
+            Elimina
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 };
