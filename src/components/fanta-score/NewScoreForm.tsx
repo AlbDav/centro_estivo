@@ -1,8 +1,7 @@
 // components/NewScoreForm.tsx
 import { useEffect, useState } from 'react';
 import { Grid, Card, CardContent, FormControl, InputLabel, Select, MenuItem, Box, Avatar, Typography } from '@mui/material';
-import { styled } from '@mui/system';
-import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+import { GridToolbar } from '@mui/x-data-grid';
 import { API } from 'aws-amplify';
 import { ListFantaRulesQuery, ListGroupsQuery } from '@/API';
 import { listFantaRules, listGroups } from '@/graphql/queries';
