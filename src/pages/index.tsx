@@ -1,9 +1,31 @@
+import { useAuth } from '@/hooks/useAuth';
 import { useMenuItems } from '@/hooks/useMenuItems';
-import { Card, CardContent, Container, Grid, Typography } from '@mui/material'
+import { Box, Card, CardContent, CircularProgress, Container, Grid, Typography } from '@mui/material'
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 
 export default function Home() {
   const menuItems = useMenuItems();
+  const [authChecked, setAuthChecked] = useState(false);
+  const { isUserLogged } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (isUserLogged) {
+      setAuthChecked(true);
+    } else if (isUserLogged === false) {
+      router.push({ pathname: '/account', query: { redirect: router.pathname } });
+    }
+  }, [isUserLogged]);
+
+  if (!authChecked) {
+    return (
+      <Box height="calc(100vh - 64px)" display="flex" alignItems="center" justifyContent="center">
+        <CircularProgress color="secondary" size={60} />
+      </Box>
+    )
+  }
 
   return (
     <Container sx={{ marginTop: 2 }}>
@@ -14,7 +36,7 @@ export default function Home() {
               <Card variant="elevation">
                 <CardContent>
                   <Typography variant="h2" color="textSecondary" textAlign="center">
-				  {item.icon}
+                    {item.icon}
                   </Typography>
                   <Typography variant="h5" color="textPrimary" textAlign="center">
                     {item.title}

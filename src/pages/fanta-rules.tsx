@@ -220,6 +220,7 @@ const FantaRules = () => {
 					</Card>
 				</Box>
 			</Container>
+      
 			<Dialog open={deleteDialogVisible} onClose={() => setDeleteDialogVisible(false)}>
 				<DialogTitle>Eliminare la regola?</DialogTitle>
 				<DialogContent>

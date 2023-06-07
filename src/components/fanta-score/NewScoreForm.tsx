@@ -9,27 +9,28 @@ import { listFantaRules, listGroups } from '@/graphql/queries';
 import { DatePicker } from '@mui/x-date-pickers';
 import { format } from 'date-fns';
 import LargeButton from '../shared/LargeButton';
+import StyledDataGrid from '../shared/StyledDataGrid';
 
-const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
+/* const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
   '& .MuiDataGrid-row.Mui-selected': {
-    backgroundColor: theme.palette.secondary.light,
-    '&:hover': {
-      backgroundColor: theme.palette.secondary.main,
-    },
+  backgroundColor: theme.palette.secondary.light,
+  '&:hover': {
+    backgroundColor: theme.palette.secondary.main,
+  },
   },
   '& .MuiDataGrid-columnHeaderTitle': {
-    fontWeight: 'bold',
+  fontWeight: 'bold',
   },
   '& .MuiDataGrid-columnHeader:focus': {
-    outline: 'none',
+  outline: 'none',
   },
   '& .MuiDataGrid-cell': {
-    cursor: 'pointer',
-    '&:focus': {
-      outline: 'none',
-    },
+  cursor: 'pointer',
+  '&:focus': {
+    outline: 'none',
+  },
   }
-}));
+})); */
 
 const NewScoreForm = ({ onCancel, onSave }: any) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -41,7 +42,7 @@ const NewScoreForm = ({ onCancel, onSave }: any) => {
   const columns = [
     {
       field: 'titleAndDescription',
-      headerName: 'Title & Description',
+      headerName: 'Titolo e Descrizione',
       flex: 1,
       renderCell: (params: any) => (
         <div>
@@ -52,7 +53,7 @@ const NewScoreForm = ({ onCancel, onSave }: any) => {
     },
     {
       field: 'pointDescription',
-      headerName: 'Point Description',
+      headerName: 'Punti',
       flex: 0.25,
       renderCell: (params: any) => {
         return (
@@ -102,10 +103,10 @@ const NewScoreForm = ({ onCancel, onSave }: any) => {
   };
 
   const handleSubmit = () => {
-        onSave({ date: format(selectedDate, 'yyyy-MM-dd'), fantaScoreEntryGroupId: selectedGroup, fantaScoreEntryRuleId: selectedRule });
-        setSelectedDate(new Date());
-        setSelectedGroup('');
-        setSelectedRule(null);
+    onSave({ date: format(selectedDate, 'yyyy-MM-dd'), fantaScoreEntryGroupId: selectedGroup, fantaScoreEntryRuleId: selectedRule });
+    setSelectedDate(new Date());
+    setSelectedGroup('');
+    setSelectedRule(null);
   };
 
   useEffect(() => {
@@ -119,24 +120,24 @@ const NewScoreForm = ({ onCancel, onSave }: any) => {
         <Grid container spacing={2}>
           <Grid item xs={12} md={6}>
             <DatePicker
-              label="Date"
+              label="Data"
               value={selectedDate}
               onChange={handleDateChange}
             /* 							slotProps={{
-                            popper: {
-                              sx: {
-                                '& .Mui-selected': {
-                                  backgroundColor: 'red',
-                                },
-                                  '& .MuiPickersDay-daySelected:hover': {
-                                  backgroundColor: theme.palette.secondary.main,
-                                },
-                                '& .MuiPickersDay-today': {
-                                  color: theme.palette.secondary.main,
-                                },
-                              }
-                            }
-                          }} */
+                    popper: {
+                      sx: {
+                      '& .Mui-selected': {
+                        backgroundColor: 'red',
+                      },
+                        '& .MuiPickersDay-daySelected:hover': {
+                        backgroundColor: theme.palette.secondary.main,
+                      },
+                      '& .MuiPickersDay-today': {
+                        color: theme.palette.secondary.main,
+                      },
+                      }
+                    }
+                    }} */
             />
           </Grid>
           <Grid item xs={12} md={6}>
@@ -170,6 +171,7 @@ const NewScoreForm = ({ onCancel, onSave }: any) => {
               columns={columns}
               onRowSelectionModelChange={handleSelectionModelChange}
               rowSelectionModel={selectedRule ? [selectedRule] : []}
+              checkboxSelection
               slots={{ toolbar: GridToolbar }}
               slotProps={{
                 toolbar: {
