@@ -1,8 +1,8 @@
 // pages/teams.js
 import { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
-import { createFantaScoreEntry } from '../graphql/mutations';
-import { Box, Button, Card, CardContent, CircularProgress, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Fab } from '@mui/material';
+import { createFantaScoreEntry, deleteFantaScoreEntry } from '../graphql/mutations';
+import { Box, Button, Card, CardContent, CardHeader, CircularProgress, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Fab } from '@mui/material';
 import { useRouter } from 'next/router';
 import NewScoreForm from '@/components/fanta-score/NewScoreForm';
 import { Add } from '@mui/icons-material';
@@ -10,6 +10,16 @@ import { ListFantaScoreEntriesQuery } from '@/API';
 import { listFantaScoreEntries } from '@/graphql/queries';
 import { useAuth } from '@/hooks/useAuth';
 import ScoreCard from '@/components/fanta-score/ScoreCard';
+import { styled } from '@mui/system';
+
+const StyledCardHeader = styled(CardHeader)({
+  textAlign: 'center',
+  textTransform: 'uppercase',
+  paddingBottom: 0,
+  '& .MuiCardHeader-title': {
+    fontSize: '1.8rem',
+  },
+});
 
 const FantaScore = () => {
   const { isUserLogged, isUserAdmin, isUserRef } = useAuth();
@@ -17,6 +27,8 @@ const FantaScore = () => {
   const router = useRouter();
   const [progressDialogOpen, setProgressDialogOpen] = useState(false);
   const [scoreEntries, setScoreEntries] = useState([]);
+  const [deleteDialogVisible, setDeleteDialogVisible] = useState(false);
+  const [scoreEntryToDelete, setScoreEntryToDelete] = useState<any | null>(null);
 
   useEffect(() => {
     if (isUserLogged) {
@@ -82,6 +94,30 @@ const FantaScore = () => {
     setProgressDialogOpen(!progressDialogOpen);
   };
 
+  const toggleDeleteDialog = (entry?: any) => {
+    if (!deleteDialogVisible) {
+      setScoreEntryToDelete(entry);
+      setDeleteDialogVisible(true);
+    } else {
+      setDeleteDialogVisible(false);
+      setScoreEntryToDelete(null);
+    }
+  }
+
+  const deleteAndClose = () => {
+		deleteScoreEntry(scoreEntryToDelete.id);
+		toggleDeleteDialog();
+	}
+
+  const deleteScoreEntry = async (scoreEntryId: string) => {
+		try {
+			await API.graphql({ query: deleteFantaScoreEntry, variables: { input: { id: scoreEntryId } } }) as any;
+			fetchScoreEntries();
+		} catch (error) {
+			console.log('Error deleting rule:', error);
+		}
+	};
+
   if (!authChecked) {
     return (
       <Box height="calc(100vh - 64px)" display="flex" alignItems="center" justifyContent="center">
@@ -112,8 +148,9 @@ const FantaScore = () => {
         </Box>}
         <Box marginTop={4}>
           <Card variant="elevation">
+            <StyledCardHeader title="Punti assegnati" />
             <CardContent>
-              <ScoreCard rows={scoreEntries} />
+              <ScoreCard rows={scoreEntries} onDelete={toggleDeleteDialog} />
             </CardContent>
           </Card>
         </Box>
@@ -132,6 +169,26 @@ const FantaScore = () => {
           <Button onClick={toggleProgressDialog} variant="contained">OK</Button>
         </DialogActions>
       </Dialog>
+      <Dialog open={deleteDialogVisible} onClose={() => setDeleteDialogVisible(false)}>
+				<DialogTitle>Eliminare la regola?</DialogTitle>
+				<DialogContent>
+					{scoreEntryToDelete ? (<DialogContentText>
+						Sei sicuro di voler eliminare <strong>{scoreEntryToDelete && scoreEntryToDelete.rule.title} - {scoreEntryToDelete && scoreEntryToDelete.group.name} - {scoreEntryToDelete && scoreEntryToDelete.date}</strong>?
+					</DialogContentText>) : (
+						<Box display="flex" justifyContent="center">
+							<CircularProgress color="secondary" />
+						</Box>
+					)}
+				</DialogContent>
+				<DialogActions sx={{ marginRight: 2 }}>
+					<Button onClick={toggleDeleteDialog} variant="outlined" color="secondary">
+						Annulla
+					</Button>
+					<Button onClick={deleteAndClose} color="error" variant="contained">
+						Elimina
+					</Button>
+				</DialogActions>
+			</Dialog>
     </>
   );
 };

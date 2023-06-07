@@ -2,7 +2,7 @@ import { Delete } from '@mui/icons-material';
 import StyledDataGrid from '../shared/StyledDataGrid';
 import { IconButton, useTheme } from '@mui/material';
 
-const ScoreCard = ({ rows }: any) => {
+const ScoreCard = ({ rows, onDelete }: any) => {
   const theme = useTheme();
 
   const columns = [
@@ -34,16 +34,12 @@ const ScoreCard = ({ rows }: any) => {
       flex: 0.5,
       sortable: false,
       renderCell: (params: any) => (
-        <IconButton onClick={() => deleteScoreEntry(params.row.id)}>
+        <IconButton onClick={() => onDelete(params.row)}>
           <Delete sx={{ color: theme.palette.error.main }} />
         </IconButton>
       ),
     }
   ];
-
-  const deleteScoreEntry = (id: any) => {
-    console.log(id);
-  }
 
   return (
     <StyledDataGrid rows={rows} columns={columns} autoHeight />
