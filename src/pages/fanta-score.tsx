@@ -1,4 +1,3 @@
-// pages/teams.js
 import { useState, useEffect } from 'react';
 import { API } from 'aws-amplify';
 import { createFantaScoreEntry, deleteFantaScoreEntry } from '../graphql/mutations';
@@ -26,6 +25,9 @@ const FantaScore = () => {
   const [authChecked, setAuthChecked] = useState(false);
   const router = useRouter();
   const [progressDialogOpen, setProgressDialogOpen] = useState(false);
+  const [completed, setCompleted] = useState(0);
+  const [total, setTotal] = useState(0);
+  const [failedRules, setFailedRules] = useState<any>([]);
   const [scoreEntries, setScoreEntries] = useState([]);
   const [deleteDialogVisible, setDeleteDialogVisible] = useState(false);
   const [scoreEntryToDelete, setScoreEntryToDelete] = useState<any | null>(null);
@@ -53,6 +55,31 @@ const FantaScore = () => {
     }
   };
 
+  const addScoreEntries = async (scoreEntriesToAdd: any) => {
+    setTotal(scoreEntriesToAdd.length);
+    setProgressDialogOpen(true);
+
+    for (const scoreEntry of scoreEntriesToAdd) {
+      try {
+        await addScoreEntry(scoreEntry);
+      } catch (error) {
+        console.log('Error adding score entry:', error);
+        setFailedRules([...failedRules, scoreEntry.fantaScoreEntryRuleId]);
+      } finally {
+        setCompleted(c => c + 1);
+      }
+    }
+
+    setCompleted(0);
+    setTotal(0);
+
+    if (failedRules.length === 0) {
+      setProgressDialogOpen(false);
+    }
+
+    fetchScoreEntries();
+  }
+
   const addScoreEntry = async (scoreEntry: any) => {
     try {
       if (!scoreEntry.date || !scoreEntry.fantaScoreEntryRuleId || !scoreEntry.fantaScoreEntryGroupId) {
@@ -62,7 +89,6 @@ const FantaScore = () => {
       const existingEntry = await checkForExistingEntry(scoreEntry.date, scoreEntry.fantaScoreEntryRuleId, scoreEntry.fantaScoreEntryGroupId);
 
       if (existingEntry) {
-        toggleProgressDialog();
         throw new Error('Already existing rule');
       }
 
@@ -71,7 +97,6 @@ const FantaScore = () => {
           input: scoreEntry,
         }
       }) as any;
-      setShowForm(false);
     } catch (error) {
       console.log('Error adding score entry:', error);
     }
@@ -134,7 +159,7 @@ const FantaScore = () => {
           {showForm ? (
             <NewScoreForm
               onCancel={() => setShowForm(false)}
-              onSave={(rule: any) => addScoreEntry(rule)}
+              onSave={(scoreEntriesToAdd: any) => addScoreEntries(scoreEntriesToAdd)}
             />
           ) : (
             <Fab variant="extended" color="secondary"
@@ -165,15 +190,23 @@ const FantaScore = () => {
         open={progressDialogOpen}
         onClose={toggleProgressDialog}
       >
-        <DialogTitle>{"Errore"}</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Punteggio già esistente.
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={toggleProgressDialog} variant="contained">OK</Button>
-        </DialogActions>
+        <DialogTitle>{"Aggiunta regole"}</DialogTitle>
+        {(completed !== total) ?
+          <DialogContent>
+            <CircularProgress variant="determinate" value={(completed / total) * 100} />
+          </DialogContent>
+          : (
+            <>
+              <DialogContent>
+                <DialogContentText>
+                Punteggi già esistenti: {failedRules.join(', ')}
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={toggleProgressDialog} variant="contained">OK</Button>
+              </DialogActions>
+            </>
+          )}
       </Dialog>
 
       <Dialog open={deleteDialogVisible} onClose={() => setDeleteDialogVisible(false)}>
