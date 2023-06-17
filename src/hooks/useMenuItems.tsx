@@ -14,7 +14,7 @@ export const useMenuItems = () => {
     { title: 'Punteggi', href: '/fanta-score', icon: <Scoreboard fontSize="inherit" />, condition: isUserAdmin || isUserRef },
     { title: 'Gruppi', href: '/groups', icon: <Group fontSize="inherit" />, condition: isUserAdmin },
     { title: 'Account', href: '/account', icon: <Person fontSize="inherit" />, condition: true },
-  ], [isUserLogged, isUserAdmin]);
+  ], [isUserLogged, isUserAdmin, isUserRef]);
 
   return drawerItems;
 };
