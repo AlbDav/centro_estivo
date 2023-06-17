@@ -9,12 +9,13 @@ import { DatePicker } from '@mui/x-date-pickers';
 import { format } from 'date-fns';
 import LargeButton from '../shared/LargeButton';
 import StyledDataGrid from '../shared/StyledDataGrid';
+import GroupAvatar from '../shared/GroupAvatar';
 
 /* const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
   '& .MuiDataGrid-row.Mui-selected': {
   backgroundColor: theme.palette.secondary.light,
   '&:hover': {
-    backgroundColor: theme.palette.secondary.main,
+  backgroundColor: theme.palette.secondary.main,
   },
   },
   '& .MuiDataGrid-columnHeaderTitle': {
@@ -26,7 +27,7 @@ import StyledDataGrid from '../shared/StyledDataGrid';
   '& .MuiDataGrid-cell': {
   cursor: 'pointer',
   '&:focus': {
-    outline: 'none',
+  outline: 'none',
   },
   }
 })); */
@@ -34,9 +35,9 @@ import StyledDataGrid from '../shared/StyledDataGrid';
 const NewScoreForm = ({ onCancel, onSave }: any) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [rules, setRules] = useState([]);
-  const [selectedRule, setSelectedRule] = useState(null);
+  const [selectedRules, setSelectedRules] = useState([]);
   const [selectedGroup, setSelectedGroup] = useState('');
-  const [groups, setGroups] = useState([]);
+  const [groups, setGroups] = useState<any>([]);
 
   const columns = [
     {
@@ -92,7 +93,7 @@ const NewScoreForm = ({ onCancel, onSave }: any) => {
   };
 
   const handleSelectionModelChange = (newSelectionModel: any) => {
-    setSelectedRule(newSelectionModel[newSelectionModel.length - 1]);
+    setSelectedRules(newSelectionModel);
   };
 
   const handleDateChange = (date: any) => setSelectedDate(date);
@@ -102,11 +103,17 @@ const NewScoreForm = ({ onCancel, onSave }: any) => {
   };
 
   const handleSubmit = () => {
-    onSave({ date: format(selectedDate, 'yyyy-MM-dd'), fantaScoreEntryGroupId: selectedGroup, fantaScoreEntryRuleId: selectedRule });
+    const date = format(selectedDate, 'yyyy-MM-dd');
+    const scoreEntries = selectedRules.map(selectedRule => ({ date, fantaScoreEntryGroupId: selectedGroup, fantaScoreEntryRuleId: selectedRule }));
+    onSave(scoreEntries);
     setSelectedDate(new Date());
     setSelectedGroup('');
-    setSelectedRule(null);
+    setSelectedRules([]);
   };
+
+  const getGroupById = (id: string) => {
+    return groups.find((el: any) => el.id === id);
+  }
 
   useEffect(() => {
     fetchGroups();
@@ -123,40 +130,40 @@ const NewScoreForm = ({ onCancel, onSave }: any) => {
               value={selectedDate}
               onChange={handleDateChange}
             /* 							slotProps={{
-                    popper: {
-                      sx: {
-                      '& .Mui-selected': {
-                        backgroundColor: 'red',
-                      },
-                        '& .MuiPickersDay-daySelected:hover': {
-                        backgroundColor: theme.palette.secondary.main,
-                      },
-                      '& .MuiPickersDay-today': {
-                        color: theme.palette.secondary.main,
-                      },
-                      }
-                    }
-                    }} */
+                popper: {
+                  sx: {
+                  '& .Mui-selected': {
+                  backgroundColor: 'red',
+                  },
+                  '& .MuiPickersDay-daySelected:hover': {
+                  backgroundColor: theme.palette.secondary.main,
+                  },
+                  '& .MuiPickersDay-today': {
+                  color: theme.palette.secondary.main,
+                  },
+                  }
+                }
+                }} */
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <FormControl fullWidth>
-              <InputLabel id="leader-group-label">Gruppo Leader</InputLabel>
+              <InputLabel id="leader-group-label">Gruppo</InputLabel>
               <Select
-                label="Gruppo Leader"
+                label="Gruppo"
                 labelId="leader-group-label"
                 value={selectedGroup}
                 onChange={handleSelectedGroupChange}
                 displayEmpty
                 fullWidth
                 inputProps={{ 'aria-label': 'Seleziona gruppo leader' }}
+                renderValue={selectedGroup ? () => <Typography>{getGroupById(selectedGroup).name}</Typography> : undefined}
+                startAdornment={selectedGroup ? <GroupAvatar color={getGroupById(selectedGroup).color} /> : undefined}
               >
                 {groups.map((group: any) => (
                   <MenuItem key={group.id} value={group.id}>
                     <Box display="flex">
-                      <Avatar
-                        sx={{ bgcolor: group.color, width: 16, height: 16, marginRight: 1 }}
-                      />
+                      <GroupAvatar color={group.color} />
                       <Typography>{group.name}</Typography>
                     </Box>
                   </MenuItem>
@@ -169,7 +176,7 @@ const NewScoreForm = ({ onCancel, onSave }: any) => {
               rows={rules}
               columns={columns}
               onRowSelectionModelChange={handleSelectionModelChange}
-              rowSelectionModel={selectedRule ? [selectedRule] : []}
+              rowSelectionModel={selectedRules}
               checkboxSelection
               slots={{ toolbar: GridToolbar }}
               slotProps={{

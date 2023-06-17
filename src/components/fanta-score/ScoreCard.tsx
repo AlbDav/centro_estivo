@@ -1,6 +1,7 @@
 import { Delete } from '@mui/icons-material';
 import StyledDataGrid from '../shared/StyledDataGrid';
 import { IconButton, useTheme } from '@mui/material';
+import { GridToolbar } from '@mui/x-data-grid';
 
 const ScoreCard = ({ rows, onDelete }: any) => {
   const theme = useTheme();
@@ -42,7 +43,17 @@ const ScoreCard = ({ rows, onDelete }: any) => {
   ];
 
   return (
-    <StyledDataGrid rows={rows} columns={columns} autoHeight />
+    <StyledDataGrid
+      rows={rows}
+      columns={columns}
+      autoHeight
+      slots={{ toolbar: GridToolbar }}
+      slotProps={{
+        toolbar: {
+          showQuickFilter: true
+        }
+      }}
+    />
   );
 };
 
