@@ -2,11 +2,20 @@ import { Delete } from '@mui/icons-material';
 import StyledDataGrid from '../shared/StyledDataGrid';
 import { IconButton, useTheme } from '@mui/material';
 import { GridToolbar } from '@mui/x-data-grid';
+import { format } from 'date-fns';
 
 const ScoreCard = ({ rows, onDelete }: any) => {
   const theme = useTheme();
 
   const columns = [
+	{
+		field: 'createdAt',
+		headerName: 'Data di creazione',
+		flex: 1,
+		sortable: true,
+		valueGetter: (params: any) => format(new Date(params.row.createdAt), 'yyyy-MM-dd'),
+		hide: true,
+	},
     {
       field: 'date',
       headerName: 'Data',
