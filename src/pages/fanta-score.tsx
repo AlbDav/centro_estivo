@@ -46,7 +46,7 @@ const FantaScore = () => {
 
   const fetchScoreEntries = async () => {
     try {
-      const scoreEntries = await API.graphql<ListFantaScoreEntriesQuery>({ query: listFantaScoreEntries }) as any;
+      const scoreEntries = await API.graphql<ListFantaScoreEntriesQuery>({ query: listFantaScoreEntries, variables: { limit: 1000 } }) as any;
       const scoreEntriesItems = scoreEntries.data.listFantaScoreEntries.items;
       setScoreEntries(scoreEntriesItems);
       setIsLoading(false);
