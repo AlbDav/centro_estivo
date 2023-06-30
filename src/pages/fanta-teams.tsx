@@ -49,7 +49,7 @@ const FantaTeams = () => {
 
 	const fetchScoreEntries = async () => {
 		try {
-			const scoreData = await API.graphql<ListFantaScoreEntriesQuery>({ query: listFantaScoreEntries }) as any;
+			const scoreData = await API.graphql<ListFantaScoreEntriesQuery>({ query: listFantaScoreEntries, variables: { limit: 1000 } }) as any;
 			const scoreItems = scoreData.data.listFantaScoreEntries.items;
 			const groupedScoreItems = getGroupedScores(scoreItems);
 			setGroupedScores(groupedScoreItems);

@@ -99,7 +99,8 @@ const FantaRules = () => {
 			variables: {
 				filter: {
 					fantaScoreEntryRuleId: { eq: ruleId },
-				}
+				},
+				limit: 1000
 			}
 		}) as any;
 		return existingEntries.data.listFantaScoreEntries.items.length > 0;
