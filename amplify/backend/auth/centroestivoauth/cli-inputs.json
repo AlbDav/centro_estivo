@@ -14,8 +14,8 @@
     ],
     "smsAuthenticationMessage": "Your authentication code is {####}",
     "smsVerificationMessage": "Your verification code is {####}",
-    "emailVerificationSubject": "Conferma la tua mail",
-    "emailVerificationMessage": "Il codice di verifica Ã¨ {####}",
+    "emailVerificationSubject": "Your verification code",
+    "emailVerificationMessage": "Your verification code is {####}",
     "defaultPasswordPolicy": false,
     "passwordPolicyMinLength": 8,
     "passwordPolicyCharacters": [],
@@ -30,13 +30,17 @@
     "sharedId": "ed6cc37e",
     "resourceName": "centroestivoauth",
     "authSelections": "identityPoolAndUserPool",
-    "useDefault": "manual",
-    "thirdPartyAuth": false,
+    "useDefault": "defaultSocial",
     "userPoolGroups": false,
     "adminQueries": false,
     "triggers": {},
-    "hostedUI": false,
-    "userPoolGroupList": [],
+    "hostedUI": true,
+    "userPoolGroupList": [
+      "Admins",
+      "Refs",
+      "Stand",
+      "Users"
+    ],
     "serviceName": "Cognito",
     "usernameCaseSensitive": false,
     "useEnabledMfas": true,
@@ -54,10 +58,17 @@
     },
     "breakCircularDependency": true,
     "dependsOn": [],
-    "authProviders": [],
     "parentStack": {
       "Ref": "AWS::StackId"
     },
-    "permissions": []
+    "permissions": [],
+    "hostedUIDomainName": "centroestivoauth",
+    "authProvidersUserPool": [
+      "Facebook",
+      "Google"
+    ],
+    "hostedUIProviderMeta": "[{\"ProviderName\":\"Facebook\",\"authorize_scopes\":\"public_profile\",\"AttributeMapping\":{\"username\":\"id\"}},{\"ProviderName\":\"Google\",\"authorize_scopes\":\"openid profile\",\"AttributeMapping\":{\"username\":\"sub\"}}]",
+    "authProviders": [],
+    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"http://localhost:3000/\",\"https://develop.d1o5h2vlklcqfh.amplifyapp.com/\",\"https://main.d1o5h2vlklcqfh.amplifyapp.com/\"],\"LogoutURLs\":[\"http://localhost:3000/\",\"https://develop.d1o5h2vlklcqfh.amplifyapp.com/\",\"https://main.d1o5h2vlklcqfh.amplifyapp.com/\"]}"
   }
-} 
+}
