@@ -70,5 +70,40 @@
         "centroestivo": {}
       }
     }
+  },
+  "main": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-centroestivo-main-175149-authRole",
+      "UnauthRoleArn": "arn:aws:iam::203714483722:role/amplify-centroestivo-main-175149-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::203714483722:role/amplify-centroestivo-main-175149-authRole",
+      "Region": "eu-west-3",
+      "DeploymentBucketName": "amplify-centroestivo-main-175149-deployment",
+      "UnauthRoleName": "amplify-centroestivo-main-175149-unauthRole",
+      "StackName": "amplify-centroestivo-main-175149",
+      "StackId": "arn:aws:cloudformation:eu-west-3:203714483722:stack/amplify-centroestivo-main-175149/c06822f0-ba0f-11ee-9718-06df3c20d25c",
+      "AmplifyAppId": "d1o5h2vlklcqfh"
+    },
+    "categories": {
+      "auth": {
+        "centroestivoauth": {},
+        "userPoolGroups": {},
+        "centroestivo7d1e9a7c": {}
+      },
+      "function": {
+        "centroestivo7d1e9a7cPostConfirmation": {
+          "deploymentBucketName": "amplify-centroestivo-main-175149-deployment",
+          "s3Key": "amplify-builds/centroestivo7d1e9a7cPostConfirmation-486e48624c376870472f-build.zip"
+        }
+      },
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "d1o5h2vlklcqfh",
+          "type": "cicd"
+        }
+      },
+      "api": {
+        "centroestivo": {}
+      }
+    }
   }
 }
