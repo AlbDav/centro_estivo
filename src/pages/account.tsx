@@ -25,7 +25,6 @@ export default function Account() {
   return (
     <Box height="calc(100vh - 64px)" display="flex" alignItems="center" justifyContent="center">
       <Authenticator
-        hideSignUp={true}
       >
         {({ signOut, user }: any) => (
           <>
