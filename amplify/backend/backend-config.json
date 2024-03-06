@@ -87,6 +87,14 @@
     }
   },
   "parameters": {
+    "AMPLIFY_function_centroestivo7d1e9a7cPostConfirmation_GROUP": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "centroestivo7d1e9a7cPostConfirmation"
+        }
+      ]
+    },
     "AMPLIFY_function_centroestivo7d1e9a7cPostConfirmation_deploymentBucketName": {
       "usedBy": [
         {
