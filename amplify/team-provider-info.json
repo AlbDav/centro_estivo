@@ -14,12 +14,13 @@
     "categories": {
       "auth": {
         "centroestivoauth": {},
-        "userPoolGroups": {}
+        "userPoolGroups": {},
+        "centroestivo7d1e9a7c": {}
       },
       "function": {
         "centroestivo7d1e9a7cPostConfirmation": {
           "deploymentBucketName": "amplify-centroestivo-main-175149-deployment",
-          "s3Key": "amplify-builds/centroestivo7d1e9a7cPostConfirmation-6c78575a417252344846-build.zip"
+          "s3Key": "amplify-builds/centroestivo7d1e9a7cPostConfirmation-704a6f4c434741566c4c-build.zip"
         }
       },
       "hosting": {
@@ -27,6 +28,9 @@
           "appId": "d1o5h2vlklcqfh",
           "type": "cicd"
         }
+      },
+      "api": {
+        "centroestivo": {}
       }
     }
   },
