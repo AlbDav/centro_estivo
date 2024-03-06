@@ -69,6 +69,6 @@
     ],
     "hostedUIProviderMeta": "[{\"ProviderName\":\"Facebook\",\"authorize_scopes\":\"public_profile\",\"AttributeMapping\":{\"username\":\"id\"}},{\"ProviderName\":\"Google\",\"authorize_scopes\":\"openid profile\",\"AttributeMapping\":{\"username\":\"sub\"}}]",
     "authProviders": [],
-    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"http://localhost:3000/\",\"https://develop.d1o5h2vlklcqfh.amplifyapp.com/\",\"https://main.d1o5h2vlklcqfh.amplifyapp.com/\"],\"LogoutURLs\":[\"http://localhost:3000/\",\"https://develop.d1o5h2vlklcqfh.amplifyapp.com/\",\"https://main.d1o5h2vlklcqfh.amplifyapp.com/\"]}"
+    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"http://localhost:3000/account/\",\"https://develop.d1o5h2vlklcqfh.amplifyapp.com/account/\",\"https://main.d1o5h2vlklcqfh.amplifyapp.com/account/\"],\"LogoutURLs\":[\"http://localhost:3000/account/\",\"https://develop.d1o5h2vlklcqfh.amplifyapp.com/account/\",\"https://main.d1o5h2vlklcqfh.amplifyapp.com/account/\"]}"
   }
 }
