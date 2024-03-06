@@ -1,7 +1,7 @@
 import '@aws-amplify/ui-react/styles.css'
 import LargeButton from '@/components/shared/LargeButton';
 import { Authenticator } from '@aws-amplify/ui-react'
-import { Box, Card, CardContent, TextField, Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import { Hub } from 'aws-amplify';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
