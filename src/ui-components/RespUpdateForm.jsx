@@ -9,10 +9,12 @@ import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { API } from "aws-amplify";
-import { createFantaTeam } from "../graphql/mutations";
-export default function FantaTeamCreateForm(props) {
+import { getResp } from "../graphql/queries";
+import { updateResp } from "../graphql/mutations";
+export default function RespUpdateForm(props) {
   const {
-    clearOnSuccess = true,
+    id: idProp,
+    resp: respModelProp,
     onSuccess,
     onError,
     onSubmit,
@@ -22,22 +24,39 @@ export default function FantaTeamCreateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    name: "",
-    ownerUserId: "",
+    firstName: "",
+    lastName: "",
   };
-  const [name, setName] = React.useState(initialValues.name);
-  const [ownerUserId, setOwnerUserId] = React.useState(
-    initialValues.ownerUserId
-  );
+  const [firstName, setFirstName] = React.useState(initialValues.firstName);
+  const [lastName, setLastName] = React.useState(initialValues.lastName);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    setName(initialValues.name);
-    setOwnerUserId(initialValues.ownerUserId);
+    const cleanValues = respRecord
+      ? { ...initialValues, ...respRecord }
+      : initialValues;
+    setFirstName(cleanValues.firstName);
+    setLastName(cleanValues.lastName);
     setErrors({});
   };
+  const [respRecord, setRespRecord] = React.useState(respModelProp);
+  React.useEffect(() => {
+    const queryData = async () => {
+      const record = idProp
+        ? (
+            await API.graphql({
+              query: getResp.replaceAll("__typename", ""),
+              variables: { id: idProp },
+            })
+          )?.data?.getResp
+        : respModelProp;
+      setRespRecord(record);
+    };
+    queryData();
+  }, [idProp, respModelProp]);
+  React.useEffect(resetStateValues, [respRecord]);
   const validations = {
-    name: [{ type: "Required" }],
-    ownerUserId: [{ type: "Required" }],
+    firstName: [{ type: "Required" }],
+    lastName: [{ type: "Required" }],
   };
   const runValidationTasks = async (
     fieldName,
@@ -65,8 +84,8 @@ export default function FantaTeamCreateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          name,
-          ownerUserId,
+          firstName,
+          lastName,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -97,18 +116,16 @@ export default function FantaTeamCreateForm(props) {
             }
           });
           await API.graphql({
-            query: createFantaTeam.replaceAll("__typename", ""),
+            query: updateResp.replaceAll("__typename", ""),
             variables: {
               input: {
+                id: respRecord.id,
                 ...modelFields,
               },
             },
           });
           if (onSuccess) {
             onSuccess(modelFields);
-          }
-          if (clearOnSuccess) {
-            resetStateValues();
           }
         } catch (err) {
           if (onError) {
@@ -117,71 +134,72 @@ export default function FantaTeamCreateForm(props) {
           }
         }
       }}
-      {...getOverrideProps(overrides, "FantaTeamCreateForm")}
+      {...getOverrideProps(overrides, "RespUpdateForm")}
       {...rest}
     >
       <TextField
-        label="Name"
+        label="First name"
         isRequired={true}
         isReadOnly={false}
-        value={name}
+        value={firstName}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              name: value,
-              ownerUserId,
+              firstName: value,
+              lastName,
             };
             const result = onChange(modelFields);
-            value = result?.name ?? value;
+            value = result?.firstName ?? value;
           }
-          if (errors.name?.hasError) {
-            runValidationTasks("name", value);
+          if (errors.firstName?.hasError) {
+            runValidationTasks("firstName", value);
           }
-          setName(value);
+          setFirstName(value);
         }}
-        onBlur={() => runValidationTasks("name", name)}
-        errorMessage={errors.name?.errorMessage}
-        hasError={errors.name?.hasError}
-        {...getOverrideProps(overrides, "name")}
+        onBlur={() => runValidationTasks("firstName", firstName)}
+        errorMessage={errors.firstName?.errorMessage}
+        hasError={errors.firstName?.hasError}
+        {...getOverrideProps(overrides, "firstName")}
       ></TextField>
       <TextField
-        label="Owner user id"
+        label="Last name"
         isRequired={true}
         isReadOnly={false}
-        value={ownerUserId}
+        value={lastName}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              name,
-              ownerUserId: value,
+              firstName,
+              lastName: value,
             };
             const result = onChange(modelFields);
-            value = result?.ownerUserId ?? value;
+            value = result?.lastName ?? value;
           }
-          if (errors.ownerUserId?.hasError) {
-            runValidationTasks("ownerUserId", value);
+          if (errors.lastName?.hasError) {
+            runValidationTasks("lastName", value);
           }
-          setOwnerUserId(value);
+          setLastName(value);
         }}
-        onBlur={() => runValidationTasks("ownerUserId", ownerUserId)}
-        errorMessage={errors.ownerUserId?.errorMessage}
-        hasError={errors.ownerUserId?.hasError}
-        {...getOverrideProps(overrides, "ownerUserId")}
+        onBlur={() => runValidationTasks("lastName", lastName)}
+        errorMessage={errors.lastName?.errorMessage}
+        hasError={errors.lastName?.hasError}
+        {...getOverrideProps(overrides, "lastName")}
       ></TextField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}
       >
         <Button
-          children="Clear"
+          children="Reset"
           type="reset"
           onClick={(event) => {
             event.preventDefault();
             resetStateValues();
           }}
-          {...getOverrideProps(overrides, "ClearButton")}
+          isDisabled={!(idProp || respModelProp)}
+          {...getOverrideProps(overrides, "ResetButton")}
         ></Button>
         <Flex
           gap="15px"
@@ -191,7 +209,10 @@ export default function FantaTeamCreateForm(props) {
             children="Submit"
             type="submit"
             variation="primary"
-            isDisabled={Object.values(errors).some((e) => e?.hasError)}
+            isDisabled={
+              !(idProp || respModelProp) ||
+              Object.values(errors).some((e) => e?.hasError)
+            }
             {...getOverrideProps(overrides, "SubmitButton")}
           ></Button>
         </Flex>

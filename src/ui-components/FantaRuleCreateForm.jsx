@@ -6,7 +6,13 @@
 
 /* eslint-disable */
 import * as React from "react";
-import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
+import {
+  Button,
+  Flex,
+  Grid,
+  SwitchField,
+  TextField,
+} from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { API } from "aws-amplify";
 import { createFantaRule } from "../graphql/mutations";
@@ -26,6 +32,7 @@ export default function FantaRuleCreateForm(props) {
     description: "",
     points: "",
     pointDescription: "",
+    isResp: false,
   };
   const [title, setTitle] = React.useState(initialValues.title);
   const [description, setDescription] = React.useState(
@@ -35,12 +42,14 @@ export default function FantaRuleCreateForm(props) {
   const [pointDescription, setPointDescription] = React.useState(
     initialValues.pointDescription
   );
+  const [isResp, setIsResp] = React.useState(initialValues.isResp);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setTitle(initialValues.title);
     setDescription(initialValues.description);
     setPoints(initialValues.points);
     setPointDescription(initialValues.pointDescription);
+    setIsResp(initialValues.isResp);
     setErrors({});
   };
   const validations = {
@@ -48,6 +57,7 @@ export default function FantaRuleCreateForm(props) {
     description: [{ type: "Required" }],
     points: [{ type: "Required" }],
     pointDescription: [{ type: "Required" }],
+    isResp: [{ type: "Required" }],
   };
   const runValidationTasks = async (
     fieldName,
@@ -79,6 +89,7 @@ export default function FantaRuleCreateForm(props) {
           description,
           points,
           pointDescription,
+          isResp,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -145,6 +156,7 @@ export default function FantaRuleCreateForm(props) {
               description,
               points,
               pointDescription,
+              isResp,
             };
             const result = onChange(modelFields);
             value = result?.title ?? value;
@@ -172,6 +184,7 @@ export default function FantaRuleCreateForm(props) {
               description: value,
               points,
               pointDescription,
+              isResp,
             };
             const result = onChange(modelFields);
             value = result?.description ?? value;
@@ -203,6 +216,7 @@ export default function FantaRuleCreateForm(props) {
               description,
               points: value,
               pointDescription,
+              isResp,
             };
             const result = onChange(modelFields);
             value = result?.points ?? value;
@@ -230,6 +244,7 @@ export default function FantaRuleCreateForm(props) {
               description,
               points,
               pointDescription: value,
+              isResp,
             };
             const result = onChange(modelFields);
             value = result?.pointDescription ?? value;
@@ -244,6 +259,34 @@ export default function FantaRuleCreateForm(props) {
         hasError={errors.pointDescription?.hasError}
         {...getOverrideProps(overrides, "pointDescription")}
       ></TextField>
+      <SwitchField
+        label="Is resp"
+        defaultChecked={false}
+        isDisabled={false}
+        isChecked={isResp}
+        onChange={(e) => {
+          let value = e.target.checked;
+          if (onChange) {
+            const modelFields = {
+              title,
+              description,
+              points,
+              pointDescription,
+              isResp: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.isResp ?? value;
+          }
+          if (errors.isResp?.hasError) {
+            runValidationTasks("isResp", value);
+          }
+          setIsResp(value);
+        }}
+        onBlur={() => runValidationTasks("isResp", isResp)}
+        errorMessage={errors.isResp?.errorMessage}
+        hasError={errors.isResp?.hasError}
+        {...getOverrideProps(overrides, "isResp")}
+      ></SwitchField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}

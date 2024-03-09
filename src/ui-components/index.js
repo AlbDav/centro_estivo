@@ -10,4 +10,6 @@ export { default as FantaTeamCreateForm } from "./FantaTeamCreateForm";
 export { default as FantaTeamUpdateForm } from "./FantaTeamUpdateForm";
 export { default as GroupCreateForm } from "./GroupCreateForm";
 export { default as GroupUpdateForm } from "./GroupUpdateForm";
+export { default as RespCreateForm } from "./RespCreateForm";
+export { default as RespUpdateForm } from "./RespUpdateForm";
 export { default as studioTheme } from "./studioTheme";

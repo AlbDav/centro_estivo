@@ -21,28 +21,28 @@ export declare type ValidationResponse = {
     errorMessage?: string;
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
-export declare type FantaTeamCreateFormInputValues = {
-    name?: string;
-    ownerUserId?: string;
+export declare type RespCreateFormInputValues = {
+    firstName?: string;
+    lastName?: string;
 };
-export declare type FantaTeamCreateFormValidationValues = {
-    name?: ValidationFunction<string>;
-    ownerUserId?: ValidationFunction<string>;
+export declare type RespCreateFormValidationValues = {
+    firstName?: ValidationFunction<string>;
+    lastName?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
-export declare type FantaTeamCreateFormOverridesProps = {
-    FantaTeamCreateFormGrid?: PrimitiveOverrideProps<GridProps>;
-    name?: PrimitiveOverrideProps<TextFieldProps>;
-    ownerUserId?: PrimitiveOverrideProps<TextFieldProps>;
+export declare type RespCreateFormOverridesProps = {
+    RespCreateFormGrid?: PrimitiveOverrideProps<GridProps>;
+    firstName?: PrimitiveOverrideProps<TextFieldProps>;
+    lastName?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
-export declare type FantaTeamCreateFormProps = React.PropsWithChildren<{
-    overrides?: FantaTeamCreateFormOverridesProps | undefined | null;
+export declare type RespCreateFormProps = React.PropsWithChildren<{
+    overrides?: RespCreateFormOverridesProps | undefined | null;
 } & {
     clearOnSuccess?: boolean;
-    onSubmit?: (fields: FantaTeamCreateFormInputValues) => FantaTeamCreateFormInputValues;
-    onSuccess?: (fields: FantaTeamCreateFormInputValues) => void;
-    onError?: (fields: FantaTeamCreateFormInputValues, errorMessage: string) => void;
-    onChange?: (fields: FantaTeamCreateFormInputValues) => FantaTeamCreateFormInputValues;
-    onValidate?: FantaTeamCreateFormValidationValues;
+    onSubmit?: (fields: RespCreateFormInputValues) => RespCreateFormInputValues;
+    onSuccess?: (fields: RespCreateFormInputValues) => void;
+    onError?: (fields: RespCreateFormInputValues, errorMessage: string) => void;
+    onChange?: (fields: RespCreateFormInputValues) => RespCreateFormInputValues;
+    onValidate?: RespCreateFormValidationValues;
 } & React.CSSProperties>;
-export default function FantaTeamCreateForm(props: FantaTeamCreateFormProps): React.ReactElement;
+export default function RespCreateForm(props: RespCreateFormProps): React.ReactElement;
