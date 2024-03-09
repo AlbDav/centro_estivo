@@ -10,7 +10,7 @@ import { AuthProvider } from '@/contexts/AuthContext'
 
 let BASE_URL = 'http://localhost:3000';
 if (process.env.USER_BRANCH) {
-	if (process.env.USER_BRANCH === 'develop') {
+	if (process.env.USER_BRANCH === 'dev') {
 		BASE_URL = 'https://develop.d1o5h2vlklcqfh.amplifyapp.com';
 	} else {
 		BASE_URL = 'https://main.d1o5h2vlklcqfh.amplifyapp.com';
