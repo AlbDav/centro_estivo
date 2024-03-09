@@ -9,6 +9,7 @@ import itLocale from 'date-fns/locale/it';
 import { AuthProvider } from '@/contexts/AuthContext'
 
 let BASE_URL = 'http://localhost:3000';
+console.log(process.env);
 if (process.env.USER_BRANCH) {
 	if (process.env.USER_BRANCH === 'dev') {
 		BASE_URL = 'https://develop.d1o5h2vlklcqfh.amplifyapp.com';
