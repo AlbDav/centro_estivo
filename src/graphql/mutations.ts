@@ -51,9 +51,19 @@ export const createGroup = /* GraphQL */ `mutation CreateGroup(
             updatedAt
             __typename
           }
+          resp {
+            id
+            firstName
+            lastName
+            createdAt
+            updatedAt
+            __typename
+          }
+          ownerUserId
           createdAt
           updatedAt
           fantaTeamLeaderGroupId
+          fantaTeamRespId
           __typename
         }
         createdAt
@@ -115,9 +125,19 @@ export const updateGroup = /* GraphQL */ `mutation UpdateGroup(
             updatedAt
             __typename
           }
+          resp {
+            id
+            firstName
+            lastName
+            createdAt
+            updatedAt
+            __typename
+          }
+          ownerUserId
           createdAt
           updatedAt
           fantaTeamLeaderGroupId
+          fantaTeamRespId
           __typename
         }
         createdAt
@@ -179,9 +199,19 @@ export const deleteGroup = /* GraphQL */ `mutation DeleteGroup(
             updatedAt
             __typename
           }
+          resp {
+            id
+            firstName
+            lastName
+            createdAt
+            updatedAt
+            __typename
+          }
+          ownerUserId
           createdAt
           updatedAt
           fantaTeamLeaderGroupId
+          fantaTeamRespId
           __typename
         }
         createdAt
@@ -241,9 +271,19 @@ export const createFantaTeam = /* GraphQL */ `mutation CreateFantaTeam(
             updatedAt
             __typename
           }
+          resp {
+            id
+            firstName
+            lastName
+            createdAt
+            updatedAt
+            __typename
+          }
+          ownerUserId
           createdAt
           updatedAt
           fantaTeamLeaderGroupId
+          fantaTeamRespId
           __typename
         }
         createdAt
@@ -275,9 +315,11 @@ export const createFantaTeam = /* GraphQL */ `mutation CreateFantaTeam(
           fantaTeam {
             id
             name
+            ownerUserId
             createdAt
             updatedAt
             fantaTeamLeaderGroupId
+            fantaTeamRespId
             __typename
           }
           createdAt
@@ -291,9 +333,19 @@ export const createFantaTeam = /* GraphQL */ `mutation CreateFantaTeam(
       updatedAt
       __typename
     }
+    resp {
+      id
+      firstName
+      lastName
+      createdAt
+      updatedAt
+      __typename
+    }
+    ownerUserId
     createdAt
     updatedAt
     fantaTeamLeaderGroupId
+    fantaTeamRespId
     __typename
   }
 }
@@ -342,9 +394,19 @@ export const updateFantaTeam = /* GraphQL */ `mutation UpdateFantaTeam(
             updatedAt
             __typename
           }
+          resp {
+            id
+            firstName
+            lastName
+            createdAt
+            updatedAt
+            __typename
+          }
+          ownerUserId
           createdAt
           updatedAt
           fantaTeamLeaderGroupId
+          fantaTeamRespId
           __typename
         }
         createdAt
@@ -376,9 +438,11 @@ export const updateFantaTeam = /* GraphQL */ `mutation UpdateFantaTeam(
           fantaTeam {
             id
             name
+            ownerUserId
             createdAt
             updatedAt
             fantaTeamLeaderGroupId
+            fantaTeamRespId
             __typename
           }
           createdAt
@@ -392,9 +456,19 @@ export const updateFantaTeam = /* GraphQL */ `mutation UpdateFantaTeam(
       updatedAt
       __typename
     }
+    resp {
+      id
+      firstName
+      lastName
+      createdAt
+      updatedAt
+      __typename
+    }
+    ownerUserId
     createdAt
     updatedAt
     fantaTeamLeaderGroupId
+    fantaTeamRespId
     __typename
   }
 }
@@ -443,9 +517,19 @@ export const deleteFantaTeam = /* GraphQL */ `mutation DeleteFantaTeam(
             updatedAt
             __typename
           }
+          resp {
+            id
+            firstName
+            lastName
+            createdAt
+            updatedAt
+            __typename
+          }
+          ownerUserId
           createdAt
           updatedAt
           fantaTeamLeaderGroupId
+          fantaTeamRespId
           __typename
         }
         createdAt
@@ -477,9 +561,11 @@ export const deleteFantaTeam = /* GraphQL */ `mutation DeleteFantaTeam(
           fantaTeam {
             id
             name
+            ownerUserId
             createdAt
             updatedAt
             fantaTeamLeaderGroupId
+            fantaTeamRespId
             __typename
           }
           createdAt
@@ -493,9 +579,19 @@ export const deleteFantaTeam = /* GraphQL */ `mutation DeleteFantaTeam(
       updatedAt
       __typename
     }
+    resp {
+      id
+      firstName
+      lastName
+      createdAt
+      updatedAt
+      __typename
+    }
+    ownerUserId
     createdAt
     updatedAt
     fantaTeamLeaderGroupId
+    fantaTeamRespId
     __typename
   }
 }
@@ -513,6 +609,7 @@ export const createFantaRule = /* GraphQL */ `mutation CreateFantaRule(
     description
     points
     pointDescription
+    isResp
     createdAt
     updatedAt
     __typename
@@ -532,6 +629,7 @@ export const updateFantaRule = /* GraphQL */ `mutation UpdateFantaRule(
     description
     points
     pointDescription
+    isResp
     createdAt
     updatedAt
     __typename
@@ -551,6 +649,7 @@ export const deleteFantaRule = /* GraphQL */ `mutation DeleteFantaRule(
     description
     points
     pointDescription
+    isResp
     createdAt
     updatedAt
     __typename
@@ -572,6 +671,7 @@ export const createFantaScoreEntry = /* GraphQL */ `mutation CreateFantaScoreEnt
       description
       points
       pointDescription
+      isResp
       createdAt
       updatedAt
       __typename
@@ -598,9 +698,11 @@ export const createFantaScoreEntry = /* GraphQL */ `mutation CreateFantaScoreEnt
           fantaTeam {
             id
             name
+            ownerUserId
             createdAt
             updatedAt
             fantaTeamLeaderGroupId
+            fantaTeamRespId
             __typename
           }
           createdAt
@@ -638,6 +740,7 @@ export const updateFantaScoreEntry = /* GraphQL */ `mutation UpdateFantaScoreEnt
       description
       points
       pointDescription
+      isResp
       createdAt
       updatedAt
       __typename
@@ -664,9 +767,11 @@ export const updateFantaScoreEntry = /* GraphQL */ `mutation UpdateFantaScoreEnt
           fantaTeam {
             id
             name
+            ownerUserId
             createdAt
             updatedAt
             fantaTeamLeaderGroupId
+            fantaTeamRespId
             __typename
           }
           createdAt
@@ -704,6 +809,7 @@ export const deleteFantaScoreEntry = /* GraphQL */ `mutation DeleteFantaScoreEnt
       description
       points
       pointDescription
+      isResp
       createdAt
       updatedAt
       __typename
@@ -730,9 +836,11 @@ export const deleteFantaScoreEntry = /* GraphQL */ `mutation DeleteFantaScoreEnt
           fantaTeam {
             id
             name
+            ownerUserId
             createdAt
             updatedAt
             fantaTeamLeaderGroupId
+            fantaTeamRespId
             __typename
           }
           createdAt
@@ -757,6 +865,168 @@ export const deleteFantaScoreEntry = /* GraphQL */ `mutation DeleteFantaScoreEnt
 ` as GeneratedMutation<
   APITypes.DeleteFantaScoreEntryMutationVariables,
   APITypes.DeleteFantaScoreEntryMutation
+>;
+export const createResp = /* GraphQL */ `mutation CreateResp(
+  $input: CreateRespInput!
+  $condition: ModelRespConditionInput
+) {
+  createResp(input: $input, condition: $condition) {
+    id
+    firstName
+    lastName
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateRespMutationVariables,
+  APITypes.CreateRespMutation
+>;
+export const updateResp = /* GraphQL */ `mutation UpdateResp(
+  $input: UpdateRespInput!
+  $condition: ModelRespConditionInput
+) {
+  updateResp(input: $input, condition: $condition) {
+    id
+    firstName
+    lastName
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateRespMutationVariables,
+  APITypes.UpdateRespMutation
+>;
+export const deleteResp = /* GraphQL */ `mutation DeleteResp(
+  $input: DeleteRespInput!
+  $condition: ModelRespConditionInput
+) {
+  deleteResp(input: $input, condition: $condition) {
+    id
+    firstName
+    lastName
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteRespMutationVariables,
+  APITypes.DeleteRespMutation
+>;
+export const createFantaRuleEntryResp = /* GraphQL */ `mutation CreateFantaRuleEntryResp(
+  $input: CreateFantaRuleEntryRespInput!
+  $condition: ModelFantaRuleEntryRespConditionInput
+) {
+  createFantaRuleEntryResp(input: $input, condition: $condition) {
+    id
+    rule {
+      id
+      title
+      description
+      points
+      pointDescription
+      isResp
+      createdAt
+      updatedAt
+      __typename
+    }
+    resp {
+      id
+      firstName
+      lastName
+      createdAt
+      updatedAt
+      __typename
+    }
+    date
+    createdAt
+    updatedAt
+    fantaRuleEntryRespRuleId
+    fantaRuleEntryRespRespId
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateFantaRuleEntryRespMutationVariables,
+  APITypes.CreateFantaRuleEntryRespMutation
+>;
+export const updateFantaRuleEntryResp = /* GraphQL */ `mutation UpdateFantaRuleEntryResp(
+  $input: UpdateFantaRuleEntryRespInput!
+  $condition: ModelFantaRuleEntryRespConditionInput
+) {
+  updateFantaRuleEntryResp(input: $input, condition: $condition) {
+    id
+    rule {
+      id
+      title
+      description
+      points
+      pointDescription
+      isResp
+      createdAt
+      updatedAt
+      __typename
+    }
+    resp {
+      id
+      firstName
+      lastName
+      createdAt
+      updatedAt
+      __typename
+    }
+    date
+    createdAt
+    updatedAt
+    fantaRuleEntryRespRuleId
+    fantaRuleEntryRespRespId
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateFantaRuleEntryRespMutationVariables,
+  APITypes.UpdateFantaRuleEntryRespMutation
+>;
+export const deleteFantaRuleEntryResp = /* GraphQL */ `mutation DeleteFantaRuleEntryResp(
+  $input: DeleteFantaRuleEntryRespInput!
+  $condition: ModelFantaRuleEntryRespConditionInput
+) {
+  deleteFantaRuleEntryResp(input: $input, condition: $condition) {
+    id
+    rule {
+      id
+      title
+      description
+      points
+      pointDescription
+      isResp
+      createdAt
+      updatedAt
+      __typename
+    }
+    resp {
+      id
+      firstName
+      lastName
+      createdAt
+      updatedAt
+      __typename
+    }
+    date
+    createdAt
+    updatedAt
+    fantaRuleEntryRespRuleId
+    fantaRuleEntryRespRespId
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteFantaRuleEntryRespMutationVariables,
+  APITypes.DeleteFantaRuleEntryRespMutation
 >;
 export const createFantaTeamGroups = /* GraphQL */ `mutation CreateFantaTeamGroups(
   $input: CreateFantaTeamGroupsInput!
@@ -788,9 +1058,11 @@ export const createFantaTeamGroups = /* GraphQL */ `mutation CreateFantaTeamGrou
           fantaTeam {
             id
             name
+            ownerUserId
             createdAt
             updatedAt
             fantaTeamLeaderGroupId
+            fantaTeamRespId
             __typename
           }
           createdAt
@@ -824,9 +1096,11 @@ export const createFantaTeamGroups = /* GraphQL */ `mutation CreateFantaTeamGrou
           fantaTeam {
             id
             name
+            ownerUserId
             createdAt
             updatedAt
             fantaTeamLeaderGroupId
+            fantaTeamRespId
             __typename
           }
           createdAt
@@ -857,10 +1131,19 @@ export const createFantaTeamGroups = /* GraphQL */ `mutation CreateFantaTeamGrou
         updatedAt
         __typename
       }
+      resp {
+        id
+        firstName
+        lastName
+        createdAt
+        updatedAt
+        __typename
+      }
       ownerUserId
       createdAt
       updatedAt
       fantaTeamLeaderGroupId
+      fantaTeamRespId
       __typename
     }
     createdAt
@@ -902,9 +1185,11 @@ export const updateFantaTeamGroups = /* GraphQL */ `mutation UpdateFantaTeamGrou
           fantaTeam {
             id
             name
+            ownerUserId
             createdAt
             updatedAt
             fantaTeamLeaderGroupId
+            fantaTeamRespId
             __typename
           }
           createdAt
@@ -938,9 +1223,11 @@ export const updateFantaTeamGroups = /* GraphQL */ `mutation UpdateFantaTeamGrou
           fantaTeam {
             id
             name
+            ownerUserId
             createdAt
             updatedAt
             fantaTeamLeaderGroupId
+            fantaTeamRespId
             __typename
           }
           createdAt
@@ -971,9 +1258,19 @@ export const updateFantaTeamGroups = /* GraphQL */ `mutation UpdateFantaTeamGrou
         updatedAt
         __typename
       }
+      resp {
+        id
+        firstName
+        lastName
+        createdAt
+        updatedAt
+        __typename
+      }
+      ownerUserId
       createdAt
       updatedAt
       fantaTeamLeaderGroupId
+      fantaTeamRespId
       __typename
     }
     createdAt
@@ -1015,9 +1312,11 @@ export const deleteFantaTeamGroups = /* GraphQL */ `mutation DeleteFantaTeamGrou
           fantaTeam {
             id
             name
+            ownerUserId
             createdAt
             updatedAt
             fantaTeamLeaderGroupId
+            fantaTeamRespId
             __typename
           }
           createdAt
@@ -1051,9 +1350,11 @@ export const deleteFantaTeamGroups = /* GraphQL */ `mutation DeleteFantaTeamGrou
           fantaTeam {
             id
             name
+            ownerUserId
             createdAt
             updatedAt
             fantaTeamLeaderGroupId
+            fantaTeamRespId
             __typename
           }
           createdAt
@@ -1084,10 +1385,19 @@ export const deleteFantaTeamGroups = /* GraphQL */ `mutation DeleteFantaTeamGrou
         updatedAt
         __typename
       }
+      resp {
+        id
+        firstName
+        lastName
+        createdAt
+        updatedAt
+        __typename
+      }
       ownerUserId
       createdAt
       updatedAt
       fantaTeamLeaderGroupId
+      fantaTeamRespId
       __typename
     }
     createdAt

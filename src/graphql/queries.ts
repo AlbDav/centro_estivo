@@ -48,9 +48,19 @@ export const getGroup = /* GraphQL */ `query GetGroup($id: ID!) {
             updatedAt
             __typename
           }
+          resp {
+            id
+            firstName
+            lastName
+            createdAt
+            updatedAt
+            __typename
+          }
+          ownerUserId
           createdAt
           updatedAt
           fantaTeamLeaderGroupId
+          fantaTeamRespId
           __typename
         }
         createdAt
@@ -94,9 +104,11 @@ export const listGroups = /* GraphQL */ `query ListGroups(
           fantaTeam {
             id
             name
+            ownerUserId
             createdAt
             updatedAt
             fantaTeamLeaderGroupId
+            fantaTeamRespId
             __typename
           }
           createdAt
@@ -156,9 +168,19 @@ export const getFantaTeam = /* GraphQL */ `query GetFantaTeam($id: ID!) {
             updatedAt
             __typename
           }
+          resp {
+            id
+            firstName
+            lastName
+            createdAt
+            updatedAt
+            __typename
+          }
+          ownerUserId
           createdAt
           updatedAt
           fantaTeamLeaderGroupId
+          fantaTeamRespId
           __typename
         }
         createdAt
@@ -190,9 +212,11 @@ export const getFantaTeam = /* GraphQL */ `query GetFantaTeam($id: ID!) {
           fantaTeam {
             id
             name
+            ownerUserId
             createdAt
             updatedAt
             fantaTeamLeaderGroupId
+            fantaTeamRespId
             __typename
           }
           createdAt
@@ -206,9 +230,19 @@ export const getFantaTeam = /* GraphQL */ `query GetFantaTeam($id: ID!) {
       updatedAt
       __typename
     }
+    resp {
+      id
+      firstName
+      lastName
+      createdAt
+      updatedAt
+      __typename
+    }
+    ownerUserId
     createdAt
     updatedAt
     fantaTeamLeaderGroupId
+    fantaTeamRespId
     __typename
   }
 }
@@ -242,9 +276,11 @@ export const listFantaTeams = /* GraphQL */ `query ListFantaTeams(
           fantaTeam {
             id
             name
+            ownerUserId
             createdAt
             updatedAt
             fantaTeamLeaderGroupId
+            fantaTeamRespId
             __typename
           }
           createdAt
@@ -275,9 +311,19 @@ export const listFantaTeams = /* GraphQL */ `query ListFantaTeams(
         updatedAt
         __typename
       }
+      resp {
+        id
+        firstName
+        lastName
+        createdAt
+        updatedAt
+        __typename
+      }
+      ownerUserId
       createdAt
       updatedAt
       fantaTeamLeaderGroupId
+      fantaTeamRespId
       __typename
     }
     nextToken
@@ -295,6 +341,7 @@ export const getFantaRule = /* GraphQL */ `query GetFantaRule($id: ID!) {
     description
     points
     pointDescription
+    isResp
     createdAt
     updatedAt
     __typename
@@ -338,6 +385,7 @@ export const getFantaScoreEntry = /* GraphQL */ `query GetFantaScoreEntry($id: I
       description
       points
       pointDescription
+      isResp
       createdAt
       updatedAt
       __typename
@@ -364,9 +412,11 @@ export const getFantaScoreEntry = /* GraphQL */ `query GetFantaScoreEntry($id: I
           fantaTeam {
             id
             name
+            ownerUserId
             createdAt
             updatedAt
             fantaTeamLeaderGroupId
+            fantaTeamRespId
             __typename
           }
           createdAt
@@ -447,6 +497,116 @@ export const listFantaScoreEntries = /* GraphQL */ `query ListFantaScoreEntries(
   APITypes.ListFantaScoreEntriesQueryVariables,
   APITypes.ListFantaScoreEntriesQuery
 >;
+export const getResp = /* GraphQL */ `query GetResp($id: ID!) {
+  getResp(id: $id) {
+    id
+    firstName
+    lastName
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedQuery<APITypes.GetRespQueryVariables, APITypes.GetRespQuery>;
+export const listResps = /* GraphQL */ `query ListResps(
+  $filter: ModelRespFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listResps(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      firstName
+      lastName
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<APITypes.ListRespsQueryVariables, APITypes.ListRespsQuery>;
+export const getFantaRuleEntryResp = /* GraphQL */ `query GetFantaRuleEntryResp($id: ID!) {
+  getFantaRuleEntryResp(id: $id) {
+    id
+    rule {
+      id
+      title
+      description
+      points
+      pointDescription
+      isResp
+      createdAt
+      updatedAt
+      __typename
+    }
+    resp {
+      id
+      firstName
+      lastName
+      createdAt
+      updatedAt
+      __typename
+    }
+    date
+    createdAt
+    updatedAt
+    fantaRuleEntryRespRuleId
+    fantaRuleEntryRespRespId
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.GetFantaRuleEntryRespQueryVariables,
+  APITypes.GetFantaRuleEntryRespQuery
+>;
+export const listFantaRuleEntryResps = /* GraphQL */ `query ListFantaRuleEntryResps(
+  $filter: ModelFantaRuleEntryRespFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listFantaRuleEntryResps(
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      rule {
+        id
+        title
+        description
+        points
+        pointDescription
+        isResp
+        createdAt
+        updatedAt
+        __typename
+      }
+      resp {
+        id
+        firstName
+        lastName
+        createdAt
+        updatedAt
+        __typename
+      }
+      date
+      createdAt
+      updatedAt
+      fantaRuleEntryRespRuleId
+      fantaRuleEntryRespRespId
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListFantaRuleEntryRespsQueryVariables,
+  APITypes.ListFantaRuleEntryRespsQuery
+>;
 export const getFantaTeamGroups = /* GraphQL */ `query GetFantaTeamGroups($id: ID!) {
   getFantaTeamGroups(id: $id) {
     id
@@ -474,9 +634,11 @@ export const getFantaTeamGroups = /* GraphQL */ `query GetFantaTeamGroups($id: I
           fantaTeam {
             id
             name
+            ownerUserId
             createdAt
             updatedAt
             fantaTeamLeaderGroupId
+            fantaTeamRespId
             __typename
           }
           createdAt
@@ -510,9 +672,11 @@ export const getFantaTeamGroups = /* GraphQL */ `query GetFantaTeamGroups($id: I
           fantaTeam {
             id
             name
+            ownerUserId
             createdAt
             updatedAt
             fantaTeamLeaderGroupId
+            fantaTeamRespId
             __typename
           }
           createdAt
@@ -543,9 +707,19 @@ export const getFantaTeamGroups = /* GraphQL */ `query GetFantaTeamGroups($id: I
         updatedAt
         __typename
       }
+      resp {
+        id
+        firstName
+        lastName
+        createdAt
+        updatedAt
+        __typename
+      }
+      ownerUserId
       createdAt
       updatedAt
       fantaTeamLeaderGroupId
+      fantaTeamRespId
       __typename
     }
     createdAt
@@ -616,10 +790,19 @@ export const listFantaTeamGroups = /* GraphQL */ `query ListFantaTeamGroups(
           updatedAt
           __typename
         }
+        resp {
+          id
+          firstName
+          lastName
+          createdAt
+          updatedAt
+          __typename
+        }
         ownerUserId
         createdAt
         updatedAt
         fantaTeamLeaderGroupId
+        fantaTeamRespId
         __typename
       }
       createdAt
@@ -701,9 +884,19 @@ export const fantaTeamGroupsByGroupId = /* GraphQL */ `query FantaTeamGroupsByGr
           updatedAt
           __typename
         }
+        resp {
+          id
+          firstName
+          lastName
+          createdAt
+          updatedAt
+          __typename
+        }
+        ownerUserId
         createdAt
         updatedAt
         fantaTeamLeaderGroupId
+        fantaTeamRespId
         __typename
       }
       createdAt
@@ -753,7 +946,6 @@ export const fantaTeamGroupsByFantaTeamId = /* GraphQL */ `query FantaTeamGroups
           nextToken
           __typename
         }
-        ownerUserId
         createdAt
         updatedAt
         __typename
@@ -786,10 +978,19 @@ export const fantaTeamGroupsByFantaTeamId = /* GraphQL */ `query FantaTeamGroups
           updatedAt
           __typename
         }
+        resp {
+          id
+          firstName
+          lastName
+          createdAt
+          updatedAt
+          __typename
+        }
         ownerUserId
         createdAt
         updatedAt
         fantaTeamLeaderGroupId
+        fantaTeamRespId
         __typename
       }
       createdAt
