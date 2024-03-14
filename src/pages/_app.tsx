@@ -10,8 +10,8 @@ import { AuthProvider } from '@/contexts/AuthContext'
 
 let BASE_URL = 'http://localhost:3000';
 console.log(process.env);
-if (process.env.BASE_URL) {
-	BASE_URL = process.env.BASE_URL;
+if (process.env.NEXT_PUBLIC_BASE_URL) {
+	BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 }
 awsExports.oauth.redirectSignIn = `${BASE_URL}/account/`;
 awsExports.oauth.redirectSignOut = `${BASE_URL}/account/`;
