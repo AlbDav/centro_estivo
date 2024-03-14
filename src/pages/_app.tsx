@@ -8,14 +8,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import itLocale from 'date-fns/locale/it';
 import { AuthProvider } from '@/contexts/AuthContext'
 
-let BASE_URL = 'http://localhost:3000';
-if (process.env.USER_BRANCH) {
-	if (process.env.USER_BRANCH === 'develop') {
-		BASE_URL = 'https://develop.d1o5h2vlklcqfh.amplifyapp.com';
-	} else {
-		BASE_URL = 'https://main.d1o5h2vlklcqfh.amplifyapp.com';
-	}
-}
+let BASE_URL = process.env.BASE_URL;
 awsExports.oauth.redirectSignIn = `${BASE_URL}/account/`;
 awsExports.oauth.redirectSignOut = `${BASE_URL}/account/`;
 

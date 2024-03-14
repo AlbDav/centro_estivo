@@ -5,7 +5,7 @@
  **************************************************************************/
 
 import * as React from "react";
-import { GridProps, TextFieldProps } from "@aws-amplify/ui-react";
+import { GridProps, SwitchFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
 export declare type EscapeHatchProps = {
     [elementHierarchy: string]: Record<string, unknown>;
 } | null;
@@ -26,12 +26,14 @@ export declare type FantaRuleCreateFormInputValues = {
     description?: string;
     points?: number;
     pointDescription?: string;
+    isResp?: boolean;
 };
 export declare type FantaRuleCreateFormValidationValues = {
     title?: ValidationFunction<string>;
     description?: ValidationFunction<string>;
     points?: ValidationFunction<number>;
     pointDescription?: ValidationFunction<string>;
+    isResp?: ValidationFunction<boolean>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type FantaRuleCreateFormOverridesProps = {
@@ -40,6 +42,7 @@ export declare type FantaRuleCreateFormOverridesProps = {
     description?: PrimitiveOverrideProps<TextFieldProps>;
     points?: PrimitiveOverrideProps<TextFieldProps>;
     pointDescription?: PrimitiveOverrideProps<TextFieldProps>;
+    isResp?: PrimitiveOverrideProps<SwitchFieldProps>;
 } & EscapeHatchProps;
 export declare type FantaRuleCreateFormProps = React.PropsWithChildren<{
     overrides?: FantaRuleCreateFormOverridesProps | undefined | null;

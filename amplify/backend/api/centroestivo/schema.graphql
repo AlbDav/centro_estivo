@@ -11,6 +11,8 @@ type FantaTeam @model @auth(rules: [{allow: groups, provider: userPools, groups:
   name: String!
   groups: [Group] @manyToMany(relationName: "FantaTeamGroups")
   leaderGroup: Group @hasOne
+  resp: Resp @hasOne
+  ownerUserId: String!
 }
 
 type FantaRule @model @auth(rules: [{allow: groups, provider: userPools, groups: ["Admins"], operations: [create, update, delete, read]}, {allow: groups, provider: userPools, groups: ["Refs"], operations: [create, update, read]}, {allow: groups, provider: userPools, groups: ["Users"], operations: [read]}, {allow: public, provider: iam, operations: [read]}]) {
@@ -19,6 +21,7 @@ type FantaRule @model @auth(rules: [{allow: groups, provider: userPools, groups:
   description: String!
   points: Int!
   pointDescription: String!
+  isResp: Boolean!
 }
 
 type FantaScoreEntry @model @auth(rules: [{allow: groups, provider: userPools, groups: ["Admins"], operations: [create, update, delete, read]}, {allow: groups, provider: userPools, groups: ["Refs"], operations: [create, update, read]}, {allow: groups, provider: userPools, groups: ["Users"], operations: [read]}, {allow: public, provider: iam, operations: [read]}]) {
@@ -27,3 +30,16 @@ type FantaScoreEntry @model @auth(rules: [{allow: groups, provider: userPools, g
   group: Group! @hasOne
   date: AWSDate!
 } 
+
+type Resp @model @auth(rules: [{allow: groups, provider: userPools, groups: ["Admins"], operations: [create, update, delete, read]}, {allow: groups, provider: userPools, groups: ["Refs"], operations: [create, update, read]}, {allow: public, provider: iam, operations: [read]}]) {
+  id: ID!
+  firstName: String!
+  lastName: String!
+}
+
+type FantaRuleEntryResp @model @auth(rules: [{allow: groups, provider: userPools, groups: ["Admins"], operations: [create, update, delete, read]}, {allow: groups, provider: userPools, groups: ["Refs"], operations: [create, update, read]}, {allow: public, provider: iam, operations: [read]}]) {
+  id: ID!
+  rule: FantaRule! @hasOne
+  resp: Resp! @hasOne
+  date: AWSDate!
+}

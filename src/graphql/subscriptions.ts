@@ -826,6 +826,7 @@ export const onCreateFantaTeamGroups = /* GraphQL */ `subscription OnCreateFanta
         updatedAt
         __typename
       }
+      ownerUserId
       createdAt
       updatedAt
       fantaTeamLeaderGroupId
@@ -1050,6 +1051,7 @@ export const onDeleteFantaTeamGroups = /* GraphQL */ `subscription OnDeleteFanta
         updatedAt
         __typename
       }
+      ownerUserId
       createdAt
       updatedAt
       fantaTeamLeaderGroupId

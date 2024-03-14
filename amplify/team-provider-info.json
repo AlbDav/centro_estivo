@@ -20,7 +20,7 @@
       "function": {
         "centroestivo7d1e9a7cPostConfirmation": {
           "deploymentBucketName": "amplify-centroestivo-main-175149-deployment",
-          "s3Key": "amplify-builds/centroestivo7d1e9a7cPostConfirmation-704a6f4c434741566c4c-build.zip"
+          "s3Key": "amplify-builds/centroestivo7d1e9a7cPostConfirmation-4772646141396c794c70-build.zip"
         }
       },
       "hosting": {

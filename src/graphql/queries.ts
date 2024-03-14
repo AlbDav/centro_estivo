@@ -316,6 +316,7 @@ export const listFantaRules = /* GraphQL */ `query ListFantaRules(
       description
       points
       pointDescription
+      isResp
       createdAt
       updatedAt
       __typename
@@ -405,6 +406,7 @@ export const listFantaScoreEntries = /* GraphQL */ `query ListFantaScoreEntries(
         description
         points
         pointDescription
+        isResp
         createdAt
         updatedAt
         __typename
@@ -614,6 +616,7 @@ export const listFantaTeamGroups = /* GraphQL */ `query ListFantaTeamGroups(
           updatedAt
           __typename
         }
+        ownerUserId
         createdAt
         updatedAt
         fantaTeamLeaderGroupId
@@ -750,6 +753,7 @@ export const fantaTeamGroupsByFantaTeamId = /* GraphQL */ `query FantaTeamGroups
           nextToken
           __typename
         }
+        ownerUserId
         createdAt
         updatedAt
         __typename
@@ -782,6 +786,7 @@ export const fantaTeamGroupsByFantaTeamId = /* GraphQL */ `query FantaTeamGroups
           updatedAt
           __typename
         }
+        ownerUserId
         createdAt
         updatedAt
         fantaTeamLeaderGroupId

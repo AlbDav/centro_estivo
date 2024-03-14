@@ -6,7 +6,7 @@
 
 import * as React from "react";
 import { GridProps, TextFieldProps } from "@aws-amplify/ui-react";
-import { FantaTeam } from "../API.ts";
+import { Resp } from "../API.ts";
 export declare type EscapeHatchProps = {
     [elementHierarchy: string]: Record<string, unknown>;
 } | null;
@@ -22,29 +22,29 @@ export declare type ValidationResponse = {
     errorMessage?: string;
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
-export declare type FantaTeamUpdateFormInputValues = {
-    name?: string;
-    ownerUserId?: string;
+export declare type RespUpdateFormInputValues = {
+    firstName?: string;
+    lastName?: string;
 };
-export declare type FantaTeamUpdateFormValidationValues = {
-    name?: ValidationFunction<string>;
-    ownerUserId?: ValidationFunction<string>;
+export declare type RespUpdateFormValidationValues = {
+    firstName?: ValidationFunction<string>;
+    lastName?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
-export declare type FantaTeamUpdateFormOverridesProps = {
-    FantaTeamUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
-    name?: PrimitiveOverrideProps<TextFieldProps>;
-    ownerUserId?: PrimitiveOverrideProps<TextFieldProps>;
+export declare type RespUpdateFormOverridesProps = {
+    RespUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
+    firstName?: PrimitiveOverrideProps<TextFieldProps>;
+    lastName?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
-export declare type FantaTeamUpdateFormProps = React.PropsWithChildren<{
-    overrides?: FantaTeamUpdateFormOverridesProps | undefined | null;
+export declare type RespUpdateFormProps = React.PropsWithChildren<{
+    overrides?: RespUpdateFormOverridesProps | undefined | null;
 } & {
     id?: string;
-    fantaTeam?: FantaTeam;
-    onSubmit?: (fields: FantaTeamUpdateFormInputValues) => FantaTeamUpdateFormInputValues;
-    onSuccess?: (fields: FantaTeamUpdateFormInputValues) => void;
-    onError?: (fields: FantaTeamUpdateFormInputValues, errorMessage: string) => void;
-    onChange?: (fields: FantaTeamUpdateFormInputValues) => FantaTeamUpdateFormInputValues;
-    onValidate?: FantaTeamUpdateFormValidationValues;
+    resp?: Resp;
+    onSubmit?: (fields: RespUpdateFormInputValues) => RespUpdateFormInputValues;
+    onSuccess?: (fields: RespUpdateFormInputValues) => void;
+    onError?: (fields: RespUpdateFormInputValues, errorMessage: string) => void;
+    onChange?: (fields: RespUpdateFormInputValues) => RespUpdateFormInputValues;
+    onValidate?: RespUpdateFormValidationValues;
 } & React.CSSProperties>;
-export default function FantaTeamUpdateForm(props: FantaTeamUpdateFormProps): React.ReactElement;
+export default function RespUpdateForm(props: RespUpdateFormProps): React.ReactElement;

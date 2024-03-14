@@ -104,9 +104,21 @@ export type FantaTeam = {
   name: string,
   groups?: ModelFantaTeamGroupsConnection | null,
   leaderGroup?: Group | null,
+  resp?: Resp | null,
+  ownerUserId: string,
   createdAt: string,
   updatedAt: string,
   fantaTeamLeaderGroupId?: string | null,
+  fantaTeamRespId?: string | null,
+};
+
+export type Resp = {
+  __typename: "Resp",
+  id: string,
+  firstName: string,
+  lastName: string,
+  createdAt: string,
+  updatedAt: string,
 };
 
 export type UpdateGroupInput = {
@@ -123,15 +135,19 @@ export type DeleteGroupInput = {
 export type CreateFantaTeamInput = {
   id?: string | null,
   name: string,
+  ownerUserId: string,
   fantaTeamLeaderGroupId?: string | null,
+  fantaTeamRespId?: string | null,
 };
 
 export type ModelFantaTeamConditionInput = {
   name?: ModelStringInput | null,
+  ownerUserId?: ModelStringInput | null,
   and?: Array< ModelFantaTeamConditionInput | null > | null,
   or?: Array< ModelFantaTeamConditionInput | null > | null,
   not?: ModelFantaTeamConditionInput | null,
   fantaTeamLeaderGroupId?: ModelIDInput | null,
+  fantaTeamRespId?: ModelIDInput | null,
 };
 
 export type ModelIDInput = {
@@ -153,7 +169,9 @@ export type ModelIDInput = {
 export type UpdateFantaTeamInput = {
   id: string,
   name?: string | null,
+  ownerUserId?: string | null,
   fantaTeamLeaderGroupId?: string | null,
+  fantaTeamRespId?: string | null,
 };
 
 export type DeleteFantaTeamInput = {
@@ -166,6 +184,7 @@ export type CreateFantaRuleInput = {
   description: string,
   points: number,
   pointDescription: string,
+  isResp: boolean,
 };
 
 export type ModelFantaRuleConditionInput = {
@@ -173,9 +192,17 @@ export type ModelFantaRuleConditionInput = {
   description?: ModelStringInput | null,
   points?: ModelIntInput | null,
   pointDescription?: ModelStringInput | null,
+  isResp?: ModelBooleanInput | null,
   and?: Array< ModelFantaRuleConditionInput | null > | null,
   or?: Array< ModelFantaRuleConditionInput | null > | null,
   not?: ModelFantaRuleConditionInput | null,
+};
+
+export type ModelBooleanInput = {
+  ne?: boolean | null,
+  eq?: boolean | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
 };
 
 export type FantaRule = {
@@ -185,6 +212,7 @@ export type FantaRule = {
   description: string,
   points: number,
   pointDescription: string,
+  isResp: boolean,
   createdAt: string,
   updatedAt: string,
 };
@@ -195,6 +223,7 @@ export type UpdateFantaRuleInput = {
   description?: string | null,
   points?: number | null,
   pointDescription?: string | null,
+  isResp?: boolean | null,
 };
 
 export type DeleteFantaRuleInput = {
@@ -237,6 +266,69 @@ export type UpdateFantaScoreEntryInput = {
 };
 
 export type DeleteFantaScoreEntryInput = {
+  id: string,
+};
+
+export type CreateRespInput = {
+  id?: string | null,
+  firstName: string,
+  lastName: string,
+};
+
+export type ModelRespConditionInput = {
+  firstName?: ModelStringInput | null,
+  lastName?: ModelStringInput | null,
+  and?: Array< ModelRespConditionInput | null > | null,
+  or?: Array< ModelRespConditionInput | null > | null,
+  not?: ModelRespConditionInput | null,
+};
+
+export type UpdateRespInput = {
+  id: string,
+  firstName?: string | null,
+  lastName?: string | null,
+};
+
+export type DeleteRespInput = {
+  id: string,
+};
+
+export type CreateFantaRuleEntryRespInput = {
+  id?: string | null,
+  date: string,
+  fantaRuleEntryRespRuleId: string,
+  fantaRuleEntryRespRespId: string,
+};
+
+export type ModelFantaRuleEntryRespConditionInput = {
+  date?: ModelStringInput | null,
+  and?: Array< ModelFantaRuleEntryRespConditionInput | null > | null,
+  or?: Array< ModelFantaRuleEntryRespConditionInput | null > | null,
+  not?: ModelFantaRuleEntryRespConditionInput | null,
+  fantaRuleEntryRespRuleId?: ModelIDInput | null,
+  fantaRuleEntryRespRespId?: ModelIDInput | null,
+};
+
+export type FantaRuleEntryResp = {
+  __typename: "FantaRuleEntryResp",
+  id: string,
+  rule: FantaRule,
+  resp: Resp,
+  date: string,
+  createdAt: string,
+  updatedAt: string,
+  fantaRuleEntryRespRuleId: string,
+  fantaRuleEntryRespRespId: string,
+};
+
+export type UpdateFantaRuleEntryRespInput = {
+  id: string,
+  date?: string | null,
+  fantaRuleEntryRespRuleId?: string | null,
+  fantaRuleEntryRespRespId?: string | null,
+};
+
+export type DeleteFantaRuleEntryRespInput = {
   id: string,
 };
 
@@ -283,10 +375,12 @@ export type ModelGroupConnection = {
 export type ModelFantaTeamFilterInput = {
   id?: ModelIDInput | null,
   name?: ModelStringInput | null,
+  ownerUserId?: ModelStringInput | null,
   and?: Array< ModelFantaTeamFilterInput | null > | null,
   or?: Array< ModelFantaTeamFilterInput | null > | null,
   not?: ModelFantaTeamFilterInput | null,
   fantaTeamLeaderGroupId?: ModelIDInput | null,
+  fantaTeamRespId?: ModelIDInput | null,
 };
 
 export type ModelFantaTeamConnection = {
@@ -301,6 +395,7 @@ export type ModelFantaRuleFilterInput = {
   description?: ModelStringInput | null,
   points?: ModelIntInput | null,
   pointDescription?: ModelStringInput | null,
+  isResp?: ModelBooleanInput | null,
   and?: Array< ModelFantaRuleFilterInput | null > | null,
   or?: Array< ModelFantaRuleFilterInput | null > | null,
   not?: ModelFantaRuleFilterInput | null,
@@ -325,6 +420,37 @@ export type ModelFantaScoreEntryFilterInput = {
 export type ModelFantaScoreEntryConnection = {
   __typename: "ModelFantaScoreEntryConnection",
   items:  Array<FantaScoreEntry | null >,
+  nextToken?: string | null,
+};
+
+export type ModelRespFilterInput = {
+  id?: ModelIDInput | null,
+  firstName?: ModelStringInput | null,
+  lastName?: ModelStringInput | null,
+  and?: Array< ModelRespFilterInput | null > | null,
+  or?: Array< ModelRespFilterInput | null > | null,
+  not?: ModelRespFilterInput | null,
+};
+
+export type ModelRespConnection = {
+  __typename: "ModelRespConnection",
+  items:  Array<Resp | null >,
+  nextToken?: string | null,
+};
+
+export type ModelFantaRuleEntryRespFilterInput = {
+  id?: ModelIDInput | null,
+  date?: ModelStringInput | null,
+  and?: Array< ModelFantaRuleEntryRespFilterInput | null > | null,
+  or?: Array< ModelFantaRuleEntryRespFilterInput | null > | null,
+  not?: ModelFantaRuleEntryRespFilterInput | null,
+  fantaRuleEntryRespRuleId?: ModelIDInput | null,
+  fantaRuleEntryRespRespId?: ModelIDInput | null,
+};
+
+export type ModelFantaRuleEntryRespConnection = {
+  __typename: "ModelFantaRuleEntryRespConnection",
+  items:  Array<FantaRuleEntryResp | null >,
   nextToken?: string | null,
 };
 
@@ -397,6 +523,7 @@ export type ModelSubscriptionIntInput = {
 export type ModelSubscriptionFantaTeamFilterInput = {
   id?: ModelSubscriptionIDInput | null,
   name?: ModelSubscriptionStringInput | null,
+  ownerUserId?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionFantaTeamFilterInput | null > | null,
   or?: Array< ModelSubscriptionFantaTeamFilterInput | null > | null,
 };
@@ -407,8 +534,14 @@ export type ModelSubscriptionFantaRuleFilterInput = {
   description?: ModelSubscriptionStringInput | null,
   points?: ModelSubscriptionIntInput | null,
   pointDescription?: ModelSubscriptionStringInput | null,
+  isResp?: ModelSubscriptionBooleanInput | null,
   and?: Array< ModelSubscriptionFantaRuleFilterInput | null > | null,
   or?: Array< ModelSubscriptionFantaRuleFilterInput | null > | null,
+};
+
+export type ModelSubscriptionBooleanInput = {
+  ne?: boolean | null,
+  eq?: boolean | null,
 };
 
 export type ModelSubscriptionFantaScoreEntryFilterInput = {
@@ -416,6 +549,21 @@ export type ModelSubscriptionFantaScoreEntryFilterInput = {
   date?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionFantaScoreEntryFilterInput | null > | null,
   or?: Array< ModelSubscriptionFantaScoreEntryFilterInput | null > | null,
+};
+
+export type ModelSubscriptionRespFilterInput = {
+  id?: ModelSubscriptionIDInput | null,
+  firstName?: ModelSubscriptionStringInput | null,
+  lastName?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionRespFilterInput | null > | null,
+  or?: Array< ModelSubscriptionRespFilterInput | null > | null,
+};
+
+export type ModelSubscriptionFantaRuleEntryRespFilterInput = {
+  id?: ModelSubscriptionIDInput | null,
+  date?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionFantaRuleEntryRespFilterInput | null > | null,
+  or?: Array< ModelSubscriptionFantaRuleEntryRespFilterInput | null > | null,
 };
 
 export type ModelSubscriptionFantaTeamGroupsFilterInput = {
@@ -475,9 +623,19 @@ export type CreateGroupMutation = {
             createdAt: string,
             updatedAt: string,
           } | null,
+          resp?:  {
+            __typename: "Resp",
+            id: string,
+            firstName: string,
+            lastName: string,
+            createdAt: string,
+            updatedAt: string,
+          } | null,
+          ownerUserId: string,
           createdAt: string,
           updatedAt: string,
           fantaTeamLeaderGroupId?: string | null,
+          fantaTeamRespId?: string | null,
         },
         createdAt: string,
         updatedAt: string,
@@ -538,9 +696,19 @@ export type UpdateGroupMutation = {
             createdAt: string,
             updatedAt: string,
           } | null,
+          resp?:  {
+            __typename: "Resp",
+            id: string,
+            firstName: string,
+            lastName: string,
+            createdAt: string,
+            updatedAt: string,
+          } | null,
+          ownerUserId: string,
           createdAt: string,
           updatedAt: string,
           fantaTeamLeaderGroupId?: string | null,
+          fantaTeamRespId?: string | null,
         },
         createdAt: string,
         updatedAt: string,
@@ -601,9 +769,19 @@ export type DeleteGroupMutation = {
             createdAt: string,
             updatedAt: string,
           } | null,
+          resp?:  {
+            __typename: "Resp",
+            id: string,
+            firstName: string,
+            lastName: string,
+            createdAt: string,
+            updatedAt: string,
+          } | null,
+          ownerUserId: string,
           createdAt: string,
           updatedAt: string,
           fantaTeamLeaderGroupId?: string | null,
+          fantaTeamRespId?: string | null,
         },
         createdAt: string,
         updatedAt: string,
@@ -662,9 +840,19 @@ export type CreateFantaTeamMutation = {
             createdAt: string,
             updatedAt: string,
           } | null,
+          resp?:  {
+            __typename: "Resp",
+            id: string,
+            firstName: string,
+            lastName: string,
+            createdAt: string,
+            updatedAt: string,
+          } | null,
+          ownerUserId: string,
           createdAt: string,
           updatedAt: string,
           fantaTeamLeaderGroupId?: string | null,
+          fantaTeamRespId?: string | null,
         },
         createdAt: string,
         updatedAt: string,
@@ -697,9 +885,11 @@ export type CreateFantaTeamMutation = {
             __typename: "FantaTeam",
             id: string,
             name: string,
+            ownerUserId: string,
             createdAt: string,
             updatedAt: string,
             fantaTeamLeaderGroupId?: string | null,
+            fantaTeamRespId?: string | null,
           },
           createdAt: string,
           updatedAt: string,
@@ -709,9 +899,19 @@ export type CreateFantaTeamMutation = {
       createdAt: string,
       updatedAt: string,
     } | null,
+    resp?:  {
+      __typename: "Resp",
+      id: string,
+      firstName: string,
+      lastName: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    ownerUserId: string,
     createdAt: string,
     updatedAt: string,
     fantaTeamLeaderGroupId?: string | null,
+    fantaTeamRespId?: string | null,
   } | null,
 };
 
@@ -762,9 +962,19 @@ export type UpdateFantaTeamMutation = {
             createdAt: string,
             updatedAt: string,
           } | null,
+          resp?:  {
+            __typename: "Resp",
+            id: string,
+            firstName: string,
+            lastName: string,
+            createdAt: string,
+            updatedAt: string,
+          } | null,
+          ownerUserId: string,
           createdAt: string,
           updatedAt: string,
           fantaTeamLeaderGroupId?: string | null,
+          fantaTeamRespId?: string | null,
         },
         createdAt: string,
         updatedAt: string,
@@ -797,9 +1007,11 @@ export type UpdateFantaTeamMutation = {
             __typename: "FantaTeam",
             id: string,
             name: string,
+            ownerUserId: string,
             createdAt: string,
             updatedAt: string,
             fantaTeamLeaderGroupId?: string | null,
+            fantaTeamRespId?: string | null,
           },
           createdAt: string,
           updatedAt: string,
@@ -809,9 +1021,19 @@ export type UpdateFantaTeamMutation = {
       createdAt: string,
       updatedAt: string,
     } | null,
+    resp?:  {
+      __typename: "Resp",
+      id: string,
+      firstName: string,
+      lastName: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    ownerUserId: string,
     createdAt: string,
     updatedAt: string,
     fantaTeamLeaderGroupId?: string | null,
+    fantaTeamRespId?: string | null,
   } | null,
 };
 
@@ -862,9 +1084,19 @@ export type DeleteFantaTeamMutation = {
             createdAt: string,
             updatedAt: string,
           } | null,
+          resp?:  {
+            __typename: "Resp",
+            id: string,
+            firstName: string,
+            lastName: string,
+            createdAt: string,
+            updatedAt: string,
+          } | null,
+          ownerUserId: string,
           createdAt: string,
           updatedAt: string,
           fantaTeamLeaderGroupId?: string | null,
+          fantaTeamRespId?: string | null,
         },
         createdAt: string,
         updatedAt: string,
@@ -897,9 +1129,11 @@ export type DeleteFantaTeamMutation = {
             __typename: "FantaTeam",
             id: string,
             name: string,
+            ownerUserId: string,
             createdAt: string,
             updatedAt: string,
             fantaTeamLeaderGroupId?: string | null,
+            fantaTeamRespId?: string | null,
           },
           createdAt: string,
           updatedAt: string,
@@ -909,9 +1143,19 @@ export type DeleteFantaTeamMutation = {
       createdAt: string,
       updatedAt: string,
     } | null,
+    resp?:  {
+      __typename: "Resp",
+      id: string,
+      firstName: string,
+      lastName: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    ownerUserId: string,
     createdAt: string,
     updatedAt: string,
     fantaTeamLeaderGroupId?: string | null,
+    fantaTeamRespId?: string | null,
   } | null,
 };
 
@@ -928,6 +1172,7 @@ export type CreateFantaRuleMutation = {
     description: string,
     points: number,
     pointDescription: string,
+    isResp: boolean,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -946,6 +1191,7 @@ export type UpdateFantaRuleMutation = {
     description: string,
     points: number,
     pointDescription: string,
+    isResp: boolean,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -964,6 +1210,7 @@ export type DeleteFantaRuleMutation = {
     description: string,
     points: number,
     pointDescription: string,
+    isResp: boolean,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -985,6 +1232,7 @@ export type CreateFantaScoreEntryMutation = {
       description: string,
       points: number,
       pointDescription: string,
+      isResp: boolean,
       createdAt: string,
       updatedAt: string,
     },
@@ -1014,9 +1262,11 @@ export type CreateFantaScoreEntryMutation = {
             __typename: "FantaTeam",
             id: string,
             name: string,
+            ownerUserId: string,
             createdAt: string,
             updatedAt: string,
             fantaTeamLeaderGroupId?: string | null,
+            fantaTeamRespId?: string | null,
           },
           createdAt: string,
           updatedAt: string,
@@ -1050,6 +1300,7 @@ export type UpdateFantaScoreEntryMutation = {
       description: string,
       points: number,
       pointDescription: string,
+      isResp: boolean,
       createdAt: string,
       updatedAt: string,
     },
@@ -1079,9 +1330,11 @@ export type UpdateFantaScoreEntryMutation = {
             __typename: "FantaTeam",
             id: string,
             name: string,
+            ownerUserId: string,
             createdAt: string,
             updatedAt: string,
             fantaTeamLeaderGroupId?: string | null,
+            fantaTeamRespId?: string | null,
           },
           createdAt: string,
           updatedAt: string,
@@ -1115,6 +1368,7 @@ export type DeleteFantaScoreEntryMutation = {
       description: string,
       points: number,
       pointDescription: string,
+      isResp: boolean,
       createdAt: string,
       updatedAt: string,
     },
@@ -1144,9 +1398,11 @@ export type DeleteFantaScoreEntryMutation = {
             __typename: "FantaTeam",
             id: string,
             name: string,
+            ownerUserId: string,
             createdAt: string,
             updatedAt: string,
             fantaTeamLeaderGroupId?: string | null,
+            fantaTeamRespId?: string | null,
           },
           createdAt: string,
           updatedAt: string,
@@ -1161,6 +1417,162 @@ export type DeleteFantaScoreEntryMutation = {
     updatedAt: string,
     fantaScoreEntryRuleId: string,
     fantaScoreEntryGroupId: string,
+  } | null,
+};
+
+export type CreateRespMutationVariables = {
+  input: CreateRespInput,
+  condition?: ModelRespConditionInput | null,
+};
+
+export type CreateRespMutation = {
+  createResp?:  {
+    __typename: "Resp",
+    id: string,
+    firstName: string,
+    lastName: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateRespMutationVariables = {
+  input: UpdateRespInput,
+  condition?: ModelRespConditionInput | null,
+};
+
+export type UpdateRespMutation = {
+  updateResp?:  {
+    __typename: "Resp",
+    id: string,
+    firstName: string,
+    lastName: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteRespMutationVariables = {
+  input: DeleteRespInput,
+  condition?: ModelRespConditionInput | null,
+};
+
+export type DeleteRespMutation = {
+  deleteResp?:  {
+    __typename: "Resp",
+    id: string,
+    firstName: string,
+    lastName: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type CreateFantaRuleEntryRespMutationVariables = {
+  input: CreateFantaRuleEntryRespInput,
+  condition?: ModelFantaRuleEntryRespConditionInput | null,
+};
+
+export type CreateFantaRuleEntryRespMutation = {
+  createFantaRuleEntryResp?:  {
+    __typename: "FantaRuleEntryResp",
+    id: string,
+    rule:  {
+      __typename: "FantaRule",
+      id: string,
+      title: string,
+      description: string,
+      points: number,
+      pointDescription: string,
+      isResp: boolean,
+      createdAt: string,
+      updatedAt: string,
+    },
+    resp:  {
+      __typename: "Resp",
+      id: string,
+      firstName: string,
+      lastName: string,
+      createdAt: string,
+      updatedAt: string,
+    },
+    date: string,
+    createdAt: string,
+    updatedAt: string,
+    fantaRuleEntryRespRuleId: string,
+    fantaRuleEntryRespRespId: string,
+  } | null,
+};
+
+export type UpdateFantaRuleEntryRespMutationVariables = {
+  input: UpdateFantaRuleEntryRespInput,
+  condition?: ModelFantaRuleEntryRespConditionInput | null,
+};
+
+export type UpdateFantaRuleEntryRespMutation = {
+  updateFantaRuleEntryResp?:  {
+    __typename: "FantaRuleEntryResp",
+    id: string,
+    rule:  {
+      __typename: "FantaRule",
+      id: string,
+      title: string,
+      description: string,
+      points: number,
+      pointDescription: string,
+      isResp: boolean,
+      createdAt: string,
+      updatedAt: string,
+    },
+    resp:  {
+      __typename: "Resp",
+      id: string,
+      firstName: string,
+      lastName: string,
+      createdAt: string,
+      updatedAt: string,
+    },
+    date: string,
+    createdAt: string,
+    updatedAt: string,
+    fantaRuleEntryRespRuleId: string,
+    fantaRuleEntryRespRespId: string,
+  } | null,
+};
+
+export type DeleteFantaRuleEntryRespMutationVariables = {
+  input: DeleteFantaRuleEntryRespInput,
+  condition?: ModelFantaRuleEntryRespConditionInput | null,
+};
+
+export type DeleteFantaRuleEntryRespMutation = {
+  deleteFantaRuleEntryResp?:  {
+    __typename: "FantaRuleEntryResp",
+    id: string,
+    rule:  {
+      __typename: "FantaRule",
+      id: string,
+      title: string,
+      description: string,
+      points: number,
+      pointDescription: string,
+      isResp: boolean,
+      createdAt: string,
+      updatedAt: string,
+    },
+    resp:  {
+      __typename: "Resp",
+      id: string,
+      firstName: string,
+      lastName: string,
+      createdAt: string,
+      updatedAt: string,
+    },
+    date: string,
+    createdAt: string,
+    updatedAt: string,
+    fantaRuleEntryRespRuleId: string,
+    fantaRuleEntryRespRespId: string,
   } | null,
 };
 
@@ -1201,9 +1613,11 @@ export type CreateFantaTeamGroupsMutation = {
             __typename: "FantaTeam",
             id: string,
             name: string,
+            ownerUserId: string,
             createdAt: string,
             updatedAt: string,
             fantaTeamLeaderGroupId?: string | null,
+            fantaTeamRespId?: string | null,
           },
           createdAt: string,
           updatedAt: string,
@@ -1237,9 +1651,11 @@ export type CreateFantaTeamGroupsMutation = {
             __typename: "FantaTeam",
             id: string,
             name: string,
+            ownerUserId: string,
             createdAt: string,
             updatedAt: string,
             fantaTeamLeaderGroupId?: string | null,
+            fantaTeamRespId?: string | null,
           },
           createdAt: string,
           updatedAt: string,
@@ -1267,9 +1683,19 @@ export type CreateFantaTeamGroupsMutation = {
         createdAt: string,
         updatedAt: string,
       } | null,
+      resp?:  {
+        __typename: "Resp",
+        id: string,
+        firstName: string,
+        lastName: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
+      ownerUserId: string,
       createdAt: string,
       updatedAt: string,
       fantaTeamLeaderGroupId?: string | null,
+      fantaTeamRespId?: string | null,
     },
     createdAt: string,
     updatedAt: string,
@@ -1313,9 +1739,11 @@ export type UpdateFantaTeamGroupsMutation = {
             __typename: "FantaTeam",
             id: string,
             name: string,
+            ownerUserId: string,
             createdAt: string,
             updatedAt: string,
             fantaTeamLeaderGroupId?: string | null,
+            fantaTeamRespId?: string | null,
           },
           createdAt: string,
           updatedAt: string,
@@ -1349,9 +1777,11 @@ export type UpdateFantaTeamGroupsMutation = {
             __typename: "FantaTeam",
             id: string,
             name: string,
+            ownerUserId: string,
             createdAt: string,
             updatedAt: string,
             fantaTeamLeaderGroupId?: string | null,
+            fantaTeamRespId?: string | null,
           },
           createdAt: string,
           updatedAt: string,
@@ -1379,9 +1809,19 @@ export type UpdateFantaTeamGroupsMutation = {
         createdAt: string,
         updatedAt: string,
       } | null,
+      resp?:  {
+        __typename: "Resp",
+        id: string,
+        firstName: string,
+        lastName: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
+      ownerUserId: string,
       createdAt: string,
       updatedAt: string,
       fantaTeamLeaderGroupId?: string | null,
+      fantaTeamRespId?: string | null,
     },
     createdAt: string,
     updatedAt: string,
@@ -1425,9 +1865,11 @@ export type DeleteFantaTeamGroupsMutation = {
             __typename: "FantaTeam",
             id: string,
             name: string,
+            ownerUserId: string,
             createdAt: string,
             updatedAt: string,
             fantaTeamLeaderGroupId?: string | null,
+            fantaTeamRespId?: string | null,
           },
           createdAt: string,
           updatedAt: string,
@@ -1461,9 +1903,11 @@ export type DeleteFantaTeamGroupsMutation = {
             __typename: "FantaTeam",
             id: string,
             name: string,
+            ownerUserId: string,
             createdAt: string,
             updatedAt: string,
             fantaTeamLeaderGroupId?: string | null,
+            fantaTeamRespId?: string | null,
           },
           createdAt: string,
           updatedAt: string,
@@ -1491,9 +1935,19 @@ export type DeleteFantaTeamGroupsMutation = {
         createdAt: string,
         updatedAt: string,
       } | null,
+      resp?:  {
+        __typename: "Resp",
+        id: string,
+        firstName: string,
+        lastName: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
+      ownerUserId: string,
       createdAt: string,
       updatedAt: string,
       fantaTeamLeaderGroupId?: string | null,
+      fantaTeamRespId?: string | null,
     },
     createdAt: string,
     updatedAt: string,
@@ -1548,9 +2002,19 @@ export type GetGroupQuery = {
             createdAt: string,
             updatedAt: string,
           } | null,
+          resp?:  {
+            __typename: "Resp",
+            id: string,
+            firstName: string,
+            lastName: string,
+            createdAt: string,
+            updatedAt: string,
+          } | null,
+          ownerUserId: string,
           createdAt: string,
           updatedAt: string,
           fantaTeamLeaderGroupId?: string | null,
+          fantaTeamRespId?: string | null,
         },
         createdAt: string,
         updatedAt: string,
@@ -1597,9 +2061,11 @@ export type ListGroupsQuery = {
             __typename: "FantaTeam",
             id: string,
             name: string,
+            ownerUserId: string,
             createdAt: string,
             updatedAt: string,
             fantaTeamLeaderGroupId?: string | null,
+            fantaTeamRespId?: string | null,
           },
           createdAt: string,
           updatedAt: string,
@@ -1659,9 +2125,19 @@ export type GetFantaTeamQuery = {
             createdAt: string,
             updatedAt: string,
           } | null,
+          resp?:  {
+            __typename: "Resp",
+            id: string,
+            firstName: string,
+            lastName: string,
+            createdAt: string,
+            updatedAt: string,
+          } | null,
+          ownerUserId: string,
           createdAt: string,
           updatedAt: string,
           fantaTeamLeaderGroupId?: string | null,
+          fantaTeamRespId?: string | null,
         },
         createdAt: string,
         updatedAt: string,
@@ -1694,9 +2170,11 @@ export type GetFantaTeamQuery = {
             __typename: "FantaTeam",
             id: string,
             name: string,
+            ownerUserId: string,
             createdAt: string,
             updatedAt: string,
             fantaTeamLeaderGroupId?: string | null,
+            fantaTeamRespId?: string | null,
           },
           createdAt: string,
           updatedAt: string,
@@ -1706,9 +2184,19 @@ export type GetFantaTeamQuery = {
       createdAt: string,
       updatedAt: string,
     } | null,
+    resp?:  {
+      __typename: "Resp",
+      id: string,
+      firstName: string,
+      lastName: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    ownerUserId: string,
     createdAt: string,
     updatedAt: string,
     fantaTeamLeaderGroupId?: string | null,
+    fantaTeamRespId?: string | null,
   } | null,
 };
 
@@ -1745,9 +2233,11 @@ export type ListFantaTeamsQuery = {
             __typename: "FantaTeam",
             id: string,
             name: string,
+            ownerUserId: string,
             createdAt: string,
             updatedAt: string,
             fantaTeamLeaderGroupId?: string | null,
+            fantaTeamRespId?: string | null,
           },
           createdAt: string,
           updatedAt: string,
@@ -1775,9 +2265,19 @@ export type ListFantaTeamsQuery = {
         createdAt: string,
         updatedAt: string,
       } | null,
+      resp?:  {
+        __typename: "Resp",
+        id: string,
+        firstName: string,
+        lastName: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
+      ownerUserId: string,
       createdAt: string,
       updatedAt: string,
       fantaTeamLeaderGroupId?: string | null,
+      fantaTeamRespId?: string | null,
     } | null >,
     nextToken?: string | null,
   } | null,
@@ -1795,6 +2295,7 @@ export type GetFantaRuleQuery = {
     description: string,
     points: number,
     pointDescription: string,
+    isResp: boolean,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -1816,6 +2317,7 @@ export type ListFantaRulesQuery = {
       description: string,
       points: number,
       pointDescription: string,
+      isResp: boolean,
       createdAt: string,
       updatedAt: string,
     } | null >,
@@ -1838,6 +2340,7 @@ export type GetFantaScoreEntryQuery = {
       description: string,
       points: number,
       pointDescription: string,
+      isResp: boolean,
       createdAt: string,
       updatedAt: string,
     },
@@ -1867,9 +2370,11 @@ export type GetFantaScoreEntryQuery = {
             __typename: "FantaTeam",
             id: string,
             name: string,
+            ownerUserId: string,
             createdAt: string,
             updatedAt: string,
             fantaTeamLeaderGroupId?: string | null,
+            fantaTeamRespId?: string | null,
           },
           createdAt: string,
           updatedAt: string,
@@ -1906,6 +2411,7 @@ export type ListFantaScoreEntriesQuery = {
         description: string,
         points: number,
         pointDescription: string,
+        isResp: boolean,
         createdAt: string,
         updatedAt: string,
       },
@@ -1935,6 +2441,118 @@ export type ListFantaScoreEntriesQuery = {
       updatedAt: string,
       fantaScoreEntryRuleId: string,
       fantaScoreEntryGroupId: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type GetRespQueryVariables = {
+  id: string,
+};
+
+export type GetRespQuery = {
+  getResp?:  {
+    __typename: "Resp",
+    id: string,
+    firstName: string,
+    lastName: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type ListRespsQueryVariables = {
+  filter?: ModelRespFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListRespsQuery = {
+  listResps?:  {
+    __typename: "ModelRespConnection",
+    items:  Array< {
+      __typename: "Resp",
+      id: string,
+      firstName: string,
+      lastName: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type GetFantaRuleEntryRespQueryVariables = {
+  id: string,
+};
+
+export type GetFantaRuleEntryRespQuery = {
+  getFantaRuleEntryResp?:  {
+    __typename: "FantaRuleEntryResp",
+    id: string,
+    rule:  {
+      __typename: "FantaRule",
+      id: string,
+      title: string,
+      description: string,
+      points: number,
+      pointDescription: string,
+      isResp: boolean,
+      createdAt: string,
+      updatedAt: string,
+    },
+    resp:  {
+      __typename: "Resp",
+      id: string,
+      firstName: string,
+      lastName: string,
+      createdAt: string,
+      updatedAt: string,
+    },
+    date: string,
+    createdAt: string,
+    updatedAt: string,
+    fantaRuleEntryRespRuleId: string,
+    fantaRuleEntryRespRespId: string,
+  } | null,
+};
+
+export type ListFantaRuleEntryRespsQueryVariables = {
+  filter?: ModelFantaRuleEntryRespFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListFantaRuleEntryRespsQuery = {
+  listFantaRuleEntryResps?:  {
+    __typename: "ModelFantaRuleEntryRespConnection",
+    items:  Array< {
+      __typename: "FantaRuleEntryResp",
+      id: string,
+      rule:  {
+        __typename: "FantaRule",
+        id: string,
+        title: string,
+        description: string,
+        points: number,
+        pointDescription: string,
+        isResp: boolean,
+        createdAt: string,
+        updatedAt: string,
+      },
+      resp:  {
+        __typename: "Resp",
+        id: string,
+        firstName: string,
+        lastName: string,
+        createdAt: string,
+        updatedAt: string,
+      },
+      date: string,
+      createdAt: string,
+      updatedAt: string,
+      fantaRuleEntryRespRuleId: string,
+      fantaRuleEntryRespRespId: string,
     } | null >,
     nextToken?: string | null,
   } | null,
@@ -1976,9 +2594,11 @@ export type GetFantaTeamGroupsQuery = {
             __typename: "FantaTeam",
             id: string,
             name: string,
+            ownerUserId: string,
             createdAt: string,
             updatedAt: string,
             fantaTeamLeaderGroupId?: string | null,
+            fantaTeamRespId?: string | null,
           },
           createdAt: string,
           updatedAt: string,
@@ -2012,9 +2632,11 @@ export type GetFantaTeamGroupsQuery = {
             __typename: "FantaTeam",
             id: string,
             name: string,
+            ownerUserId: string,
             createdAt: string,
             updatedAt: string,
             fantaTeamLeaderGroupId?: string | null,
+            fantaTeamRespId?: string | null,
           },
           createdAt: string,
           updatedAt: string,
@@ -2042,9 +2664,19 @@ export type GetFantaTeamGroupsQuery = {
         createdAt: string,
         updatedAt: string,
       } | null,
+      resp?:  {
+        __typename: "Resp",
+        id: string,
+        firstName: string,
+        lastName: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
+      ownerUserId: string,
       createdAt: string,
       updatedAt: string,
       fantaTeamLeaderGroupId?: string | null,
+      fantaTeamRespId?: string | null,
     },
     createdAt: string,
     updatedAt: string,
@@ -2115,9 +2747,19 @@ export type ListFantaTeamGroupsQuery = {
           createdAt: string,
           updatedAt: string,
         } | null,
+        resp?:  {
+          __typename: "Resp",
+          id: string,
+          firstName: string,
+          lastName: string,
+          createdAt: string,
+          updatedAt: string,
+        } | null,
+        ownerUserId: string,
         createdAt: string,
         updatedAt: string,
         fantaTeamLeaderGroupId?: string | null,
+        fantaTeamRespId?: string | null,
       },
       createdAt: string,
       updatedAt: string,
@@ -2192,9 +2834,19 @@ export type FantaTeamGroupsByGroupIdQuery = {
           createdAt: string,
           updatedAt: string,
         } | null,
+        resp?:  {
+          __typename: "Resp",
+          id: string,
+          firstName: string,
+          lastName: string,
+          createdAt: string,
+          updatedAt: string,
+        } | null,
+        ownerUserId: string,
         createdAt: string,
         updatedAt: string,
         fantaTeamLeaderGroupId?: string | null,
+        fantaTeamRespId?: string | null,
       },
       createdAt: string,
       updatedAt: string,
@@ -2269,9 +2921,19 @@ export type FantaTeamGroupsByFantaTeamIdQuery = {
           createdAt: string,
           updatedAt: string,
         } | null,
+        resp?:  {
+          __typename: "Resp",
+          id: string,
+          firstName: string,
+          lastName: string,
+          createdAt: string,
+          updatedAt: string,
+        } | null,
+        ownerUserId: string,
         createdAt: string,
         updatedAt: string,
         fantaTeamLeaderGroupId?: string | null,
+        fantaTeamRespId?: string | null,
       },
       createdAt: string,
       updatedAt: string,
@@ -2328,9 +2990,19 @@ export type OnCreateGroupSubscription = {
             createdAt: string,
             updatedAt: string,
           } | null,
+          resp?:  {
+            __typename: "Resp",
+            id: string,
+            firstName: string,
+            lastName: string,
+            createdAt: string,
+            updatedAt: string,
+          } | null,
+          ownerUserId: string,
           createdAt: string,
           updatedAt: string,
           fantaTeamLeaderGroupId?: string | null,
+          fantaTeamRespId?: string | null,
         },
         createdAt: string,
         updatedAt: string,
@@ -2390,9 +3062,19 @@ export type OnUpdateGroupSubscription = {
             createdAt: string,
             updatedAt: string,
           } | null,
+          resp?:  {
+            __typename: "Resp",
+            id: string,
+            firstName: string,
+            lastName: string,
+            createdAt: string,
+            updatedAt: string,
+          } | null,
+          ownerUserId: string,
           createdAt: string,
           updatedAt: string,
           fantaTeamLeaderGroupId?: string | null,
+          fantaTeamRespId?: string | null,
         },
         createdAt: string,
         updatedAt: string,
@@ -2452,9 +3134,19 @@ export type OnDeleteGroupSubscription = {
             createdAt: string,
             updatedAt: string,
           } | null,
+          resp?:  {
+            __typename: "Resp",
+            id: string,
+            firstName: string,
+            lastName: string,
+            createdAt: string,
+            updatedAt: string,
+          } | null,
+          ownerUserId: string,
           createdAt: string,
           updatedAt: string,
           fantaTeamLeaderGroupId?: string | null,
+          fantaTeamRespId?: string | null,
         },
         createdAt: string,
         updatedAt: string,
@@ -2512,9 +3204,19 @@ export type OnCreateFantaTeamSubscription = {
             createdAt: string,
             updatedAt: string,
           } | null,
+          resp?:  {
+            __typename: "Resp",
+            id: string,
+            firstName: string,
+            lastName: string,
+            createdAt: string,
+            updatedAt: string,
+          } | null,
+          ownerUserId: string,
           createdAt: string,
           updatedAt: string,
           fantaTeamLeaderGroupId?: string | null,
+          fantaTeamRespId?: string | null,
         },
         createdAt: string,
         updatedAt: string,
@@ -2547,9 +3249,11 @@ export type OnCreateFantaTeamSubscription = {
             __typename: "FantaTeam",
             id: string,
             name: string,
+            ownerUserId: string,
             createdAt: string,
             updatedAt: string,
             fantaTeamLeaderGroupId?: string | null,
+            fantaTeamRespId?: string | null,
           },
           createdAt: string,
           updatedAt: string,
@@ -2559,9 +3263,19 @@ export type OnCreateFantaTeamSubscription = {
       createdAt: string,
       updatedAt: string,
     } | null,
+    resp?:  {
+      __typename: "Resp",
+      id: string,
+      firstName: string,
+      lastName: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    ownerUserId: string,
     createdAt: string,
     updatedAt: string,
     fantaTeamLeaderGroupId?: string | null,
+    fantaTeamRespId?: string | null,
   } | null,
 };
 
@@ -2611,9 +3325,19 @@ export type OnUpdateFantaTeamSubscription = {
             createdAt: string,
             updatedAt: string,
           } | null,
+          resp?:  {
+            __typename: "Resp",
+            id: string,
+            firstName: string,
+            lastName: string,
+            createdAt: string,
+            updatedAt: string,
+          } | null,
+          ownerUserId: string,
           createdAt: string,
           updatedAt: string,
           fantaTeamLeaderGroupId?: string | null,
+          fantaTeamRespId?: string | null,
         },
         createdAt: string,
         updatedAt: string,
@@ -2646,9 +3370,11 @@ export type OnUpdateFantaTeamSubscription = {
             __typename: "FantaTeam",
             id: string,
             name: string,
+            ownerUserId: string,
             createdAt: string,
             updatedAt: string,
             fantaTeamLeaderGroupId?: string | null,
+            fantaTeamRespId?: string | null,
           },
           createdAt: string,
           updatedAt: string,
@@ -2658,9 +3384,19 @@ export type OnUpdateFantaTeamSubscription = {
       createdAt: string,
       updatedAt: string,
     } | null,
+    resp?:  {
+      __typename: "Resp",
+      id: string,
+      firstName: string,
+      lastName: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    ownerUserId: string,
     createdAt: string,
     updatedAt: string,
     fantaTeamLeaderGroupId?: string | null,
+    fantaTeamRespId?: string | null,
   } | null,
 };
 
@@ -2710,9 +3446,19 @@ export type OnDeleteFantaTeamSubscription = {
             createdAt: string,
             updatedAt: string,
           } | null,
+          resp?:  {
+            __typename: "Resp",
+            id: string,
+            firstName: string,
+            lastName: string,
+            createdAt: string,
+            updatedAt: string,
+          } | null,
+          ownerUserId: string,
           createdAt: string,
           updatedAt: string,
           fantaTeamLeaderGroupId?: string | null,
+          fantaTeamRespId?: string | null,
         },
         createdAt: string,
         updatedAt: string,
@@ -2745,9 +3491,11 @@ export type OnDeleteFantaTeamSubscription = {
             __typename: "FantaTeam",
             id: string,
             name: string,
+            ownerUserId: string,
             createdAt: string,
             updatedAt: string,
             fantaTeamLeaderGroupId?: string | null,
+            fantaTeamRespId?: string | null,
           },
           createdAt: string,
           updatedAt: string,
@@ -2757,9 +3505,19 @@ export type OnDeleteFantaTeamSubscription = {
       createdAt: string,
       updatedAt: string,
     } | null,
+    resp?:  {
+      __typename: "Resp",
+      id: string,
+      firstName: string,
+      lastName: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    ownerUserId: string,
     createdAt: string,
     updatedAt: string,
     fantaTeamLeaderGroupId?: string | null,
+    fantaTeamRespId?: string | null,
   } | null,
 };
 
@@ -2775,6 +3533,7 @@ export type OnCreateFantaRuleSubscription = {
     description: string,
     points: number,
     pointDescription: string,
+    isResp: boolean,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -2792,6 +3551,7 @@ export type OnUpdateFantaRuleSubscription = {
     description: string,
     points: number,
     pointDescription: string,
+    isResp: boolean,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -2809,6 +3569,7 @@ export type OnDeleteFantaRuleSubscription = {
     description: string,
     points: number,
     pointDescription: string,
+    isResp: boolean,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -2829,6 +3590,7 @@ export type OnCreateFantaScoreEntrySubscription = {
       description: string,
       points: number,
       pointDescription: string,
+      isResp: boolean,
       createdAt: string,
       updatedAt: string,
     },
@@ -2858,9 +3620,11 @@ export type OnCreateFantaScoreEntrySubscription = {
             __typename: "FantaTeam",
             id: string,
             name: string,
+            ownerUserId: string,
             createdAt: string,
             updatedAt: string,
             fantaTeamLeaderGroupId?: string | null,
+            fantaTeamRespId?: string | null,
           },
           createdAt: string,
           updatedAt: string,
@@ -2893,6 +3657,7 @@ export type OnUpdateFantaScoreEntrySubscription = {
       description: string,
       points: number,
       pointDescription: string,
+      isResp: boolean,
       createdAt: string,
       updatedAt: string,
     },
@@ -2922,9 +3687,11 @@ export type OnUpdateFantaScoreEntrySubscription = {
             __typename: "FantaTeam",
             id: string,
             name: string,
+            ownerUserId: string,
             createdAt: string,
             updatedAt: string,
             fantaTeamLeaderGroupId?: string | null,
+            fantaTeamRespId?: string | null,
           },
           createdAt: string,
           updatedAt: string,
@@ -2957,6 +3724,7 @@ export type OnDeleteFantaScoreEntrySubscription = {
       description: string,
       points: number,
       pointDescription: string,
+      isResp: boolean,
       createdAt: string,
       updatedAt: string,
     },
@@ -2986,9 +3754,11 @@ export type OnDeleteFantaScoreEntrySubscription = {
             __typename: "FantaTeam",
             id: string,
             name: string,
+            ownerUserId: string,
             createdAt: string,
             updatedAt: string,
             fantaTeamLeaderGroupId?: string | null,
+            fantaTeamRespId?: string | null,
           },
           createdAt: string,
           updatedAt: string,
@@ -3003,6 +3773,156 @@ export type OnDeleteFantaScoreEntrySubscription = {
     updatedAt: string,
     fantaScoreEntryRuleId: string,
     fantaScoreEntryGroupId: string,
+  } | null,
+};
+
+export type OnCreateRespSubscriptionVariables = {
+  filter?: ModelSubscriptionRespFilterInput | null,
+};
+
+export type OnCreateRespSubscription = {
+  onCreateResp?:  {
+    __typename: "Resp",
+    id: string,
+    firstName: string,
+    lastName: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateRespSubscriptionVariables = {
+  filter?: ModelSubscriptionRespFilterInput | null,
+};
+
+export type OnUpdateRespSubscription = {
+  onUpdateResp?:  {
+    __typename: "Resp",
+    id: string,
+    firstName: string,
+    lastName: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeleteRespSubscriptionVariables = {
+  filter?: ModelSubscriptionRespFilterInput | null,
+};
+
+export type OnDeleteRespSubscription = {
+  onDeleteResp?:  {
+    __typename: "Resp",
+    id: string,
+    firstName: string,
+    lastName: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnCreateFantaRuleEntryRespSubscriptionVariables = {
+  filter?: ModelSubscriptionFantaRuleEntryRespFilterInput | null,
+};
+
+export type OnCreateFantaRuleEntryRespSubscription = {
+  onCreateFantaRuleEntryResp?:  {
+    __typename: "FantaRuleEntryResp",
+    id: string,
+    rule:  {
+      __typename: "FantaRule",
+      id: string,
+      title: string,
+      description: string,
+      points: number,
+      pointDescription: string,
+      isResp: boolean,
+      createdAt: string,
+      updatedAt: string,
+    },
+    resp:  {
+      __typename: "Resp",
+      id: string,
+      firstName: string,
+      lastName: string,
+      createdAt: string,
+      updatedAt: string,
+    },
+    date: string,
+    createdAt: string,
+    updatedAt: string,
+    fantaRuleEntryRespRuleId: string,
+    fantaRuleEntryRespRespId: string,
+  } | null,
+};
+
+export type OnUpdateFantaRuleEntryRespSubscriptionVariables = {
+  filter?: ModelSubscriptionFantaRuleEntryRespFilterInput | null,
+};
+
+export type OnUpdateFantaRuleEntryRespSubscription = {
+  onUpdateFantaRuleEntryResp?:  {
+    __typename: "FantaRuleEntryResp",
+    id: string,
+    rule:  {
+      __typename: "FantaRule",
+      id: string,
+      title: string,
+      description: string,
+      points: number,
+      pointDescription: string,
+      isResp: boolean,
+      createdAt: string,
+      updatedAt: string,
+    },
+    resp:  {
+      __typename: "Resp",
+      id: string,
+      firstName: string,
+      lastName: string,
+      createdAt: string,
+      updatedAt: string,
+    },
+    date: string,
+    createdAt: string,
+    updatedAt: string,
+    fantaRuleEntryRespRuleId: string,
+    fantaRuleEntryRespRespId: string,
+  } | null,
+};
+
+export type OnDeleteFantaRuleEntryRespSubscriptionVariables = {
+  filter?: ModelSubscriptionFantaRuleEntryRespFilterInput | null,
+};
+
+export type OnDeleteFantaRuleEntryRespSubscription = {
+  onDeleteFantaRuleEntryResp?:  {
+    __typename: "FantaRuleEntryResp",
+    id: string,
+    rule:  {
+      __typename: "FantaRule",
+      id: string,
+      title: string,
+      description: string,
+      points: number,
+      pointDescription: string,
+      isResp: boolean,
+      createdAt: string,
+      updatedAt: string,
+    },
+    resp:  {
+      __typename: "Resp",
+      id: string,
+      firstName: string,
+      lastName: string,
+      createdAt: string,
+      updatedAt: string,
+    },
+    date: string,
+    createdAt: string,
+    updatedAt: string,
+    fantaRuleEntryRespRuleId: string,
+    fantaRuleEntryRespRespId: string,
   } | null,
 };
 
@@ -3042,9 +3962,11 @@ export type OnCreateFantaTeamGroupsSubscription = {
             __typename: "FantaTeam",
             id: string,
             name: string,
+            ownerUserId: string,
             createdAt: string,
             updatedAt: string,
             fantaTeamLeaderGroupId?: string | null,
+            fantaTeamRespId?: string | null,
           },
           createdAt: string,
           updatedAt: string,
@@ -3078,9 +4000,11 @@ export type OnCreateFantaTeamGroupsSubscription = {
             __typename: "FantaTeam",
             id: string,
             name: string,
+            ownerUserId: string,
             createdAt: string,
             updatedAt: string,
             fantaTeamLeaderGroupId?: string | null,
+            fantaTeamRespId?: string | null,
           },
           createdAt: string,
           updatedAt: string,
@@ -3108,9 +4032,19 @@ export type OnCreateFantaTeamGroupsSubscription = {
         createdAt: string,
         updatedAt: string,
       } | null,
+      resp?:  {
+        __typename: "Resp",
+        id: string,
+        firstName: string,
+        lastName: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
+      ownerUserId: string,
       createdAt: string,
       updatedAt: string,
       fantaTeamLeaderGroupId?: string | null,
+      fantaTeamRespId?: string | null,
     },
     createdAt: string,
     updatedAt: string,
@@ -3153,9 +4087,11 @@ export type OnUpdateFantaTeamGroupsSubscription = {
             __typename: "FantaTeam",
             id: string,
             name: string,
+            ownerUserId: string,
             createdAt: string,
             updatedAt: string,
             fantaTeamLeaderGroupId?: string | null,
+            fantaTeamRespId?: string | null,
           },
           createdAt: string,
           updatedAt: string,
@@ -3189,9 +4125,11 @@ export type OnUpdateFantaTeamGroupsSubscription = {
             __typename: "FantaTeam",
             id: string,
             name: string,
+            ownerUserId: string,
             createdAt: string,
             updatedAt: string,
             fantaTeamLeaderGroupId?: string | null,
+            fantaTeamRespId?: string | null,
           },
           createdAt: string,
           updatedAt: string,
@@ -3219,9 +4157,19 @@ export type OnUpdateFantaTeamGroupsSubscription = {
         createdAt: string,
         updatedAt: string,
       } | null,
+      resp?:  {
+        __typename: "Resp",
+        id: string,
+        firstName: string,
+        lastName: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
+      ownerUserId: string,
       createdAt: string,
       updatedAt: string,
       fantaTeamLeaderGroupId?: string | null,
+      fantaTeamRespId?: string | null,
     },
     createdAt: string,
     updatedAt: string,
@@ -3264,9 +4212,11 @@ export type OnDeleteFantaTeamGroupsSubscription = {
             __typename: "FantaTeam",
             id: string,
             name: string,
+            ownerUserId: string,
             createdAt: string,
             updatedAt: string,
             fantaTeamLeaderGroupId?: string | null,
+            fantaTeamRespId?: string | null,
           },
           createdAt: string,
           updatedAt: string,
@@ -3300,9 +4250,11 @@ export type OnDeleteFantaTeamGroupsSubscription = {
             __typename: "FantaTeam",
             id: string,
             name: string,
+            ownerUserId: string,
             createdAt: string,
             updatedAt: string,
             fantaTeamLeaderGroupId?: string | null,
+            fantaTeamRespId?: string | null,
           },
           createdAt: string,
           updatedAt: string,
@@ -3330,9 +4282,19 @@ export type OnDeleteFantaTeamGroupsSubscription = {
         createdAt: string,
         updatedAt: string,
       } | null,
+      resp?:  {
+        __typename: "Resp",
+        id: string,
+        firstName: string,
+        lastName: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
+      ownerUserId: string,
       createdAt: string,
       updatedAt: string,
       fantaTeamLeaderGroupId?: string | null,
+      fantaTeamRespId?: string | null,
     },
     createdAt: string,
     updatedAt: string,

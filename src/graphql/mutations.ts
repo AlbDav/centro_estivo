@@ -857,6 +857,7 @@ export const createFantaTeamGroups = /* GraphQL */ `mutation CreateFantaTeamGrou
         updatedAt
         __typename
       }
+      ownerUserId
       createdAt
       updatedAt
       fantaTeamLeaderGroupId
@@ -1083,6 +1084,7 @@ export const deleteFantaTeamGroups = /* GraphQL */ `mutation DeleteFantaTeamGrou
         updatedAt
         __typename
       }
+      ownerUserId
       createdAt
       updatedAt
       fantaTeamLeaderGroupId
