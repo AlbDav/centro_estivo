@@ -12,8 +12,6 @@ let BASE_URL = process.env.BASE_URL;
 awsExports.oauth.redirectSignIn = `${BASE_URL}/account/`;
 awsExports.oauth.redirectSignOut = `${BASE_URL}/account/`;
 
-console.log(BASE_URL);
-
 Amplify.configure(awsExports)
 
 export default function App({ Component, pageProps }: AppProps) {
