@@ -8,9 +8,11 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import itLocale from 'date-fns/locale/it';
 import { AuthProvider } from '@/contexts/AuthContext'
 
-let BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+let BASE_URL = process.env.BASE_URL;
 awsExports.oauth.redirectSignIn = `${BASE_URL}/account/`;
 awsExports.oauth.redirectSignOut = `${BASE_URL}/account/`;
+
+console.log(BASE_URL);
 
 Amplify.configure(awsExports)
 
