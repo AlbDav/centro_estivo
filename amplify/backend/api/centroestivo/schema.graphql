@@ -43,3 +43,13 @@ type FantaRuleEntryResp @model @auth(rules: [{allow: groups, provider: userPools
   resp: Resp! @hasOne
   date: AWSDate!
 }
+
+type User @model @auth(rules: [{allow: public, provider: apiKey, operations: [create, read, update]}, {allow: private, operations: [create, read, update]}]) {
+  id: ID!
+  firstName: String!
+  lastName: String!
+  username: String!
+  isResp: Boolean!
+  resp: Resp @hasOne
+  group: Group @hasOne
+}

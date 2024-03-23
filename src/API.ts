@@ -332,6 +332,57 @@ export type DeleteFantaRuleEntryRespInput = {
   id: string,
 };
 
+export type CreateUserInput = {
+  id?: string | null,
+  firstName: string,
+  lastName: string,
+  username: string,
+  isResp: boolean,
+  userRespId?: string | null,
+  userGroupId?: string | null,
+};
+
+export type ModelUserConditionInput = {
+  firstName?: ModelStringInput | null,
+  lastName?: ModelStringInput | null,
+  username?: ModelStringInput | null,
+  isResp?: ModelBooleanInput | null,
+  and?: Array< ModelUserConditionInput | null > | null,
+  or?: Array< ModelUserConditionInput | null > | null,
+  not?: ModelUserConditionInput | null,
+  userRespId?: ModelIDInput | null,
+  userGroupId?: ModelIDInput | null,
+};
+
+export type User = {
+  __typename: "User",
+  id: string,
+  firstName: string,
+  lastName: string,
+  username: string,
+  isResp: boolean,
+  resp?: Resp | null,
+  group?: Group | null,
+  createdAt: string,
+  updatedAt: string,
+  userRespId?: string | null,
+  userGroupId?: string | null,
+};
+
+export type UpdateUserInput = {
+  id: string,
+  firstName?: string | null,
+  lastName?: string | null,
+  username?: string | null,
+  isResp?: boolean | null,
+  userRespId?: string | null,
+  userGroupId?: string | null,
+};
+
+export type DeleteUserInput = {
+  id: string,
+};
+
 export type CreateFantaTeamGroupsInput = {
   id?: string | null,
   groupId: string,
@@ -454,6 +505,25 @@ export type ModelFantaRuleEntryRespConnection = {
   nextToken?: string | null,
 };
 
+export type ModelUserFilterInput = {
+  id?: ModelIDInput | null,
+  firstName?: ModelStringInput | null,
+  lastName?: ModelStringInput | null,
+  username?: ModelStringInput | null,
+  isResp?: ModelBooleanInput | null,
+  and?: Array< ModelUserFilterInput | null > | null,
+  or?: Array< ModelUserFilterInput | null > | null,
+  not?: ModelUserFilterInput | null,
+  userRespId?: ModelIDInput | null,
+  userGroupId?: ModelIDInput | null,
+};
+
+export type ModelUserConnection = {
+  __typename: "ModelUserConnection",
+  items:  Array<User | null >,
+  nextToken?: string | null,
+};
+
 export type ModelFantaTeamGroupsFilterInput = {
   id?: ModelIDInput | null,
   groupId?: ModelIDInput | null,
@@ -564,6 +634,16 @@ export type ModelSubscriptionFantaRuleEntryRespFilterInput = {
   date?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionFantaRuleEntryRespFilterInput | null > | null,
   or?: Array< ModelSubscriptionFantaRuleEntryRespFilterInput | null > | null,
+};
+
+export type ModelSubscriptionUserFilterInput = {
+  id?: ModelSubscriptionIDInput | null,
+  firstName?: ModelSubscriptionStringInput | null,
+  lastName?: ModelSubscriptionStringInput | null,
+  username?: ModelSubscriptionStringInput | null,
+  isResp?: ModelSubscriptionBooleanInput | null,
+  and?: Array< ModelSubscriptionUserFilterInput | null > | null,
+  or?: Array< ModelSubscriptionUserFilterInput | null > | null,
 };
 
 export type ModelSubscriptionFantaTeamGroupsFilterInput = {
@@ -1576,6 +1656,210 @@ export type DeleteFantaRuleEntryRespMutation = {
   } | null,
 };
 
+export type CreateUserMutationVariables = {
+  input: CreateUserInput,
+  condition?: ModelUserConditionInput | null,
+};
+
+export type CreateUserMutation = {
+  createUser?:  {
+    __typename: "User",
+    id: string,
+    firstName: string,
+    lastName: string,
+    username: string,
+    isResp: boolean,
+    resp?:  {
+      __typename: "Resp",
+      id: string,
+      firstName: string,
+      lastName: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    group?:  {
+      __typename: "Group",
+      id: string,
+      name: string,
+      color: string,
+      age: number,
+      fantaTeams?:  {
+        __typename: "ModelFantaTeamGroupsConnection",
+        items:  Array< {
+          __typename: "FantaTeamGroups",
+          id: string,
+          groupId: string,
+          fantaTeamId: string,
+          group:  {
+            __typename: "Group",
+            id: string,
+            name: string,
+            color: string,
+            age: number,
+            createdAt: string,
+            updatedAt: string,
+          },
+          fantaTeam:  {
+            __typename: "FantaTeam",
+            id: string,
+            name: string,
+            ownerUserId: string,
+            createdAt: string,
+            updatedAt: string,
+            fantaTeamLeaderGroupId?: string | null,
+            fantaTeamRespId?: string | null,
+          },
+          createdAt: string,
+          updatedAt: string,
+        } | null >,
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+    userRespId?: string | null,
+    userGroupId?: string | null,
+  } | null,
+};
+
+export type UpdateUserMutationVariables = {
+  input: UpdateUserInput,
+  condition?: ModelUserConditionInput | null,
+};
+
+export type UpdateUserMutation = {
+  updateUser?:  {
+    __typename: "User",
+    id: string,
+    firstName: string,
+    lastName: string,
+    username: string,
+    isResp: boolean,
+    resp?:  {
+      __typename: "Resp",
+      id: string,
+      firstName: string,
+      lastName: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    group?:  {
+      __typename: "Group",
+      id: string,
+      name: string,
+      color: string,
+      age: number,
+      fantaTeams?:  {
+        __typename: "ModelFantaTeamGroupsConnection",
+        items:  Array< {
+          __typename: "FantaTeamGroups",
+          id: string,
+          groupId: string,
+          fantaTeamId: string,
+          group:  {
+            __typename: "Group",
+            id: string,
+            name: string,
+            color: string,
+            age: number,
+            createdAt: string,
+            updatedAt: string,
+          },
+          fantaTeam:  {
+            __typename: "FantaTeam",
+            id: string,
+            name: string,
+            ownerUserId: string,
+            createdAt: string,
+            updatedAt: string,
+            fantaTeamLeaderGroupId?: string | null,
+            fantaTeamRespId?: string | null,
+          },
+          createdAt: string,
+          updatedAt: string,
+        } | null >,
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+    userRespId?: string | null,
+    userGroupId?: string | null,
+  } | null,
+};
+
+export type DeleteUserMutationVariables = {
+  input: DeleteUserInput,
+  condition?: ModelUserConditionInput | null,
+};
+
+export type DeleteUserMutation = {
+  deleteUser?:  {
+    __typename: "User",
+    id: string,
+    firstName: string,
+    lastName: string,
+    username: string,
+    isResp: boolean,
+    resp?:  {
+      __typename: "Resp",
+      id: string,
+      firstName: string,
+      lastName: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    group?:  {
+      __typename: "Group",
+      id: string,
+      name: string,
+      color: string,
+      age: number,
+      fantaTeams?:  {
+        __typename: "ModelFantaTeamGroupsConnection",
+        items:  Array< {
+          __typename: "FantaTeamGroups",
+          id: string,
+          groupId: string,
+          fantaTeamId: string,
+          group:  {
+            __typename: "Group",
+            id: string,
+            name: string,
+            color: string,
+            age: number,
+            createdAt: string,
+            updatedAt: string,
+          },
+          fantaTeam:  {
+            __typename: "FantaTeam",
+            id: string,
+            name: string,
+            ownerUserId: string,
+            createdAt: string,
+            updatedAt: string,
+            fantaTeamLeaderGroupId?: string | null,
+            fantaTeamRespId?: string | null,
+          },
+          createdAt: string,
+          updatedAt: string,
+        } | null >,
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+    userRespId?: string | null,
+    userGroupId?: string | null,
+  } | null,
+};
+
 export type CreateFantaTeamGroupsMutationVariables = {
   input: CreateFantaTeamGroupsInput,
   condition?: ModelFantaTeamGroupsConditionInput | null,
@@ -2553,6 +2837,127 @@ export type ListFantaRuleEntryRespsQuery = {
       updatedAt: string,
       fantaRuleEntryRespRuleId: string,
       fantaRuleEntryRespRespId: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type GetUserQueryVariables = {
+  id: string,
+};
+
+export type GetUserQuery = {
+  getUser?:  {
+    __typename: "User",
+    id: string,
+    firstName: string,
+    lastName: string,
+    username: string,
+    isResp: boolean,
+    resp?:  {
+      __typename: "Resp",
+      id: string,
+      firstName: string,
+      lastName: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    group?:  {
+      __typename: "Group",
+      id: string,
+      name: string,
+      color: string,
+      age: number,
+      fantaTeams?:  {
+        __typename: "ModelFantaTeamGroupsConnection",
+        items:  Array< {
+          __typename: "FantaTeamGroups",
+          id: string,
+          groupId: string,
+          fantaTeamId: string,
+          group:  {
+            __typename: "Group",
+            id: string,
+            name: string,
+            color: string,
+            age: number,
+            createdAt: string,
+            updatedAt: string,
+          },
+          fantaTeam:  {
+            __typename: "FantaTeam",
+            id: string,
+            name: string,
+            ownerUserId: string,
+            createdAt: string,
+            updatedAt: string,
+            fantaTeamLeaderGroupId?: string | null,
+            fantaTeamRespId?: string | null,
+          },
+          createdAt: string,
+          updatedAt: string,
+        } | null >,
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+    userRespId?: string | null,
+    userGroupId?: string | null,
+  } | null,
+};
+
+export type ListUsersQueryVariables = {
+  filter?: ModelUserFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListUsersQuery = {
+  listUsers?:  {
+    __typename: "ModelUserConnection",
+    items:  Array< {
+      __typename: "User",
+      id: string,
+      firstName: string,
+      lastName: string,
+      username: string,
+      isResp: boolean,
+      resp?:  {
+        __typename: "Resp",
+        id: string,
+        firstName: string,
+        lastName: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
+      group?:  {
+        __typename: "Group",
+        id: string,
+        name: string,
+        color: string,
+        age: number,
+        fantaTeams?:  {
+          __typename: "ModelFantaTeamGroupsConnection",
+          items:  Array< {
+            __typename: "FantaTeamGroups",
+            id: string,
+            groupId: string,
+            fantaTeamId: string,
+            createdAt: string,
+            updatedAt: string,
+          } | null >,
+          nextToken?: string | null,
+        } | null,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+      userRespId?: string | null,
+      userGroupId?: string | null,
     } | null >,
     nextToken?: string | null,
   } | null,
@@ -3923,6 +4328,207 @@ export type OnDeleteFantaRuleEntryRespSubscription = {
     updatedAt: string,
     fantaRuleEntryRespRuleId: string,
     fantaRuleEntryRespRespId: string,
+  } | null,
+};
+
+export type OnCreateUserSubscriptionVariables = {
+  filter?: ModelSubscriptionUserFilterInput | null,
+};
+
+export type OnCreateUserSubscription = {
+  onCreateUser?:  {
+    __typename: "User",
+    id: string,
+    firstName: string,
+    lastName: string,
+    username: string,
+    isResp: boolean,
+    resp?:  {
+      __typename: "Resp",
+      id: string,
+      firstName: string,
+      lastName: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    group?:  {
+      __typename: "Group",
+      id: string,
+      name: string,
+      color: string,
+      age: number,
+      fantaTeams?:  {
+        __typename: "ModelFantaTeamGroupsConnection",
+        items:  Array< {
+          __typename: "FantaTeamGroups",
+          id: string,
+          groupId: string,
+          fantaTeamId: string,
+          group:  {
+            __typename: "Group",
+            id: string,
+            name: string,
+            color: string,
+            age: number,
+            createdAt: string,
+            updatedAt: string,
+          },
+          fantaTeam:  {
+            __typename: "FantaTeam",
+            id: string,
+            name: string,
+            ownerUserId: string,
+            createdAt: string,
+            updatedAt: string,
+            fantaTeamLeaderGroupId?: string | null,
+            fantaTeamRespId?: string | null,
+          },
+          createdAt: string,
+          updatedAt: string,
+        } | null >,
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+    userRespId?: string | null,
+    userGroupId?: string | null,
+  } | null,
+};
+
+export type OnUpdateUserSubscriptionVariables = {
+  filter?: ModelSubscriptionUserFilterInput | null,
+};
+
+export type OnUpdateUserSubscription = {
+  onUpdateUser?:  {
+    __typename: "User",
+    id: string,
+    firstName: string,
+    lastName: string,
+    username: string,
+    isResp: boolean,
+    resp?:  {
+      __typename: "Resp",
+      id: string,
+      firstName: string,
+      lastName: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    group?:  {
+      __typename: "Group",
+      id: string,
+      name: string,
+      color: string,
+      age: number,
+      fantaTeams?:  {
+        __typename: "ModelFantaTeamGroupsConnection",
+        items:  Array< {
+          __typename: "FantaTeamGroups",
+          id: string,
+          groupId: string,
+          fantaTeamId: string,
+          group:  {
+            __typename: "Group",
+            id: string,
+            name: string,
+            color: string,
+            age: number,
+            createdAt: string,
+            updatedAt: string,
+          },
+          fantaTeam:  {
+            __typename: "FantaTeam",
+            id: string,
+            name: string,
+            ownerUserId: string,
+            createdAt: string,
+            updatedAt: string,
+            fantaTeamLeaderGroupId?: string | null,
+            fantaTeamRespId?: string | null,
+          },
+          createdAt: string,
+          updatedAt: string,
+        } | null >,
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+    userRespId?: string | null,
+    userGroupId?: string | null,
+  } | null,
+};
+
+export type OnDeleteUserSubscriptionVariables = {
+  filter?: ModelSubscriptionUserFilterInput | null,
+};
+
+export type OnDeleteUserSubscription = {
+  onDeleteUser?:  {
+    __typename: "User",
+    id: string,
+    firstName: string,
+    lastName: string,
+    username: string,
+    isResp: boolean,
+    resp?:  {
+      __typename: "Resp",
+      id: string,
+      firstName: string,
+      lastName: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    group?:  {
+      __typename: "Group",
+      id: string,
+      name: string,
+      color: string,
+      age: number,
+      fantaTeams?:  {
+        __typename: "ModelFantaTeamGroupsConnection",
+        items:  Array< {
+          __typename: "FantaTeamGroups",
+          id: string,
+          groupId: string,
+          fantaTeamId: string,
+          group:  {
+            __typename: "Group",
+            id: string,
+            name: string,
+            color: string,
+            age: number,
+            createdAt: string,
+            updatedAt: string,
+          },
+          fantaTeam:  {
+            __typename: "FantaTeam",
+            id: string,
+            name: string,
+            ownerUserId: string,
+            createdAt: string,
+            updatedAt: string,
+            fantaTeamLeaderGroupId?: string | null,
+            fantaTeamRespId?: string | null,
+          },
+          createdAt: string,
+          updatedAt: string,
+        } | null >,
+        nextToken?: string | null,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+    userRespId?: string | null,
+    userGroupId?: string | null,
   } | null,
 };
 

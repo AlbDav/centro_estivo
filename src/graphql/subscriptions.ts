@@ -986,6 +986,204 @@ export const onDeleteFantaRuleEntryResp = /* GraphQL */ `subscription OnDeleteFa
   APITypes.OnDeleteFantaRuleEntryRespSubscriptionVariables,
   APITypes.OnDeleteFantaRuleEntryRespSubscription
 >;
+export const onCreateUser = /* GraphQL */ `subscription OnCreateUser($filter: ModelSubscriptionUserFilterInput) {
+  onCreateUser(filter: $filter) {
+    id
+    firstName
+    lastName
+    username
+    isResp
+    resp {
+      id
+      firstName
+      lastName
+      createdAt
+      updatedAt
+      __typename
+    }
+    group {
+      id
+      name
+      color
+      age
+      fantaTeams {
+        items {
+          id
+          groupId
+          fantaTeamId
+          group {
+            id
+            name
+            color
+            age
+            createdAt
+            updatedAt
+            __typename
+          }
+          fantaTeam {
+            id
+            name
+            ownerUserId
+            createdAt
+            updatedAt
+            fantaTeamLeaderGroupId
+            fantaTeamRespId
+            __typename
+          }
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      __typename
+    }
+    createdAt
+    updatedAt
+    userRespId
+    userGroupId
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnCreateUserSubscriptionVariables,
+  APITypes.OnCreateUserSubscription
+>;
+export const onUpdateUser = /* GraphQL */ `subscription OnUpdateUser($filter: ModelSubscriptionUserFilterInput) {
+  onUpdateUser(filter: $filter) {
+    id
+    firstName
+    lastName
+    username
+    isResp
+    resp {
+      id
+      firstName
+      lastName
+      createdAt
+      updatedAt
+      __typename
+    }
+    group {
+      id
+      name
+      color
+      age
+      fantaTeams {
+        items {
+          id
+          groupId
+          fantaTeamId
+          group {
+            id
+            name
+            color
+            age
+            createdAt
+            updatedAt
+            __typename
+          }
+          fantaTeam {
+            id
+            name
+            ownerUserId
+            createdAt
+            updatedAt
+            fantaTeamLeaderGroupId
+            fantaTeamRespId
+            __typename
+          }
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      __typename
+    }
+    createdAt
+    updatedAt
+    userRespId
+    userGroupId
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnUpdateUserSubscriptionVariables,
+  APITypes.OnUpdateUserSubscription
+>;
+export const onDeleteUser = /* GraphQL */ `subscription OnDeleteUser($filter: ModelSubscriptionUserFilterInput) {
+  onDeleteUser(filter: $filter) {
+    id
+    firstName
+    lastName
+    username
+    isResp
+    resp {
+      id
+      firstName
+      lastName
+      createdAt
+      updatedAt
+      __typename
+    }
+    group {
+      id
+      name
+      color
+      age
+      fantaTeams {
+        items {
+          id
+          groupId
+          fantaTeamId
+          group {
+            id
+            name
+            color
+            age
+            createdAt
+            updatedAt
+            __typename
+          }
+          fantaTeam {
+            id
+            name
+            ownerUserId
+            createdAt
+            updatedAt
+            fantaTeamLeaderGroupId
+            fantaTeamRespId
+            __typename
+          }
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      __typename
+    }
+    createdAt
+    updatedAt
+    userRespId
+    userGroupId
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnDeleteUserSubscriptionVariables,
+  APITypes.OnDeleteUserSubscription
+>;
 export const onCreateFantaTeamGroups = /* GraphQL */ `subscription OnCreateFantaTeamGroups(
   $filter: ModelSubscriptionFantaTeamGroupsFilterInput
 ) {
