@@ -1028,6 +1028,210 @@ export const deleteFantaRuleEntryResp = /* GraphQL */ `mutation DeleteFantaRuleE
   APITypes.DeleteFantaRuleEntryRespMutationVariables,
   APITypes.DeleteFantaRuleEntryRespMutation
 >;
+export const createUser = /* GraphQL */ `mutation CreateUser(
+  $input: CreateUserInput!
+  $condition: ModelUserConditionInput
+) {
+  createUser(input: $input, condition: $condition) {
+    id
+    firstName
+    lastName
+    isResp
+    resp {
+      id
+      firstName
+      lastName
+      createdAt
+      updatedAt
+      __typename
+    }
+    group {
+      id
+      name
+      color
+      age
+      fantaTeams {
+        items {
+          id
+          groupId
+          fantaTeamId
+          group {
+            id
+            name
+            color
+            age
+            createdAt
+            updatedAt
+            __typename
+          }
+          fantaTeam {
+            id
+            name
+            ownerUserId
+            createdAt
+            updatedAt
+            fantaTeamLeaderGroupId
+            fantaTeamRespId
+            __typename
+          }
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      __typename
+    }
+    createdAt
+    updatedAt
+    userRespId
+    userGroupId
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateUserMutationVariables,
+  APITypes.CreateUserMutation
+>;
+export const updateUser = /* GraphQL */ `mutation UpdateUser(
+  $input: UpdateUserInput!
+  $condition: ModelUserConditionInput
+) {
+  updateUser(input: $input, condition: $condition) {
+    id
+    firstName
+    lastName
+    isResp
+    resp {
+      id
+      firstName
+      lastName
+      createdAt
+      updatedAt
+      __typename
+    }
+    group {
+      id
+      name
+      color
+      age
+      fantaTeams {
+        items {
+          id
+          groupId
+          fantaTeamId
+          group {
+            id
+            name
+            color
+            age
+            createdAt
+            updatedAt
+            __typename
+          }
+          fantaTeam {
+            id
+            name
+            ownerUserId
+            createdAt
+            updatedAt
+            fantaTeamLeaderGroupId
+            fantaTeamRespId
+            __typename
+          }
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      __typename
+    }
+    createdAt
+    updatedAt
+    userRespId
+    userGroupId
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateUserMutationVariables,
+  APITypes.UpdateUserMutation
+>;
+export const deleteUser = /* GraphQL */ `mutation DeleteUser(
+  $input: DeleteUserInput!
+  $condition: ModelUserConditionInput
+) {
+  deleteUser(input: $input, condition: $condition) {
+    id
+    firstName
+    lastName
+    isResp
+    resp {
+      id
+      firstName
+      lastName
+      createdAt
+      updatedAt
+      __typename
+    }
+    group {
+      id
+      name
+      color
+      age
+      fantaTeams {
+        items {
+          id
+          groupId
+          fantaTeamId
+          group {
+            id
+            name
+            color
+            age
+            createdAt
+            updatedAt
+            __typename
+          }
+          fantaTeam {
+            id
+            name
+            ownerUserId
+            createdAt
+            updatedAt
+            fantaTeamLeaderGroupId
+            fantaTeamRespId
+            __typename
+          }
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      __typename
+    }
+    createdAt
+    updatedAt
+    userRespId
+    userGroupId
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteUserMutationVariables,
+  APITypes.DeleteUserMutation
+>;
 export const createFantaTeamGroups = /* GraphQL */ `mutation CreateFantaTeamGroups(
   $input: CreateFantaTeamGroupsInput!
   $condition: ModelFantaTeamGroupsConditionInput

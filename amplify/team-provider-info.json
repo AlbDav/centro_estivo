@@ -61,7 +61,7 @@
         "centroestivo7d1e9a7cPostConfirmation": {
           "GROUP": "Users",
           "deploymentBucketName": "amplify-centroestivo-dev-185635-deployment",
-          "s3Key": "amplify-builds/centroestivo7d1e9a7cPostConfirmation-704a6f4c434741566c4c-build.zip"
+          "s3Key": "amplify-builds/centroestivo7d1e9a7cPostConfirmation-79484b7646467a706953-build.zip"
         }
       },
       "auth": {

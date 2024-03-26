@@ -607,6 +607,119 @@ export const listFantaRuleEntryResps = /* GraphQL */ `query ListFantaRuleEntryRe
   APITypes.ListFantaRuleEntryRespsQueryVariables,
   APITypes.ListFantaRuleEntryRespsQuery
 >;
+export const getUser = /* GraphQL */ `query GetUser($id: ID!) {
+  getUser(id: $id) {
+    id
+    firstName
+    lastName
+    isResp
+    resp {
+      id
+      firstName
+      lastName
+      createdAt
+      updatedAt
+      __typename
+    }
+    group {
+      id
+      name
+      color
+      age
+      fantaTeams {
+        items {
+          id
+          groupId
+          fantaTeamId
+          group {
+            id
+            name
+            color
+            age
+            createdAt
+            updatedAt
+            __typename
+          }
+          fantaTeam {
+            id
+            name
+            ownerUserId
+            createdAt
+            updatedAt
+            fantaTeamLeaderGroupId
+            fantaTeamRespId
+            __typename
+          }
+          createdAt
+          updatedAt
+          __typename
+        }
+        nextToken
+        __typename
+      }
+      createdAt
+      updatedAt
+      __typename
+    }
+    createdAt
+    updatedAt
+    userRespId
+    userGroupId
+    __typename
+  }
+}
+` as GeneratedQuery<APITypes.GetUserQueryVariables, APITypes.GetUserQuery>;
+export const listUsers = /* GraphQL */ `query ListUsers(
+  $filter: ModelUserFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      firstName
+      lastName
+      isResp
+      resp {
+        id
+        firstName
+        lastName
+        createdAt
+        updatedAt
+        __typename
+      }
+      group {
+        id
+        name
+        color
+        age
+        fantaTeams {
+          items {
+            id
+            groupId
+            fantaTeamId
+            createdAt
+            updatedAt
+            __typename
+          }
+          nextToken
+          __typename
+        }
+        createdAt
+        updatedAt
+        __typename
+      }
+      createdAt
+      updatedAt
+      userRespId
+      userGroupId
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<APITypes.ListUsersQueryVariables, APITypes.ListUsersQuery>;
 export const getFantaTeamGroups = /* GraphQL */ `query GetFantaTeamGroups($id: ID!) {
   getFantaTeamGroups(id: $id) {
     id

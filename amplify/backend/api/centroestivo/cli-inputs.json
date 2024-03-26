@@ -15,6 +15,12 @@
     "additionalAuthTypes": [
       {
         "mode": "AWS_IAM"
+      },
+      {
+        "mode": "API_KEY",
+        "expirationTime": 365,
+        "apiKeyExpirationDate": "2025-03-23T11:36:12.026Z",
+        "keyDescription": "graphqlkey"
       }
     ]
   }
