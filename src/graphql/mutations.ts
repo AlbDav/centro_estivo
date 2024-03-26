@@ -1036,7 +1036,6 @@ export const createUser = /* GraphQL */ `mutation CreateUser(
     id
     firstName
     lastName
-    username
     isResp
     resp {
       id
@@ -1105,7 +1104,6 @@ export const updateUser = /* GraphQL */ `mutation UpdateUser(
     id
     firstName
     lastName
-    username
     isResp
     resp {
       id
@@ -1174,7 +1172,6 @@ export const deleteUser = /* GraphQL */ `mutation DeleteUser(
     id
     firstName
     lastName
-    username
     isResp
     resp {
       id

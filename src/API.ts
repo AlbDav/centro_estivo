@@ -336,7 +336,6 @@ export type CreateUserInput = {
   id?: string | null,
   firstName: string,
   lastName: string,
-  username: string,
   isResp: boolean,
   userRespId?: string | null,
   userGroupId?: string | null,
@@ -345,7 +344,6 @@ export type CreateUserInput = {
 export type ModelUserConditionInput = {
   firstName?: ModelStringInput | null,
   lastName?: ModelStringInput | null,
-  username?: ModelStringInput | null,
   isResp?: ModelBooleanInput | null,
   and?: Array< ModelUserConditionInput | null > | null,
   or?: Array< ModelUserConditionInput | null > | null,
@@ -359,7 +357,6 @@ export type User = {
   id: string,
   firstName: string,
   lastName: string,
-  username: string,
   isResp: boolean,
   resp?: Resp | null,
   group?: Group | null,
@@ -373,7 +370,6 @@ export type UpdateUserInput = {
   id: string,
   firstName?: string | null,
   lastName?: string | null,
-  username?: string | null,
   isResp?: boolean | null,
   userRespId?: string | null,
   userGroupId?: string | null,
@@ -509,7 +505,6 @@ export type ModelUserFilterInput = {
   id?: ModelIDInput | null,
   firstName?: ModelStringInput | null,
   lastName?: ModelStringInput | null,
-  username?: ModelStringInput | null,
   isResp?: ModelBooleanInput | null,
   and?: Array< ModelUserFilterInput | null > | null,
   or?: Array< ModelUserFilterInput | null > | null,
@@ -640,7 +635,6 @@ export type ModelSubscriptionUserFilterInput = {
   id?: ModelSubscriptionIDInput | null,
   firstName?: ModelSubscriptionStringInput | null,
   lastName?: ModelSubscriptionStringInput | null,
-  username?: ModelSubscriptionStringInput | null,
   isResp?: ModelSubscriptionBooleanInput | null,
   and?: Array< ModelSubscriptionUserFilterInput | null > | null,
   or?: Array< ModelSubscriptionUserFilterInput | null > | null,
@@ -1667,7 +1661,6 @@ export type CreateUserMutation = {
     id: string,
     firstName: string,
     lastName: string,
-    username: string,
     isResp: boolean,
     resp?:  {
       __typename: "Resp",
@@ -1735,7 +1728,6 @@ export type UpdateUserMutation = {
     id: string,
     firstName: string,
     lastName: string,
-    username: string,
     isResp: boolean,
     resp?:  {
       __typename: "Resp",
@@ -1803,7 +1795,6 @@ export type DeleteUserMutation = {
     id: string,
     firstName: string,
     lastName: string,
-    username: string,
     isResp: boolean,
     resp?:  {
       __typename: "Resp",
@@ -2852,7 +2843,6 @@ export type GetUserQuery = {
     id: string,
     firstName: string,
     lastName: string,
-    username: string,
     isResp: boolean,
     resp?:  {
       __typename: "Resp",
@@ -2923,7 +2913,6 @@ export type ListUsersQuery = {
       id: string,
       firstName: string,
       lastName: string,
-      username: string,
       isResp: boolean,
       resp?:  {
         __typename: "Resp",
@@ -4341,7 +4330,6 @@ export type OnCreateUserSubscription = {
     id: string,
     firstName: string,
     lastName: string,
-    username: string,
     isResp: boolean,
     resp?:  {
       __typename: "Resp",
@@ -4408,7 +4396,6 @@ export type OnUpdateUserSubscription = {
     id: string,
     firstName: string,
     lastName: string,
-    username: string,
     isResp: boolean,
     resp?:  {
       __typename: "Resp",
@@ -4475,7 +4462,6 @@ export type OnDeleteUserSubscription = {
     id: string,
     firstName: string,
     lastName: string,
-    username: string,
     isResp: boolean,
     resp?:  {
       __typename: "Resp",

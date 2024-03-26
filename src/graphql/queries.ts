@@ -612,7 +612,6 @@ export const getUser = /* GraphQL */ `query GetUser($id: ID!) {
     id
     firstName
     lastName
-    username
     isResp
     resp {
       id
@@ -680,7 +679,6 @@ export const listUsers = /* GraphQL */ `query ListUsers(
       id
       firstName
       lastName
-      username
       isResp
       resp {
         id

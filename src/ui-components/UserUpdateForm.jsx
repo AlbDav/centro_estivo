@@ -32,12 +32,10 @@ export default function UserUpdateForm(props) {
   const initialValues = {
     firstName: "",
     lastName: "",
-    username: "",
     isResp: false,
   };
   const [firstName, setFirstName] = React.useState(initialValues.firstName);
   const [lastName, setLastName] = React.useState(initialValues.lastName);
-  const [username, setUsername] = React.useState(initialValues.username);
   const [isResp, setIsResp] = React.useState(initialValues.isResp);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
@@ -46,7 +44,6 @@ export default function UserUpdateForm(props) {
       : initialValues;
     setFirstName(cleanValues.firstName);
     setLastName(cleanValues.lastName);
-    setUsername(cleanValues.username);
     setIsResp(cleanValues.isResp);
     setErrors({});
   };
@@ -69,7 +66,6 @@ export default function UserUpdateForm(props) {
   const validations = {
     firstName: [{ type: "Required" }],
     lastName: [{ type: "Required" }],
-    username: [{ type: "Required" }],
     isResp: [{ type: "Required" }],
   };
   const runValidationTasks = async (
@@ -100,7 +96,6 @@ export default function UserUpdateForm(props) {
         let modelFields = {
           firstName,
           lastName,
-          username,
           isResp,
         };
         const validationResponses = await Promise.all(
@@ -164,7 +159,6 @@ export default function UserUpdateForm(props) {
             const modelFields = {
               firstName: value,
               lastName,
-              username,
               isResp,
             };
             const result = onChange(modelFields);
@@ -191,7 +185,6 @@ export default function UserUpdateForm(props) {
             const modelFields = {
               firstName,
               lastName: value,
-              username,
               isResp,
             };
             const result = onChange(modelFields);
@@ -207,33 +200,6 @@ export default function UserUpdateForm(props) {
         hasError={errors.lastName?.hasError}
         {...getOverrideProps(overrides, "lastName")}
       ></TextField>
-      <TextField
-        label="Username"
-        isRequired={true}
-        isReadOnly={false}
-        value={username}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              firstName,
-              lastName,
-              username: value,
-              isResp,
-            };
-            const result = onChange(modelFields);
-            value = result?.username ?? value;
-          }
-          if (errors.username?.hasError) {
-            runValidationTasks("username", value);
-          }
-          setUsername(value);
-        }}
-        onBlur={() => runValidationTasks("username", username)}
-        errorMessage={errors.username?.errorMessage}
-        hasError={errors.username?.hasError}
-        {...getOverrideProps(overrides, "username")}
-      ></TextField>
       <SwitchField
         label="Is resp"
         defaultChecked={false}
@@ -245,7 +211,6 @@ export default function UserUpdateForm(props) {
             const modelFields = {
               firstName,
               lastName,
-              username,
               isResp: value,
             };
             const result = onChange(modelFields);

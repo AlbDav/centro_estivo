@@ -991,7 +991,6 @@ export const onCreateUser = /* GraphQL */ `subscription OnCreateUser($filter: Mo
     id
     firstName
     lastName
-    username
     isResp
     resp {
       id
@@ -1057,7 +1056,6 @@ export const onUpdateUser = /* GraphQL */ `subscription OnUpdateUser($filter: Mo
     id
     firstName
     lastName
-    username
     isResp
     resp {
       id
@@ -1123,7 +1121,6 @@ export const onDeleteUser = /* GraphQL */ `subscription OnDeleteUser($filter: Mo
     id
     firstName
     lastName
-    username
     isResp
     resp {
       id

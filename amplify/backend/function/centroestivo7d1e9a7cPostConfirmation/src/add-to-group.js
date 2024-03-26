@@ -1,5 +1,5 @@
 const aws = require('aws-sdk');
-const axios = require('axios');
+const documentClient = new aws.DynamoDB.DocumentClient();
 
 const cognitoIdentityServiceProvider = new aws.CognitoIdentityServiceProvider({
   apiVersion: '2016-04-18',
@@ -34,43 +34,23 @@ exports.handler = async (event) => {
   const family_name = event.request.userAttributes.family_name || '';
   const given_name = event.request.userAttributes.given_name || '';
 
-  const graphqlMutation = {
-	  query: `
-		  mutation CreateUser($input: CreateUserInput!) {
-			  createUser(input: $input) {
-				  username
-				  firstName
-				  lastName
-				  isResp
-			  }
-		  }
-	  `,
-	  variables: {
-		  input: {
-			  username: event.userName,
-			  firstName: given_name,
-			  lastName: family_name,
-			  isResp: false
-		  }
-	  }
+  const userAttributes = {
+	  id: event.request.userAttributes.sub,
+	  firstName: family_name,
+	  lastName: given_name,
+	  isResp: false,
   };
 
-  const axiosConfig = {
-	  method: 'post',
-	  url: process.env.GRAPHQL_ENDPOINT,
-	  headers: {
-		  'x-api-key': process.env.GRAPHQL_API_KEY,
-		  'Content-Type': 'application/json'
-	  },
-	  data: graphqlMutation
-  };
+  const userItem = {
+    TableName: process.env.USER_TABLE_NAME,
+    Item: userAttributes
+  }
 
   try {
-	  const response = await axios(axiosConfig);
-	  console.log('Risposta da GraphQL:', response.data);
+    await documentClient.put(userItem).promise();
+    console.log('Utente inserito con successo in DynamoDB');
   } catch (err) {
-	  console.error('Errore nella chiamata GraphQL:', err.message);
-	  throw err;
+    console.error('Errore nell\'inserimento dell\'utente in DynamoDB:', err);
   }
 
   return event;
