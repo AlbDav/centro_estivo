@@ -33,12 +33,15 @@ exports.handler = async (event) => {
 
   const family_name = event.request.userAttributes.family_name || '';
   const given_name = event.request.userAttributes.given_name || '';
+  const currentTimestamp = new Date().toISOString();
 
   const userAttributes = {
 	  id: event.request.userAttributes.sub,
 	  firstName: family_name,
 	  lastName: given_name,
 	  isResp: false,
+	  createdAt: currentTimestamp,
+	  updatedAt: currentTimestamp
   };
 
   const userItem = {
