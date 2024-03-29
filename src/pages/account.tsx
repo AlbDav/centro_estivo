@@ -1,7 +1,7 @@
 import '@aws-amplify/ui-react/styles.css'
 import LargeButton from '@/components/shared/LargeButton';
 import { Authenticator } from '@aws-amplify/ui-react'
-import { Box, Card, CardContent, Grid, TextField, Typography } from '@mui/material'
+import { Box, Button, Card, CardContent, Container, FormControlLabel, Grid, Switch, TextField, Typography } from '@mui/material'
 import { API, Hub } from 'aws-amplify';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -51,11 +51,11 @@ export default function Account() {
       <Authenticator socialProviders={['google']}
       >
         {({ signOut }: any) => (
-          <main>
+          <Container>
             <Card variant="elevation" sx={{ flexGrow: 1 }}>
               <CardContent>
-                <Grid container justifyContent="center" spacing={2}>
-                  <Grid item xs={6}>
+                <Grid container justifyContent="flex-start" spacing={2}>
+                  <Grid item xs={12} md={8}>
                     <TextField
                       label="Nome"
                       value={firstName}
@@ -63,7 +63,7 @@ export default function Account() {
                       fullWidth
                     />
                   </Grid>
-                  <Grid item xs={6}>
+                  <Grid item xs={12} md={8}>
                     <TextField
                       label="Cognome"
                       value={lastName}
@@ -71,15 +71,22 @@ export default function Account() {
                       fullWidth
                     />
                   </Grid>
+                  <Grid item xs={12} md={8}>
+                    <FormControlLabel control={<Switch color="secondary" />} label="Sono un responsabile" />
+                  </Grid>
                   <Grid item xs={12}>
-                    <Box display="flex" justifyContent="center">
-                      <LargeButton variant="outlined" color="secondary">
-                        Annulla
-                      </LargeButton>
-                      <LargeButton variant="contained" color="primary" style={{ marginLeft: '40px' }}>
-                        Salva
-                      </LargeButton>
-                    </Box>
+                    <Grid container justifyContent="center" spacing={2}>
+                      <Grid item>
+                        <Button size="large" variant="outlined" color="secondary">
+                          Annulla
+                        </Button>
+                      </Grid>
+                      <Grid item>
+                        <Button size="large" variant="contained" color="primary">
+                          Salva
+                        </Button>
+                      </Grid>
+                    </Grid>
                   </Grid>
                 </Grid>
               </CardContent>
@@ -92,7 +99,7 @@ export default function Account() {
                 </LargeButton>
               </Box>
             </Box>
-          </main>
+          </Container>
         )}
       </Authenticator>
     </Box>
