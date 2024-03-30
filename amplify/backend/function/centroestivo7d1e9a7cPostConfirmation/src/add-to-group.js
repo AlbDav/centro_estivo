@@ -37,8 +37,8 @@ exports.handler = async (event) => {
 
   const userAttributes = {
 	  id: event.request.userAttributes.sub,
-	  firstName: family_name,
-	  lastName: given_name,
+	  firstName: given_name,
+	  lastName: family_name,
 	  isResp: false,
 	  createdAt: currentTimestamp,
 	  updatedAt: currentTimestamp

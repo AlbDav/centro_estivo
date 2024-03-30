@@ -1,17 +1,26 @@
 import '@aws-amplify/ui-react/styles.css'
 import LargeButton from '@/components/shared/LargeButton';
 import { Authenticator } from '@aws-amplify/ui-react'
-import { Box, Button, Card, CardContent, Container, FormControlLabel, Grid, Switch, TextField, Typography } from '@mui/material'
+import { Box, Button, Card, CardContent, CardHeader, Container, FormControl, FormControlLabel, Grid, IconButton, InputLabel, MenuItem, Select, Switch, TextField, Typography } from '@mui/material'
 import { API, Hub } from 'aws-amplify';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { GetUserQuery } from '@/API';
 import { getUser } from '@/graphql/queries';
+import CancelSaveButtons from '@/components/shared/CancelSaveButtons';
+import { Edit } from '@mui/icons-material';
+import GroupAvatar from '@/components/shared/GroupAvatar';
+import AccountForm from '@/components/account/AccountForm';
+import AccountData from '@/components/account/AccountData';
 
 export default function Account() {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
+  const [isResp, setIsResp] = useState(false);
+  const [group, setGroup] = useState('');
+  const [resp, setResp] = useState('');
+  const [isEdit, setIsEdit] = useState(false);
 
   const router = useRouter();
   const { user } = useAuth();
@@ -46,6 +55,18 @@ export default function Account() {
     }
   }
 
+  const enterEditMode = () => {
+    setIsEdit(true);
+  }
+
+  const onCancel = () => {
+    setIsEdit(false);
+  }
+
+  const onSave = () => {
+    console.log('save');
+  }
+
   return (
     <Box height="calc(100vh - 64px)" display="flex" alignItems="center" justifyContent="center">
       <Authenticator socialProviders={['google']}
@@ -54,50 +75,29 @@ export default function Account() {
           <Container>
             <Card variant="elevation" sx={{ flexGrow: 1 }}>
               <CardContent>
-                <Grid container justifyContent="flex-start" spacing={2}>
-                  <Grid item xs={12} md={8}>
-                    <TextField
-                      label="Nome"
-                      value={firstName}
-                      onChange={(e) => setFirstName(e.target.value)}
-                      fullWidth
-                    />
-                  </Grid>
-                  <Grid item xs={12} md={8}>
-                    <TextField
-                      label="Cognome"
-                      value={lastName}
-                      onChange={(e) => setLastName(e.target.value)}
-                      fullWidth
-                    />
-                  </Grid>
-                  <Grid item xs={12} md={8}>
-                    <FormControlLabel control={<Switch color="secondary" />} label="Sono un responsabile" />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Grid container justifyContent="center" spacing={2}>
-                      <Grid item>
-                        <Button size="large" variant="outlined" color="secondary">
-                          Annulla
-                        </Button>
-                      </Grid>
-                      <Grid item>
-                        <Button size="large" variant="contained" color="primary">
-                          Salva
-                        </Button>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                </Grid>
+                <CardHeader title="I miei dati"
+                  action={
+                    <IconButton onClick={enterEditMode}>
+                      <Edit />
+                    </IconButton>
+                  } />
+                {isEdit ? <AccountForm initialFirstName={firstName}
+                    initialLastName={lastName}
+                    initialIsResp={isResp}
+                    initialGroup={group}
+                    initialResp={resp}
+                    onCancel={onCancel}
+                    onSave={onSave} /> :
+                  <AccountData firstName={firstName}
+                    lastName={lastName}
+                    isResp={isResp}
+                    group={group}
+                    resp={resp} />}
+
               </CardContent>
             </Card>
-            <Box marginX={3} marginY={3}>
-              <Typography variant="h4" color="text.primary">Ciao user, purtroppo si, sei loggato. Vuoi sloggarti!?</Typography>
-              <Box display="flex" justifyContent="center" marginTop={2}>
-                <LargeButton variant="contained" color="primary" onClick={signOut}>
-                  Logout
-                </LargeButton>
-              </Box>
+            <Box display="flex" justifyContent="center" marginTop={3}>
+              <Button variant="text" onClick={signOut}>Logout</Button>
             </Box>
           </Container>
         )}
