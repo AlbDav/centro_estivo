@@ -31,7 +31,7 @@ type FantaScoreEntry @model @auth(rules: [{allow: groups, provider: userPools, g
   date: AWSDate!
 } 
 
-type Resp @model @auth(rules: [{allow: groups, provider: userPools, groups: ["Admins"], operations: [create, update, delete, read]}, {allow: groups, provider: userPools, groups: ["Refs"], operations: [create, update, read]}, {allow: groups, provider: userPools, groups: ["Users"], operations: [read]}, {allow: public, provider: iam, operations: [read]}]) {
+type Resp @model @auth(rules: [{allow: groups, provider: userPools, groups: ["Admins"], operations: [create, update, delete, read]}, {allow: groups, provider: userPools, groups: ["Refs"], operations: [create, update, read]}, {allow: groups, provider: userPools, groups: ["Users"], operations: [read, update]}, {allow: public, provider: iam, operations: [read]}]) {
   id: ID!
   firstName: String!
   lastName: String!
@@ -44,7 +44,7 @@ type FantaRuleEntryResp @model @auth(rules: [{allow: groups, provider: userPools
   date: AWSDate!
 }
 
-type User @model @auth(rules: [{allow: public, provider: apiKey, operations: [create, read, update]}, {allow: private, operations: [create, read, update]}]) {
+type User @model @auth(rules: [{allow: private, operations: [create, read, update, delete]}]) {
   id: ID!
   firstName: String!
   lastName: String!

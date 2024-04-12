@@ -6,20 +6,22 @@ import { API, Hub } from 'aws-amplify';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/hooks/useAuth';
-import { GetUserQuery } from '@/API';
+import { GetUserQuery, User } from '@/API';
 import { getUser } from '@/graphql/queries';
 import CancelSaveButtons from '@/components/shared/CancelSaveButtons';
 import { Edit } from '@mui/icons-material';
 import GroupAvatar from '@/components/shared/GroupAvatar';
 import AccountForm from '@/components/account/AccountForm';
 import AccountData from '@/components/account/AccountData';
+import { updateUser } from '@/graphql/mutations';
 
 export default function Account() {
-  const [firstName, setFirstName] = useState('');
+/*   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [isResp, setIsResp] = useState(false);
   const [group, setGroup] = useState('');
-  const [resp, setResp] = useState('');
+  const [resp, setResp] = useState(''); */
+  const [userInfo, setUserInfo] = useState({} as User);
   const [isEdit, setIsEdit] = useState(false);
 
   const router = useRouter();
@@ -48,8 +50,7 @@ export default function Account() {
     try {
       const userData = await API.graphql<GetUserQuery>({ query: getUser, variables: { id: user.attributes.sub } }) as any;
       const userInfo = userData.data.getUser;
-      setFirstName(userInfo.firstName);
-      setLastName(userInfo.lastName);
+      setUserInfo(userInfo);
     } catch (error) {
       console.log('Error fetching grous:', error);
     }
@@ -63,8 +64,27 @@ export default function Account() {
     setIsEdit(false);
   }
 
-  const onSave = () => {
-    console.log('save');
+  const onSave = async (firstName: string, lastName: string, isResp: boolean, userRespId: string | null, userGroupId: string | null) => {
+	  try {
+/* 	    if (!group.name || !group.color || !(6 <= group.age && group.age <= 12)) {
+	  	throw new Error('Missing mandatory fields');
+	    } */
+      const updatedUser = {
+        id: userInfo.id,
+        firstName,
+        lastName,
+        isResp,
+        userGroupId,
+        userRespId
+      } as User;
+
+	    await API.graphql({ query: updateUser, variables: { input: updatedUser } }) as any;
+	    fetchUserInfo();
+	  } catch (error) {
+	    console.log('Error updating user:', error);
+	  } finally {
+      setIsEdit(false);
+    }
   }
 
   return (
@@ -76,24 +96,23 @@ export default function Account() {
             <Card variant="elevation" sx={{ flexGrow: 1 }}>
               <CardContent>
                 <CardHeader title="I miei dati"
-                  action={
+                  action={ !isEdit &&
                     <IconButton onClick={enterEditMode}>
                       <Edit />
                     </IconButton>
                   } />
-                {isEdit ? <AccountForm initialFirstName={firstName}
-                    initialLastName={lastName}
-                    initialIsResp={isResp}
-                    initialGroup={group}
-                    initialResp={resp}
+                {isEdit ? <AccountForm initialFirstName={userInfo.firstName}
+                    initialLastName={userInfo.lastName}
+                    initialIsResp={userInfo.isResp}
+                    initialGroup={userInfo.userGroupId}
+                    initialResp={userInfo.userRespId}
                     onCancel={onCancel}
                     onSave={onSave} /> :
-                  <AccountData firstName={firstName}
-                    lastName={lastName}
-                    isResp={isResp}
-                    group={group}
-                    resp={resp} />}
-
+                  <AccountData firstName={userInfo.firstName}
+                    lastName={userInfo.lastName}
+                    isResp={userInfo.isResp}
+                    group={userInfo.group}
+                    resp={userInfo.resp} />}
               </CardContent>
             </Card>
             <Box display="flex" justifyContent="center" marginTop={3}>
