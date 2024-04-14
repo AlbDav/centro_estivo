@@ -1,7 +1,7 @@
 import { Box, FormControl, FormControlLabel, Grid, InputLabel, MenuItem, Select, Switch, TextField, Typography } from "@mui/material";
 import { useEffect, useMemo, useState } from "react";
 import CancelSaveButtons from "../shared/CancelSaveButtons";
-import GroupAvatar from "../shared/GroupAvatar";
+import GroupRespAvatar from "../shared/GroupRespAvatar";
 import { ListGroupsQuery, ListRespsQuery } from "@/API";
 import { listGroups, listResps } from "@/graphql/queries";
 import { API } from "aws-amplify";
@@ -107,18 +107,18 @@ const AccountForm = ({ initialFirstName, initialLastName, initialIsResp, initial
 					<Select
 						label="Responsabile"
 						labelId="resp-label"
-						value={selectedResp}
+						value={resps.length !== 0 ? selectedResp : ''}
 						onChange={handleRespChange}
 						displayEmpty
 						renderValue={selectedRespObject ? () => <Typography>{selectedRespObject.firstName} {selectedRespObject.lastName}</Typography> : undefined}
 						fullWidth
 						inputProps={{ 'aria-label': 'Seleziona gruppo' }}
-						startAdornment={selectedRespObject ? <GroupAvatar color="#e2e2e2" /> : undefined}
+						startAdornment={selectedRespObject ? <GroupRespAvatar color="#e2e2e2" /> : undefined}
 					>
 						{resps.map((resp: any) => (
 							<MenuItem key={resp.id} value={resp.id}>
 								<Box display="flex" alignItems="center" alignContent="center">
-									<GroupAvatar color="#e2e2e2" />
+									<GroupRespAvatar isResp={true} />
 									<Typography>{resp.firstName} {resp.lastName}</Typography>
 								</Box>
 							</MenuItem>
@@ -129,18 +129,18 @@ const AccountForm = ({ initialFirstName, initialLastName, initialIsResp, initial
 					<Select
 						label="Gruppo"
 						labelId="group-label"
-						value={selectedGroup}
+						value={groups.length !== 0 ? selectedGroup : ''}
 						onChange={handleGroupChange}
 						displayEmpty
 						renderValue={selectedGroupObject ? () => <Typography>{selectedGroupObject.name}</Typography> : undefined}
 						fullWidth
 						inputProps={{ 'aria-label': 'Seleziona gruppo' }}
-						startAdornment={selectedGroupObject ? <GroupAvatar color={selectedGroupObject.color} /> : undefined}
+						startAdornment={selectedGroupObject ? <GroupRespAvatar color={selectedGroupObject.color} /> : undefined}
 					>
 						{groups.map((group: any) => (
 							<MenuItem key={group.id} value={group.id}>
 								<Box display="flex" alignItems="center" alignContent="center">
-									<GroupAvatar color={group.color} />
+									<GroupRespAvatar color={group.color} />
 									<Typography>{group.name}</Typography>
 								</Box>
 							</MenuItem>

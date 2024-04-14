@@ -1,13 +1,13 @@
 import { Grid, Typography, Box, Chip } from '@mui/material';
 import PointsTypography from './PointsTypography';
-import GroupAvatar from './GroupAvatar';
+import GroupRespAvatar from './GroupRespAvatar';
 
 const CardHeaderTitlePoints = ({ name, score, variant, color, showMultiplier = false }: any) => {
 	return (
 		<Grid container justifyContent="space-between" alignItems="center">
 			<Grid item xs={9}>
 				<Box display="flex" alignItems="center">
-					{color && <GroupAvatar color={color} />}
+					{color && <GroupRespAvatar color={color} />}
 					<Typography variant={variant} mb={-0.25} mr={0.5}>
 						{name}
 					</Typography>
