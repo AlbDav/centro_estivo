@@ -26,7 +26,6 @@ const StyledUl = styled('ul')({
 
 const StyledCardHeader = styled(CardHeader)({
 	textAlign: 'center',
-	textTransform: 'uppercase',
 	paddingBottom: 0,
 	'& .MuiCardHeader-title': {
 		fontSize: '1.8rem',
@@ -47,8 +46,10 @@ const FantaRules = () => {
 		}
 	}, [isUserLogged]);
 
-	const [positiveRules, setPositiveRules] = useState([]);
-	const [negativeRules, setNegativeRules] = useState([]);
+	const [positiveGroupRules, setPositiveGroupRules] = useState([]);
+	const [negativeGroupRules, setNegativeGroupRules] = useState([]);
+  const [positiveRespRules, setPositiveRespRules] = useState([]);
+	const [negativeRespRules, setNegativeRespRules] = useState([]);
 	const [showForm, setShowForm] = useState(false);
 	const [isLoading, setIsLoading] = useState(true);
 	const [deleteDialogVisible, setDeleteDialogVisible] = useState(false);
@@ -107,11 +108,15 @@ const FantaRules = () => {
 	};
 
 	const splitRules = (rules: any) => {
-		let positive = rules.filter((el: any) => el.points >= 0);
-		let negative = rules.filter((el: any) => el.points < 0);
+		let positiveGroups = rules.filter((el: any) => el.points >= 0 && !el.isResp);
+		let negativeGroups = rules.filter((el: any) => el.points < 0 && !el.isResp);
+    let positiveResps = rules.filter((el: any) => el.points >= 0 && el.isResp);
+		let negativeResps = rules.filter((el: any) => el.points < 0 && el.isResp);
 
-		setPositiveRules(positive);
-		setNegativeRules(negative);
+		setPositiveGroupRules(positiveGroups);
+		setNegativeGroupRules(negativeGroups);
+    setPositiveRespRules(positiveResps);
+		setNegativeRespRules(negativeResps);
 	};
 
 	const toggleDeleteDialog = (rule?: any) => {
@@ -141,23 +146,20 @@ const FantaRules = () => {
 		<>
 			<Container>
 				<Box marginTop={2}>
-					<Typography variant="h4" align="center" color="text.primary" sx={{ textTransform: 'uppercase' }}>Regolamento</Typography>
+					<Typography variant="h4" align="center" color="text.primary">Regolamento</Typography>
 					<Typography component="div" variant="body1" color="text.primary" marginX={1} marginTop={1}>
 						<StyledUl>
 							<li>
-								<strong>Ogni Gruppo</strong> del Centro Estivo avrà la possibilità di <strong>creare il proprio Team</strong>, che sarà formato da <strong>3 Gruppi</strong>.
+								<strong>Ogni educatore o responsabile</strong> del Centro Estivo avrà la possibilità di <strong>creare il proprio Team</strong>, che sarà formato da <strong>3 Gruppi</strong> e <strong>1 Responsabile</strong>.
 							</li>
 							<li>
-								Ogni Team dovrà avere un <strong>nome</strong>.
-							</li>
-							<li>
-								<strong>Uno dei 3 Gruppi</strong> scelti dovrà essere <strong>il proprio</strong>.
+								<strong>Uno dei 3 Gruppi</strong> scelti dovrà essere <strong>il proprio</strong>. Se il giocatore è un responsabile, dovrà scegliere <strong>se stesso</strong>.
 							</li>
 							<li>
 								Tra i 3 Gruppi scelti bisogna sceglierne 1 che sarà il <strong>Gruppo Leader</strong> e prenderà il <strong>doppio dei punti</strong>.
 							</li>
 							<li>
-								Il Team dovrà essere comunicato <strong>entro il 21 maggio</strong> per poter essere inserito prima dell&#39;inizio del Centro Estivo.
+								Il Team dovrà essere creato <strong>entro il 25 maggio</strong>.
 							</li>
 							<li>
 								Durante il Centro Estivo sarà possibile <strong>prendere o perdere punti</strong> in base ai bonus e ai malus <strong>elencati di seguito</strong>.
@@ -188,15 +190,15 @@ const FantaRules = () => {
 						</Fab>
 					)}
 				</Box>}
-				<Box marginY={4}>
+				<Box marginY={3}>
 					<Card variant="elevation">
-						<StyledCardHeader title="Bonus" />
+						<StyledCardHeader title="Bonus Gruppi" />
 						<CardContent sx={{ paddingTop: 0 }}>
 							{isLoading ?
 								<Box display="flex" justifyContent="center">
 									<CircularProgress color="secondary" />
 								</Box>
-								: positiveRules.map((rule: any) => (
+								: positiveGroupRules.map((rule: any) => (
 									<RuleBox key={rule.id}>
 										<RuleCard rule={rule} isUserAdmin={isUserAdmin} onDelete={toggleDeleteDialog} />
 									</RuleBox>
@@ -204,15 +206,47 @@ const FantaRules = () => {
 						</CardContent>
 					</Card>
 				</Box>
-				<Box marginTop={4}>
+				<Box marginTop={3}>
 					<Card variant="elevation">
-						<StyledCardHeader title="Malus" />
+						<StyledCardHeader title="Bonus Responsabili" />
 						<CardContent sx={{ paddingTop: 0 }}>
 							{isLoading ?
 								<Box display="flex" justifyContent="center">
 									<CircularProgress color="secondary" />
 								</Box>
-								: negativeRules.map((rule: any) => (
+								: positiveRespRules.map((rule: any) => (
+									<RuleBox key={rule.id}>
+										<RuleCard rule={rule} isUserAdmin={isUserAdmin} onDelete={toggleDeleteDialog} />
+									</RuleBox>
+								))}
+						</CardContent>
+					</Card>
+				</Box>
+				<Box marginTop={3}>
+					<Card variant="elevation">
+						<StyledCardHeader title="Malus Gruppi" />
+						<CardContent sx={{ paddingTop: 0 }}>
+							{isLoading ?
+								<Box display="flex" justifyContent="center">
+									<CircularProgress color="secondary" />
+								</Box>
+								: negativeGroupRules.map((rule: any) => (
+									<RuleBox key={rule.id}>
+										<RuleCard rule={rule} isUserAdmin={isUserAdmin} onDelete={toggleDeleteDialog} />
+									</RuleBox>
+								))}
+						</CardContent>
+					</Card>
+				</Box>
+				<Box marginTop={3}>
+					<Card variant="elevation">
+						<StyledCardHeader title="Malus Responsabili" />
+						<CardContent sx={{ paddingTop: 0 }}>
+							{isLoading ?
+								<Box display="flex" justifyContent="center">
+									<CircularProgress color="secondary" />
+								</Box>
+								: negativeRespRules.map((rule: any) => (
 									<RuleBox key={rule.id}>
 										<RuleCard rule={rule} isUserAdmin={isUserAdmin} onDelete={toggleDeleteDialog} />
 									</RuleBox>

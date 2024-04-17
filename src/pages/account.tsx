@@ -14,11 +14,11 @@ import AccountData from '@/components/account/AccountData';
 import { updateUser } from '@/graphql/mutations';
 
 export default function Account() {
-/*   const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [isResp, setIsResp] = useState(false);
-  const [group, setGroup] = useState('');
-  const [resp, setResp] = useState(''); */
+  /*   const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [isResp, setIsResp] = useState(false);
+    const [group, setGroup] = useState('');
+    const [resp, setResp] = useState(''); */
   const [userInfo, setUserInfo] = useState({} as User);
   const [isEdit, setIsEdit] = useState(false);
 
@@ -63,10 +63,13 @@ export default function Account() {
   }
 
   const onSave = async (firstName: string, lastName: string, isResp: boolean, userRespId: string | null, userGroupId: string | null) => {
-	  try {
-/* 	    if (!group.name || !group.color || !(6 <= group.age && group.age <= 12)) {
-	  	throw new Error('Missing mandatory fields');
-	    } */
+    try {
+      if ((!firstName && !lastName) ||
+        (isResp && userRespId === null) ||
+        (!isResp && userGroupId === null)) {
+        throw new Error('Missing mandatory fields');
+      }
+
       const updatedUser = {
         id: userInfo.id,
         firstName,
@@ -76,11 +79,11 @@ export default function Account() {
         userRespId
       } as User;
 
-	    await API.graphql({ query: updateUser, variables: { input: updatedUser } }) as any;
-	    fetchUserInfo();
-	  } catch (error) {
-	    console.log('Error updating user:', error);
-	  } finally {
+      await API.graphql({ query: updateUser, variables: { input: updatedUser } }) as any;
+      fetchUserInfo();
+    } catch (error) {
+      console.log('Error updating user:', error);
+    } finally {
       setIsEdit(false);
     }
   }
@@ -94,18 +97,18 @@ export default function Account() {
             <Card variant="elevation" sx={{ flexGrow: 1 }}>
               <CardContent>
                 <CardHeader title="I miei dati"
-                  action={ !isEdit &&
+                  action={!isEdit &&
                     <IconButton onClick={enterEditMode}>
                       <Edit />
                     </IconButton>
                   } />
                 {isEdit ? <AccountForm initialFirstName={userInfo.firstName}
-                    initialLastName={userInfo.lastName}
-                    initialIsResp={userInfo.isResp}
-                    initialGroup={userInfo.userGroupId}
-                    initialResp={userInfo.userRespId}
-                    onCancel={onCancel}
-                    onSave={onSave} /> :
+                  initialLastName={userInfo.lastName}
+                  initialIsResp={userInfo.isResp}
+                  initialGroup={userInfo.userGroupId}
+                  initialResp={userInfo.userRespId}
+                  onCancel={onCancel}
+                  onSave={onSave} /> :
                   <AccountData firstName={userInfo.firstName}
                     lastName={userInfo.lastName}
                     isResp={userInfo.isResp}
