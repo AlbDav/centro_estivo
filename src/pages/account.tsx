@@ -1,7 +1,6 @@
 import '@aws-amplify/ui-react/styles.css'
-import LargeButton from '@/components/shared/LargeButton';
 import { Authenticator } from '@aws-amplify/ui-react'
-import { Box, Button, Card, CardContent, CardHeader, Container, FormControl, FormControlLabel, Grid, IconButton, InputLabel, MenuItem, Select, Switch, TextField, Typography } from '@mui/material'
+import { Box, Button, Card, CardContent, CardHeader, Container, IconButton } from '@mui/material'
 import { API, Hub } from 'aws-amplify';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
