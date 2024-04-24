@@ -1,9 +1,9 @@
 import { Avatar } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { Group } from '@mui/icons-material';
+import { Group, Key } from '@mui/icons-material';
 import { isLight } from '@/helpers/ColorHelpers';
 
-const GroupAvatar = ({ color }: any) => {
+const GroupRespAvatar = ({ isResp = false, color = '#e2e2e2' }: any) => {
   const theme = useTheme();
   
   return (
@@ -16,9 +16,9 @@ const GroupAvatar = ({ color }: any) => {
         border: isLight(color) ? `1px solid ${theme.palette.text.primary}` : 'none',
       }}
     >
-      <Group sx={{ color: theme.palette.getContrastText(color) }} />
+      {isResp ? <Key sx={{ color: theme.palette.getContrastText(color) }} /> : <Group sx={{ color: theme.palette.getContrastText(color) }} />}
     </Avatar>
   );
 };
 
-export default GroupAvatar;
+export default GroupRespAvatar;

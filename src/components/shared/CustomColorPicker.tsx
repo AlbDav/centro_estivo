@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { HexColorInput, HexColorPicker } from "react-colorful";
 import { Box, Popover, TextField } from "@mui/material";
-import GroupAvatar from "./GroupAvatar";
+import GroupRespAvatar from "./GroupRespAvatar";
 
 const CustomColorPicker = ({ color, onChange }: any) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -29,7 +29,7 @@ const CustomColorPicker = ({ color, onChange }: any) => {
         fullWidth
         value={color}
         InputProps={{
-          startAdornment: <GroupAvatar color={color}/>,
+          startAdornment: <GroupRespAvatar color={color}/>,
           readOnly: true,
         }}
         onClick={(event: any) => {

@@ -5,7 +5,7 @@ import { API } from 'aws-amplify';
 import { ListGroupsQuery } from '@/API';
 import { listGroups } from '@/graphql/queries';
 import LargeButton from '../shared/LargeButton';
-import GroupAvatar from '../shared/GroupAvatar';
+import GroupRespAvatar from '../shared/GroupRespAvatar';
 
 const NewTeamForm = ({ onCancel, onSave }: any) => {
   const [groups, setGroups] = useState<any>([]);
@@ -87,12 +87,12 @@ const NewTeamForm = ({ onCancel, onSave }: any) => {
             renderValue={leaderGroup ? () => <Typography>{getGroupById(leaderGroup).name}</Typography> : undefined}
             fullWidth
             inputProps={{ 'aria-label': 'Seleziona gruppo leader' }}
-            startAdornment={leaderGroup ? <GroupAvatar color={getGroupById(leaderGroup).color} /> : undefined}
+            startAdornment={leaderGroup ? <GroupRespAvatar color={getGroupById(leaderGroup).color} /> : undefined}
           >
             {groups.map((group: any) => (
               <MenuItem key={group.id} value={group.id} disabled={alreadyPicked(group)}>
                 <Box display="flex" alignItems="center" alignContent="center">
-                  <GroupAvatar color={group.color} />
+                  <GroupRespAvatar color={group.color} />
                   <Typography>{group.name}</Typography>
                 </Box>
               </MenuItem>
@@ -113,12 +113,12 @@ const NewTeamForm = ({ onCancel, onSave }: any) => {
               renderValue={additionalGroup ? () => <Typography>{getGroupById(additionalGroup).name}</Typography> : undefined}
               fullWidth
               inputProps={{ 'aria-label': `Seleziona gruppo ${index + 2}` }}
-              startAdornment={additionalGroup ? <GroupAvatar color={getGroupById(additionalGroup).color} /> : undefined}
+              startAdornment={additionalGroup ? <GroupRespAvatar color={getGroupById(additionalGroup).color} /> : undefined}
             >
               {groups.map((group: any) => (
                 <MenuItem key={group.id} value={group.id} disabled={alreadyPicked(group, index)}>
                   <Box display="flex" alignItems="center">
-                    <GroupAvatar color={group.color} small />
+                    <GroupRespAvatar color={group.color} small />
                     <Typography>{group.name}</Typography>
                   </Box>
                 </MenuItem>

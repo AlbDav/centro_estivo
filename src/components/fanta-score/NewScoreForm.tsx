@@ -9,7 +9,7 @@ import { DatePicker } from '@mui/x-date-pickers';
 import { format } from 'date-fns';
 import LargeButton from '../shared/LargeButton';
 import StyledDataGrid from '../shared/StyledDataGrid';
-import GroupAvatar from '../shared/GroupAvatar';
+import GroupRespAvatar from '../shared/GroupRespAvatar';
 
 /* const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
   '& .MuiDataGrid-row.Mui-selected': {
@@ -158,12 +158,12 @@ const NewScoreForm = ({ onCancel, onSave }: any) => {
                 fullWidth
                 inputProps={{ 'aria-label': 'Seleziona gruppo leader' }}
                 renderValue={selectedGroup ? () => <Typography>{getGroupById(selectedGroup).name}</Typography> : undefined}
-                startAdornment={selectedGroup ? <GroupAvatar color={getGroupById(selectedGroup).color} /> : undefined}
+                startAdornment={selectedGroup ? <GroupRespAvatar color={getGroupById(selectedGroup).color} /> : undefined}
               >
                 {groups.map((group: any) => (
                   <MenuItem key={group.id} value={group.id}>
                     <Box display="flex">
-                      <GroupAvatar color={group.color} />
+                      <GroupRespAvatar color={group.color} />
                       <Typography>{group.name}</Typography>
                     </Box>
                   </MenuItem>

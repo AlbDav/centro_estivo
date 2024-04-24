@@ -1,6 +1,6 @@
 // components/NewRuleForm.js
 import { useState } from 'react';
-import { TextField, Grid, Card, CardContent, Box, FormControlLabel, Checkbox } from '@mui/material';
+import { TextField, Grid, Card, CardContent, Box, FormControlLabel, Checkbox, RadioGroup, Radio, FormControl, FormLabel } from '@mui/material';
 import LargeButton from '../shared/LargeButton';
 
 const NewRuleForm = ({ onCancel, onSave }: any) => {
@@ -9,9 +9,11 @@ const NewRuleForm = ({ onCancel, onSave }: any) => {
   const [points, setPoints] = useState('0');
   const [pointDescription, setPointDescription] = useState('');
   const [nanRule, setNanRule] = useState(false);
+  const [ruleType, setRuleType] = useState('group');
 
   const handleSubmit = () => {
-    onSave({ title, description, points: parseInt(points), pointDescription });
+    const isResp = ruleType === 'resp';
+    onSave({ title, description, points: parseInt(points), pointDescription, isResp });
     setTitle('');
     setDescription('');
     setPoints('0');
@@ -39,6 +41,20 @@ const NewRuleForm = ({ onCancel, onSave }: any) => {
     <Card variant="elevation" sx={{ flexGrow: 1 }}>
       <CardContent>
         <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <FormControl>
+            <FormLabel>Tipo di regola</FormLabel>
+            <RadioGroup
+              value={ruleType}
+              onChange={(event) => { setRuleType(event.target.value) }}
+              >
+              <Box display="flex" flexWrap="wrap">
+                <FormControlLabel value="group" control={<Radio color="secondary" />} label="Regola gruppi" />
+                <FormControlLabel value="resp" control={<Radio color="secondary" />} label="Regola responsabili" />
+              </Box>
+            </RadioGroup>
+              </FormControl>
+          </Grid>
           <Grid item xs={12}>
             <TextField label="Title" fullWidth value={title} onChange={(e) => setTitle(e.target.value)} />
           </Grid>
