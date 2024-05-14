@@ -1,20 +1,24 @@
 // components/NewRuleForm.js
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { TextField, Grid, Select, Typography, MenuItem, Box, FormControl, InputLabel } from '@mui/material';
 import { API } from 'aws-amplify';
-import { ListGroupsQuery } from '@/API';
-import { listGroups } from '@/graphql/queries';
+import { ListGroupsQuery, ListRespsQuery } from '@/API';
+import { listGroups, listResps } from '@/graphql/queries';
 import LargeButton from '../shared/LargeButton';
 import GroupRespAvatar from '../shared/GroupRespAvatar';
+import CancelSaveButtons from '../shared/CancelSaveButtons';
 
 const NewTeamForm = ({ onCancel, onSave }: any) => {
   const [groups, setGroups] = useState<any>([]);
   const [teamName, setTeamName] = useState('');
   const [leaderGroup, setLeaderGroup] = useState('');
   const [additionalGroups, setAdditionalGroups] = useState(['', '']);
+  const [resps, setResps] = useState<any>([]);
+  const [selectedResp, setSelectedResp] = useState('');
 
   useEffect(() => {
     fetchGroups();
+    fetchResps();
   }, []);
 
   const getGroupById = (id: string) => {
@@ -45,9 +49,20 @@ const NewTeamForm = ({ onCancel, onSave }: any) => {
     }
   };
 
+  const fetchResps = async () => {
+    try {
+      const respData = await API.graphql<ListRespsQuery>({ query: listResps }) as any;
+      const respItems = respData.data.listResps.items;
+      setResps(respItems);
+    } catch (error) {
+      console.log('Error fetching resps:', error);
+    }
+  };
+
   const handleSubmit = () => {
-    onSave({ name: teamName, leaderGroup, additionalGroups });
+    onSave({ name: teamName, resp: selectedResp, leaderGroup, additionalGroups });
     setTeamName('');
+    setSelectedResp('');
     setLeaderGroup('');
     setAdditionalGroups(['', '']);
   };
@@ -65,6 +80,19 @@ const NewTeamForm = ({ onCancel, onSave }: any) => {
     return false;
   }
 
+  const handleRespChange = (event: any) => {
+    setSelectedResp(event.target.value);
+  };
+
+  const getRespById = (id: string) => {
+    return resps.find((el: any) => el.id === id);
+  }
+
+  const selectedRespObject = useMemo(() => {
+    const respObj = getRespById(selectedResp);
+    return respObj ? respObj : undefined;
+  }, [selectedResp, resps]);
+
   return (
     <Grid container justifyContent="center" spacing={2}>
       <Grid item xs={12}>
@@ -74,6 +102,31 @@ const NewTeamForm = ({ onCancel, onSave }: any) => {
           onChange={handleTeamNameChange}
           fullWidth
         />
+      </Grid>
+      <Grid item xs={12}>
+        <FormControl fullWidth>
+          <InputLabel id="resp-label">Responsabile</InputLabel>
+          <Select
+            label="Responsabile"
+            labelId="resp-label"
+            value={selectedResp}
+            onChange={handleRespChange}
+            displayEmpty
+            renderValue={selectedRespObject ? () => <Typography>{selectedRespObject.firstName} {selectedRespObject.lastName}</Typography> : undefined}
+            fullWidth
+            inputProps={{ 'aria-label': 'Seleziona responsabile' }}
+            startAdornment={selectedRespObject ? <GroupRespAvatar color="#e2e2e2" /> : undefined}
+          >
+              {resps.map((resp: any) => (
+                <MenuItem key={resp.id} value={resp.id}>
+                  <Box display="flex" alignItems="center" alignContent="center">
+                    <GroupRespAvatar isResp={true} />
+                    <Typography>{resp.firstName} {resp.lastName}</Typography>
+                  </Box>
+                </MenuItem>
+              ))}
+          </Select>
+        </FormControl>
       </Grid>
       <Grid item xs={12}>
         <FormControl fullWidth>
@@ -127,16 +180,7 @@ const NewTeamForm = ({ onCancel, onSave }: any) => {
           </FormControl>
         </Grid>
       ))}
-      <Grid item xs={12}>
-        <Box display="flex" justifyContent="center">
-          <LargeButton variant="outlined" color="secondary" onClick={onCancel}>
-            Annulla
-          </LargeButton>
-          <LargeButton variant="contained" color="primary" onClick={handleSubmit} style={{ marginLeft: '40px' }}>
-            Salva
-          </LargeButton>
-        </Box>
-      </Grid>
+      <CancelSaveButtons onCancel={onCancel} onSave={handleSubmit} />
     </Grid>
   );
 };
