@@ -17,10 +17,9 @@ const FantaTeams = () => {
   const [groupedScores, setGroupedScores] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [authChecked, setAuthChecked] = useState(false);
-  const { isUserLogged, isUserAdmin, isUserRef, userInfo } = useAuth();
+  const { isUserLogged, userInfo } = useAuth();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
-  const [checkingExistingTeam, setCheckingExistingTeam] = useState(true);
   const [userTeam, setUserTeam] = useState({} as FantaTeam);
 
   useEffect(() => {
@@ -34,17 +33,6 @@ const FantaTeams = () => {
   }, [isUserLogged]);
 
   useEffect(() => {
-    if (userInfo && userInfo.id) {
-      checkForEistingTeam(userInfo.id).then((team) => {
-        if (team.length > 0) {
-          setUserTeam(team[0]);
-        }
-        setCheckingExistingTeam(false);
-      })
-    }
-  }, [userInfo]);
-
-  useEffect(() => {
     const newTeamsToShow = teams.map(team => calculateTeamData(team)).sort((a: any, b: any) => b.teamScore - a.teamScore);;
     setTeamsToShow(newTeamsToShow);
   }, [teams, groupedScores]);
@@ -54,6 +42,10 @@ const FantaTeams = () => {
       const teamData = await API.graphql<ListFantaTeamsQuery>({ query: listFantaTeams }) as any;
       const teamItems = teamData.data.listFantaTeams.items;
       setTeams(teamItems);
+      let teamFound = teamItems.find((item: FantaTeam) => item.ownerUserId === userInfo.id);
+      if (teamFound) {
+        setUserTeam(teamFound);
+      }
       setIsLoading(false);
     } catch (error) {
       console.log('Error fetching teams:', error);
@@ -88,7 +80,8 @@ const FantaTeams = () => {
       teamScore,
       leaderGroup: leaderGroupData,
       groups: groupData,
-      dates: uniqueDates
+      dates: uniqueDates,
+      resp: team.resp
     };
   }
 
@@ -138,7 +131,7 @@ const FantaTeams = () => {
 
   return (
     <Container>
-      {(!checkingExistingTeam && !userTeam.id) && <Box marginTop={3} display="flex" justifyContent="center">
+      {(!userTeam.id) && <Box marginTop={3} display="flex" justifyContent="center">
         {showForm ? (
           <Card variant="elevation" sx={{ flexGrow: 1 }}>
             <CardContent>
