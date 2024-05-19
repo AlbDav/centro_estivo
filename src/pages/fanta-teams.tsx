@@ -8,7 +8,7 @@ import NewTeamForm from '@/components/fanta-teams/NewTeamForm';
 import TeamCard from '@/components/fanta-teams/TeamCard';
 import { useAuth } from '@/hooks/useAuth';
 import { useRouter } from 'next/router';
-import { Add, SignalCellularNoSimOutlined } from '@mui/icons-material';
+import { Add } from '@mui/icons-material';
 import { getGroupScore, getGroupedScores } from '@/helpers/FantaHelpers';
 
 const FantaTeams = () => {
