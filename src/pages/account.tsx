@@ -5,24 +5,17 @@ import { API, Hub } from 'aws-amplify';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/hooks/useAuth';
-import { GetUserQuery, User } from '@/API';
-import { getUser } from '@/graphql/queries';
+import { User } from '@/API';
 import { Edit } from '@mui/icons-material';
 import AccountForm from '@/components/account/AccountForm';
 import AccountData from '@/components/account/AccountData';
 import { updateUser } from '@/graphql/mutations';
 
 export default function Account() {
-  /*   const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [isResp, setIsResp] = useState(false);
-    const [group, setGroup] = useState('');
-    const [resp, setResp] = useState(''); */
-  const [userInfo, setUserInfo] = useState({} as User);
   const [isEdit, setIsEdit] = useState(false);
 
   const router = useRouter();
-  const { user } = useAuth();
+  const { userInfo, fetchUserInfo } = useAuth();
 
   useEffect(() => {
     const removeListener = Hub.listen('auth', async ({ payload: { event } }) => {
@@ -36,22 +29,6 @@ export default function Account() {
       removeListener();
     };
   }, []);
-
-  useEffect(() => {
-    if (user) {
-      fetchUserInfo();
-    }
-  }, [user]);
-
-  const fetchUserInfo = async () => {
-    try {
-      const userData = await API.graphql<GetUserQuery>({ query: getUser, variables: { id: user.attributes.sub } }) as any;
-      const userInfo = userData.data.getUser;
-      setUserInfo(userInfo);
-    } catch (error) {
-      console.log('Error fetching grous:', error);
-    }
-  }
 
   const enterEditMode = () => {
     setIsEdit(true);

@@ -3,7 +3,7 @@ import { styled } from '@mui/system';
 import { useEffect, useRef, useState } from 'react';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import CardHeaderTitlePoints from '../shared/CardHeaderTitlePoints';
-import TeamGroupCard from './TeamGroupCard';
+import TeamComponentCard from './TeamComponentCard';
 
 const StyledCardContent = styled(CardContent)({
   paddingTop: 0,
@@ -56,9 +56,10 @@ const TeamCard = ({ team }: any) => {
               </Select>
             </Grid>
           </Grid>}
-          <TeamGroupCard group={team.leaderGroup} showMultiplier showGroupInfo={showTeamInfo} date={selectedDate} />
+          <TeamComponentCard teamComponent={team.resp} isResp showTeamInfo={showTeamInfo} date={selectedDate} />
+          <TeamComponentCard teamComponent={team.leaderGroup} showMultiplier showTeamInfo={showTeamInfo} date={selectedDate} />
         {team.groups.map((group: any) => (
-          <TeamGroupCard key={group.groupId} group={group} showGroupInfo={showTeamInfo} date={selectedDate} />
+          <TeamComponentCard key={group.groupId} teamComponent={group} showTeamInfo={showTeamInfo} date={selectedDate} />
         ))}
       </StyledCardContent>
       <CardActions>

@@ -23,17 +23,14 @@ export declare type ValidationResponse = {
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type FantaTeamCreateFormInputValues = {
     name?: string;
-    ownerUserId?: string;
 };
 export declare type FantaTeamCreateFormValidationValues = {
     name?: ValidationFunction<string>;
-    ownerUserId?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type FantaTeamCreateFormOverridesProps = {
     FantaTeamCreateFormGrid?: PrimitiveOverrideProps<GridProps>;
     name?: PrimitiveOverrideProps<TextFieldProps>;
-    ownerUserId?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type FantaTeamCreateFormProps = React.PropsWithChildren<{
     overrides?: FantaTeamCreateFormOverridesProps | undefined | null;

@@ -59,11 +59,22 @@ export const createGroup = /* GraphQL */ `mutation CreateGroup(
             updatedAt
             __typename
           }
-          ownerUserId
+          owner {
+            id
+            firstName
+            lastName
+            isResp
+            createdAt
+            updatedAt
+            userRespId
+            userGroupId
+            __typename
+          }
           createdAt
           updatedAt
           fantaTeamLeaderGroupId
           fantaTeamRespId
+          fantaTeamOwnerId
           __typename
         }
         createdAt
@@ -133,11 +144,22 @@ export const updateGroup = /* GraphQL */ `mutation UpdateGroup(
             updatedAt
             __typename
           }
-          ownerUserId
+          owner {
+            id
+            firstName
+            lastName
+            isResp
+            createdAt
+            updatedAt
+            userRespId
+            userGroupId
+            __typename
+          }
           createdAt
           updatedAt
           fantaTeamLeaderGroupId
           fantaTeamRespId
+          fantaTeamOwnerId
           __typename
         }
         createdAt
@@ -207,11 +229,22 @@ export const deleteGroup = /* GraphQL */ `mutation DeleteGroup(
             updatedAt
             __typename
           }
-          ownerUserId
+          owner {
+            id
+            firstName
+            lastName
+            isResp
+            createdAt
+            updatedAt
+            userRespId
+            userGroupId
+            __typename
+          }
           createdAt
           updatedAt
           fantaTeamLeaderGroupId
           fantaTeamRespId
+          fantaTeamOwnerId
           __typename
         }
         createdAt
@@ -279,11 +312,22 @@ export const createFantaTeam = /* GraphQL */ `mutation CreateFantaTeam(
             updatedAt
             __typename
           }
-          ownerUserId
+          owner {
+            id
+            firstName
+            lastName
+            isResp
+            createdAt
+            updatedAt
+            userRespId
+            userGroupId
+            __typename
+          }
           createdAt
           updatedAt
           fantaTeamLeaderGroupId
           fantaTeamRespId
+          fantaTeamOwnerId
           __typename
         }
         createdAt
@@ -315,11 +359,11 @@ export const createFantaTeam = /* GraphQL */ `mutation CreateFantaTeam(
           fantaTeam {
             id
             name
-            ownerUserId
             createdAt
             updatedAt
             fantaTeamLeaderGroupId
             fantaTeamRespId
+            fantaTeamOwnerId
             __typename
           }
           createdAt
@@ -341,11 +385,51 @@ export const createFantaTeam = /* GraphQL */ `mutation CreateFantaTeam(
       updatedAt
       __typename
     }
-    ownerUserId
+    owner {
+      id
+      firstName
+      lastName
+      isResp
+      resp {
+        id
+        firstName
+        lastName
+        createdAt
+        updatedAt
+        __typename
+      }
+      group {
+        id
+        name
+        color
+        age
+        fantaTeams {
+          items {
+            id
+            groupId
+            fantaTeamId
+            createdAt
+            updatedAt
+            __typename
+          }
+          nextToken
+          __typename
+        }
+        createdAt
+        updatedAt
+        __typename
+      }
+      createdAt
+      updatedAt
+      userRespId
+      userGroupId
+      __typename
+    }
     createdAt
     updatedAt
     fantaTeamLeaderGroupId
     fantaTeamRespId
+    fantaTeamOwnerId
     __typename
   }
 }
@@ -402,11 +486,22 @@ export const updateFantaTeam = /* GraphQL */ `mutation UpdateFantaTeam(
             updatedAt
             __typename
           }
-          ownerUserId
+          owner {
+            id
+            firstName
+            lastName
+            isResp
+            createdAt
+            updatedAt
+            userRespId
+            userGroupId
+            __typename
+          }
           createdAt
           updatedAt
           fantaTeamLeaderGroupId
           fantaTeamRespId
+          fantaTeamOwnerId
           __typename
         }
         createdAt
@@ -438,11 +533,11 @@ export const updateFantaTeam = /* GraphQL */ `mutation UpdateFantaTeam(
           fantaTeam {
             id
             name
-            ownerUserId
             createdAt
             updatedAt
             fantaTeamLeaderGroupId
             fantaTeamRespId
+            fantaTeamOwnerId
             __typename
           }
           createdAt
@@ -464,11 +559,51 @@ export const updateFantaTeam = /* GraphQL */ `mutation UpdateFantaTeam(
       updatedAt
       __typename
     }
-    ownerUserId
+    owner {
+      id
+      firstName
+      lastName
+      isResp
+      resp {
+        id
+        firstName
+        lastName
+        createdAt
+        updatedAt
+        __typename
+      }
+      group {
+        id
+        name
+        color
+        age
+        fantaTeams {
+          items {
+            id
+            groupId
+            fantaTeamId
+            createdAt
+            updatedAt
+            __typename
+          }
+          nextToken
+          __typename
+        }
+        createdAt
+        updatedAt
+        __typename
+      }
+      createdAt
+      updatedAt
+      userRespId
+      userGroupId
+      __typename
+    }
     createdAt
     updatedAt
     fantaTeamLeaderGroupId
     fantaTeamRespId
+    fantaTeamOwnerId
     __typename
   }
 }
@@ -525,11 +660,22 @@ export const deleteFantaTeam = /* GraphQL */ `mutation DeleteFantaTeam(
             updatedAt
             __typename
           }
-          ownerUserId
+          owner {
+            id
+            firstName
+            lastName
+            isResp
+            createdAt
+            updatedAt
+            userRespId
+            userGroupId
+            __typename
+          }
           createdAt
           updatedAt
           fantaTeamLeaderGroupId
           fantaTeamRespId
+          fantaTeamOwnerId
           __typename
         }
         createdAt
@@ -561,11 +707,11 @@ export const deleteFantaTeam = /* GraphQL */ `mutation DeleteFantaTeam(
           fantaTeam {
             id
             name
-            ownerUserId
             createdAt
             updatedAt
             fantaTeamLeaderGroupId
             fantaTeamRespId
+            fantaTeamOwnerId
             __typename
           }
           createdAt
@@ -587,11 +733,51 @@ export const deleteFantaTeam = /* GraphQL */ `mutation DeleteFantaTeam(
       updatedAt
       __typename
     }
-    ownerUserId
+    owner {
+      id
+      firstName
+      lastName
+      isResp
+      resp {
+        id
+        firstName
+        lastName
+        createdAt
+        updatedAt
+        __typename
+      }
+      group {
+        id
+        name
+        color
+        age
+        fantaTeams {
+          items {
+            id
+            groupId
+            fantaTeamId
+            createdAt
+            updatedAt
+            __typename
+          }
+          nextToken
+          __typename
+        }
+        createdAt
+        updatedAt
+        __typename
+      }
+      createdAt
+      updatedAt
+      userRespId
+      userGroupId
+      __typename
+    }
     createdAt
     updatedAt
     fantaTeamLeaderGroupId
     fantaTeamRespId
+    fantaTeamOwnerId
     __typename
   }
 }
@@ -698,11 +884,11 @@ export const createFantaScoreEntry = /* GraphQL */ `mutation CreateFantaScoreEnt
           fantaTeam {
             id
             name
-            ownerUserId
             createdAt
             updatedAt
             fantaTeamLeaderGroupId
             fantaTeamRespId
+            fantaTeamOwnerId
             __typename
           }
           createdAt
@@ -767,11 +953,11 @@ export const updateFantaScoreEntry = /* GraphQL */ `mutation UpdateFantaScoreEnt
           fantaTeam {
             id
             name
-            ownerUserId
             createdAt
             updatedAt
             fantaTeamLeaderGroupId
             fantaTeamRespId
+            fantaTeamOwnerId
             __typename
           }
           createdAt
@@ -836,11 +1022,11 @@ export const deleteFantaScoreEntry = /* GraphQL */ `mutation DeleteFantaScoreEnt
           fantaTeam {
             id
             name
-            ownerUserId
             createdAt
             updatedAt
             fantaTeamLeaderGroupId
             fantaTeamRespId
+            fantaTeamOwnerId
             __typename
           }
           createdAt
@@ -1067,11 +1253,11 @@ export const createUser = /* GraphQL */ `mutation CreateUser(
           fantaTeam {
             id
             name
-            ownerUserId
             createdAt
             updatedAt
             fantaTeamLeaderGroupId
             fantaTeamRespId
+            fantaTeamOwnerId
             __typename
           }
           createdAt
@@ -1135,11 +1321,11 @@ export const updateUser = /* GraphQL */ `mutation UpdateUser(
           fantaTeam {
             id
             name
-            ownerUserId
             createdAt
             updatedAt
             fantaTeamLeaderGroupId
             fantaTeamRespId
+            fantaTeamOwnerId
             __typename
           }
           createdAt
@@ -1203,11 +1389,11 @@ export const deleteUser = /* GraphQL */ `mutation DeleteUser(
           fantaTeam {
             id
             name
-            ownerUserId
             createdAt
             updatedAt
             fantaTeamLeaderGroupId
             fantaTeamRespId
+            fantaTeamOwnerId
             __typename
           }
           createdAt
@@ -1262,11 +1448,11 @@ export const createFantaTeamGroups = /* GraphQL */ `mutation CreateFantaTeamGrou
           fantaTeam {
             id
             name
-            ownerUserId
             createdAt
             updatedAt
             fantaTeamLeaderGroupId
             fantaTeamRespId
+            fantaTeamOwnerId
             __typename
           }
           createdAt
@@ -1300,11 +1486,11 @@ export const createFantaTeamGroups = /* GraphQL */ `mutation CreateFantaTeamGrou
           fantaTeam {
             id
             name
-            ownerUserId
             createdAt
             updatedAt
             fantaTeamLeaderGroupId
             fantaTeamRespId
+            fantaTeamOwnerId
             __typename
           }
           createdAt
@@ -1343,11 +1529,43 @@ export const createFantaTeamGroups = /* GraphQL */ `mutation CreateFantaTeamGrou
         updatedAt
         __typename
       }
-      ownerUserId
+      owner {
+        id
+        firstName
+        lastName
+        isResp
+        resp {
+          id
+          firstName
+          lastName
+          createdAt
+          updatedAt
+          __typename
+        }
+        group {
+          id
+          name
+          color
+          age
+          fantaTeams {
+            nextToken
+            __typename
+          }
+          createdAt
+          updatedAt
+          __typename
+        }
+        createdAt
+        updatedAt
+        userRespId
+        userGroupId
+        __typename
+      }
       createdAt
       updatedAt
       fantaTeamLeaderGroupId
       fantaTeamRespId
+      fantaTeamOwnerId
       __typename
     }
     createdAt
@@ -1389,11 +1607,11 @@ export const updateFantaTeamGroups = /* GraphQL */ `mutation UpdateFantaTeamGrou
           fantaTeam {
             id
             name
-            ownerUserId
             createdAt
             updatedAt
             fantaTeamLeaderGroupId
             fantaTeamRespId
+            fantaTeamOwnerId
             __typename
           }
           createdAt
@@ -1427,11 +1645,11 @@ export const updateFantaTeamGroups = /* GraphQL */ `mutation UpdateFantaTeamGrou
           fantaTeam {
             id
             name
-            ownerUserId
             createdAt
             updatedAt
             fantaTeamLeaderGroupId
             fantaTeamRespId
+            fantaTeamOwnerId
             __typename
           }
           createdAt
@@ -1470,11 +1688,43 @@ export const updateFantaTeamGroups = /* GraphQL */ `mutation UpdateFantaTeamGrou
         updatedAt
         __typename
       }
-      ownerUserId
+      owner {
+        id
+        firstName
+        lastName
+        isResp
+        resp {
+          id
+          firstName
+          lastName
+          createdAt
+          updatedAt
+          __typename
+        }
+        group {
+          id
+          name
+          color
+          age
+          fantaTeams {
+            nextToken
+            __typename
+          }
+          createdAt
+          updatedAt
+          __typename
+        }
+        createdAt
+        updatedAt
+        userRespId
+        userGroupId
+        __typename
+      }
       createdAt
       updatedAt
       fantaTeamLeaderGroupId
       fantaTeamRespId
+      fantaTeamOwnerId
       __typename
     }
     createdAt
@@ -1516,11 +1766,11 @@ export const deleteFantaTeamGroups = /* GraphQL */ `mutation DeleteFantaTeamGrou
           fantaTeam {
             id
             name
-            ownerUserId
             createdAt
             updatedAt
             fantaTeamLeaderGroupId
             fantaTeamRespId
+            fantaTeamOwnerId
             __typename
           }
           createdAt
@@ -1554,11 +1804,11 @@ export const deleteFantaTeamGroups = /* GraphQL */ `mutation DeleteFantaTeamGrou
           fantaTeam {
             id
             name
-            ownerUserId
             createdAt
             updatedAt
             fantaTeamLeaderGroupId
             fantaTeamRespId
+            fantaTeamOwnerId
             __typename
           }
           createdAt
@@ -1597,11 +1847,43 @@ export const deleteFantaTeamGroups = /* GraphQL */ `mutation DeleteFantaTeamGrou
         updatedAt
         __typename
       }
-      ownerUserId
+      owner {
+        id
+        firstName
+        lastName
+        isResp
+        resp {
+          id
+          firstName
+          lastName
+          createdAt
+          updatedAt
+          __typename
+        }
+        group {
+          id
+          name
+          color
+          age
+          fantaTeams {
+            nextToken
+            __typename
+          }
+          createdAt
+          updatedAt
+          __typename
+        }
+        createdAt
+        updatedAt
+        userRespId
+        userGroupId
+        __typename
+      }
       createdAt
       updatedAt
       fantaTeamLeaderGroupId
       fantaTeamRespId
+      fantaTeamOwnerId
       __typename
     }
     createdAt

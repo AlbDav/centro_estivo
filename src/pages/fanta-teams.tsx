@@ -3,12 +3,12 @@ import { API } from 'aws-amplify';
 import { listFantaScoreEntries, listFantaTeams } from '../graphql/queries';
 import { createFantaTeam, createFantaTeamGroups } from '../graphql/mutations';
 import { Box, Card, CardContent, CircularProgress, Container, Fab, Grid } from '@mui/material';
-import { ListFantaScoreEntriesQuery, ListFantaTeamsQuery } from '@/API';
+import { FantaTeam, ListFantaScoreEntriesQuery, ListFantaTeamsQuery } from '@/API';
 import NewTeamForm from '@/components/fanta-teams/NewTeamForm';
 import TeamCard from '@/components/fanta-teams/TeamCard';
 import { useAuth } from '@/hooks/useAuth';
 import { useRouter } from 'next/router';
-import { Add } from '@mui/icons-material';
+import { Add, SignalCellularNoSimOutlined } from '@mui/icons-material';
 import { getGroupScore, getGroupedScores } from '@/helpers/FantaHelpers';
 
 const FantaTeams = () => {
@@ -17,9 +17,10 @@ const FantaTeams = () => {
 	const [groupedScores, setGroupedScores] = useState([]);
 	const [showForm, setShowForm] = useState(false);
 	const [authChecked, setAuthChecked] = useState(false);
-	const { isUserLogged, isUserAdmin, isUserRef } = useAuth();
+	const { isUserLogged, userInfo } = useAuth();
 	const router = useRouter();
 	const [isLoading, setIsLoading] = useState(true);
+	const [userTeam, setUserTeam] = useState({} as FantaTeam);
 
 	useEffect(() => {
 		if (isUserLogged) {
@@ -41,7 +42,11 @@ const FantaTeams = () => {
 			const teamData = await API.graphql<ListFantaTeamsQuery>({ query: listFantaTeams }) as any;
 			const teamItems = teamData.data.listFantaTeams.items;
 			setTeams(teamItems);
-      setIsLoading(false);
+			let teamFound = teamItems.find((item: FantaTeam) => item.fantaTeamOwnerId === userInfo.id);
+			if (teamFound) {
+				setUserTeam(teamFound);
+			}
+			setIsLoading(false);
 		} catch (error) {
 			console.log('Error fetching teams:', error);
 		}
@@ -75,17 +80,18 @@ const FantaTeams = () => {
 			teamScore,
 			leaderGroup: leaderGroupData,
 			groups: groupData,
-			dates: uniqueDates
+			dates: uniqueDates,
+			resp: team.resp
 		};
 	}
 
 	const addTeam = async (team: any) => {
 		try {
-			if (!team.name || !team.leaderGroup || !team.additionalGroups[0] || !team.additionalGroups[1]) {
+			if (!team.name || !team.resp || !team.leaderGroup || !team.additionalGroups[0] || !team.additionalGroups[1]) {
 				throw new Error('Missing mandatory fields');
 			}
 
-			const teamResponse = await API.graphql({ query: createFantaTeam, variables: { input: { name: team.name, fantaTeamLeaderGroupId: team.leaderGroup } } }) as any;
+			const teamResponse = await API.graphql({ query: createFantaTeam, variables: { input: { name: team.name, fantaTeamRespId: team.resp, fantaTeamLeaderGroupId: team.leaderGroup, fantaTeamOwnerId: userInfo.id } } }) as any;
 
 			const fantaTeamId = teamResponse.data.createFantaTeam.id;
 			const additionalGroupPromises = team.additionalGroups.map(async (groupId: any) => {
@@ -103,6 +109,18 @@ const FantaTeams = () => {
 		}
 	};
 
+	const checkForEistingTeam = async (userId: string) => {
+		const existingTeam = await API.graphql({
+			query: listFantaTeams,
+			variables: {
+				filter: {
+					ownerUserId: { eq: userId },
+				}
+			}
+		}) as any;
+		return existingTeam.data.listFantaTeams.items;
+	};
+
 	if (!authChecked) {
 		return (
 			<Box height="calc(100vh - 64px)" display="flex" alignItems="center" justifyContent="center">
@@ -113,7 +131,7 @@ const FantaTeams = () => {
 
 	return (
 		<Container>
-			{(isUserAdmin || isUserRef) && <Box marginTop={3} display="flex" justifyContent="center">
+			{(!userTeam.id) && <Box marginTop={3} display="flex" justifyContent="center">
 				{showForm ? (
 					<Card variant="elevation" sx={{ flexGrow: 1 }}>
 						<CardContent>
@@ -130,7 +148,7 @@ const FantaTeams = () => {
 						}}
 						aria-label="add" onClick={() => setShowForm(true)}>
 						<Add sx={{ mr: 1 }} />
-						Aggiungi team
+						Crea il tuo Team
 					</Fab>
 				)}
 			</Box>}
@@ -146,7 +164,7 @@ const FantaTeams = () => {
 							</Grid>
 						))}
 					</Grid>}
-      </Box>
+			</Box>
 		</Container>
 	);
 };

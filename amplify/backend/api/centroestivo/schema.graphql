@@ -6,13 +6,13 @@ type Group @model @auth(rules: [{allow: groups, provider: userPools, groups: ["A
   fantaTeams: [FantaTeam] @manyToMany(relationName: "FantaTeamGroups")
 }
 
-type FantaTeam @model @auth(rules: [{allow: groups, provider: userPools, groups: ["Admins"], operations: [create, update, delete, read]}, {allow: groups, provider: userPools, groups: ["Refs"], operations: [create, update, read]}, {allow: groups, provider: userPools, groups: ["Users"], operations: [read]}, {allow: public, provider: iam, operations: [read]}]) {
+type FantaTeam @model @auth(rules: [{allow: groups, provider: userPools, groups: ["Admins"], operations: [create, update, delete, read]}, {allow: groups, provider: userPools, groups: ["Refs"], operations: [create, update, read]}, {allow: groups, provider: userPools, groups: ["Users"], operations: [create, update, read]}, {allow: public, provider: iam, operations: [read]}]) {
   id: ID!
   name: String!
   groups: [Group] @manyToMany(relationName: "FantaTeamGroups")
   leaderGroup: Group @hasOne
   resp: Resp @hasOne
-  ownerUserId: String!
+  owner: User @hasOne
 }
 
 type FantaRule @model @auth(rules: [{allow: groups, provider: userPools, groups: ["Admins"], operations: [create, update, delete, read]}, {allow: groups, provider: userPools, groups: ["Refs"], operations: [create, update, read]}, {allow: groups, provider: userPools, groups: ["Users"], operations: [read]}, {allow: public, provider: iam, operations: [read]}]) {
