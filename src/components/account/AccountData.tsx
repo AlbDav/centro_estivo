@@ -31,15 +31,15 @@ const AccountData = ({ firstName, lastName, isResp, group, resp }: any) => {
       <Grid item xs={12} md={8}>
         <Typography variant="overline">Cognome</Typography><Typography variant="body1">{lastName}</Typography>
       </Grid>
-      {(group || resp) && <Grid item xs={12}>
+      <Grid item xs={12}>
         <Typography variant="overline">{isResp ? 'Responsabile' : 'Gruppo'}</Typography>
-        <Box display="flex" alignItems="center">
+        {(group || resp) && <Box display="flex" alignItems="center">
           <GroupRespAvatar color={groupOrRespColor} isResp={isResp} />
           <Typography mb={-0.25} mr={0.5}>
             {groupOrRespName}
           </Typography>
-        </Box>
-      </Grid>}
+        </Box>}
+      </Grid>
     </Grid>
   );
 }

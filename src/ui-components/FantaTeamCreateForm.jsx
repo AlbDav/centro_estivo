@@ -23,21 +23,15 @@ export default function FantaTeamCreateForm(props) {
   } = props;
   const initialValues = {
     name: "",
-    ownerUserId: "",
   };
   const [name, setName] = React.useState(initialValues.name);
-  const [ownerUserId, setOwnerUserId] = React.useState(
-    initialValues.ownerUserId
-  );
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setName(initialValues.name);
-    setOwnerUserId(initialValues.ownerUserId);
     setErrors({});
   };
   const validations = {
     name: [{ type: "Required" }],
-    ownerUserId: [{ type: "Required" }],
   };
   const runValidationTasks = async (
     fieldName,
@@ -66,7 +60,6 @@ export default function FantaTeamCreateForm(props) {
         event.preventDefault();
         let modelFields = {
           name,
-          ownerUserId,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -130,7 +123,6 @@ export default function FantaTeamCreateForm(props) {
           if (onChange) {
             const modelFields = {
               name: value,
-              ownerUserId,
             };
             const result = onChange(modelFields);
             value = result?.name ?? value;
@@ -144,31 +136,6 @@ export default function FantaTeamCreateForm(props) {
         errorMessage={errors.name?.errorMessage}
         hasError={errors.name?.hasError}
         {...getOverrideProps(overrides, "name")}
-      ></TextField>
-      <TextField
-        label="Owner user id"
-        isRequired={true}
-        isReadOnly={false}
-        value={ownerUserId}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              name,
-              ownerUserId: value,
-            };
-            const result = onChange(modelFields);
-            value = result?.ownerUserId ?? value;
-          }
-          if (errors.ownerUserId?.hasError) {
-            runValidationTasks("ownerUserId", value);
-          }
-          setOwnerUserId(value);
-        }}
-        onBlur={() => runValidationTasks("ownerUserId", ownerUserId)}
-        errorMessage={errors.ownerUserId?.errorMessage}
-        hasError={errors.ownerUserId?.hasError}
-        {...getOverrideProps(overrides, "ownerUserId")}
       ></TextField>
       <Flex
         justifyContent="space-between"

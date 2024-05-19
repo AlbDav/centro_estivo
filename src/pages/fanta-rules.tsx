@@ -23,9 +23,9 @@ const RuleBox = styled('div')(({ theme }) => ({
 
 const StyledUl = styled('ul')({
 	marginLeft: '16px',
-  '& li': {
-    marginBottom: '7px',
-  }
+	'& li': {
+		marginBottom: '7px',
+	}
 });
 
 const StyledCardHeader = styled(CardHeader)({
@@ -158,23 +158,29 @@ const FantaRules = () => {
 							<li>
 								<strong>Ogni educatore o responsabile</strong> del Centro Estivo avrà la possibilità di <strong>creare il proprio Team</strong>, che sarà formato da <strong>3 Gruppi</strong> e <strong>1 Responsabile</strong>.
 							</li>
-              <li>
-								Per creare la propria squadra bisognerà andare in <span style={{ color: theme.palette.secondary.main, fontWeight: 'bold' }}><Link href="/fanta-teams">Classifica</Link></span> e cliccare su <strong>Crea la tua squadra</strong>.	
+							<li>
+								Prima di creare il proprio Team è necessario andare in <span style={{ color: theme.palette.secondary.main, fontWeight: 'bold' }}><Link href="/account">Account</Link></span> e <strong>completare il profilo</strong>.
 							</li>
 							<li>
-								<strong>Uno dei 3 Gruppi</strong> scelti dovrà essere <strong>il proprio</strong>. Se il giocatore è un responsabile, dovrà scegliere <strong>se stesso</strong>.
+								Per creare il proprio Team bisognerà andare in <span style={{ color: theme.palette.secondary.main, fontWeight: 'bold' }}><Link href="/fanta-teams">Classifica</Link></span> e cliccare su <strong>Crea il tuo Team</strong>.
 							</li>
 							<li>
-								Tra i 3 Gruppi scelti bisogna sceglierne 1 che sarà il <strong>Gruppo Leader</strong> e prenderà il <strong>doppio dei punti</strong>.
+								Dopo aver creato un Team <strong>NON sarà possibile cancellarlo</strong>.
 							</li>
 							<li>
-								Il Team dovrà essere creato <strong>entro il 25 maggio</strong>.
+								<strong>Uno dei 3 gruppi</strong> scelti dovrà essere <strong>il proprio</strong>. Se il giocatore è un responsabile, dovrà scegliere <strong>se stesso</strong>.
+							</li>
+							<li>
+								Tra i 3 gruppi scelti bisogna sceglierne 1 che sarà il <strong>Gruppo Leader</strong> e prenderà il <strong>doppio dei punti</strong>.
+							</li>
+							<li>
+								Il Team dovrà essere creato <strong>entro l&#39;8 giugno alle 23:59</strong>.
 							</li>
 							<li>
 								Durante il Centro Estivo sarà possibile <strong>prendere o perdere punti</strong> in base ai bonus e ai malus <strong>elencati di seguito</strong>.
 							</li>
 							<li>
-								I bonus e i malus <strong>non sono cumulabili</strong> alll&#39;interno dello stesso giorno.
+								I bonus e i malus <strong>non sono cumulabili</strong> all&#39;interno dello stesso giorno.
 							</li>
 							<li>
 								I punti e la classifica saranno <strong>aggiornati ogni giorno</strong> e saranno visibili nella sezione <span style={{ color: theme.palette.secondary.main, fontWeight: 'bold' }}><Link href="/fanta-teams">Classifica</Link></span>.
