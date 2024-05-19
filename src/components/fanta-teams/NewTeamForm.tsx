@@ -1,10 +1,9 @@
 // components/NewRuleForm.js
 import { useEffect, useMemo, useState } from 'react';
-import { TextField, Grid, Select, Typography, MenuItem, Box, FormControl, InputLabel, Alert, useTheme } from '@mui/material';
+import { TextField, Grid, Select, Typography, MenuItem, Box, FormControl, InputLabel, Alert } from '@mui/material';
 import { API } from 'aws-amplify';
 import { ListGroupsQuery, ListRespsQuery } from '@/API';
 import { listGroups, listResps } from '@/graphql/queries';
-import LargeButton from '../shared/LargeButton';
 import GroupRespAvatar from '../shared/GroupRespAvatar';
 import CancelSaveButtons from '../shared/CancelSaveButtons';
 import { useAuth } from '@/hooks/useAuth';
