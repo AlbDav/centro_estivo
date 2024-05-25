@@ -65,7 +65,7 @@ export default function Account() {
   }
 
   return (
-    <Box height="calc(100vh - 64px)" display="flex" alignItems="center" justifyContent="center">
+    <Box height="calc(100vh - 64px)" display="flex" alignItems="center" justifyContent="center" marginTop={2}>
       <Authenticator socialProviders={['google']}
       >
         {({ signOut }: any) => (

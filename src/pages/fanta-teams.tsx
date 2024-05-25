@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { API } from 'aws-amplify';
 import { listFantaScoreEntries, listFantaTeams } from '../graphql/queries';
 import { createFantaTeam, createFantaTeamGroups } from '../graphql/mutations';
@@ -20,7 +20,7 @@ const FantaTeams = () => {
 	const { isUserLogged, userInfo } = useAuth();
 	const router = useRouter();
 	const [isLoading, setIsLoading] = useState(true);
-	const [userTeam, setUserTeam] = useState({} as FantaTeam);
+	const [userTeamId, setUserTeamId] = useState('');
 
 	useEffect(() => {
 		if (isUserLogged) {
@@ -37,6 +37,12 @@ const FantaTeams = () => {
 		setTeamsToShow(newTeamsToShow);
 	}, [teams, groupedScores]);
 
+	const userTeamToShow = useMemo(() => {
+		if (teamsToShow.length > 0) {
+			return teamsToShow.find((item: any) => item.teamId === userTeamId);
+		}
+	}, [teamsToShow, userTeamId]);
+
 	const fetchTeams = async () => {
 		try {
 			const teamData = await API.graphql<ListFantaTeamsQuery>({ query: listFantaTeams }) as any;
@@ -44,7 +50,7 @@ const FantaTeams = () => {
 			setTeams(teamItems);
 			let teamFound = teamItems.find((item: FantaTeam) => item.fantaTeamOwnerId === userInfo.id);
 			if (teamFound) {
-				setUserTeam(teamFound);
+				setUserTeamId(teamFound.id);
 			}
 			setIsLoading(false);
 		} catch (error) {
@@ -109,17 +115,11 @@ const FantaTeams = () => {
 		}
 	};
 
-	const checkForEistingTeam = async (userId: string) => {
-		const existingTeam = await API.graphql({
-			query: listFantaTeams,
-			variables: {
-				filter: {
-					ownerUserId: { eq: userId },
-				}
-			}
-		}) as any;
-		return existingTeam.data.listFantaTeams.items;
-	};
+	const dateExpired = useMemo(() => {
+		const expiryDate = process.env.CREATE_TEAM_LAST_DATE as string;
+		const today = new Date().toISOString().slice(0, 10);
+		return today <= expiryDate;
+	}, []);
 
 	if (!authChecked) {
 		return (
@@ -131,7 +131,7 @@ const FantaTeams = () => {
 
 	return (
 		<Container>
-			{(!userTeam.id) && <Box marginTop={3} display="flex" justifyContent="center">
+			{(!userTeamToShow && !dateExpired) ? <Box marginTop={3} display="flex" justifyContent="center">
 				{showForm ? (
 					<Card variant="elevation" sx={{ flexGrow: 1 }}>
 						<CardContent>
@@ -151,7 +151,15 @@ const FantaTeams = () => {
 						Crea il tuo Team
 					</Fab>
 				)}
-			</Box>}
+			</Box> :
+				userTeamToShow && <Box marginTop={3}>
+					<Grid container spacing={4}>
+						<Grid item xs={12}>
+							<TeamCard team={userTeamToShow} />
+						</Grid>
+					</Grid>
+				</Box>
+			}
 			<Box marginTop={4}>
 				{isLoading ?
 					<Box display="flex" justifyContent="center">

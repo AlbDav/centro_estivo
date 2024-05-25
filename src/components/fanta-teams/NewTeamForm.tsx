@@ -66,9 +66,9 @@ const NewTeamForm = ({ onCancel, onSave }: any) => {
   const handleSubmit = () => {
     setAttemptedSave(true);
 
-	if (invalidUser || invalidForm || mandatoryGroupOrResp) {
-		return;
-	}
+    if (invalidUser || invalidForm || mandatoryGroupOrResp) {
+      return;
+    }
 
     onSave({ name: teamName, resp: selectedResp, leaderGroup, additionalGroups });
   };
@@ -120,16 +120,16 @@ const NewTeamForm = ({ onCancel, onSave }: any) => {
   }, [additionalGroups]);
 
   const mandatoryGroupOrResp = useMemo(() => {
-	if (userInfo.isResp) {
-		return !(selectedResp === userInfo.userRespId);
-	} else {
-		const userGroup = userInfo.userGroupId;
-		return !(userGroup === leaderGroup || additionalGroups.some(group => group === userGroup));
-	}
+    if (userInfo.isResp) {
+      return !(selectedResp === userInfo.userRespId);
+    } else {
+      const userGroup = userInfo.userGroupId;
+      return !(userGroup === leaderGroup || additionalGroups.some(group => group === userGroup));
+    }
   }, [userInfo, selectedResp, leaderGroup, additionalGroups]);
-  
+
   const invalidForm = useMemo(() => {
-	console.log(mandatoryGroupOrResp);
+    console.log(mandatoryGroupOrResp);
     return invalidTeamName || invalidResp || invalidLeaderGroup || invalidAdditionalGroups.some(groupInvalid => groupInvalid);
   }, [invalidTeamName, invalidResp, invalidLeaderGroup, invalidAdditionalGroups]);
 
@@ -141,7 +141,7 @@ const NewTeamForm = ({ onCancel, onSave }: any) => {
           value={teamName}
           onChange={handleTeamNameChange}
           fullWidth
-		  error={attemptedSave && invalidTeamName}
+          error={attemptedSave && invalidTeamName}
         />
       </Grid>
       <Grid item xs={12}>
@@ -155,18 +155,18 @@ const NewTeamForm = ({ onCancel, onSave }: any) => {
             displayEmpty
             renderValue={selectedRespObject ? () => <Typography>{selectedRespObject.firstName} {selectedRespObject.lastName}</Typography> : undefined}
             fullWidth
-			error={attemptedSave && invalidResp}
+            error={attemptedSave && invalidResp}
             inputProps={{ 'aria-label': 'Seleziona responsabile' }}
             startAdornment={selectedRespObject ? <GroupRespAvatar color="#e2e2e2" /> : undefined}
           >
-              {resps.map((resp: any) => (
-                <MenuItem key={resp.id} value={resp.id}>
-                  <Box display="flex" alignItems="center" alignContent="center">
-                    <GroupRespAvatar isResp={true} />
-                    <Typography>{resp.firstName} {resp.lastName}</Typography>
-                  </Box>
-                </MenuItem>
-              ))}
+            {resps.map((resp: any) => (
+              <MenuItem key={resp.id} value={resp.id}>
+                <Box display="flex" alignItems="center" alignContent="center">
+                  <GroupRespAvatar isResp={true} />
+                  <Typography>{resp.firstName} {resp.lastName}</Typography>
+                </Box>
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
       </Grid>
@@ -181,7 +181,7 @@ const NewTeamForm = ({ onCancel, onSave }: any) => {
             displayEmpty
             renderValue={leaderGroup ? () => <Typography>{getGroupById(leaderGroup).name}</Typography> : undefined}
             fullWidth
-			error={attemptedSave && invalidLeaderGroup}	
+            error={attemptedSave && invalidLeaderGroup}
             inputProps={{ 'aria-label': 'Seleziona gruppo leader' }}
             startAdornment={leaderGroup ? <GroupRespAvatar color={getGroupById(leaderGroup).color} /> : undefined}
           >
@@ -208,7 +208,7 @@ const NewTeamForm = ({ onCancel, onSave }: any) => {
               displayEmpty
               renderValue={additionalGroup ? () => <Typography>{getGroupById(additionalGroup).name}</Typography> : undefined}
               fullWidth
-			  error={attemptedSave && invalidAdditionalGroups[index]}
+              error={attemptedSave && invalidAdditionalGroups[index]}
               inputProps={{ 'aria-label': `Seleziona gruppo ${index + 2}` }}
               startAdornment={additionalGroup ? <GroupRespAvatar color={getGroupById(additionalGroup).color} /> : undefined}
             >
@@ -225,11 +225,13 @@ const NewTeamForm = ({ onCancel, onSave }: any) => {
         </Grid>
       ))}
       <Grid item xs={12}>
-          {attemptedSave && invalidUser && <Alert sx={{mb: 1}} severity="error">Account incompleto, vai <span style={{ fontWeight: 'bold', textDecoration: 'underline' }}><Link href="/account">qui</Link></span> per completarlo.</Alert>}
-          {attemptedSave && invalidForm && <Alert sx={{mb: 1}} severity="error">Compilare tutti i campi.</Alert>}
-		  {attemptedSave && mandatoryGroupOrResp && <Alert sx={{mb: 1}} severity="error">Uno dei 3 gruppi scelti deve essere il tuo. Se sei un responsabile, devi scegliere te stesso.</Alert>}
-	  </Grid>
-      <CancelSaveButtons onCancel={onCancel} onSave={handleSubmit} />
+        {attemptedSave && invalidUser && <Alert sx={{ mb: 1 }} severity="error">Account incompleto, vai <span style={{ fontWeight: 'bold', textDecoration: 'underline' }}><Link href="/account">qui</Link></span> per completarlo.</Alert>}
+        {attemptedSave && invalidForm && <Alert sx={{ mb: 1 }} severity="error">Compilare tutti i campi.</Alert>}
+        {attemptedSave && mandatoryGroupOrResp && <Alert sx={{ mb: 1 }} severity="error">Uno dei 3 gruppi scelti deve essere il tuo. Se sei un responsabile, devi scegliere te stesso.</Alert>}
+      </Grid>
+      <Grid item xs={12}>
+        <CancelSaveButtons onCancel={onCancel} onSave={handleSubmit} />
+      </Grid>
     </Grid>
   );
 };

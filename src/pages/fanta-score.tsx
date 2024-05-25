@@ -168,7 +168,7 @@ const FantaScore = () => {
               }}
               aria-label="add" onClick={() => setShowForm(true)}>
               <Add sx={{ mr: 1 }} />
-              Aggiungi regola
+              Aggiungi punteggio
             </Fab>
           )}
         </Box>}

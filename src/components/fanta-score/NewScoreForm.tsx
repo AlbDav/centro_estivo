@@ -10,27 +10,7 @@ import { format } from 'date-fns';
 import LargeButton from '../shared/LargeButton';
 import StyledDataGrid from '../shared/StyledDataGrid';
 import GroupRespAvatar from '../shared/GroupRespAvatar';
-
-/* const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
-  '& .MuiDataGrid-row.Mui-selected': {
-  backgroundColor: theme.palette.secondary.light,
-  '&:hover': {
-  backgroundColor: theme.palette.secondary.main,
-  },
-  },
-  '& .MuiDataGrid-columnHeaderTitle': {
-  fontWeight: 'bold',
-  },
-  '& .MuiDataGrid-columnHeader:focus': {
-  outline: 'none',
-  },
-  '& .MuiDataGrid-cell': {
-  cursor: 'pointer',
-  '&:focus': {
-  outline: 'none',
-  },
-  }
-})); */
+import CancelSaveButtons from '../shared/CancelSaveButtons';
 
 const NewScoreForm = ({ onCancel, onSave }: any) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -129,21 +109,6 @@ const NewScoreForm = ({ onCancel, onSave }: any) => {
               label="Data"
               value={selectedDate}
               onChange={handleDateChange}
-            /* 							slotProps={{
-                popper: {
-                  sx: {
-                  '& .Mui-selected': {
-                  backgroundColor: 'red',
-                  },
-                  '& .MuiPickersDay-daySelected:hover': {
-                  backgroundColor: theme.palette.secondary.main,
-                  },
-                  '& .MuiPickersDay-today': {
-                  color: theme.palette.secondary.main,
-                  },
-                  }
-                }
-                }} */
             />
           </Grid>
           <Grid item xs={12} md={6}>
@@ -187,14 +152,7 @@ const NewScoreForm = ({ onCancel, onSave }: any) => {
             />
           </Grid>
           <Grid item xs={12}>
-            <Box display="flex" justifyContent="center">
-              <LargeButton variant="outlined" color="secondary" onClick={onCancel}>
-                Annulla
-              </LargeButton>
-              <LargeButton variant="contained" color="primary" onClick={handleSubmit} style={{ marginLeft: '40px' }}>
-                Salva
-              </LargeButton>
-            </Box>
+            <CancelSaveButtons onCancel={onCancel} onSave={handleSubmit} />
           </Grid>
         </Grid>
       </CardContent>
