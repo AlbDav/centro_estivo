@@ -1,6 +1,6 @@
 // components/NewScoreForm.tsx
 import { useEffect, useState } from 'react';
-import { Grid, Card, CardContent, FormControl, InputLabel, Select, MenuItem, Box, Typography } from '@mui/material';
+import { Grid, Card, CardContent, FormControl, InputLabel, Select, MenuItem, Box, Typography, FormControlLabel, Switch } from '@mui/material';
 import { GridToolbar } from '@mui/x-data-grid';
 import { API } from 'aws-amplify';
 import { ListFantaRulesQuery, ListGroupsQuery } from '@/API';
@@ -17,7 +17,9 @@ const NewScoreForm = ({ onCancel, onSave }: any) => {
   const [rules, setRules] = useState([]);
   const [selectedRules, setSelectedRules] = useState([]);
   const [selectedGroup, setSelectedGroup] = useState('');
+  const [selectedResp, setSelectedResp] = useState('');
   const [groups, setGroups] = useState<any>([]);
+  const [isResp, setIsResp] = useState(false);
 
   const columns = [
     {
@@ -95,6 +97,16 @@ const NewScoreForm = ({ onCancel, onSave }: any) => {
     return groups.find((el: any) => el.id === id);
   }
 
+  const handleIsRespSwitch = (event: any) => {
+	const switchValue = event.target.checked;
+	setIsResp(switchValue);
+	if (switchValue) {
+		setSelectedGroup('');
+	} else {
+		setSelectedResp('');
+	}
+}
+
   useEffect(() => {
     fetchGroups();
     fetchRules();
@@ -103,15 +115,15 @@ const NewScoreForm = ({ onCancel, onSave }: any) => {
   return (
     <Card variant="elevation">
       <CardContent>
-        <Grid container spacing={2}>
-          <Grid item xs={12} md={6}>
+        <Grid container spacing={2} alignItems='center'>
+          <Grid item xs={12} md={4}>
             <DatePicker
               label="Data"
               value={selectedDate}
               onChange={handleDateChange}
             />
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={4}>
             <FormControl fullWidth>
               <InputLabel id="leader-group-label">Gruppo</InputLabel>
               <Select
@@ -136,6 +148,9 @@ const NewScoreForm = ({ onCancel, onSave }: any) => {
               </Select>
             </FormControl>
           </Grid>
+		  <Grid item xs={12} md={4}>
+		  <FormControlLabel control={<Switch color="secondary" checked={isResp} onChange={handleIsRespSwitch} />} label="Regole responsabili" />
+			</Grid>
           <Grid item xs={12} sx={{ height: 400 }}>
             <StyledDataGrid
               rows={rules}
