@@ -2,7 +2,7 @@ import { Grid, Typography, Box, Chip } from '@mui/material';
 import PointsTypography from './PointsTypography';
 import GroupRespAvatar from './GroupRespAvatar';
 
-const CardHeaderTitlePoints = ({ name, score, variant, color, showMultiplier = false }: any) => {
+const CardHeaderTitlePoints = ({ name, score, variant, position, owner, color, showMultiplier = false }: any) => {
 	return (
 		<Grid container justifyContent="space-between" alignItems="center">
 			<Grid item xs={9}>

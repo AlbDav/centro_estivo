@@ -242,7 +242,7 @@ const FantaScore = () => {
         <DialogTitle>Eliminare la regola?</DialogTitle>
         <DialogContent>
           {scoreEntryToDelete ? (<DialogContentText>
-            Sei sicuro di voler eliminare <strong>{scoreEntryToDelete && scoreEntryToDelete.rule.title} - {scoreEntryToDelete && scoreEntryToDelete.group.name} - {scoreEntryToDelete && scoreEntryToDelete.date}</strong>?
+            Sei sicuro di voler eliminare <strong>{scoreEntryToDelete && scoreEntryToDelete.rule.title} - {scoreEntryToDelete && (scoreEntryToDelete.resp ? `${scoreEntryToDelete.resp.firstName} ${scoreEntryToDelete.resp.lastName}` : scoreEntryToDelete.group.name)} - {scoreEntryToDelete && scoreEntryToDelete.date}</strong>?
           </DialogContentText>) : (
             <Box display="flex" justifyContent="center">
               <CircularProgress color="secondary" />

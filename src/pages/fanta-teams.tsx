@@ -9,12 +9,13 @@ import TeamCard from '@/components/fanta-teams/TeamCard';
 import { useAuth } from '@/hooks/useAuth';
 import { useRouter } from 'next/router';
 import { Add } from '@mui/icons-material';
-import { getGroupScore, getGroupedScores } from '@/helpers/FantaHelpers';
+import { getGroupScore, getGroupedScores, getRespScore } from '@/helpers/FantaHelpers';
 
 const FantaTeams = () => {
 	const [teams, setTeams] = useState([]);
 	const [teamsToShow, setTeamsToShow] = useState<any>([]);
-	const [groupedScores, setGroupedScores] = useState([]);
+	const [groupedGroupScores, setGroupedGroupScores] = useState([]);
+	const [groupedRespScores, setGroupedRespScores] = useState([]);
 	const [showForm, setShowForm] = useState(false);
 	const [authChecked, setAuthChecked] = useState(false);
 	const { isUserLogged, userInfo } = useAuth();
@@ -33,9 +34,14 @@ const FantaTeams = () => {
 	}, [isUserLogged]);
 
 	useEffect(() => {
-		const newTeamsToShow = teams.map(team => calculateTeamData(team)).sort((a: any, b: any) => b.teamScore - a.teamScore);;
+		const newTeamsToShow = teams.map(team => calculateTeamData(team) as any).sort((a: any, b: any) => b.teamScore - a.teamScore);
+		newTeamsToShow.forEach((team) => {
+			const firstIndexWithSameScore = newTeamsToShow.findIndex(t => t.teamScore === team.teamScore);
+			team.teamPosition = firstIndexWithSameScore + 1;
+		});
+		console.log(newTeamsToShow);
 		setTeamsToShow(newTeamsToShow);
-	}, [teams, groupedScores]);
+	}, [teams, groupedGroupScores, groupedRespScores]);
 
 	const userTeamToShow = useMemo(() => {
 		if (teamsToShow.length > 0) {
@@ -62,22 +68,26 @@ const FantaTeams = () => {
 		try {
 			const scoreData = await API.graphql<ListFantaScoreEntriesQuery>({ query: listFantaScoreEntries, variables: { limit: 1000 } }) as any;
 			const scoreItems = scoreData.data.listFantaScoreEntries.items;
-			const groupedScoreItems = getGroupedScores(scoreItems);
-			setGroupedScores(groupedScoreItems);
+			const [groupedGroupItems, groupedRespItems] = getGroupedScores(scoreItems);
+			setGroupedGroupScores(groupedGroupItems);
+			setGroupedRespScores(groupedRespItems);
 		} catch (error) {
 			console.log('Error fetching scores:', error);
 		}
 	};
 
-	const calculateTeamData = (team: any) => {
-		const { leaderGroup } = team;
-		const groups = team.groups.items.map((el: any) => el.group);
+	const calculateTeamData = (team: FantaTeam) => {
+		const { leaderGroup, resp } = team;
+		const groups = team.groups!.items.map((el: any) => el.group);
 
-		const leaderGroupData = getGroupScore(leaderGroup, groupedScores, true);
-		const groupData = groups.map((group: any) => getGroupScore(group, groupedScores));
-		const teamScore = leaderGroupData.groupScore + groupData.reduce((total: number, group: any) => total + group.groupScore, 0);
+		const respData = getRespScore(resp, groupedRespScores);
+		const leaderGroupData = getGroupScore(leaderGroup, groupedGroupScores, true);
+		const groupData = groups.map((group: any) => getGroupScore(group, groupedGroupScores));
+		const teamScore = respData.respScore + leaderGroupData.groupScore + groupData.reduce((total: number, group: any) => total + group.groupScore, 0);
 
-		const uniqueDates = Array.from(new Set([leaderGroupData, ...groupData].flatMap(group => group.groupScoreEntries.map((entry: any) => entry.date))));
+		const uniqueRespDates = Array.from(new Set(respData.respScoreEntries.map((entry: any) => entry.date)));
+		const uniqueGroupDates = Array.from(new Set([leaderGroupData, ...groupData].flatMap(group => group.groupScoreEntries.map((entry: any) => entry.date))));
+		const uniqueDates = Array.from(new Set([...uniqueRespDates, ...uniqueGroupDates]));
 		uniqueDates.sort((a: any, b: any) => new Date(b).getTime() - new Date(a).getTime());
 
 		return {
@@ -87,7 +97,8 @@ const FantaTeams = () => {
 			leaderGroup: leaderGroupData,
 			groups: groupData,
 			dates: uniqueDates,
-			resp: team.resp
+			resp: respData,
+			teamOwner: [team.owner?.firstName, team.owner?.lastName].filter(name => name).join(' ')
 		};
 	}
 
@@ -118,7 +129,7 @@ const FantaTeams = () => {
 	const dateExpired = useMemo(() => {
 		const expiryDate = process.env.CREATE_TEAM_LAST_DATE as string;
 		const today = new Date().toISOString().slice(0, 10);
-		return today <= expiryDate;
+		return today >= expiryDate;
 	}, []);
 
 	if (!authChecked) {

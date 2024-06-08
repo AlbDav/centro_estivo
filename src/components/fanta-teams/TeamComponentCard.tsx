@@ -25,10 +25,10 @@ const TeamGroupCard = ({ teamComponent, showTeamInfo, date, showMultiplier = fal
 	let score = 0;
 
 	if (isResp) {
-		filteredScoreEntries = [];
+		filteredScoreEntries = date === "all" ? teamComponent.respScoreEntries : teamComponent.respScoreEntries.filter((entry: any) => entry.date === date);
 		color = process.env.RESP_COLOR || '#e2e2e2';
-		name = `${teamComponent.firstName} ${teamComponent.lastName}`;
-		score = 0
+		name = teamComponent.respName;
+		score = teamComponent.respScore;
 	}
 	else {
 		filteredScoreEntries = date === "all" ? teamComponent.groupScoreEntries : teamComponent.groupScoreEntries.filter((entry: any) => entry.date === date);
