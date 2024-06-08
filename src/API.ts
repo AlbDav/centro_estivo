@@ -249,7 +249,8 @@ export type CreateFantaScoreEntryInput = {
   id?: string | null,
   date: string,
   fantaScoreEntryRuleId: string,
-  fantaScoreEntryGroupId: string,
+  fantaScoreEntryGroupId?: string | null,
+  fantaScoreEntryRespId?: string | null,
 };
 
 export type ModelFantaScoreEntryConditionInput = {
@@ -259,18 +260,21 @@ export type ModelFantaScoreEntryConditionInput = {
   not?: ModelFantaScoreEntryConditionInput | null,
   fantaScoreEntryRuleId?: ModelIDInput | null,
   fantaScoreEntryGroupId?: ModelIDInput | null,
+  fantaScoreEntryRespId?: ModelIDInput | null,
 };
 
 export type FantaScoreEntry = {
   __typename: "FantaScoreEntry",
   id: string,
   rule: FantaRule,
-  group: Group,
+  group?: Group | null,
+  resp?: Resp | null,
   date: string,
   createdAt: string,
   updatedAt: string,
   fantaScoreEntryRuleId: string,
-  fantaScoreEntryGroupId: string,
+  fantaScoreEntryGroupId?: string | null,
+  fantaScoreEntryRespId?: string | null,
 };
 
 export type UpdateFantaScoreEntryInput = {
@@ -278,6 +282,7 @@ export type UpdateFantaScoreEntryInput = {
   date?: string | null,
   fantaScoreEntryRuleId?: string | null,
   fantaScoreEntryGroupId?: string | null,
+  fantaScoreEntryRespId?: string | null,
 };
 
 export type DeleteFantaScoreEntryInput = {
@@ -463,6 +468,7 @@ export type ModelFantaScoreEntryFilterInput = {
   not?: ModelFantaScoreEntryFilterInput | null,
   fantaScoreEntryRuleId?: ModelIDInput | null,
   fantaScoreEntryGroupId?: ModelIDInput | null,
+  fantaScoreEntryRespId?: ModelIDInput | null,
 };
 
 export type ModelFantaScoreEntryConnection = {
@@ -1496,7 +1502,7 @@ export type CreateFantaScoreEntryMutation = {
       createdAt: string,
       updatedAt: string,
     },
-    group:  {
+    group?:  {
       __typename: "Group",
       id: string,
       name: string,
@@ -1535,12 +1541,21 @@ export type CreateFantaScoreEntryMutation = {
       } | null,
       createdAt: string,
       updatedAt: string,
-    },
+    } | null,
+    resp?:  {
+      __typename: "Resp",
+      id: string,
+      firstName: string,
+      lastName: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
     date: string,
     createdAt: string,
     updatedAt: string,
     fantaScoreEntryRuleId: string,
-    fantaScoreEntryGroupId: string,
+    fantaScoreEntryGroupId?: string | null,
+    fantaScoreEntryRespId?: string | null,
   } | null,
 };
 
@@ -1564,7 +1579,7 @@ export type UpdateFantaScoreEntryMutation = {
       createdAt: string,
       updatedAt: string,
     },
-    group:  {
+    group?:  {
       __typename: "Group",
       id: string,
       name: string,
@@ -1603,12 +1618,21 @@ export type UpdateFantaScoreEntryMutation = {
       } | null,
       createdAt: string,
       updatedAt: string,
-    },
+    } | null,
+    resp?:  {
+      __typename: "Resp",
+      id: string,
+      firstName: string,
+      lastName: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
     date: string,
     createdAt: string,
     updatedAt: string,
     fantaScoreEntryRuleId: string,
-    fantaScoreEntryGroupId: string,
+    fantaScoreEntryGroupId?: string | null,
+    fantaScoreEntryRespId?: string | null,
   } | null,
 };
 
@@ -1632,7 +1656,7 @@ export type DeleteFantaScoreEntryMutation = {
       createdAt: string,
       updatedAt: string,
     },
-    group:  {
+    group?:  {
       __typename: "Group",
       id: string,
       name: string,
@@ -1671,12 +1695,21 @@ export type DeleteFantaScoreEntryMutation = {
       } | null,
       createdAt: string,
       updatedAt: string,
-    },
+    } | null,
+    resp?:  {
+      __typename: "Resp",
+      id: string,
+      firstName: string,
+      lastName: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
     date: string,
     createdAt: string,
     updatedAt: string,
     fantaScoreEntryRuleId: string,
-    fantaScoreEntryGroupId: string,
+    fantaScoreEntryGroupId?: string | null,
+    fantaScoreEntryRespId?: string | null,
   } | null,
 };
 
@@ -2995,7 +3028,7 @@ export type GetFantaScoreEntryQuery = {
       createdAt: string,
       updatedAt: string,
     },
-    group:  {
+    group?:  {
       __typename: "Group",
       id: string,
       name: string,
@@ -3034,12 +3067,21 @@ export type GetFantaScoreEntryQuery = {
       } | null,
       createdAt: string,
       updatedAt: string,
-    },
+    } | null,
+    resp?:  {
+      __typename: "Resp",
+      id: string,
+      firstName: string,
+      lastName: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
     date: string,
     createdAt: string,
     updatedAt: string,
     fantaScoreEntryRuleId: string,
-    fantaScoreEntryGroupId: string,
+    fantaScoreEntryGroupId?: string | null,
+    fantaScoreEntryRespId?: string | null,
   } | null,
 };
 
@@ -3066,7 +3108,7 @@ export type ListFantaScoreEntriesQuery = {
         createdAt: string,
         updatedAt: string,
       },
-      group:  {
+      group?:  {
         __typename: "Group",
         id: string,
         name: string,
@@ -3086,12 +3128,21 @@ export type ListFantaScoreEntriesQuery = {
         } | null,
         createdAt: string,
         updatedAt: string,
-      },
+      } | null,
+      resp?:  {
+        __typename: "Resp",
+        id: string,
+        firstName: string,
+        lastName: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
       date: string,
       createdAt: string,
       updatedAt: string,
       fantaScoreEntryRuleId: string,
-      fantaScoreEntryGroupId: string,
+      fantaScoreEntryGroupId?: string | null,
+      fantaScoreEntryRespId?: string | null,
     } | null >,
     nextToken?: string | null,
   } | null,
@@ -4666,7 +4717,7 @@ export type OnCreateFantaScoreEntrySubscription = {
       createdAt: string,
       updatedAt: string,
     },
-    group:  {
+    group?:  {
       __typename: "Group",
       id: string,
       name: string,
@@ -4705,12 +4756,21 @@ export type OnCreateFantaScoreEntrySubscription = {
       } | null,
       createdAt: string,
       updatedAt: string,
-    },
+    } | null,
+    resp?:  {
+      __typename: "Resp",
+      id: string,
+      firstName: string,
+      lastName: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
     date: string,
     createdAt: string,
     updatedAt: string,
     fantaScoreEntryRuleId: string,
-    fantaScoreEntryGroupId: string,
+    fantaScoreEntryGroupId?: string | null,
+    fantaScoreEntryRespId?: string | null,
   } | null,
 };
 
@@ -4733,7 +4793,7 @@ export type OnUpdateFantaScoreEntrySubscription = {
       createdAt: string,
       updatedAt: string,
     },
-    group:  {
+    group?:  {
       __typename: "Group",
       id: string,
       name: string,
@@ -4772,12 +4832,21 @@ export type OnUpdateFantaScoreEntrySubscription = {
       } | null,
       createdAt: string,
       updatedAt: string,
-    },
+    } | null,
+    resp?:  {
+      __typename: "Resp",
+      id: string,
+      firstName: string,
+      lastName: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
     date: string,
     createdAt: string,
     updatedAt: string,
     fantaScoreEntryRuleId: string,
-    fantaScoreEntryGroupId: string,
+    fantaScoreEntryGroupId?: string | null,
+    fantaScoreEntryRespId?: string | null,
   } | null,
 };
 
@@ -4800,7 +4869,7 @@ export type OnDeleteFantaScoreEntrySubscription = {
       createdAt: string,
       updatedAt: string,
     },
-    group:  {
+    group?:  {
       __typename: "Group",
       id: string,
       name: string,
@@ -4839,12 +4908,21 @@ export type OnDeleteFantaScoreEntrySubscription = {
       } | null,
       createdAt: string,
       updatedAt: string,
-    },
+    } | null,
+    resp?:  {
+      __typename: "Resp",
+      id: string,
+      firstName: string,
+      lastName: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
     date: string,
     createdAt: string,
     updatedAt: string,
     fantaScoreEntryRuleId: string,
-    fantaScoreEntryGroupId: string,
+    fantaScoreEntryGroupId?: string | null,
+    fantaScoreEntryRespId?: string | null,
   } | null,
 };
 

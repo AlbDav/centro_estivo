@@ -902,11 +902,20 @@ export const createFantaScoreEntry = /* GraphQL */ `mutation CreateFantaScoreEnt
       updatedAt
       __typename
     }
+    resp {
+      id
+      firstName
+      lastName
+      createdAt
+      updatedAt
+      __typename
+    }
     date
     createdAt
     updatedAt
     fantaScoreEntryRuleId
     fantaScoreEntryGroupId
+    fantaScoreEntryRespId
     __typename
   }
 }
@@ -971,11 +980,20 @@ export const updateFantaScoreEntry = /* GraphQL */ `mutation UpdateFantaScoreEnt
       updatedAt
       __typename
     }
+    resp {
+      id
+      firstName
+      lastName
+      createdAt
+      updatedAt
+      __typename
+    }
     date
     createdAt
     updatedAt
     fantaScoreEntryRuleId
     fantaScoreEntryGroupId
+    fantaScoreEntryRespId
     __typename
   }
 }
@@ -1040,11 +1058,20 @@ export const deleteFantaScoreEntry = /* GraphQL */ `mutation DeleteFantaScoreEnt
       updatedAt
       __typename
     }
+    resp {
+      id
+      firstName
+      lastName
+      createdAt
+      updatedAt
+      __typename
+    }
     date
     createdAt
     updatedAt
     fantaScoreEntryRuleId
     fantaScoreEntryGroupId
+    fantaScoreEntryRespId
     __typename
   }
 }

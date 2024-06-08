@@ -5,7 +5,7 @@ import { Box, Button, Card, CardContent, CardHeader, CircularProgress, Container
 import { useRouter } from 'next/router';
 import NewScoreForm from '@/components/fanta-score/NewScoreForm';
 import { Add } from '@mui/icons-material';
-import { ListFantaScoreEntriesQuery } from '@/API';
+import { ListFantaScoreEntriesQuery, ModelFantaScoreEntryFilterInput } from '@/API';
 import { listFantaScoreEntries } from '@/graphql/queries';
 import { useAuth } from '@/hooks/useAuth';
 import ScoreCard from '@/components/fanta-score/ScoreCard';
@@ -82,11 +82,11 @@ const FantaScore = () => {
 
   const addScoreEntry = async (scoreEntry: any) => {
     try {
-      if (!scoreEntry.date || !scoreEntry.fantaScoreEntryRuleId || !scoreEntry.fantaScoreEntryGroupId) {
+      if (!scoreEntry.date || !scoreEntry.fantaScoreEntryRuleId || (!scoreEntry.fantaScoreEntryGroupId && !scoreEntry.fantaScoreEntryRespId)) {
         throw new Error('Missing mandatory fields');
       }
 
-      const existingEntry = await checkForExistingEntry(scoreEntry.date, scoreEntry.fantaScoreEntryRuleId, scoreEntry.fantaScoreEntryGroupId);
+      const existingEntry = await checkForExistingEntry(scoreEntry.date, scoreEntry.fantaScoreEntryRuleId, scoreEntry.fantaScoreEntryRespId, scoreEntry.fantaScoreEntryGroupId);
 
       if (existingEntry) {
         throw new Error('Already existing rule');
@@ -102,15 +102,24 @@ const FantaScore = () => {
     }
   };
 
-  const checkForExistingEntry = async (date: any, ruleId: any, groupId: any) => {
+  const checkForExistingEntry = async (date: any, ruleId: any, respId?: any, groupId?: any) => {
+	let filter = {
+		date: { eq: date },
+		fantaScoreEntryRuleId: { eq: ruleId }
+	} as ModelFantaScoreEntryFilterInput;
+
+	if (respId) {
+		filter.fantaScoreEntryRespId = {eq: respId};
+	}
+
+	if (groupId) {
+		filter.fantaScoreEntryGroupId = {eq: groupId};
+	}
+
     const existingEntries = await API.graphql({
       query: listFantaScoreEntries,
       variables: {
-        filter: {
-          date: { eq: date },
-          fantaScoreEntryRuleId: { eq: ruleId },
-          fantaScoreEntryGroupId: { eq: groupId }
-        }
+        filter
       }
     }) as any;
     return existingEntries.data.listFantaScoreEntries.items.length > 0;

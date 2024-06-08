@@ -524,11 +524,20 @@ export const getFantaScoreEntry = /* GraphQL */ `query GetFantaScoreEntry($id: I
       updatedAt
       __typename
     }
+    resp {
+      id
+      firstName
+      lastName
+      createdAt
+      updatedAt
+      __typename
+    }
     date
     createdAt
     updatedAt
     fantaScoreEntryRuleId
     fantaScoreEntryGroupId
+    fantaScoreEntryRespId
     __typename
   }
 }
@@ -576,11 +585,20 @@ export const listFantaScoreEntries = /* GraphQL */ `query ListFantaScoreEntries(
         updatedAt
         __typename
       }
+      resp {
+        id
+        firstName
+        lastName
+        createdAt
+        updatedAt
+        __typename
+      }
       date
       createdAt
       updatedAt
       fantaScoreEntryRuleId
       fantaScoreEntryGroupId
+      fantaScoreEntryRespId
       __typename
     }
     nextToken

@@ -27,7 +27,8 @@ type FantaRule @model @auth(rules: [{allow: groups, provider: userPools, groups:
 type FantaScoreEntry @model @auth(rules: [{allow: groups, provider: userPools, groups: ["Admins"], operations: [create, update, delete, read]}, {allow: groups, provider: userPools, groups: ["Refs"], operations: [create, update, read]}, {allow: groups, provider: userPools, groups: ["Users"], operations: [read]}, {allow: public, provider: iam, operations: [read]}]) {
   id: ID!
   rule: FantaRule! @hasOne
-  group: Group! @hasOne
+  group: Group @hasOne
+  resp: Resp @hasOne
   date: AWSDate!
 } 
 

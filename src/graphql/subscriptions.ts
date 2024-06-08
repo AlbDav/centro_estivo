@@ -874,11 +874,20 @@ export const onCreateFantaScoreEntry = /* GraphQL */ `subscription OnCreateFanta
       updatedAt
       __typename
     }
+    resp {
+      id
+      firstName
+      lastName
+      createdAt
+      updatedAt
+      __typename
+    }
     date
     createdAt
     updatedAt
     fantaScoreEntryRuleId
     fantaScoreEntryGroupId
+    fantaScoreEntryRespId
     __typename
   }
 }
@@ -942,11 +951,20 @@ export const onUpdateFantaScoreEntry = /* GraphQL */ `subscription OnUpdateFanta
       updatedAt
       __typename
     }
+    resp {
+      id
+      firstName
+      lastName
+      createdAt
+      updatedAt
+      __typename
+    }
     date
     createdAt
     updatedAt
     fantaScoreEntryRuleId
     fantaScoreEntryGroupId
+    fantaScoreEntryRespId
     __typename
   }
 }
@@ -1010,11 +1028,20 @@ export const onDeleteFantaScoreEntry = /* GraphQL */ `subscription OnDeleteFanta
       updatedAt
       __typename
     }
+    resp {
+      id
+      firstName
+      lastName
+      createdAt
+      updatedAt
+      __typename
+    }
     date
     createdAt
     updatedAt
     fantaScoreEntryRuleId
     fantaScoreEntryGroupId
+    fantaScoreEntryRespId
     __typename
   }
 }
