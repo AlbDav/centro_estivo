@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { API } from 'aws-amplify';
 import { createFantaScoreEntry, deleteFantaScoreEntry } from '../graphql/mutations';
 import { Box, Button, Card, CardContent, CardHeader, CircularProgress, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Fab } from '@mui/material';
 import { useRouter } from 'next/router';
 import NewScoreForm from '@/components/fanta-score/NewScoreForm';
 import { Add } from '@mui/icons-material';
-import { ListFantaScoreEntriesQuery, ModelFantaScoreEntryFilterInput } from '@/API';
+import { FantaScoreEntry, ListFantaScoreEntriesQuery, ModelFantaScoreEntryFilterInput } from '@/API';
 import { listFantaScoreEntries } from '@/graphql/queries';
 import { useAuth } from '@/hooks/useAuth';
 import ScoreCard from '@/components/fanta-score/ScoreCard';
@@ -28,7 +28,7 @@ const FantaScore = () => {
   const [completed, setCompleted] = useState(0);
   const [total, setTotal] = useState(0);
   const [failedRules, setFailedRules] = useState<any>([]);
-  const [scoreEntries, setScoreEntries] = useState([]);
+  const [scoreEntries, setScoreEntries] = useState<FantaScoreEntry[]>([]);
   const [deleteDialogVisible, setDeleteDialogVisible] = useState(false);
   const [scoreEntryToDelete, setScoreEntryToDelete] = useState<any | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -54,6 +54,14 @@ const FantaScore = () => {
       console.log('Error fetching scores:', error);
     }
   };
+
+  const respScoreEntries = useMemo(() => {
+	return scoreEntries.filter(entry => entry.fantaScoreEntryRespId);
+  }, [scoreEntries]);
+
+  const groupScoreEntries = useMemo(() => {
+	return scoreEntries.filter(entry => entry.fantaScoreEntryGroupId);
+  }, [scoreEntries]);
 
   const addScoreEntries = async (scoreEntriesToAdd: any) => {
     setTotal(scoreEntriesToAdd.length);
@@ -183,13 +191,25 @@ const FantaScore = () => {
         </Box>}
         <Box marginTop={4}>
           <Card variant="elevation">
-            <StyledCardHeader title="Punti assegnati" />
+            <StyledCardHeader title="Punti assegnati - Responsabili" />
             <CardContent>
               {isLoading ?
                 <Box display="flex" justifyContent="center">
                   <CircularProgress color="secondary" />
                 </Box> :
-                <ScoreCard rows={scoreEntries} onDelete={toggleDeleteDialog} />}
+                	<ScoreCard rows={respScoreEntries} isResp={true} onDelete={toggleDeleteDialog} />}
+            </CardContent>
+          </Card>
+        </Box>
+		<Box marginTop={4}>
+          <Card variant="elevation">
+            <StyledCardHeader title="Punti assegnati - Gruppi" />
+            <CardContent>
+              {isLoading ?
+                <Box display="flex" justifyContent="center">
+                  <CircularProgress color="secondary" />
+                </Box> :
+                	<ScoreCard rows={groupScoreEntries} isResp={false} onDelete={toggleDeleteDialog} />}
             </CardContent>
           </Card>
         </Box>
