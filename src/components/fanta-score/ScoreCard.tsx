@@ -4,7 +4,7 @@ import { IconButton, useTheme } from '@mui/material';
 import { GridToolbar } from '@mui/x-data-grid';
 import { format } from 'date-fns';
 
-const ScoreCard = ({ rows, onDelete }: any) => {
+const ScoreCard = ({ rows, isResp, onDelete }: any) => {
   const theme = useTheme();
 
   const columns = [
@@ -25,11 +25,11 @@ const ScoreCard = ({ rows, onDelete }: any) => {
       valueGetter: (params: any) => params.row.date
     },
     {
-      field: 'groupName',
-      headerName: 'Gruppo',
+      field: isResp ? 'respName' : 'groupName',
+      headerName: isResp ? 'Responsabile' : 'Gruppo',
       sortable: true,
       flex: 1.5,
-      valueGetter: (params: any) => params.row.group.name
+      valueGetter: (params: any) => isResp ? `${params.row.resp.firstName} ${params.row.resp.lastName}` : params.row.group.name
     },
     {
       field: 'ruleTitle',

@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { API } from 'aws-amplify';
 import { createFantaScoreEntry, deleteFantaScoreEntry } from '../graphql/mutations';
 import { Box, Button, Card, CardContent, CardHeader, CircularProgress, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Fab } from '@mui/material';
 import { useRouter } from 'next/router';
 import NewScoreForm from '@/components/fanta-score/NewScoreForm';
 import { Add } from '@mui/icons-material';
-import { ListFantaScoreEntriesQuery } from '@/API';
+import { FantaScoreEntry, ListFantaScoreEntriesQuery, ModelFantaScoreEntryFilterInput } from '@/API';
 import { listFantaScoreEntries } from '@/graphql/queries';
 import { useAuth } from '@/hooks/useAuth';
 import ScoreCard from '@/components/fanta-score/ScoreCard';
@@ -28,7 +28,7 @@ const FantaScore = () => {
   const [completed, setCompleted] = useState(0);
   const [total, setTotal] = useState(0);
   const [failedRules, setFailedRules] = useState<any>([]);
-  const [scoreEntries, setScoreEntries] = useState([]);
+  const [scoreEntries, setScoreEntries] = useState<FantaScoreEntry[]>([]);
   const [deleteDialogVisible, setDeleteDialogVisible] = useState(false);
   const [scoreEntryToDelete, setScoreEntryToDelete] = useState<any | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -54,6 +54,14 @@ const FantaScore = () => {
       console.log('Error fetching scores:', error);
     }
   };
+
+  const respScoreEntries = useMemo(() => {
+	return scoreEntries.filter(entry => entry.fantaScoreEntryRespId);
+  }, [scoreEntries]);
+
+  const groupScoreEntries = useMemo(() => {
+	return scoreEntries.filter(entry => entry.fantaScoreEntryGroupId);
+  }, [scoreEntries]);
 
   const addScoreEntries = async (scoreEntriesToAdd: any) => {
     setTotal(scoreEntriesToAdd.length);
@@ -82,11 +90,11 @@ const FantaScore = () => {
 
   const addScoreEntry = async (scoreEntry: any) => {
     try {
-      if (!scoreEntry.date || !scoreEntry.fantaScoreEntryRuleId || !scoreEntry.fantaScoreEntryGroupId) {
+      if (!scoreEntry.date || !scoreEntry.fantaScoreEntryRuleId || (!scoreEntry.fantaScoreEntryGroupId && !scoreEntry.fantaScoreEntryRespId)) {
         throw new Error('Missing mandatory fields');
       }
 
-      const existingEntry = await checkForExistingEntry(scoreEntry.date, scoreEntry.fantaScoreEntryRuleId, scoreEntry.fantaScoreEntryGroupId);
+      const existingEntry = await checkForExistingEntry(scoreEntry.date, scoreEntry.fantaScoreEntryRuleId, scoreEntry.fantaScoreEntryRespId, scoreEntry.fantaScoreEntryGroupId);
 
       if (existingEntry) {
         throw new Error('Already existing rule');
@@ -102,15 +110,24 @@ const FantaScore = () => {
     }
   };
 
-  const checkForExistingEntry = async (date: any, ruleId: any, groupId: any) => {
+  const checkForExistingEntry = async (date: any, ruleId: any, respId?: any, groupId?: any) => {
+	let filter = {
+		date: { eq: date },
+		fantaScoreEntryRuleId: { eq: ruleId }
+	} as ModelFantaScoreEntryFilterInput;
+
+	if (respId) {
+		filter.fantaScoreEntryRespId = {eq: respId};
+	}
+
+	if (groupId) {
+		filter.fantaScoreEntryGroupId = {eq: groupId};
+	}
+
     const existingEntries = await API.graphql({
       query: listFantaScoreEntries,
       variables: {
-        filter: {
-          date: { eq: date },
-          fantaScoreEntryRuleId: { eq: ruleId },
-          fantaScoreEntryGroupId: { eq: groupId }
-        }
+        filter
       }
     }) as any;
     return existingEntries.data.listFantaScoreEntries.items.length > 0;
@@ -168,19 +185,31 @@ const FantaScore = () => {
               }}
               aria-label="add" onClick={() => setShowForm(true)}>
               <Add sx={{ mr: 1 }} />
-              Aggiungi regola
+              Aggiungi punteggio
             </Fab>
           )}
         </Box>}
         <Box marginTop={4}>
           <Card variant="elevation">
-            <StyledCardHeader title="Punti assegnati" />
+            <StyledCardHeader title="Punti assegnati - Responsabili" />
             <CardContent>
               {isLoading ?
                 <Box display="flex" justifyContent="center">
                   <CircularProgress color="secondary" />
                 </Box> :
-                <ScoreCard rows={scoreEntries} onDelete={toggleDeleteDialog} />}
+                	<ScoreCard rows={respScoreEntries} isResp={true} onDelete={toggleDeleteDialog} />}
+            </CardContent>
+          </Card>
+        </Box>
+		<Box marginTop={4}>
+          <Card variant="elevation">
+            <StyledCardHeader title="Punti assegnati - Gruppi" />
+            <CardContent>
+              {isLoading ?
+                <Box display="flex" justifyContent="center">
+                  <CircularProgress color="secondary" />
+                </Box> :
+                	<ScoreCard rows={groupScoreEntries} isResp={false} onDelete={toggleDeleteDialog} />}
             </CardContent>
           </Card>
         </Box>
@@ -213,7 +242,7 @@ const FantaScore = () => {
         <DialogTitle>Eliminare la regola?</DialogTitle>
         <DialogContent>
           {scoreEntryToDelete ? (<DialogContentText>
-            Sei sicuro di voler eliminare <strong>{scoreEntryToDelete && scoreEntryToDelete.rule.title} - {scoreEntryToDelete && scoreEntryToDelete.group.name} - {scoreEntryToDelete && scoreEntryToDelete.date}</strong>?
+            Sei sicuro di voler eliminare <strong>{scoreEntryToDelete && scoreEntryToDelete.rule.title} - {scoreEntryToDelete && (scoreEntryToDelete.resp ? `${scoreEntryToDelete.resp.firstName} ${scoreEntryToDelete.resp.lastName}` : scoreEntryToDelete.group.name)} - {scoreEntryToDelete && scoreEntryToDelete.date}</strong>?
           </DialogContentText>) : (
             <Box display="flex" justifyContent="center">
               <CircularProgress color="secondary" />

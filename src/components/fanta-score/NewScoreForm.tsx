@@ -1,43 +1,25 @@
 // components/NewScoreForm.tsx
-import { useEffect, useState } from 'react';
-import { Grid, Card, CardContent, FormControl, InputLabel, Select, MenuItem, Box, Typography } from '@mui/material';
+import { useEffect, useMemo, useState } from 'react';
+import { Grid, Card, CardContent, FormControl, InputLabel, Select, MenuItem, Box, Typography, FormControlLabel, Switch } from '@mui/material';
 import { GridToolbar } from '@mui/x-data-grid';
 import { API } from 'aws-amplify';
-import { ListFantaRulesQuery, ListGroupsQuery } from '@/API';
-import { listFantaRules, listGroups } from '@/graphql/queries';
+import { CreateFantaScoreEntryInput, FantaRule, ListFantaRulesQuery, ListGroupsQuery, ListRespsQuery } from '@/API';
+import { listFantaRules, listGroups, listResps } from '@/graphql/queries';
 import { DatePicker } from '@mui/x-date-pickers';
 import { format } from 'date-fns';
-import LargeButton from '../shared/LargeButton';
 import StyledDataGrid from '../shared/StyledDataGrid';
 import GroupRespAvatar from '../shared/GroupRespAvatar';
-
-/* const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
-  '& .MuiDataGrid-row.Mui-selected': {
-  backgroundColor: theme.palette.secondary.light,
-  '&:hover': {
-  backgroundColor: theme.palette.secondary.main,
-  },
-  },
-  '& .MuiDataGrid-columnHeaderTitle': {
-  fontWeight: 'bold',
-  },
-  '& .MuiDataGrid-columnHeader:focus': {
-  outline: 'none',
-  },
-  '& .MuiDataGrid-cell': {
-  cursor: 'pointer',
-  '&:focus': {
-  outline: 'none',
-  },
-  }
-})); */
+import CancelSaveButtons from '../shared/CancelSaveButtons';
 
 const NewScoreForm = ({ onCancel, onSave }: any) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [rules, setRules] = useState([]);
+  const [rules, setRules] = useState<FantaRule[]>([]);
   const [selectedRules, setSelectedRules] = useState([]);
   const [selectedGroup, setSelectedGroup] = useState('');
+  const [selectedResp, setSelectedResp] = useState('');
   const [groups, setGroups] = useState<any>([]);
+  const [resps, setResps] = useState<any>([]);
+  const [isResp, setIsResp] = useState(false);
 
   const columns = [
     {
@@ -80,6 +62,16 @@ const NewScoreForm = ({ onCancel, onSave }: any) => {
     }
   };
 
+  const fetchResps = async () => {
+		try {
+			const respData = await API.graphql<ListRespsQuery>({ query: listResps }) as any;
+			const respItems = respData.data.listResps.items;
+			setResps(respItems);
+		} catch (error) {
+			console.log('Error fetching resps:', error);
+		}
+	};
+
   const fetchRules = async () => {
     try {
       const ruleData = await API.graphql<ListFantaRulesQuery>({ query: listFantaRules }) as any;
@@ -102,9 +94,21 @@ const NewScoreForm = ({ onCancel, onSave }: any) => {
     setSelectedGroup(event.target.value);
   };
 
+  const handleRespChange = (event: any) => {
+		setSelectedResp(event.target.value);
+	};
+
   const handleSubmit = () => {
     const date = format(selectedDate, 'yyyy-MM-dd');
-    const scoreEntries = selectedRules.map(selectedRule => ({ date, fantaScoreEntryGroupId: selectedGroup, fantaScoreEntryRuleId: selectedRule }));
+    const scoreEntries = selectedRules.map(selectedRule => {
+      let scoreEntry = { date, fantaScoreEntryRuleId: selectedRule } as CreateFantaScoreEntryInput;
+      if (isResp) {
+        scoreEntry.fantaScoreEntryRespId = selectedResp;
+      } else {
+        scoreEntry.fantaScoreEntryGroupId = selectedGroup;
+      }
+      return scoreEntry;
+    });
     onSave(scoreEntries);
     setSelectedDate(new Date());
     setSelectedGroup('');
@@ -115,39 +119,70 @@ const NewScoreForm = ({ onCancel, onSave }: any) => {
     return groups.find((el: any) => el.id === id);
   }
 
+  const getRespById = (id: string) => {
+		return resps.find((el: any) => el.id === id);
+	}
+
+  const selectedRespObject = useMemo(() => {
+		const respObj = getRespById(selectedResp);
+		return respObj ? respObj : undefined;
+	}, [selectedResp, resps]);
+
+  const handleIsRespSwitch = (event: any) => {
+	  const switchValue = event.target.checked;
+	  setIsResp(switchValue);
+	  if (switchValue) {
+	  	setSelectedGroup('');
+	  } else {
+	  	setSelectedResp('');
+	  }
+  }
+
+  const filteredRules = useMemo(() => {
+    return rules.filter(rule => rule.isResp === isResp);
+  }, [rules, isResp]);
+
   useEffect(() => {
     fetchGroups();
+    fetchResps();
     fetchRules();
   }, [])
 
   return (
     <Card variant="elevation">
       <CardContent>
-        <Grid container spacing={2}>
-          <Grid item xs={12} md={6}>
+        <Grid container spacing={2} alignItems='center'>
+          <Grid item xs={12} md={4}>
             <DatePicker
               label="Data"
               value={selectedDate}
               onChange={handleDateChange}
-            /* 							slotProps={{
-                popper: {
-                  sx: {
-                  '& .Mui-selected': {
-                  backgroundColor: 'red',
-                  },
-                  '& .MuiPickersDay-daySelected:hover': {
-                  backgroundColor: theme.palette.secondary.main,
-                  },
-                  '& .MuiPickersDay-today': {
-                  color: theme.palette.secondary.main,
-                  },
-                  }
-                }
-                }} */
             />
           </Grid>
-          <Grid item xs={12} md={6}>
-            <FormControl fullWidth>
+          <Grid item xs={12} md={4}>
+		  {isResp ? <FormControl fullWidth>
+					<InputLabel id="leader-group-label">Responsabile</InputLabel>
+					<Select
+						label="Responsabile"
+						labelId="resp-label"
+						value={resps.length !== 0 ? selectedResp : ''}
+						onChange={handleRespChange}
+						displayEmpty
+						renderValue={selectedRespObject ? () => <Typography>{selectedRespObject.firstName} {selectedRespObject.lastName}</Typography> : undefined}
+						fullWidth
+						inputProps={{ 'aria-label': 'Seleziona responsabile' }}
+						startAdornment={selectedRespObject ? <GroupRespAvatar color="#e2e2e2" /> : undefined}
+					>
+						{resps.map((resp: any) => (
+							<MenuItem key={resp.id} value={resp.id}>
+								<Box display="flex" alignItems="center" alignContent="center">
+									<GroupRespAvatar isResp={true} />
+									<Typography>{resp.firstName} {resp.lastName}</Typography>
+								</Box>
+							</MenuItem>
+						))}
+					</Select>
+				</FormControl> : <FormControl fullWidth>
               <InputLabel id="leader-group-label">Gruppo</InputLabel>
               <Select
                 label="Gruppo"
@@ -169,11 +204,14 @@ const NewScoreForm = ({ onCancel, onSave }: any) => {
                   </MenuItem>
                 ))}
               </Select>
-            </FormControl>
+            </FormControl>}
           </Grid>
+		  <Grid item xs={12} md={4}>
+		  <FormControlLabel control={<Switch color="secondary" checked={isResp} onChange={handleIsRespSwitch} />} label="Regole responsabili" />
+			</Grid>
           <Grid item xs={12} sx={{ height: 400 }}>
             <StyledDataGrid
-              rows={rules}
+              rows={filteredRules}
               columns={columns}
               onRowSelectionModelChange={handleSelectionModelChange}
               rowSelectionModel={selectedRules}
@@ -187,14 +225,7 @@ const NewScoreForm = ({ onCancel, onSave }: any) => {
             />
           </Grid>
           <Grid item xs={12}>
-            <Box display="flex" justifyContent="center">
-              <LargeButton variant="outlined" color="secondary" onClick={onCancel}>
-                Annulla
-              </LargeButton>
-              <LargeButton variant="contained" color="primary" onClick={handleSubmit} style={{ marginLeft: '40px' }}>
-                Salva
-              </LargeButton>
-            </Box>
+            <CancelSaveButtons onCancel={onCancel} onSave={handleSubmit} />
           </Grid>
         </Grid>
       </CardContent>

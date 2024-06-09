@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { API } from 'aws-amplify';
 import { listFantaScoreEntries, listFantaTeams } from '../graphql/queries';
 import { createFantaTeam, createFantaTeamGroups } from '../graphql/mutations';
@@ -9,18 +9,19 @@ import TeamCard from '@/components/fanta-teams/TeamCard';
 import { useAuth } from '@/hooks/useAuth';
 import { useRouter } from 'next/router';
 import { Add } from '@mui/icons-material';
-import { getGroupScore, getGroupedScores } from '@/helpers/FantaHelpers';
+import { getGroupScore, getGroupedScores, getRespScore } from '@/helpers/FantaHelpers';
 
 const FantaTeams = () => {
 	const [teams, setTeams] = useState([]);
 	const [teamsToShow, setTeamsToShow] = useState<any>([]);
-	const [groupedScores, setGroupedScores] = useState([]);
+	const [groupedGroupScores, setGroupedGroupScores] = useState([]);
+	const [groupedRespScores, setGroupedRespScores] = useState([]);
 	const [showForm, setShowForm] = useState(false);
 	const [authChecked, setAuthChecked] = useState(false);
 	const { isUserLogged, userInfo } = useAuth();
 	const router = useRouter();
 	const [isLoading, setIsLoading] = useState(true);
-	const [userTeam, setUserTeam] = useState({} as FantaTeam);
+	const [userTeamId, setUserTeamId] = useState('');
 
 	useEffect(() => {
 		if (isUserLogged) {
@@ -33,9 +34,19 @@ const FantaTeams = () => {
 	}, [isUserLogged]);
 
 	useEffect(() => {
-		const newTeamsToShow = teams.map(team => calculateTeamData(team)).sort((a: any, b: any) => b.teamScore - a.teamScore);;
+		const newTeamsToShow = teams.map(team => calculateTeamData(team) as any).sort((a: any, b: any) => b.teamScore - a.teamScore);
+		newTeamsToShow.forEach((team) => {
+			const firstIndexWithSameScore = newTeamsToShow.findIndex(t => t.teamScore === team.teamScore);
+			team.teamPosition = firstIndexWithSameScore + 1;
+		});
 		setTeamsToShow(newTeamsToShow);
-	}, [teams, groupedScores]);
+	}, [teams, groupedGroupScores, groupedRespScores]);
+
+	const userTeamToShow = useMemo(() => {
+		if (teamsToShow.length > 0) {
+			return teamsToShow.find((item: any) => item.teamId === userTeamId);
+		}
+	}, [teamsToShow, userTeamId]);
 
 	const fetchTeams = async () => {
 		try {
@@ -44,7 +55,7 @@ const FantaTeams = () => {
 			setTeams(teamItems);
 			let teamFound = teamItems.find((item: FantaTeam) => item.fantaTeamOwnerId === userInfo.id);
 			if (teamFound) {
-				setUserTeam(teamFound);
+				setUserTeamId(teamFound.id);
 			}
 			setIsLoading(false);
 		} catch (error) {
@@ -56,22 +67,26 @@ const FantaTeams = () => {
 		try {
 			const scoreData = await API.graphql<ListFantaScoreEntriesQuery>({ query: listFantaScoreEntries, variables: { limit: 1000 } }) as any;
 			const scoreItems = scoreData.data.listFantaScoreEntries.items;
-			const groupedScoreItems = getGroupedScores(scoreItems);
-			setGroupedScores(groupedScoreItems);
+			const [groupedGroupItems, groupedRespItems] = getGroupedScores(scoreItems);
+			setGroupedGroupScores(groupedGroupItems);
+			setGroupedRespScores(groupedRespItems);
 		} catch (error) {
 			console.log('Error fetching scores:', error);
 		}
 	};
 
-	const calculateTeamData = (team: any) => {
-		const { leaderGroup } = team;
-		const groups = team.groups.items.map((el: any) => el.group);
+	const calculateTeamData = (team: FantaTeam) => {
+		const { leaderGroup, resp } = team;
+		const groups = team.groups!.items.map((el: any) => el.group);
 
-		const leaderGroupData = getGroupScore(leaderGroup, groupedScores, true);
-		const groupData = groups.map((group: any) => getGroupScore(group, groupedScores));
-		const teamScore = leaderGroupData.groupScore + groupData.reduce((total: number, group: any) => total + group.groupScore, 0);
+		const respData = getRespScore(resp, groupedRespScores);
+		const leaderGroupData = getGroupScore(leaderGroup, groupedGroupScores, true);
+		const groupData = groups.map((group: any) => getGroupScore(group, groupedGroupScores));
+		const teamScore = respData.respScore + leaderGroupData.groupScore + groupData.reduce((total: number, group: any) => total + group.groupScore, 0);
 
-		const uniqueDates = Array.from(new Set([leaderGroupData, ...groupData].flatMap(group => group.groupScoreEntries.map((entry: any) => entry.date))));
+		const uniqueRespDates = Array.from(new Set(respData.respScoreEntries.map((entry: any) => entry.date)));
+		const uniqueGroupDates = Array.from(new Set([leaderGroupData, ...groupData].flatMap(group => group.groupScoreEntries.map((entry: any) => entry.date))));
+		const uniqueDates = Array.from(new Set([...uniqueRespDates, ...uniqueGroupDates]));
 		uniqueDates.sort((a: any, b: any) => new Date(b).getTime() - new Date(a).getTime());
 
 		return {
@@ -81,7 +96,8 @@ const FantaTeams = () => {
 			leaderGroup: leaderGroupData,
 			groups: groupData,
 			dates: uniqueDates,
-			resp: team.resp
+			resp: respData,
+			teamOwner: [team.owner?.firstName, team.owner?.lastName].filter(name => name).join(' ')
 		};
 	}
 
@@ -109,17 +125,11 @@ const FantaTeams = () => {
 		}
 	};
 
-	const checkForEistingTeam = async (userId: string) => {
-		const existingTeam = await API.graphql({
-			query: listFantaTeams,
-			variables: {
-				filter: {
-					ownerUserId: { eq: userId },
-				}
-			}
-		}) as any;
-		return existingTeam.data.listFantaTeams.items;
-	};
+	const dateExpired = useMemo(() => {
+		const expiryDate = process.env.CREATE_TEAM_LAST_DATE as string;
+		const today = new Date().toISOString().slice(0, 10);
+		return today >= expiryDate;
+	}, []);
 
 	if (!authChecked) {
 		return (
@@ -131,7 +141,7 @@ const FantaTeams = () => {
 
 	return (
 		<Container>
-			{(!userTeam.id) && <Box marginTop={3} display="flex" justifyContent="center">
+			{(!userTeamToShow && !dateExpired) ? <Box marginTop={3} display="flex" justifyContent="center">
 				{showForm ? (
 					<Card variant="elevation" sx={{ flexGrow: 1 }}>
 						<CardContent>
@@ -151,7 +161,15 @@ const FantaTeams = () => {
 						Crea il tuo Team
 					</Fab>
 				)}
-			</Box>}
+			</Box> :
+				userTeamToShow && <Box marginTop={3}>
+					<Grid container spacing={4}>
+						<Grid item xs={12}>
+							<TeamCard team={userTeamToShow} />
+						</Grid>
+					</Grid>
+				</Box>
+			}
 			<Box marginTop={4}>
 				{isLoading ?
 					<Box display="flex" justifyContent="center">
