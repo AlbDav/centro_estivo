@@ -39,7 +39,6 @@ const FantaTeams = () => {
 			const firstIndexWithSameScore = newTeamsToShow.findIndex(t => t.teamScore === team.teamScore);
 			team.teamPosition = firstIndexWithSameScore + 1;
 		});
-		console.log(newTeamsToShow);
 		setTeamsToShow(newTeamsToShow);
 	}, [teams, groupedGroupScores, groupedRespScores]);
 

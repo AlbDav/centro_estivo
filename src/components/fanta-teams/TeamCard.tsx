@@ -38,6 +38,8 @@ const TeamCard = ({ team }: any) => {
           name={team.teamName}
           score={team.teamScore}
           variant="h5"
+		  position={team.teamPosition}
+		  owner={team.teamOwner}
         />}
       />
       <StyledCardContent>
