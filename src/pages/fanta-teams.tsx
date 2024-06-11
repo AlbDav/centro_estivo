@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { API } from 'aws-amplify';
 import { listFantaScoreEntries, listFantaTeams } from '../graphql/queries';
 import { createFantaTeam, createFantaTeamGroups } from '../graphql/mutations';
-import { Box, Card, CardContent, CircularProgress, Container, Fab, Grid } from '@mui/material';
+import { Box, Card, CardContent, CircularProgress, Container, Fab, Grid, Typography } from '@mui/material';
 import { FantaTeam, ListFantaScoreEntriesQuery, ListFantaTeamsQuery } from '@/API';
 import NewTeamForm from '@/components/fanta-teams/NewTeamForm';
 import TeamCard from '@/components/fanta-teams/TeamCard';
@@ -163,6 +163,7 @@ const FantaTeams = () => {
 				)}
 			</Box> :
 				userTeamToShow && <Box marginTop={3}>
+				<Typography variant="h4" align="center" color="text.primary">La mia squadra</Typography>
 					<Grid container spacing={4}>
 						<Grid item xs={12}>
 							<TeamCard team={userTeamToShow} />
@@ -171,6 +172,7 @@ const FantaTeams = () => {
 				</Box>
 			}
 			<Box marginTop={4}>
+				<Typography variant="h4" align="center" color="text.primary">Classifica</Typography>
 				{isLoading ?
 					<Box display="flex" justifyContent="center">
 						<CircularProgress color="secondary" size={45} />
