@@ -11,7 +11,7 @@ const CardHeaderTitlePoints = ({ name, score, variant, position, owner, color, s
           {color && <GroupRespAvatar color={color} />}
           {position && <Chip icon={<MilitaryTech />} label={position} color="primary" sx={{ marginRight: 1.5, fontWeight: 'bold' }} />}
             <Typography variant={variant} mb={isTeamTitle ? 0 : -0.25} mr={isTeamTitle ? 0 : 0.5}>
-              {name}{owner && <Tooltip title={owner} arrow>
+              {name}{owner && <Tooltip title={owner} enterTouchDelay={0} arrow>
               <IconButton size="small">
                 <InfoOutlined fontSize="small" />
               </IconButton>
