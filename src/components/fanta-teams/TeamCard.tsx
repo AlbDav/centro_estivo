@@ -40,6 +40,7 @@ const TeamCard = ({ team }: any) => {
           variant="h5"
 		  position={team.teamPosition}
 		  owner={team.teamOwner}
+		  isTeamTitle
         />}
       />
       <StyledCardContent>
