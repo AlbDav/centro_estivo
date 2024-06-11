@@ -21,7 +21,6 @@ const FantaTeams = () => {
 	const { isUserLogged, userInfo } = useAuth();
 	const router = useRouter();
 	const [isLoading, setIsLoading] = useState(true);
-	const [userTeamId, setUserTeamId] = useState('');
 
 	useEffect(() => {
 		if (isUserLogged) {
@@ -44,19 +43,15 @@ const FantaTeams = () => {
 
 	const userTeamToShow = useMemo(() => {
 		if (teamsToShow.length > 0) {
-			return teamsToShow.find((item: any) => item.teamId === userTeamId);
+			return teamsToShow.find((item: any) => item.teamOwnerId === userInfo.id);
 		}
-	}, [teamsToShow, userTeamId]);
+	}, [teamsToShow, userInfo]);
 
 	const fetchTeams = async () => {
 		try {
 			const teamData = await API.graphql<ListFantaTeamsQuery>({ query: listFantaTeams }) as any;
 			const teamItems = teamData.data.listFantaTeams.items;
 			setTeams(teamItems);
-			let teamFound = teamItems.find((item: FantaTeam) => item.fantaTeamOwnerId === userInfo.id);
-			if (teamFound) {
-				setUserTeamId(teamFound.id);
-			}
 			setIsLoading(false);
 		} catch (error) {
 			console.log('Error fetching teams:', error);
@@ -97,6 +92,7 @@ const FantaTeams = () => {
 			groups: groupData,
 			dates: uniqueDates,
 			resp: respData,
+			teamOwnerId: team.fantaTeamOwnerId,
 			teamOwner: [team.owner?.firstName, team.owner?.lastName].filter(name => name).join(' ')
 		};
 	}
@@ -163,7 +159,7 @@ const FantaTeams = () => {
 				)}
 			</Box> :
 				userTeamToShow && <Box marginTop={3}>
-				<Typography variant="h4" align="center" color="text.primary">La mia squadra</Typography>
+				<Typography variant="h4" align="center" color="text.primary" marginBottom={1}>La mia squadra</Typography>
 					<Grid container spacing={4}>
 						<Grid item xs={12}>
 							<TeamCard team={userTeamToShow} />
@@ -172,7 +168,7 @@ const FantaTeams = () => {
 				</Box>
 			}
 			<Box marginTop={4}>
-				<Typography variant="h4" align="center" color="text.primary">Classifica</Typography>
+				<Typography variant="h4" align="center" color="text.primary" marginBottom={1}>Classifica</Typography>
 				{isLoading ?
 					<Box display="flex" justifyContent="center">
 						<CircularProgress color="secondary" size={45} />
