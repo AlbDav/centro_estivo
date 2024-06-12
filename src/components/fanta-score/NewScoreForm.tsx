@@ -6,13 +6,13 @@ import { API } from 'aws-amplify';
 import { CreateFantaScoreEntryInput, FantaRule, ListFantaRulesQuery, ListGroupsQuery, ListRespsQuery } from '@/API';
 import { listFantaRules, listGroups, listResps } from '@/graphql/queries';
 import { DatePicker } from '@mui/x-date-pickers';
-import { format } from 'date-fns';
+import { format, subDays } from 'date-fns';
 import StyledDataGrid from '../shared/StyledDataGrid';
 import GroupRespAvatar from '../shared/GroupRespAvatar';
 import CancelSaveButtons from '../shared/CancelSaveButtons';
 
 const NewScoreForm = ({ onCancel, onSave }: any) => {
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(subDays(new Date(), 1));
   const [rules, setRules] = useState<FantaRule[]>([]);
   const [selectedRules, setSelectedRules] = useState([]);
   const [selectedGroup, setSelectedGroup] = useState('');
@@ -110,8 +110,9 @@ const NewScoreForm = ({ onCancel, onSave }: any) => {
       return scoreEntry;
     });
     onSave(scoreEntries);
-    setSelectedDate(new Date());
+    setSelectedDate(subDays(new Date(), 1));
     setSelectedGroup('');
+	setSelectedResp('');
     setSelectedRules([]);
   };
 
